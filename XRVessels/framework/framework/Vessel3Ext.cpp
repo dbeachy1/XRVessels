@@ -20,15 +20,10 @@
 #include "InstrumentPanel.h"
 #include "PrePostStep.h"
 
-// sneaky: this is set by the subclass if mesh encryption is enabled
-NTVERTEX *VESSEL3_EXT::s_pFirstDecryptedVertex = nullptr;
-
 // constructor
 VESSEL3_EXT::VESSEL3_EXT(OBJHANDLE vessel, int fmodel) :
     XRVesselCtrl(vessel, fmodel),
-    m_hModule(nullptr), m_hasFocus(false),
-    m_pSecretKey(nullptr), m_secretKeyLength(0),
-    m_pEncryptionEngine(nullptr), exmesh_tpl(nullptr), m_isExmeshTplEncrypted(false),
+    m_hModule(nullptr), m_hasFocus(false), exmesh_tpl(nullptr),
 	m_videoWindowWidth(0), m_videoWindowHeight(0), m_lastVideoWindowWidth(-1), m_last2DPanelWidth(0),
     m_absoluteSimTime(0)
 {
@@ -65,10 +60,6 @@ VESSEL3_EXT::~VESSEL3_EXT()
         delete pName;
         delete pGrappleTarget;
     }
-
-    // clean up mesh encryption data
-    // note: do not delete m_pEncryptionEngine here; it was deleted in clbkVisualDestroyed
-    delete m_pSecretKey;
 }
 
 // Add a new instrument panel to our map of panels

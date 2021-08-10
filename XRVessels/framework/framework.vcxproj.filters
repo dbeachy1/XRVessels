@@ -25,9 +25,6 @@
     <ClCompile Include="framework\ConfigFileParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="framework\EncryptionEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="framework\FileList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -38,9 +35,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="framework\Vessel3Ext.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="framework\Vessel3ExtMeshEncryption.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="framework\VesselConfigFileParser.cpp">
@@ -73,9 +67,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="framework\ConfigFileParserMacros.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="framework\EncryptionEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="framework\FileList.h">

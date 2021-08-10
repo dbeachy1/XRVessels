@@ -34,33 +34,12 @@
 
 #include "meshres.h"
 
-// ==============================================================
-// Static callback invoked by oapiLoadMeshGlobal; this will DECRYPT
-// the XR2's global mesh once and only once when it is loaded.
-// ==============================================================
-
 static XR2Ravenstar *s_pVessel;   // initialized right before our callback is invoked
 
 static void LoadMeshGlobalCallback(const MESHHANDLE hMesh, const bool firstload)
 {
     // Note: we do not use 'firstload' here since 1) we don't need it, and 2) it will be harder to trace this code if we don't rely on it.
-    s_pVessel->exmesh_tpl = hMesh;  // save it in the global so it's harder to trace since we aren't passing it around to the decryption code; this will be overwritten by the assignment from oapiLoadMeshGlobal when this call returns anyway
-
-    // Note: this invokes code in the XR2 itself for two reasons: 1) to reuse existing code
-    // that was present in the 1.0 release, and 2) to make it harder to trace.
-
-    // parse the encrypted mesh in exmesh_tpl, but do not decrypt it yet
-    s_pVessel->ParseEncryptedMesh();
-
-    // Note: originally I had encryption designed to only decrypt the mesh inside clbkVisualCreated, but 
-    // unfortunately that can only work if the mesh is still in its original state: Orbiter sets the 
-    // animation state of the mesh before invoking clbkVisualCreated, and it will no longer decrypt 
-    // correctly if any animation states have changed from the original state.
-
-    // instantiate s_pVessel->m_pEncryptionEngine and decrypt the global mesh data via the handle in exmesh_tpl
-    s_pVessel->DecryptMeshData();   // {ZZZ} comment this line out to disable mesh decryption (FOR TESTING ONLY!)
-    s_pVessel->m_meshGroupVector.clear();    // so the hacker can't grab the data
-    delete s_pVessel->m_pEncryptionEngine;   // so it won't hang around for examination via the debugger
+    s_pVessel->exmesh_tpl = hMesh;
 }
 
 
@@ -650,11 +629,6 @@ void XR2Ravenstar::clbkSetClassCaps (FILEHANDLE cfg)
     CreateThrusterGroup (th_att_rot,   2, THGROUP_ATT_BANKLEFT);  // rotate LEFT on Z axis (-Z)
     CreateThrusterGroup (th_att_rot+2, 2, THGROUP_ATT_BANKRIGHT); // rotate RIGHT on Z axis (+Z)
 
-    // mesh decryption: invoke InitEncryptedMeshHandler with our secret key
-    // sneaky: we put this down here so it will be less visible in this method.
-    const unsigned char secretKey[] = { 0x5C, 0xF9, 0xF9, 0x5F, 0x99, 0xDA, 0x3A, 0x3C, 0x58, 0x1A, 0xD8, 0x5C, 0x3A, 0xD8, 0x3C, 0xD8, 0xF9, 0x99, 0xB9, 0x98, 0xFE, 0x99, 0xDE, 0x1A, 0x32, 0x52, 0x92, 0xB2, 0x53 };
-    InitEncryptedMeshHandler(secretKey, sizeof(secretKey));  // this will clone the secretKey and store it in our base class
-
     // Rotation exhaust: note that these exhausts share coordinates with other thrusters, since they do "double-duty."
     // These are logically mounted on the wings, but we re-use three jets per side to rotate the ship along the Z axis
     ADD_RCS_EXHAUST (th_rcs[8], _V( 4.486, RCS_DCOORD(-0.475, -1), -8.299), _V(0,-1,0));  // right side bottom fore
@@ -792,16 +766,6 @@ void XR2Ravenstar::clbkSetClassCaps (FILEHANDLE cfg)
     if (m_loxQty < 0)
         m_loxQty = GetXR1Config()->GetMaxLoxMass();
 
-    // ************************* mesh ***************************
-    // sneaky: save the first decrypted vertex values so the superclass can tell whether the mesh is encrypted
-    if (s_pFirstDecryptedVertex == nullptr)    // not set yet?
-    {
-       s_pFirstDecryptedVertex = new NTVERTEX;   // allocate memory; this is never freed explicitly: it happens automatically when the DLL is unloaded
-       // {ZZZ} CHECK/UPDATE THIS EACH TIME THE MESH CHANGES
-       NTVERTEX temp = { 5.3994f, -0.0735f, -9.5987f, 0.0153f, -0.9996f, -0.0251f, 0.1468f, 0.9257f };
-       memcpy(s_pFirstDecryptedVertex, &temp, sizeof(temp));
-    }
-    
     // ********************* beacon lights **********************
     const double bd = 0.15;  // beacon delta from the mesh edge
     static VECTOR3 beaconpos[7] = 
@@ -882,15 +846,13 @@ void XR2Ravenstar::clbkSetClassCaps (FILEHANDLE cfg)
     // Load meshes
     //
 
-    // NOTE: this will be decrypted once and only once in LoadMeshGlobalCallback.
     s_pVessel = this;   // save so static callback can reference it
     exmesh_tpl = oapiLoadMeshGlobal("XR2Ravenstar\\XR2Ravenstar", LoadMeshGlobalCallback);     // exterior mesh
 
-    // load the heating mesh; this mesh is NOT encrypted
+    // load the heating mesh
     heatingmesh_tpl = oapiLoadMeshGlobal("XR2Ravenstar\\RavenstarHeatShield");
 
     // this call associates a global mesh with a vessel; it does not actually instantiate a copy of the mesh yet
-    // Note: the encrypted mesh must be mesh #0, so it must be added *first*
     // This mesh is used both for VC and external views.
     SetMeshVisibilityMode(AddMesh(exmesh_tpl), MESHVIS_EXTERNAL | MESHVIS_VC);    
     SetMeshVisibilityMode(AddMesh(heatingmesh_tpl), MESHVIS_EXTERNAL); // not visible from VC anyway

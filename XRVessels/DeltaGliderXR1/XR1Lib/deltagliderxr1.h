@@ -274,7 +274,7 @@ public:
 	UINT anim_hatchswitch;      // VC hatch switch animation
 	UINT anim_radiatorswitch;   // VC radiator switch animation
 
-    // Note: exmesh_tpl is now in VESSEL3_EXT base class to support encryption
+    // Note: exmesh_tpl is now in VESSEL3_EXT base class
     MESHHANDLE vcmesh_tpl;      // this is a *template*, so it's a MESHHANDLE, not a DEVMESHHANDLE
     DEVMESHHANDLE exmesh;
 	DEVMESHHANDLE vcmesh;          // local VC mesh and global template

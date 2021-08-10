@@ -15,12 +15,10 @@
     <ClCompile Include="framework\AreaGroup.cpp" />
     <ClCompile Include="framework\Component.cpp" />
     <ClCompile Include="framework\ConfigFileParser.cpp" />
-    <ClCompile Include="framework\EncryptionEngine.cpp" />
     <ClCompile Include="framework\FileList.cpp" />
     <ClCompile Include="framework\InstrumentPanel.cpp" />
     <ClCompile Include="framework\RegKeyManager.cpp" />
     <ClCompile Include="framework\Vessel3Ext.cpp" />
-    <ClCompile Include="framework\Vessel3ExtMeshEncryption.cpp" />
     <ClCompile Include="framework\VesselConfigFileParser.cpp" />
     <ClCompile Include="framework\XRGrappleTargetVessel.cpp" />
     <ClCompile Include="framework\XRPayload.cpp" />
@@ -33,7 +31,6 @@
     <ClInclude Include="framework\Component.h" />
     <ClInclude Include="framework\ConfigFileParser.h" />
     <ClInclude Include="framework\ConfigFileParserMacros.h" />
-    <ClInclude Include="framework\EncryptionEngine.h" />
     <ClInclude Include="framework\FileList.h" />
     <ClInclude Include="framework\InstrumentPanel.h" />
     <ClInclude Include="framework\PrePostStep.h" />

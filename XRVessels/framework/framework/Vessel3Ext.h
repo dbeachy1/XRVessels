@@ -17,7 +17,6 @@
 #include "XRVesselCtrl.h"
 #include "XRGrappleTargetVessel.h"
 #include "stringhasher.h"
-#include "EncryptionEngine.h"
 #include "PropType.h"
 #include "VesselConfigFileParser.h"
 #include "RegKeyManager.h"
@@ -197,11 +196,7 @@ rotate_loop:
     MESHHANDLE exmesh_tpl;        // Note: this is the *template*, so this is a *MESHHANDLE*, not a *DEVMESHHANDLE*
     VesselConfigFileParser *m_pConfig;  // our configuration file parser
 
-    // decryption methods and data that must be public to be accessed from a static callback in our subclass
-    virtual void ParseEncryptedMesh();  // parse mesh in exmesh_tpl but do not decrypt it yet
-    virtual void DecryptMeshData();              // decrypt the physical mesh data
     vector<MESHGROUP *> m_meshGroupVector;       // all mesh groups; initialized in clbkVisualCreated
-    EncryptionEngine *m_pEncryptionEngine;       
 
 protected:
     void WriteForced2DResolutionLogMessage(const int panelWidth) const;
@@ -218,12 +213,6 @@ protected:
 
     HASHMAP_STR_XRGRAPPLETARGETVESSEL m_grappleTargetMap;
 
-    // sneaky: these are 'virtual' to make them harder to trace
-    virtual void InitEncryptedMeshHandler(const unsigned char *pSecretKey, const int keyLength); 
-    // first NTVERTEX in the decrypted mesh: this is used to determine whether the mesh is encrypted or not
-    // It is up to the SUBCLASS to set this; also, it is never freed: it exists until the DLL is unloaded.
-    static NTVERTEX *s_pFirstDecryptedVertex;
-
 private:
     // data
     int m_videoWindowWidth;                      // in pixels; 0 = UNKNOWN (NOT PARSED YET)
@@ -236,14 +225,6 @@ private:
     vector<PrePostStep *> m_postStepVector;      // list of PrePostStep objects; may be empty
     vector<PrePostStep *> m_preStepVector;       // list of PrePostStep objects; may be empty
     double m_absoluteSimTime;                    // linear simulation time since simulation start, ignoring any MJD changes (edits)
-
-    // private mesh encryption/protection methods and data
-    // sneaky: this is virtual so the disassembler can't pinpoint its callers
-    virtual bool CompareFloatsLoose(float f1, float f2) const; // this is virtual to make it harder to trace; it could actually be static
-    
-    bool m_isExmeshTplEncrypted;                 // 'true' if mesh in exmesh_tpl is encrypted
-    const unsigned char *m_pSecretKey;           // secret key bytes 
-    int m_secretKeyLength;
 };
 
 //---------------------------------------------------------------------------
