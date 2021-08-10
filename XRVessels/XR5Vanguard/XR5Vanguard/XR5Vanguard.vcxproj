@@ -57,7 +57,7 @@
     </BuildLog>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\framework\framework\include;..\..\..\include;..\..\..\XRSound;..\..\DeltaGliderXR1\XR1Lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\framework\framework;$(ORBITER_ROOT)\Orbitersdk\include;$(ORBITER_ROOT)\Orbitersdk\XRSound;$(SolutionDir)\DeltaGliderXR1\XR1Lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -71,7 +71,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>XRSoundD.lib;orbiter.lib;dlgctrl.lib;orbitersdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\XRSound;$(OutDir);..\debug;..\..\framework\debug;..\..\..\lib;..\..\..\XRSound;..\..\DeltaGliderXR1\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ORBITER_ROOT)\Orbitersdk\lib;$(ORBITER_ROOT)\Orbitersdk\XRSound;$(SolutionDir)\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -79,7 +79,7 @@
     </Link>
     <PostBuildEvent>
       <Message>Copying DLL to Orbiter\Modules directory...</Message>
-      <Command>copy $(OutDir)XR5Vanguard.dll ..\..\..\..\Modules\* /y</Command>
+      <Command>copy $(OutDir)\XR5Vanguard.dll $(ORBITER_ROOT)\Modules\* /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -91,7 +91,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>..\..\framework\framework\include;..\..\..\include;..\..\..\XRSound;..\..\DeltaGliderXR1\XR1Lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\framework\framework;$(ORBITER_ROOT)\Orbitersdk\include;$(ORBITER_ROOT)\Orbitersdk\XRSound;$(SolutionDir)\DeltaGliderXR1\XR1Lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -104,7 +104,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>XRSound.lib;orbiter.lib;dlgctrl.lib;orbitersdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\XRSound;$(OutDir);..\release;..\..\framework\release;..\..\..\lib;..\..\..\XRSound;..\..\DeltaGliderXR1\release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ORBITER_ROOT)\Orbitersdk\lib;$(ORBITER_ROOT)\Orbitersdk\XRSound;$(SolutionDir)\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -116,7 +116,7 @@
     </Link>
     <PostBuildEvent>
       <Message>Copying DLL to Orbiter\Modules directory...</Message>
-      <Command>copy $(OutDir)XR5Vanguard.dll ..\..\..\..\Modules\* /y</Command>
+      <Command>copy $(OutDir)\XR5Vanguard.dll $(ORBITER_ROOT)\Modules\* /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -245,11 +245,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\DeltaGliderXR1\XR1Lib\XR1Lib.vcxproj">
       <Project>{b4cd687b-95d0-4636-aac1-5e6308dc4e73}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\framework\framework\framework.vcxproj">
+    <ProjectReference Include="..\..\framework\framework.vcxproj">
       <Project>{bd13cc72-c0a7-4ec5-aecb-aa8a3845338b}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

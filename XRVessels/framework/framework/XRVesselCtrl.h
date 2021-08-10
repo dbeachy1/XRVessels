@@ -4,9 +4,9 @@
 // XRVesselControl Version: 3.1
 // Release Date: 11-Feb-2018
 //
-// XR vessels implementing this API version: XR1 1.15, XR2 1.10, XR5 1.13
+// Minimum XR vessel versions implementing this API version: XR1 1.15, XR2 1.10, XR5 1.13
 //
-// Copyright 2007-2018 Douglas Beachy
+// Copyright 2007-2021 Douglas Beachy
 // All Rights Reserved.
 //
 // This software is FREEWARE and may not be sold!
@@ -34,7 +34,7 @@ class XRVesselCtrl;
 
 // Use this floating point constant when implementing your ship's GetCtrlAPIVersion method; also, you should compare each vessel's API 
 // version against this version when you are writing interface code.
-#define THIS_XRVESSELCTRL_API_VERSION 3.1f
+#define THIS_XRVESSELCTRL_API_VERSION 3.2f
 
 /*
   Here is an example of how to use the XRVesselCtrl API:

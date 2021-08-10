@@ -284,7 +284,7 @@ int ParserTreeNode::GetAvailableArgumentsForCommand(const char *pCommand, vector
     ParseToSpaceDelimitedTokens(csCommand, argv);
 
     // recursively parse all arguments
-    argsOut.empty();
+    argsOut.clear(); // reset
     int argLevel = GetAvailableArgumentsForCommand(argv, 0, argsOut);
 
     return argLevel;
