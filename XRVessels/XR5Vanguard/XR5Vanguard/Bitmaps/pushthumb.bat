@@ -1,0 +1,1 @@
+copy %1 ..\..\..\..\..\Config\Vessels\* /y

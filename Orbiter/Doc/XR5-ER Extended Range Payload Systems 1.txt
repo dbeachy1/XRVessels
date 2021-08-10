@@ -1,0 +1,27 @@
+***********
+XR5-ER
+Extended Range Payload System
+Release 1 (Fuel and Life Support Pack)
+- by Carmen A
+22 January 2011
+***********
+
+- Contents
+
+Four (4) Containerised 20 foot payloads for the XR5 Vanguard comprising modular auxiliary main and scramjet fuel tanks, and two (2) life support payloads for LOX and H2O (non functional).
+
+- Introduction
+
+As mighty as the XR5 is, we all know how fuel thirsty she can be during extended atmospheric ops. 
+
+This first release concentrates on extending the Vanguard's operational range and mission duration. Future releases will provide more modular cargo options for simulated cargo flights.
+
+Derived from Orbiter Multiplayer roleplaying activities involving suborbital commercial flights. Transglobal delivery in 2 hours, anyone?
+
+- Support
+
+Access the four new containers from the Vanguard's Payload Manager accessible from the rear camera of the 2D panel interface. (Ctrl + up arrow for the upper console and select payload view)
+
+There are presently no docking ports on the emergency resupply valves of the life support containers.
+
+Contact the author on Orbiter Forum for any suggestions and/or issues with this package.

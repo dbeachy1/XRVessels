@@ -1,0 +1,262 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_INDICATOR_UD        BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\IndicatorUD.bmp"
+IDB_INDICATOR_AV        BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\IndicatorAV.bmp"
+IDB_INDICATOR_SD        BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\IndicatorSD.bmp"
+IDB_RED_INDICATOR2      BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\RedIndicator2.bmp"
+IDB_YELLOW_INDICATOR2   BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\YellowIndicator2.bmp"
+IDB_GREEN_INDICATOR2    BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\GreenIndicator2.bmp"
+IDB_FONT2_RED           BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\font2_red.bmp"
+IDB_FONT2_YELLOW        BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\font2_yellow.bmp"
+IDB_GSCALE              BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\G Scale.bmp"
+IDB_HULL_TEMP_MULTI_DISPLAY BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\HullTempMultiDisplay.bmp"
+IDB_BLUE_INDICATOR2     BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\BlueIndicator2.bmp"
+IDB_MDM_BUTTON          BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\MDMButton.bmp"
+IDB_SYSTEMS_STATUS2_MULTI_DISPLAY BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Systems Status Display #2.bmp"
+IDB_SYSTEMS_STATUS1_MULTI_DISPLAY BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Systems Status Display #1.bmp"
+IDB_SYSTEMS_STATUS4_MULTI_DISPLAY BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Systems Status Display #4.bmp"
+IDB_SYSTEMS_STATUS3_MULTI_DISPLAY BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Systems Status Display #3.bmp"
+IDB_SYSTEMS_STATUS5_MULTI_DISPLAY BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Systems Status Display #5.bmp"
+IDB_WARNING_LIGHTS      BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Warning Lights.bmp"
+IDB_APU_BUTTON          BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\APU Button.bmp"
+IDB_FUEL_GAUGE          BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\fuelGauge.bmp"
+IDB_DIAL2               BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Dial2.bmp"
+IDB_GREEN_LED_SMALL     BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\GreenLED small.bmp"
+IDB_LOX_GAUGE           BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\LOX Gauge.bmp"
+IDB_FONT2_BLUE          BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\font2_blue.bmp"
+IDB_COOLANT_GAUGE       BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\coolant Gauge.bmp"
+IDB_GREEN_LED_TINY      BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\greenled tiny.bmp"
+IDB_ATTITUDE_HOLD_MULTI_DISPLAY BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\AttitudeHoldMultiDisplay.bmp"
+IDB_DESCENT_HOLD_MULTI_DISPLAY BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\DescentHoldMultiDisplay.bmp"
+IDB_AIRSPEED_HOLD_MULTI_DISPLAY BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\AirspeedHoldMultiDisplay.bmp"
+IDB_REENTRY_CHECK_MULTI_DISPLAY BITMAP                  "Bitmaps\\ReentryCheck Display.bmp"
+IDB_FONT2_WHITE         BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\font2_white.bmp"
+IDB_INDICATOR4          BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Indicator4.bmp"
+IDB_INDICATOR4_YELLOW   BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\indicator4 Yellow.bmp"
+IDB_PANEL1_1600         BITMAP                  "Bitmaps\\Panel1-1600.bmp"
+IDB_PANEL2_1600         BITMAP                  "Bitmaps\\PANEL2-1600.bmp"
+IDB_PANEL3_1600         BITMAP                  "Bitmaps\\PANEL3-1600.bmp"
+IDB_PANEL1_1920         BITMAP                  "Bitmaps\\panel1-1920.bmp"
+IDB_PANEL2_1920         BITMAP                  "Bitmaps\\panel2-1920.bmp"
+IDB_PANEL3_1920         BITMAP                  "Bitmaps\\panel3-1920.bmp"
+IDB_PANEL4_1280         BITMAP                  "Bitmaps\\panel4-1280.bmp"
+IDB_PANEL4_1600         BITMAP                  "Bitmaps\\panel4-1600.bmp"
+IDB_PANEL4_1920         BITMAP                  "Bitmaps\\panel4-1920.bmp"
+IDB_XR2_WARNING_LIGHTS  BITMAP                  "Bitmaps\\XR2 Warning Lights.bmp"
+IDB_SELECT_BAY_SLOT     BITMAP                  "Bitmaps\\SelectBaySlot.bmp"
+IDB_DEPLOY_PAYLOAD_ORBIT BITMAP                  "Bitmaps\\DeployPayloadOrbit.bmp"
+IDB_DEPLOY_PAYLOAD_LANDED BITMAP                  "Bitmaps\\DeployPayloadLanded.bmp"
+IDB_PAYLOAD_THUMBNAIL_NONE BITMAP                  "Bitmaps\\PayloadThumbnailNone.bmp"
+IDB_GRAPPLE_PAYLOAD     BITMAP                  "Bitmaps\\grapplePayload.bmp"
+IDB_FUEL_GAUGE_DARK     BITMAP                  "Bitmaps\\FuelGaugeDark.bmp"
+IDB_LOX_GAUGE_DARK      BITMAP                  "Bitmaps\\LOX Gauge Dark.bmp"
+IDB_PANEL2_1280         BITMAP                  "Bitmaps\\Panel2-1280.bmp"
+IDB_PANEL3_1280         BITMAP                  "Bitmaps\\Panel3-1280.bmp"
+IDB_PANEL1_1280         BITMAP                  "Bitmaps\\Panel1-1280.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_EDITOR_PG2 DIALOGEX 20, 20, 389, 350
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "XR2 Ravenstar Payload Editor"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    CONTROL         "1",IDC_SLOT1,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_TABSTOP,72,108,72,30
+    CONTROL         "2",IDC_SLOT2,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_TABSTOP,72,84,72,18
+    CONTROL         "3",IDC_SLOT3,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_TABSTOP,72,60,72,18
+    PUSHBUTTON      "Empty Bay",IDC_EMPTY_BAY,234,88,50,18
+    COMBOBOX        IDC_COMBO_SELECTED_PAYLOAD_OBJECT,24,180,168,72,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Fill Payload Bay",IDC_FILL_PAYLOAD_BAY,24,258,66,18
+    PUSHBUTTON      "Remove All",IDC_SELECTED_REMOVE_ALL,120,258,66,18
+    DEFPUSHBUTTON   "<< Done",IDC_BACK,6,318,50,14
+    GROUPBOX        "Load / Remove Payload",IDC_STATIC,0,6,385,294
+    CONTROL         "",IDC_STATIC_THUMBNAIL_BMP,"Static",SS_BITMAP | SS_SUNKEN,245,185,16,14,WS_EX_STATICEDGE
+    GROUPBOX        "Payload Bay",IDC_STATIC,12,49,198,96
+    CTEXT           "AFT",IDC_STATIC,232,54,54,8
+    CTEXT           "FORWARD",IDC_STATIC,232,138,54,8
+    GROUPBOX        "Selected Payload Object",IDC_STATIC,12,162,198,126
+    LTEXT           "Description:",IDC_STATIC,24,204,48,8,0,WS_EX_RIGHT
+    LTEXT           "Mass:",IDC_STATIC,24,216,48,8,0,WS_EX_RIGHT
+    LTEXT           "Dimensions:",IDC_STATIC,24,228,48,8,0,WS_EX_RIGHT
+    LTEXT           "Slots Occupied:",IDC_STATIC,18,240,54,8,0,WS_EX_RIGHT
+    LTEXT           "Step 1: Select a payload object in the drop-down list.",IDC_STATIC,18,21,198,8
+    LTEXT           "Step 2: Click a payload bay slot button to add or remove a payload object.",IDC_STATIC,18,33,246,8
+    LTEXT           "",IDC_STATIC_DIMENSIONS,84,228,114,8
+    LTEXT           "",IDC_STATIC_MASS,84,216,114,8
+    LTEXT           "",IDC_STATIC_DESCRIPTION,84,204,114,8
+    LTEXT           "",IDC_STATIC_SLOTS_OCCUPIED,84,240,114,8
+    LTEXT           "Total Payload Mass:",IDC_STATIC,72,312,72,8,0,WS_EX_RIGHT
+    LTEXT           "Total Vessel Mass:",IDC_STATIC,72,324,72,8,0,WS_EX_RIGHT
+    LTEXT           "",IDC_STATIC_PAYLOAD_MASS,156,312,186,8
+    LTEXT           "",IDC_STATIC_VESSEL_MASS,156,324,186,8
+    LTEXT           "Slot 3 Dimensions: 1.45 L x 3.45 W x 2.12 H",IDC_STATIC,221,256,150,8
+    LTEXT           "Slot 2 Dimensions: 1.45 L x 3.45 W x 2.12 H",IDC_STATIC,222,268,150,8
+    LTEXT           "Slot 1 Dimensions: 2.06 L x 3.45 W x 2.41 H",IDC_STATIC,222,280,150,8
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United Kingdom) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_DIAL1               BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Dial1.bmp"
+IDB_NAVBUTTON           BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Navbutton.bmp"
+IDB_SWITCH1             BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Switch1.bmp"
+IDB_LIGHT1              BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Light1.bmp"
+IDB_HORIZON             BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Horizon.bmp"
+IDB_SLIDER1             BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Slider1.bmp"
+IDB_VPITCH              BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Vpitch.bmp"
+IDB_VBANK               BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Vbank.bmp"
+IDB_VYAW                BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Vyaw.bmp"
+IDB_SWITCH4             BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Switch4.bmp"
+IDB_INDICATOR2          BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Indicator2.bmp"
+IDB_SWITCH4R            BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Switch4r.bmp"
+IDB_LIGHT2              BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Light2.bmp"
+IDB_COVER1              BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Cover1.bmp"
+IDB_COVER2              BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Cover2.bmp"
+IDB_FONT2               BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\font2.bmp"
+IDB_WARN                BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\warn.bmp"
+IDB_SWITCH3             BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\Switch3.bmp"
+IDB_INDICATOR_OC        BITMAP                  "..\\..\\DeltaGliderXR1\\DeltaGliderXR1\\Bitmaps\\IndicatorOC.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_EDITOR_PG1 DIALOGEX 2, 2, 268, 194
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    PUSHBUTTON      "Up",IDC_GEAR_UP,13,29,43,11
+    PUSHBUTTON      "Down",IDC_GEAR_DOWN,13,42,43,11
+    PUSHBUTTON      "Stowed",IDC_AIRBRAKE_STOWED,79,29,43,11
+    PUSHBUTTON      "Deployed",IDC_AIRBRAKE_DEPLOYED,79,42,43,11
+    PUSHBUTTON      "Closed",IDC_OLOCK_CLOSE,145,29,43,11
+    PUSHBUTTON      "Open",IDC_OLOCK_OPEN,145,42,43,11
+    PUSHBUTTON      "Closed",IDC_ILOCK_CLOSE,211,29,43,11
+    PUSHBUTTON      "Open",IDC_ILOCK_OPEN,211,42,43,11
+    PUSHBUTTON      "Closed",IDC_NCONE_CLOSE,13,77,43,11
+    PUSHBUTTON      "Open",IDC_NCONE_OPEN,13,90,43,11
+    PUSHBUTTON      "Closed",IDC_HATCH_CLOSE,79,77,43,11
+    PUSHBUTTON      "Open",IDC_HATCH_OPEN,79,90,43,11
+    PUSHBUTTON      "Stowed",IDC_RADIATOR_RETRACT,145,77,43,11
+    PUSHBUTTON      "Deployed",IDC_RADIATOR_EXTEND,145,90,43,11
+    PUSHBUTTON      "Closed",IDC_SCRAM_CLOSED,211,77,43,11
+    PUSHBUTTON      "Open",IDC_SCRAM_OPEN,211,90,43,11
+    PUSHBUTTON      "Closed",IDC_HOVER_CLOSED,13,125,43,11
+    PUSHBUTTON      "Open",IDC_HOVER_OPEN,13,138,43,11
+    PUSHBUTTON      "Closed",IDC_BAY_CLOSED,79,125,43,11
+    PUSHBUTTON      "Open",IDC_BAY_OPEN,79,138,43,11
+    PUSHBUTTON      "Closed",IDC_RETRO_CLOSE,145,125,43,11
+    PUSHBUTTON      "Open",IDC_RETRO_OPEN,145,138,43,11
+    PUSHBUTTON      "<< Done",IDC_BACK,0,168,50,14
+    GROUPBOX        "Landing gear",IDC_STATIC,6,18,57,40
+    GROUPBOX        "Retro doors",IDC_STATIC,138,114,57,40
+    GROUPBOX        "Outer airlock",IDC_STATIC,138,18,57,40
+    GROUPBOX        "Inner airlock",IDC_STATIC,204,18,57,40
+    GROUPBOX        "Nose cone",IDC_STATIC,6,66,57,40
+    GROUPBOX        "Radiator",IDC_STATIC,138,66,57,40
+    GROUPBOX        "Top hatch",IDC_STATIC,72,66,57,40
+    GROUPBOX        "SCRAM Doors",IDC_STATIC,204,66,57,40
+    GROUPBOX        "Hover Doors",IDC_STATIC,6,114,57,40
+    GROUPBOX        "Bay Doors",IDC_STATIC,72,114,57,40
+    GROUPBOX        "Airbrake",IDC_STATIC,72,18,57,40
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_EDITOR_PG1, DIALOG
+    BEGIN
+        RIGHTMARGIN, 263
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (United Kingdom) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

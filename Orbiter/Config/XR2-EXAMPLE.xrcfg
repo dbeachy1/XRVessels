@@ -1,0 +1,102 @@
+#--------------------------------------------------------------------------
+# Sample XR2 Ravenstar Configuration Override File
+#
+# This is an example of how to override any or all default XR configuration
+# values for a given XR vessel.  Each XR vessel in a scenario file checks for 
+# a corresponding .xrcfg file with the same name as the vessel name.  For example:
+#
+# In the scenario file:
+#   XR2-EXAMPLE:XR2Ravenstar
+#     STATUS Landed Earth
+#     POS -80.683114 28.597734
+#     ...
+#
+# On load, the vessel named "XR2-EXAMPLE" above will look for an override file
+# named "Config\XR2-EXAMPLE.xrcfg".  If found, any values specified in the xrcfg
+# file will override (replace) the default configuration values.  For more information,
+# refer to the section titled "Configuring Your XR Vessel" in the XR Flight Operations
+# Manual.  
+#
+# Any values altered will take effect immediately the next time a scenario is loaded.
+#
+# NOTE: any or all configuration settings present in the default XR configuation file may 
+# also be specified in an override (.xrcfg) file.  The ones show below are just a few
+# for the purpose of an example.  Here we modify the configuration for an Earth-to-Mars 
+# trip: ISP and LOX, plus APU fuel burn rate for good measure.
+#--------------------------------------------------------------------------
+
+[GENERAL]
+
+#--------------------------------------------------------------------------
+# Main Fuel ISP ("Specific Impulse") setting.  This determines how much 
+# main/hover/rcs fuel is burned each second for a given thrust level.
+# Higher settings allow longer flights without refueling.  Remember to 
+# update the 'LOXLoadout' value later in this file as well so the crew will
+# have enough oxygen for the mission!
+#
+# NOTE: The 'Expert' setting (0) is tuned so that you will need to use your SCRAM engines
+# efficiently during ascent to LEO ("Low Earth Orbit").
+# ISP values for each level are shown in [brackets].
+#   0 = Expert    (ISS Only w/expert use of SCRAM engines and expert deorbit/landing)  [13943]
+#   1 = Realistic (ISS Only)                [20914]
+#   2 = Default   (ISS and Moon)            [25962]
+#   3 = Medium    (ISS and Moon w/reserve)  [32981]
+#   4 = Stock DG  (Moon w/large reserve; this is the original stock DG setting)  [40000]
+#   5 = Big       (Mars)                    [52922]
+#   6 = Huge      (Jupiter+)                [366251]
+#   7 = Massive   (Jupiter+ w/full payload) [476127]
+#
+# The default value is 2 (ISS and Moon).
+#
+# NOTE: You can also override this global setting for a given scenario by setting a value for it in your scenario file; 
+#       Refer to the scenario file named "Configuration File Override Example 2.scn" for an example.
+#--------------------------------------------------------------------------
+MainFuelISP=5
+
+#--------------------------------------------------------------------------
+# LOX (Liquid Oxygen) loadout setting.  This determines the maximum duration of a mission without 
+# replenishing the LOX tanks.  Times listed assume a full crew (14 crew members); reducing the 
+# number of crew members will increase the maximum mission duration accordingly.
+#
+# Increasing this value will increase the LOX loaded into the ship.  The mass value
+# displayed for each setting assumes a LOXConsumptionRate (the parameter following this one)
+# of 4 (realistic: 100% of normal).  To reduce the LOX mass required for a long mission,
+# leave LOXConsumptionRate set to its default value of -1 (AUTO), or set it it 0 (OFF) or 1 (very low).
+#
+# Valid options (duration assumes full crew of 14):
+#   0 = 7 days          (  182 kg)
+#   1 = 14 days         (  364 kg)
+#   2 = one month       (  792 kg)
+#   3 = three months    ( 2374 kg)
+#   4 = six months      ( 4746 kg)
+#   5 = one year        ( 9489 kg)
+#   6 = two years       (18975 kg)
+#   7 = three years     (28462 kg)
+#   8 = four years      (37948 kg)
+#   9 = five years      (47438 kg)
+#
+# The default value is 1 (14 days).
+#--------------------------------------------------------------------------
+LOXLoadout=5
+
+#--------------------------------------------------------------------------
+# APU Fuel Burn Rate : this is the rate at which APU fuel is burned in kg/sec.
+# The Auxiliary Power Unit (APU) provides hydraulic power to the ship.
+#   0 = unlimited : (runs indefinitely)
+#   1 = very low  : 0.90718474 kg/minute (2 lb/minute)    (3.7 hours runtime)
+#   2 = low       : 1.81436948 kg/minute (4 lb/minute)    (110 minutes runtime)
+#   3 = moderate  : 2.72155422 kg/minute (6 lb/minute)    (74 minutes runtime)
+#   4 = realistic : 4.08233134 kg/minute (9 lb/minute)    (49 minutes runtime)
+#   5 = expert    : 6.12349701 kg/minute (13.5 lb/minute) (33 minutes runtime)
+#
+# The default value is 2 (low: 110 minutes runtime).
+#
+# NOTE: You can also override this global setting for a given scenario by setting a value for it in your scenario file; 
+#       Refer to the scenario file named "Configuration File Override Example 2.scn" for an example.
+#--------------------------------------------------------------------------
+APUFuelBurnRate=1
+
+
+###########################################################################
+# END OF FILE
+###########################################################################

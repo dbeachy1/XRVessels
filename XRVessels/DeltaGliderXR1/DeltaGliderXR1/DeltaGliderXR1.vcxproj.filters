@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="meshres.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Bitmaps\AirspeedHoldMultiDisplay.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\APU Button.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\AttitudeHoldMultiDisplay.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\BlueIndicator2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\coolant Gauge.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Cover1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Cover2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\DescentHoldMultiDisplay.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Dial1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Dial2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\font2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\font2_blue.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\font2_red.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\font2_white.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\font2_yellow.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\fuelGauge.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\G Scale.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\GreenIndicator2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\GreenLED small.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\greenled tiny.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Horizon.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\HullTempMultiDisplay.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Indicator2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\indicator4 Yellow.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Indicator4.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\IndicatorAV.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\IndicatorOC.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\IndicatorSD.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\IndicatorUD.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Light1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Light2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\LOX Gauge.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\MDMButton.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Navbutton.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Panel1-1280.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Panel1-1600.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\panel1-1920.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Panel2-1280.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\PANEL2-1600.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\panel2-1920.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Panel3-1280.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\PANEL3-1600.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\panel3-1920.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\RedIndicator2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\RedSlider2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\reentryCheck Display.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Slider1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Switch1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Switch3.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Switch4.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Switch4r.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Systems Status Display #1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Systems Status Display #2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Systems Status Display #3.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Systems Status Display #4.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Systems Status Display #5.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Vbank.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Vpitch.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Vyaw.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\warn.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Warning Lights.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\YellowIndicator2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\XR2Ravenstar\XR2RavenstarPrefs.cfg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\makedistXR1.bat">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\DeltaGliderXR1Prefs.cfg">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\..\makedistall.bat">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DeltaGliderXR1.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DeltaGliderXR1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DeltaGliderXR1_ED.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1Globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

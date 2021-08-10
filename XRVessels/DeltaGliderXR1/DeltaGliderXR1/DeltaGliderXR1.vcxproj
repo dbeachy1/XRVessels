@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E2D0F9B1-A35E-40B3-9CD8-6F7B209077CE}</ProjectGuid>
+    <RootNamespace>DeltaGliderXR1</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</GenerateManifest>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <BuildLog>
+      <Path>$(IntDir)BuildLog.htm</Path>
+    </BuildLog>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\framework\framework\include;..\..\..\include;..\..\..\XRSound;..\XR1Lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>XRSoundD.lib;orbiter.lib;dlgctrl.lib;orbitersdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\XRSound;..\debug;..\..\framework\debug;..\..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Message>Copying DLL to Orbiter\Modules directory...</Message>
+      <Command>copy $(OutDir)DeltaGliderXR1.dll ..\..\..\..\Modules\* /y</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <BuildLog>
+      <Path>$(IntDir)BuildLog.htm</Path>
+    </BuildLog>
+    <ClCompile>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <AdditionalIncludeDirectories>..\..\framework\framework\include;..\..\..\include;..\..\..\XRSound;..\XR1Lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>XRSound.lib;orbiter.lib;orbitersdk.lib;dlgctrl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\XRSound;..\..\framework\release;..\..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+      <LinkTimeCodeGeneration>
+      </LinkTimeCodeGeneration>
+    </Link>
+    <PostBuildEvent>
+      <Message>Copying DLL to Orbiter\Modules directory...</Message>
+      <Command>copy $(OutDir)DeltaGliderXR1.dll ..\..\..\..\Modules\* /y</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="meshres.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\makedistall.bat" />
+    <None Include="..\..\makedistXR1.bat" />
+    <None Include="..\..\XR2Ravenstar\XR2RavenstarPrefs.cfg" />
+    <None Include="..\DeltaGliderXR1Prefs.cfg" />
+    <None Include="Bitmaps\AirspeedHoldMultiDisplay.bmp" />
+    <None Include="Bitmaps\APU Button.bmp" />
+    <None Include="Bitmaps\AttitudeHoldMultiDisplay.bmp" />
+    <None Include="Bitmaps\bitmap1.bmp" />
+    <None Include="Bitmaps\BlueIndicator2.bmp" />
+    <None Include="Bitmaps\coolant Gauge.bmp" />
+    <None Include="Bitmaps\Cover1.bmp" />
+    <None Include="Bitmaps\Cover2.bmp" />
+    <None Include="Bitmaps\DescentHoldMultiDisplay.bmp" />
+    <None Include="Bitmaps\Dial1.bmp" />
+    <None Include="Bitmaps\Dial2.bmp" />
+    <None Include="Bitmaps\font2.bmp" />
+    <None Include="Bitmaps\font2_blue.bmp" />
+    <None Include="Bitmaps\font2_red.bmp" />
+    <None Include="Bitmaps\font2_white.bmp" />
+    <None Include="Bitmaps\font2_yellow.bmp" />
+    <None Include="Bitmaps\fuelGauge.bmp" />
+    <None Include="Bitmaps\G Scale.bmp" />
+    <None Include="Bitmaps\GreenIndicator2.bmp" />
+    <None Include="Bitmaps\GreenLED small.bmp" />
+    <None Include="Bitmaps\greenled tiny.bmp" />
+    <None Include="Bitmaps\Horizon.bmp" />
+    <None Include="Bitmaps\HullTempMultiDisplay.bmp" />
+    <None Include="Bitmaps\Indicator2.bmp" />
+    <None Include="Bitmaps\indicator4 Yellow.bmp" />
+    <None Include="Bitmaps\Indicator4.bmp" />
+    <None Include="Bitmaps\IndicatorAV.bmp" />
+    <None Include="Bitmaps\IndicatorOC.bmp" />
+    <None Include="Bitmaps\IndicatorSD.bmp" />
+    <None Include="Bitmaps\IndicatorUD.bmp" />
+    <None Include="Bitmaps\Light1.bmp" />
+    <None Include="Bitmaps\Light2.bmp" />
+    <None Include="Bitmaps\LOX Gauge.bmp" />
+    <None Include="Bitmaps\MDMButton.bmp" />
+    <None Include="Bitmaps\Navbutton.bmp" />
+    <None Include="Bitmaps\Panel1-1280.bmp" />
+    <None Include="Bitmaps\Panel1-1600.bmp" />
+    <None Include="Bitmaps\panel1-1920.bmp" />
+    <None Include="Bitmaps\Panel2-1280.bmp" />
+    <None Include="Bitmaps\PANEL2-1600.bmp" />
+    <None Include="Bitmaps\panel2-1920.bmp" />
+    <None Include="Bitmaps\Panel3-1280.bmp" />
+    <None Include="Bitmaps\PANEL3-1600.bmp" />
+    <None Include="Bitmaps\panel3-1920.bmp" />
+    <None Include="Bitmaps\RedIndicator2.bmp" />
+    <None Include="Bitmaps\RedSlider2.bmp" />
+    <None Include="Bitmaps\reentryCheck Display.bmp" />
+    <None Include="Bitmaps\Slider1.bmp" />
+    <None Include="Bitmaps\Switch1.bmp" />
+    <None Include="Bitmaps\Switch3.bmp" />
+    <None Include="Bitmaps\Switch4.bmp" />
+    <None Include="Bitmaps\Switch4r.bmp" />
+    <None Include="Bitmaps\Systems Status Display #1.bmp" />
+    <None Include="Bitmaps\Systems Status Display #2.bmp" />
+    <None Include="Bitmaps\Systems Status Display #3.bmp" />
+    <None Include="Bitmaps\Systems Status Display #4.bmp" />
+    <None Include="Bitmaps\Systems Status Display #5.bmp" />
+    <None Include="Bitmaps\Vbank.bmp" />
+    <None Include="Bitmaps\Vpitch.bmp" />
+    <None Include="Bitmaps\Vyaw.bmp" />
+    <None Include="Bitmaps\warn.bmp" />
+    <None Include="Bitmaps\Warning Lights.bmp" />
+    <None Include="Bitmaps\YellowIndicator2.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DeltaGliderXR1.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DeltaGliderXR1.cpp" />
+    <ClCompile Include="DeltaGliderXR1_ED.cpp" />
+    <ClCompile Include="XR1Globals.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\framework\framework\framework.vcxproj">
+      <Project>{bd13cc72-c0a7-4ec5-aecb-aa8a3845338b}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\XR1Lib\XR1Lib.vcxproj">
+      <Project>{b4cd687b-95d0-4636-aac1-5e6308dc4e73}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

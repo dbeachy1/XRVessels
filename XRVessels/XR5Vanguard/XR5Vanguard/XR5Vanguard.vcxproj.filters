@@ -1,0 +1,370 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{A72173F3-CB80-4527-A1FD-B5DDC340DF94}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{1EA89998-26AF-48f9-A257-DE3244BBFA03}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{1C5383BA-A3B8-43da-9866-5CAC92386EF7}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="meshres.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XR5AreaIDs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XR5Areas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XR5Components.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XR5ConfigFileParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XR5Globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XR5InstrumentPanels.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XR5PayloadBay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XR5PayloadScreenAreas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XR5PostSteps.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XR5PrePostStep.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XR5PreSteps.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XR5Vanguard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\AirspeedHoldMultiDisplay.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\APU Button.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\AttitudeHoldMultiDisplay.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\BlueIndicator2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\coolant Gauge.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Cover1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Cover2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\DeployPayloadLanded.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\DeployPayloadOrbit.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\DescentHoldMultiDisplay.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Dial1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Dial2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Dial3.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\font2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\font2_blue.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\font2_red.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\font2_white.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\font2_yellow.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\fuelGauge.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\FuelGaugeDark.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\G Scale.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\GrapplePayload.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\GreenIndicator2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\GreenLED small.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\greenled tiny.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Horizon.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\HullTempMultiDisplay.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Indicator2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\indicator4 Yellow.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Indicator4.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\IndicatorAV.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\IndicatorOC.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\IndicatorSD.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\IndicatorUD.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Light1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Light2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\LOX Gauge Dark.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\LOX Gauge.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\MDMButton.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Navbutton.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Panel1-1280.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Panel1-1600.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\panel1-1920.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Panel2-1280.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\panel2-1600.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\panel2-1920.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Panel3-1280.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\panel3-1600.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\panel3-1920.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\panel4-1280.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\panel4-1600.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\panel4-1920.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\panel5-1280.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\panel5-1600.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\panel5-1920.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\PayloadThumbnailNone.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\RedIndicator2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\RedSlider2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\ReentryCheck Display.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\reentryCheck Display.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\SelectBaySlot1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\SelectBaySlot2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\SelectBaySlot3.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Slider1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Switch1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Switch3.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Switch4.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Switch4r.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Systems Status Display #1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Systems Status Display #2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Systems Status Display #3.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Systems Status Display #4.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Systems Status Display #5.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Vbank.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Vpitch.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Vyaw.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\warn.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Warning Lights.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\Warning Lights.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Bitmaps\XR5 Warning Lights.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\YellowIndicator2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\XR5VanguardPrefs.cfg">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\..\makedistXR5.bat">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="XR5Vanguard.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="XR5Animations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XR5Areas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XR5Components.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XR5ConfigFileParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XR5Globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XR5InstrumentPanels.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XR5Keys.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XR5PayloadBay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XR5PayloadScreenAreas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XR5PostSteps.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XR5PreSteps.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XR5Vanguard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XR5Vanguard_DMG.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XR5Vanguard_ED.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XR5Vanguard_IO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XR5VesselCtrl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{6df6fc59-090f-4868-807b-d4130b9f1d38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cpp">
+      <UniqueIdentifier>{c6c4d1a1-489e-46ba-a634-e08a7dfbf9bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Area.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AreaGroup.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Component.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ConfigFileParser.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EncryptionEngine.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\InstrumentPanel.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PropType.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stringhasher.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XRGrappleTargetVessel.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XRPayload.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XRPayloadBay.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XRPayloadBaySlot.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XRTemplates.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XRVesselCtrl.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Vessel3Ext.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PrePostStep.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RollingArray.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RegKeyManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\VesselConfigFileParser.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ConfigFileParserMacros.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FileList.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cpp\Area.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\AreaGroup.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\Component.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\ConfigFileParser.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\EncryptionEngine.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\InstrumentPanel.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\XRGrappleTargetVessel.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\XRPayload.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\XRPayloadBay.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\XRPayloadBaySlot.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\Vessel3Ext.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\Vessel3ExtMeshEncryption.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\RegKeyManager.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\VesselConfigFileParser.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\FileList.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

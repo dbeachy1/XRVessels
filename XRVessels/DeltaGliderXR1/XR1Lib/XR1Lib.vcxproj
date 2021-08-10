@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B4CD687B-95D0-4636-AAC1-5E6308DC4E73}</ProjectGuid>
+    <RootNamespace>XR1Lib</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <BuildLog>
+      <Path>$(IntDir)BuildLog.htm</Path>
+    </BuildLog>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\framework\framework\include;..\..\..\include;..\..\..\XRSound;..\DeltaGliderXR1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <BuildLog>
+      <Path>$(IntDir)BuildLog.htm</Path>
+    </BuildLog>
+    <ClCompile>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <AdditionalIncludeDirectories>..\..\framework\framework\include;..\..\..\include;..\..\..\XRSound;..\DeltaGliderXR1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="DeltaGliderXR1_DMG.cpp" />
+    <ClCompile Include="DeltaGliderXR1_IO.cpp" />
+    <ClCompile Include="DeltaGliderXR1_VC.cpp" />
+    <ClCompile Include="SecondaryHUDData.cpp" />
+    <ClCompile Include="SubclassPreSteps.cpp" />
+    <ClCompile Include="TextBox.cpp" />
+    <ClCompile Include="XR1AngularDataComponent.cpp" />
+    <ClCompile Include="XR1AnimationPostStep.cpp" />
+    <ClCompile Include="XR1Animations.cpp" />
+    <ClCompile Include="XR1Areas.cpp" />
+    <ClCompile Include="XR1ConfigFileParser.cpp" />
+    <ClCompile Include="XR1EngineDisplayComponent.cpp" />
+    <ClCompile Include="XR1FuelDisplayComponent.cpp" />
+    <ClCompile Include="XR1FuelPostSteps.cpp" />
+    <ClCompile Include="XR1HUD.cpp" />
+    <ClCompile Include="XR1InstrumentPanels.cpp" />
+    <ClCompile Include="XR1Keys.cpp" />
+    <ClCompile Include="XR1LowerPanelAreas.cpp" />
+    <ClCompile Include="XR1LowerPanelComponents.cpp" />
+    <ClCompile Include="XR1MainPanelAreas.cpp" />
+    <ClCompile Include="XR1MainPanelComponents.cpp" />
+    <ClCompile Include="XR1MFDComponent.cpp" />
+    <ClCompile Include="XR1MultiDisplayArea.cpp" />
+    <ClCompile Include="XR1PayloadBay.cpp" />
+    <ClCompile Include="XR1PayloadDialog.cpp" />
+    <ClCompile Include="XR1PayloadScreenAreas.cpp" />
+    <ClCompile Include="XR1PostSteps.cpp" />
+    <ClCompile Include="XR1PreSteps.cpp" />
+    <ClCompile Include="XR1Ramjet.cpp" />
+    <ClCompile Include="XR1ThrottleQuadrantComponents.cpp" />
+    <ClCompile Include="XR1UpperPanelAreas.cpp" />
+    <ClCompile Include="XR1UpperPanelComponents.cpp" />
+    <ClCompile Include="XR1VCPanelAreas.cpp" />
+    <ClCompile Include="XR1VesselCtrl.cpp" />
+    <ClCompile Include="XRCommon_IO.cpp" />
+    <ClCompile Include="XRVessel.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AreaIDs.h" />
+    <ClInclude Include="DeltaGliderXR1.h" />
+    <ClInclude Include="resource_common.h" />
+    <ClInclude Include="SecondaryHUDData.h" />
+    <ClInclude Include="TextBox.h" />
+    <ClInclude Include="XR1AngularDataComponent.h" />
+    <ClInclude Include="XR1AnimationPostStep.h" />
+    <ClInclude Include="XR1Areas.h" />
+    <ClInclude Include="XR1Colors.h" />
+    <ClInclude Include="XR1Component.h" />
+    <ClInclude Include="XR1ConfigFileParser.h" />
+    <ClInclude Include="XR1EngineDisplayComponent.h" />
+    <ClInclude Include="XR1FuelDisplayComponent.h" />
+    <ClInclude Include="XR1FuelPostSteps.h" />
+    <ClInclude Include="XR1Globals.h" />
+    <ClInclude Include="XR1HUD.h" />
+    <ClInclude Include="XR1InstrumentPanels.h" />
+    <ClInclude Include="XR1LowerPanelAreas.h" />
+    <ClInclude Include="XR1LowerPanelComponents.h" />
+    <ClInclude Include="XR1MainPanelAreas.h" />
+    <ClInclude Include="XR1MainPanelComponents.h" />
+    <ClInclude Include="XR1MFDComponent.h" />
+    <ClInclude Include="XR1MultiDisplayArea.h" />
+    <ClInclude Include="XR1PayloadBay.h" />
+    <ClInclude Include="XR1PayloadDialog.h" />
+    <ClInclude Include="XR1PayloadScreenAreas.h" />
+    <ClInclude Include="XR1PostSteps.h" />
+    <ClInclude Include="XR1PrePostStep.h" />
+    <ClInclude Include="XR1PreSteps.h" />
+    <ClInclude Include="XR1Ramjet.h" />
+    <ClInclude Include="XR1ThrottleQuadrantComponents.h" />
+    <ClInclude Include="XR1UpperPanelAreas.h" />
+    <ClInclude Include="XR1UpperPanelComponents.h" />
+    <ClInclude Include="XR1VCPanelAreas.h" />
+    <ClInclude Include="..\DeltaGliderXR1\resource.h" />
+    <ClInclude Include="XRCommon_DMG.h" />
+    <ClInclude Include="XRCommon_IO.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

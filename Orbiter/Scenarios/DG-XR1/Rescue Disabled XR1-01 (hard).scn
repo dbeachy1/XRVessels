@@ -1,0 +1,331 @@
+BEGIN_DESC
+XR1 DISABLED-1 was performing a standard burn to transit to a lower orbit from an ISS altitude of 350km when the engine control circuit failed and the engines refused to shut down!  
+The pilot was able to kill the engines by tripping the circuit breaker, but due to the control circuit failure he is unable to use the engines or thrusters.  
+Worse, the ship is in an elliptical orbit with a periapsis altitude of only 90km, which is in the upper atmosphere.
+Telemetry shows that the ship will burn up in the lower atmosphere in just over TWO HOURS (1-1/2 orbits from now) over the South Atlantic Ocean!  
+You must somehow reach the disabled ship in your XR1 and rescue the four crew members before the ship burns up in the lower atmosphere.  
+Your primary mission is to to DOCK with the disabled ship, transfer the crew to your rescue XR1, and then boost the disabled ship 
+into a stable orbit with a periapsis altitude of 200-300 km so that a repair crew can be sent up tomorrow morning to save the disabled XR1.  
+If you are unable to dock with the ship, spacewalk the crew to your ship instead.  
+(Of course, if you cannot save the disabled ship the brass on the ground won't be too happy about losing a 400-million-dollar XR1, 
+but at least you will have saved the crew.)  Be advised that docking with the ship will not be easy once it enters the upper atmosphere 
+because it will start tumbling, so you must reach the ship ASAP!  After you rescue the crew land back at KSC.
+HINT: Wait until about MJD 60247.8685, power up the APU, close the radiator, and take off at MJD 60247.8692.  
+Fly a heading of approximately 115-120 degrees.  NOTE: TAKEOFF TIME IS CRITICAL!  
+Also note that you may need to vary your takeoff time depending on how you fly your ascent; the takeoff time listed assumes a nominal SCRAM ascent from Mach 3 to Mach 18.  
+At the default fuel settings you will need to run your SCRAM engines efficiently in order have enough fuel to boost the disabled ship and deorbit safely.  
+Get your RINC as low as possible during orbit insertion -- try to get it down to about 20 degrees.  
+Your initial orbit should have an apoapsis of about 300 km so you can intercept the disabled ship; do not worry about periapsis altitude at this time.  
+Then do a standard plane alignment burn at the correct time.  If all goes perfectly the disabled ship will be within 100km of your ship after the burn, although this 
+will depend on your orbit.  (If you are an expert pilot you should have enough fuel to complete the mission even if the disabled XR1 is ~400 km away at 
+this point IF you flew your SCRAM ascent correctly.)  Then intercept the ship using the docking HUD -- remember that you must reach the ship ASAP, 
+so you may have to get creative.  The disabled ship's transponder and docking IDS are set to the XR1's standard 117.65 MHz and 117.95 MHz, 
+respectively.  Dock with the ship, transfer the crew to your rescue ship, and then boost the disabled XR1 into a stable orbit with a PeA 
+of at least 200km -- the more circular, the better.  (You may transfer the crew while docked by opening both airlock doors on both ships and then 
+using the EVA button on the upper panel on the disabled XR1.)  Another hint: to rotate the disabled XR1 while docked set your thrusters to TRANSLATION 
+so that you can more efficiently rotate the combined mass of the two ships.
+If you fly this perfectly you should be able to land back at Cape Canaveral within the same orbit of rescuing the crew.  This is a difficult mission, 
+but if you manage to save the disabled ship and the crew you will be a hero.  Good luck!
+NOTE: if you find it too difficult to dock with the disabled XR1, try disabling 'Gravity-gradient torque' in the Orbiter Launchpad.
+END_DESC
+
+BEGIN_ENVIRONMENT
+  System Sol
+  Date MJD 60247.8497962071
+END_ENVIRONMENT
+
+BEGIN_FOCUS
+  Ship RESCUE-01
+END_FOCUS
+
+BEGIN_CAMERA
+  TARGET RESCUE-01
+  MODE Cockpit
+  FOV 40.00
+END_CAMERA
+
+BEGIN_HUD
+  TYPE Surface
+END_HUD
+
+BEGIN_MFD Left
+  TYPE Surface
+  SPDMODE 1
+END_MFD
+
+BEGIN_MFD Right
+  TYPE Map
+  REF Earth
+  OTARGET DISABLED-01
+  TRACK ON
+END_MFD
+
+BEGIN_PANEL
+END_PANEL
+
+BEGIN_SHIPS
+ISS:ProjectAlpha_ISS
+  STATUS Orbiting Earth
+  RPOS -3401685.41 5755967.17 -752310.04
+  RVEL 6318.896 3360.994 -2819.713
+  AROT -43.47 -21.50 42.50
+  VROT -0.07 -0.03 0.08
+  PRPLEVEL 0:1.000
+  IDS 0:588 100 1:586 100 2:584 100 3:582 100 4:580 100
+  NAVFREQ 0 0
+  XPDR 466
+END
+Mir:Mir
+  STATUS Orbiting Earth
+  RPOS -4413846.90 -598153.00 -4932215.05
+  RVEL 5770.802 132.772 -5169.031
+  AROT -128.17 24.26 117.75
+  VROT -0.01 -0.02 -0.07
+  IDS 0:540 100 1:542 100 2:544 100
+  XPDR 482
+END
+Luna-OB1:Wheel
+  STATUS Orbiting Moon
+  RPOS -708611.81 -2124990.33 -3487.74
+  RVEL 1403.472 -468.253 -1.333
+  AROT -0.14 0.07 -128.99
+  VROT 0.00 0.00 10.00
+  IDS 0:560 100 1:564 100
+  XPDR 494
+END
+DISABLED-01:DeltaGliderXR1
+  STATUS Orbiting Earth
+  RPOS -3911531.64 -4829779.77 2575418.20
+  RVEL -5853.780 4875.307 212.197
+  AROT -89.62 -45.72 22.21
+  VROT -0.00 0.07 0.00
+  RCSMODE 0
+  PRPLEVEL 0:0.160 1:0.828 2:0.074
+  IDS 0:199 100
+  NAVFREQ 94 524 84 114
+  XPDR 193
+  SECONDARY_HUD 5
+  LAST_ACTIVE_SECONDARY_HUD 0
+  ADCTRL_MODE 0
+  TAKEOFF_LANDING_CALLOUTS 7336.905138 24.097000 24.102000 0.000000 -15.297157
+  APU_FUEL_QTY 0.415
+  LOX_QTY 0.154406
+  CABIN_O2_LEVEL 0.209
+  CREW_STATE 0
+  INTERNAL_SYSTEMS_FAILURE 0
+  COGSHIFT_MODES 0 0 0
+  MWS_ACTIVE 1
+  COOLANT_TEMP 32.356
+  DMG_0 1.000000 Left Wing
+  DMG_1 1.000000 Right Wing
+  DMG_2 1.000000 Left Aileron
+  DMG_3 1.000000 Right Aileron
+  DMG_4 1.000000 Landing Gear
+  DMG_5 1.000000 Nosecone
+  DMG_6 1.000000 Retro Doors
+  DMG_7 1.000000 Top Hatch
+  DMG_8 1.000000 Radiator
+  DMG_9 1.000000 Airbrake
+  DMG_10 0.000000 Left Main Engine
+  DMG_11 0.000000 Right Main Engine
+  DMG_12 0.000000 Left SCRAM Engine
+  DMG_13 0.000000 Right SCRAM Engine
+  DMG_14 0.000000 Fore Hover Engine
+  DMG_15 0.000000 Aft Hover Engine
+  DMG_16 0.000000 Left Retro Engine
+  DMG_17 0.000000 Right Retro Engine
+  DMG_18 0.000000 Forward Lower RCS
+  DMG_19 0.000000 Aft Upper RCS
+  DMG_20 0.000000 Forward Upper RCS
+  DMG_21 0.000000 Aft Lower RCS
+  DMG_22 0.000000 Forward Star. RCS
+  DMG_23 0.000000 Aft Port RCS
+  DMG_24 0.000000 Forward Port RCS
+  DMG_25 0.000000 Aft Star. RCS
+  DMG_26 0.000000 Outboard Upper Port RCS
+  DMG_27 0.000000 Outboard Lower Star. RCS
+  DMG_28 0.000000 Outboard Upper Star. RCS
+  DMG_29 0.000000 Outboard Lower Port RCS
+  DMG_30 0.000000 Aft RCS
+  DMG_31 0.000000 Forward RCS
+  IS_CRASHED 0
+  MET_STARTING_MJD 60235.868415
+  INTERVAL1_ELAPSED_TIME -1.000000
+  INTERVAL2_ELAPSED_TIME -1.000000
+  MET_RUNNING 1
+  INTERVAL1_RUNNING 0
+  INTERVAL2_RUNNING 0
+  ACTIVE_MDM 3
+  TEMP_SCALE 2
+  CUSTOM_AUTOPILOT_MODE 0
+  AIRSPEED_HOLD_ENGAGED 0
+  SCRAM0DIR 0.000000 0.000000 1.000000
+  SCRAM1DIR 0.000000 0.000000 1.000000
+  HOVER_BALANCE 0.000
+  MAIN0DIR 0.000000 0.000000 1.000000
+  MAIN1DIR 0.000000 0.000000 1.000000
+  GIMBAL_BUTTON_STATES 0 0 0 0 0 0
+  ATTITUDE_HOLD_DATA 0.000000 0.000000 0 0 0.000000
+  DESCENT_HOLD_DATA 0.000000 -3.000000 0
+  AIRSPEED_HOLD_DATA 0.000000
+  OVERRIDE_INTERLOCKS 0 0
+  TERTIARY_HUD_ON 1
+  CREW_DISPLAY_INDEX 0
+  GEAR 0 0.0000
+  RCOVER 0 0.0000
+  NOSECONE 0 0.0000
+  AIRLOCK 0 0.0000
+  IAIRLOCK 0 0.0000
+  CHAMBER 0 0.0000
+  AIRBRAKE 0 0.0000
+  RADIATOR 1 1.0000
+  LADDER 0 0.0000
+  HATCH 0 0.0000
+  SCRAM_DOORS 0 0.0000
+  HOVER_DOORS 0 0.0000
+  APU_STATUS 0
+  EXTCOOLING_STATUS 0
+  TRIM 0.030
+  LIGHTS 0 0 0
+  XR1UMMU_CREW_DATA_VALID 1
+  UMMUCREW XI1-Nikita_Simone-29-72-68
+  UMMUCREW XI2-Madeline_Dolenc-36-72-68
+  UMMUCREW XI3-Seymore_Birkoff-24-72-68
+  UMMUCREW XI4-Katherine_Quinn-28-72-68
+  PAYLOAD_SCREENS_DATA 0.2 0 1 0
+END
+RESCUE-01:DeltaGliderXR1
+  STATUS Landed Earth
+  POS -80.6831140 28.5977340
+  HEADING 330.00
+  RCSMODE 0
+  PRPLEVEL 0:1.000 1:1.000 2:1.000
+  IDS 0:199 100
+  NAVFREQ 94 524 84 114
+  XPDR 193
+  SECONDARY_HUD 3
+  LAST_ACTIVE_SECONDARY_HUD 0
+  ADCTRL_MODE 7
+  TAKEOFF_LANDING_CALLOUTS 0.000000 0.000000 0.000000 0.000000 0.000000
+  APU_FUEL_QTY 0.988
+  LOX_QTY 0.999972
+  CABIN_O2_LEVEL 0.209
+  CREW_STATE 0
+  INTERNAL_SYSTEMS_FAILURE 0
+  COGSHIFT_MODES 0 0 0
+  MWS_ACTIVE 0
+  COOLANT_TEMP 32.475
+  DMG_0 1.000000 Left Wing
+  DMG_1 1.000000 Right Wing
+  DMG_2 1.000000 Left Aileron
+  DMG_3 1.000000 Right Aileron
+  DMG_4 1.000000 Landing Gear
+  DMG_5 1.000000 Nosecone
+  DMG_6 1.000000 Retro Doors
+  DMG_7 1.000000 Top Hatch
+  DMG_8 1.000000 Radiator
+  DMG_9 1.000000 Airbrake
+  DMG_10 1.000000 Left Main Engine
+  DMG_11 1.000000 Right Main Engine
+  DMG_12 1.000000 Left SCRAM Engine
+  DMG_13 1.000000 Right SCRAM Engine
+  DMG_14 1.000000 Fore Hover Engine
+  DMG_15 1.000000 Aft Hover Engine
+  DMG_16 1.000000 Left Retro Engine
+  DMG_17 1.000000 Right Retro Engine
+  DMG_18 1.000000 Forward Lower RCS
+  DMG_19 1.000000 Aft Upper RCS
+  DMG_20 1.000000 Forward Upper RCS
+  DMG_21 1.000000 Aft Lower RCS
+  DMG_22 1.000000 Forward Star. RCS
+  DMG_23 1.000000 Aft Port RCS
+  DMG_24 1.000000 Forward Port RCS
+  DMG_25 1.000000 Aft Star. RCS
+  DMG_26 1.000000 Outboard Upper Port RCS
+  DMG_27 1.000000 Outboard Lower Star. RCS
+  DMG_28 1.000000 Outboard Upper Star. RCS
+  DMG_29 1.000000 Outboard Lower Port RCS
+  DMG_30 1.000000 Aft RCS
+  DMG_31 1.000000 Forward RCS
+  IS_CRASHED 0
+  MET_STARTING_MJD -1.000000
+  INTERVAL1_ELAPSED_TIME -1.000000
+  INTERVAL2_ELAPSED_TIME -1.000000
+  MET_RUNNING 0
+  INTERVAL1_RUNNING 0
+  INTERVAL2_RUNNING 0
+  ACTIVE_MDM 3
+  TEMP_SCALE 2
+  CUSTOM_AUTOPILOT_MODE 0
+  AIRSPEED_HOLD_ENGAGED 0
+  SCRAM0DIR 0.000000 0.000000 1.000000
+  SCRAM1DIR 0.000000 0.000000 1.000000
+  HOVER_BALANCE 0.000
+  MAIN0DIR 0.000000 0.000000 1.000000
+  MAIN1DIR 0.000000 0.000000 1.000000
+  GIMBAL_BUTTON_STATES 0 0 0 0 0 0
+  ATTITUDE_HOLD_DATA 0.000000 0.000000 0 0 0.000000
+  DESCENT_HOLD_DATA 0.000000 -3.000000 0
+  AIRSPEED_HOLD_DATA 0.000000
+  OVERRIDE_INTERLOCKS 0 0
+  TERTIARY_HUD_ON 1
+  CREW_DISPLAY_INDEX 0
+  GEAR 1 1.0000
+  RCOVER 0 0.0000
+  NOSECONE 0 0.0000
+  AIRLOCK 0 0.0000
+  IAIRLOCK 0 0.0000
+  CHAMBER 0 0.0000
+  AIRBRAKE 0 0.0000
+  RADIATOR 0 0.0000
+  LADDER 0 0.0000
+  HATCH 0 0.0000
+  SCRAM_DOORS 0 0.0000
+  HOVER_DOORS 0 0.0000
+  APU_STATUS 1
+  EXTCOOLING_STATUS 0
+  TRIM 0.000
+  LIGHTS 0 0 0
+  XR1UMMU_CREW_DATA_VALID 1
+  UMMUCREW XI0-Michael_Samuel-37-72-68
+  PAYLOAD_SCREENS_DATA 0.2 0 1 0
+END
+SH-03:ShuttleA
+  STATUS Landed Earth
+  POS -82.4982414 22.9994604
+  HEADING 70.00
+  PRPLEVEL 0:1.000 1:1.000
+  NAVFREQ 0 0
+  XPDR 0
+  PODANGLE 0.0000 0.0000
+  DOCKSTATE 0 0.0000
+  AIRLOCK 0 0.0000
+  GEAR 0 0.0000
+  PAYLOAD MASS 0.0 0
+END
+GL-02:DeltaGlider
+  STATUS Landed Mars
+  BASE Olympus:3
+  POS -135.4300000 12.7366192
+  HEADING 360.00
+  PRPLEVEL 0:1.000 1:1.000
+  NAVFREQ 0 0 0 0
+  XPDR 0
+  GEAR 1 1.0000
+  AAP 0:0 0:0 0:0
+END
+SH-01:ShuttleA
+  STATUS Landed Moon
+  BASE Brighton Beach:1
+  POS -33.4374994 41.1184067
+  HEADING 0.00
+  PRPLEVEL 0:1.000 1:1.000
+  NAVFREQ 0 0
+  XPDR 0
+  PODANGLE 0.0000 0.0000
+  DOCKSTATE 0 0.0000
+  AIRLOCK 0 0.0000
+  GEAR 0 0.0000
+  PAYLOAD MASS 3.9 0
+END
+END_SHIPS
