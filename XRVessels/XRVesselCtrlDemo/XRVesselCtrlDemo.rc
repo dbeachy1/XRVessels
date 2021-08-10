@@ -1,0 +1,162 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MAINDIALOG DIALOGEX 0, 0, 628, 386
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "XRVesselCtrlDemo 3.1"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_COMBO_VESSEL,43,12,156,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Hide Non-XRVesselCtrl Vessels",IDC_CHECK_HIDE_NON_XRVESSELS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,90,32,111,10
+    PUSHBUTTON      "Refresh List",IDC_BUTTON_REFRESH_LIST,211,11,66,14
+    PUSHBUTTON      "Set Focus",IDC_BUTTON_SET_FOCUS,211,30,66,14
+    CONTROL         "Main",IDC_CHECK_MAIN,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_TABSTOP,36,60,34,16
+    CONTROL         "Retro",IDC_CHECK_RETRO,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_TABSTOP,90,60,39,16
+    CONTROL         "Hover",IDC_CHECK_HOVER,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_TABSTOP,144,60,39,16
+    CONTROL         "SCRAM",IDC_CHECK_SCRAM,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_TABSTOP,198,60,39,16
+    CONTROL         "Status",IDC_CHECK_STATUS,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_TABSTOP,336,60,39,16
+    CONTROL         "Doors",IDC_CHECK_DOORS,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_TABSTOP,390,60,39,16
+    CONTROL         "Autopilots",IDC_CHECK_AUTOPILOTS,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_TABSTOP,444,60,40,16
+    CONTROL         "Other",IDC_CHECK_OTHER,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_TABSTOP,498,60,39,16
+    EDITTEXT        IDC_COMMANDBOX,78,332,345,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Execute Script File",IDC_EXECUTE_SCRIPT,519,331,94,14
+    PUSHBUTTON      "Help",IDHELP,520,351,28,15
+    PUSHBUTTON      "Close",IDCANCEL,556,351,56,15
+    LTEXT           "Vessel:",IDC_STATIC,12,14,30,8
+    LTEXT           "Vessel  XRVesselCtrl Version:",IDC_STATIC,300,14,98,8
+    EDITTEXT        IDC_XRVC_VERSION,401,11,27,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_MAINBOX_RIGHT,324,90,282,198,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
+    LTEXT           "Enter Command:",IDC_STATIC,20,334,54,8
+    EDITTEXT        IDC_STATUSBOX,78,296,528,28,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL | NOT WS_TABSTOP
+    LTEXT           "Status Message:",IDC_STATIC,19,305,60,8
+    EDITTEXT        IDC_MAINBOX_LEFT,24,90,282,198,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
+    GROUPBOX        "Select Engine Group",IDC_STATIC,24,48,282,36
+    GROUPBOX        "Select Subsystem",IDC_STATIC,324,48,282,36
+    CONTROL         IDB_BITMAP2,IDC_LOGO,"Static",SS_BITMAP,455,8,111,37
+    LTEXT           "Available Params: ",IDC_STATIC,17,358,60,8
+    EDITTEXT        IDC_AVAILABLE_PARAMS,78,351,429,28,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL | NOT WS_TABSTOP
+    DEFPUSHBUTTON   "Execute Command",IDC_EXECUTE_COMMAND,433,331,74,14
+    CONTROL         " Enable Full-Screen Mode",IDC_FULL_SCREEN_MODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,520,370,92,10
+END
+
+IDD_HELP DIALOGEX 0, 0, 368, 183
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "XRVesselCtrlDemo Command Line Help"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDHELP_OK,310,162,50,14
+    LTEXT           "",IDC_STATIC_HELP_TEXT,18,12,332,148
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_MAINDIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 621
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 380
+    END
+
+    IDD_HELP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 361
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 176
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_LOGO                BITMAP                  "altealogo2_small.bmp"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    MODULE_DESC             "XRVesselCtrl 3.1 Demo for Orbiter 2016\r\n===============================\r\n\r\nSample plugin that uses the XRVesselCtrl APIs to interface with XR vessels.\r\n\r\nRefer to $ORBITER_ROOT\\Doc\\XRVesselCtrlDemo-readme.txt for more information.\r\nhttp://www.alteaaerospace.com"
+    CATEGORY_NAME           "Developer resources and samples"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

@@ -10,23 +10,63 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="framework\Area.cpp" />
+    <ClCompile Include="framework\AreaGroup.cpp" />
+    <ClCompile Include="framework\Component.cpp" />
+    <ClCompile Include="framework\ConfigFileParser.cpp" />
+    <ClCompile Include="framework\EncryptionEngine.cpp" />
+    <ClCompile Include="framework\FileList.cpp" />
+    <ClCompile Include="framework\InstrumentPanel.cpp" />
+    <ClCompile Include="framework\RegKeyManager.cpp" />
+    <ClCompile Include="framework\Vessel3Ext.cpp" />
+    <ClCompile Include="framework\Vessel3ExtMeshEncryption.cpp" />
+    <ClCompile Include="framework\VesselConfigFileParser.cpp" />
+    <ClCompile Include="framework\XRGrappleTargetVessel.cpp" />
+    <ClCompile Include="framework\XRPayload.cpp" />
+    <ClCompile Include="framework\xrpayloadbay.cpp" />
+    <ClCompile Include="framework\XRPayloadBaySlot.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework\Area.h" />
+    <ClInclude Include="framework\AreaGroup.h" />
+    <ClInclude Include="framework\Component.h" />
+    <ClInclude Include="framework\ConfigFileParser.h" />
+    <ClInclude Include="framework\ConfigFileParserMacros.h" />
+    <ClInclude Include="framework\EncryptionEngine.h" />
+    <ClInclude Include="framework\FileList.h" />
+    <ClInclude Include="framework\InstrumentPanel.h" />
+    <ClInclude Include="framework\PrePostStep.h" />
+    <ClInclude Include="framework\PropType.h" />
+    <ClInclude Include="framework\RegKeyManager.h" />
+    <ClInclude Include="framework\RollingArray.h" />
+    <ClInclude Include="framework\stringhasher.h" />
+    <ClInclude Include="framework\Vessel3Ext.h" />
+    <ClInclude Include="framework\VesselConfigFileParser.h" />
+    <ClInclude Include="framework\XRGrappleTargetVessel.h" />
+    <ClInclude Include="framework\XRPayload.h" />
+    <ClInclude Include="framework\XRPayloadBay.h" />
+    <ClInclude Include="framework\XRPayloadBaySlot.h" />
+    <ClInclude Include="framework\XRTemplates.h" />
+    <ClInclude Include="framework\XRVesselCtrl.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BD13CC72-C0A7-4EC5-AECB-AA8A3845338B}</ProjectGuid>
     <RootNamespace>framework</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -92,46 +132,6 @@
       </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="include\Area.h" />
-    <ClInclude Include="include\AreaGroup.h" />
-    <ClInclude Include="include\ConfigFileParserMacros.h" />
-    <ClInclude Include="include\FileList.h" />
-    <ClInclude Include="include\PrePostStep.h" />
-    <ClInclude Include="include\Component.h" />
-    <ClInclude Include="include\ConfigFileParser.h" />
-    <ClInclude Include="include\EncryptionEngine.h" />
-    <ClInclude Include="include\InstrumentPanel.h" />
-    <ClInclude Include="include\PropType.h" />
-    <ClInclude Include="include\RegKeyManager.h" />
-    <ClInclude Include="include\RollingArray.h" />
-    <ClInclude Include="include\stringhasher.h" />
-    <ClInclude Include="include\Vessel3Ext.h" />
-    <ClInclude Include="include\VesselConfigFileParser.h" />
-    <ClInclude Include="include\XRGrappleTargetVessel.h" />
-    <ClInclude Include="include\XRPayload.h" />
-    <ClInclude Include="include\XRPayloadBay.h" />
-    <ClInclude Include="include\XRPayloadBaySlot.h" />
-    <ClInclude Include="include\XRTemplates.h" />
-    <ClInclude Include="include\XRVesselCtrl.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="cpp\Area.cpp" />
-    <ClCompile Include="cpp\AreaGroup.cpp" />
-    <ClCompile Include="cpp\Component.cpp" />
-    <ClCompile Include="cpp\ConfigFileParser.cpp" />
-    <ClCompile Include="cpp\EncryptionEngine.cpp" />
-    <ClCompile Include="cpp\FileList.cpp" />
-    <ClCompile Include="cpp\InstrumentPanel.cpp" />
-    <ClCompile Include="cpp\RegKeyManager.cpp" />
-    <ClCompile Include="cpp\Vessel3Ext.cpp" />
-    <ClCompile Include="cpp\Vessel3ExtMeshEncryption.cpp" />
-    <ClCompile Include="cpp\VesselConfigFileParser.cpp" />
-    <ClCompile Include="cpp\XRGrappleTargetVessel.cpp" />
-    <ClCompile Include="cpp\XRPayload.cpp" />
-    <ClCompile Include="cpp\XRPayloadBay.cpp" />
-    <ClCompile Include="cpp\XRPayloadBaySlot.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
