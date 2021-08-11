@@ -14,7 +14,7 @@
 // express consent from the author.  
 //
 // http://www.alteaaerospace.com
-// mailto:dbeachy@speakeasy.net
+// mailto:doug.beachy@outlook.com
 //-------------------------------------------------------------------------
 
 #include <windows.h>

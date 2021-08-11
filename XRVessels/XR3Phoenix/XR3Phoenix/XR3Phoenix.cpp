@@ -981,7 +981,7 @@ void XR3Phoenix::clbkVisualDestroyed (VISHANDLE vis, int refcount)
 // Message callback function for control dialog box
 // ==============================================================
 
-BOOL CALLBACK XR3Ctrl_DlgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK XR3Ctrl_DlgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     XR3Phoenix *dg = (uMsg == WM_INITDIALOG ? reinterpret_cast<XR3Phoenix *>(lParam) : reinterpret_cast<XR3Phoenix *>(oapiGetDialogContext(hWnd)));
     // pointer to vessel instance was passed as dialog context
@@ -1093,7 +1093,7 @@ BOOL CALLBACK XR3Ctrl_DlgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
         }
         break;
     }
-    return oapiDefDialogProc (hWnd, uMsg, wParam, lParam);
+    return oapiDefDialogProc(hWnd, uMsg, wParam, lParam);
 }
 
 void XR3Phoenix::UpdateCtrlDialog(XR3Phoenix *dg, HWND hWnd)

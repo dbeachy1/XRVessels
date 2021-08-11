@@ -10,7 +10,7 @@
 // express consent from the author.  
 //
 // http://www.alteaaerospace.com
-// mailto:dbeachy@speakeasy.net
+// mailto:doug.beachy@outlook.com
 //-------------------------------------------------------------------------
 
 #include <windows.h>
@@ -430,7 +430,7 @@ ParserTreeNode *ParserTreeNode::FindChildForToken(const CString &csToken, AUTOCO
 
     // decide which matching node to use
     ParserTreeNode *pRetVal = nullptr;
-    const int matchingNodeCount = matchingNodes.size();
+    const int matchingNodeCount = static_cast<int>(matchingNodes.size());
     
     if (matchingNodeCount > 0)
     {
@@ -512,7 +512,7 @@ const char *ParserTreeNode::AutocompleteToken(const CString &csToken, AUTOCOMPLE
 
     // decide which matching node to use
     const char *pRetVal = nullptr;
-    const int matchingTokenCount = matchingTokens.size();
+    const int matchingTokenCount = static_cast<int>(matchingTokens.size());
 
     if (matchingTokenCount > 0)
     {
@@ -562,7 +562,7 @@ int ParserTreeNode::ParseToSpaceDelimitedTokens(const char *pCommand, vector<CSt
         }
     }
 
-    return argv.size();
+    return static_cast<int>(argv.size());
 }
 
 //

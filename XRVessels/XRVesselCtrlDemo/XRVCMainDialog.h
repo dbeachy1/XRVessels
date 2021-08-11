@@ -9,7 +9,7 @@
 // express consent from the author.  
 //
 // http://www.alteaaerospace.com
-// mailto:dbeachy@speakeasy.net
+// mailto:doug.beachy@outlook.com
 //-------------------------------------------------------------------------
 
 #pragma once
@@ -47,8 +47,8 @@ protected:
     // identifies text panels on the dialog
     enum TextPanel { TEXTPANEL_LEFT, TEXTPANEL_RIGHT, TEXTPANEL_BOTH };
 
-    static BOOL CALLBACK MsgProcMain         (const HWND hDlg, const UINT uMsg, const WPARAM wParam, const LPARAM lParam);
-    static BOOL CALLBACK MsgProcHelp         (const HWND hDlg, const UINT uMsg, const WPARAM wParam, const LPARAM lParam);
+    static INT_PTR CALLBACK       MsgProcMain(const HWND hDlg, const UINT uMsg, const WPARAM wParam, const LPARAM lParam);
+    static INT_PTR CALLBACK       MsgProcHelp(const HWND hDlg, const UINT uMsg, const WPARAM wParam, const LPARAM lParam);
     static LRESULT CALLBACK CommandBoxMsgProc(const HWND hWnd, const UINT uMsg, const WPARAM wParam, const LPARAM lParam);
 
     static const char *GetComboLineForVessel(const VESSEL *pVessel);

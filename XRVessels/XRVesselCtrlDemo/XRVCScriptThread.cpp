@@ -9,7 +9,7 @@
 // express consent from the author.  
 //
 // http://www.alteaaerospace.com
-// mailto:dbeachy@speakeasy.net
+// mailto:doug.beachy@outlook.com
 //
 //-------------------------------------------------------------------------
 
@@ -223,7 +223,7 @@ int XRVCScriptThread::ST_ParseScriptFile(FILE *pFile, vector<CString> &commandLi
         // we have a command
         commandListOut.push_back(buffer);  // copy by value
     }
-    return commandListOut.size();
+    return static_cast<int>(commandListOut.size());
 }
 
 //*************************************************************************
@@ -284,5 +284,5 @@ int XRVCScriptThread::GetScriptCommands(vector<CString> &commandListOut)
     m_csExecuteScriptCommandList.clear();
     LeaveCriticalSection(&m_criticalSectionST);  // unlock
 
-    return commandListOut.size();
+    return static_cast<int>(commandListOut.size());
 }

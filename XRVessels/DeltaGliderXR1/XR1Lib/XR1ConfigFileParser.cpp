@@ -632,7 +632,7 @@ void XR1ConfigFileParser::ApplyCheatcodesIfEnabled()
     {
         if (GetCheatcodesFoundCount() > 0)
         {
-            sprintf(msg, "*** WARNING: %d CHEATCODE(S) set but ignored: cheatcodes are disabled (check 'CheatcodesEnabled' setting)", m_cheatcodeVector.size()); 
+            sprintf(msg, "*** WARNING: %d CHEATCODE(S) set but ignored: cheatcodes are disabled (check 'CheatcodesEnabled' setting)", static_cast<int>(m_cheatcodeVector.size()));
             WriteLog(msg);
         }
     }

@@ -1078,7 +1078,7 @@ protected:
     typedef pair<unsigned int, double> uint_double_Pair;
     HASHMAP_UINT_DOUBLE m_nextRedrawAlwaysRefreshMap;  // key=area ID, value = simt of next update for this component
 
-    // bitmask that tracks all config file overrides that were loaded with this scenario
+    // bitmask that tracks all fuel-related config file overrides that were loaded with this scenario
 #define CONFIG_OVERRIDE_MainFuelISP               0x00000001
 #define CONFIG_OVERRIDE_SCRAMFuelISP              0x00000002
 #define CONFIG_OVERRIDE_LOXConsumptionRate        0x00000004

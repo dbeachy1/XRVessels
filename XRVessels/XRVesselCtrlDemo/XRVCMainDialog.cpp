@@ -9,7 +9,7 @@
 // express consent from the author.  
 //
 // http://www.alteaaerospace.com
-// mailto:dbeachy@speakeasy.net
+// mailto:doug.beachy@outlook.com
 //
 //-------------------------------------------------------------------------
 
@@ -67,7 +67,7 @@ XRVCMainDialog::~XRVCMainDialog()
 // Static windows message handler for our help dialog box
 //==============================================================
 
-BOOL CALLBACK XRVCMainDialog::MsgProcHelp(const HWND hDlg, const UINT uMsg, const WPARAM wParam, const LPARAM lParam)
+INT_PTR CALLBACK XRVCMainDialog::MsgProcHelp(const HWND hDlg, const UINT uMsg, const WPARAM wParam, const LPARAM lParam)
 {
     switch (uMsg) 
     {
@@ -139,7 +139,7 @@ close_window:
 //==============================================================
 // Static windows message handler for our main dialog box
 //==============================================================
-BOOL CALLBACK XRVCMainDialog::MsgProcMain(const HWND hDlg, const UINT uMsg, const WPARAM wParam, const LPARAM lParam)
+INT_PTR CALLBACK XRVCMainDialog::MsgProcMain(const HWND hDlg, const UINT uMsg, const WPARAM wParam, const LPARAM lParam)
 {
 	switch (uMsg) 
     {
@@ -164,7 +164,7 @@ BOOL CALLBACK XRVCMainDialog::MsgProcMain(const HWND hDlg, const UINT uMsg, cons
             SetTimer(hDlg, TIMERID_UDPATE_AVAILABLE_PARAMS, 100, NULL);
 
             // hook into our command window edit line so we can trap keystrokes, saving the address of its existing message loop
-            s_pCommandBoxOldMessageProc = reinterpret_cast<void *>(SetWindowLong(GetDlgItem(hDlg, IDC_COMMANDBOX), GWL_WNDPROC, (LONG)CommandBoxMsgProc));
+            s_pCommandBoxOldMessageProc = reinterpret_cast<void *>(SetWindowLongPtr(GetDlgItem(hDlg, IDC_COMMANDBOX), GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(CommandBoxMsgProc)));
             return TRUE;
         }
 
@@ -194,7 +194,7 @@ BOOL CALLBACK XRVCMainDialog::MsgProcMain(const HWND hDlg, const UINT uMsg, cons
         
         case WM_COMMAND:
         {
-            const int controlID = LOWORD (wParam);          // dialog item ID of button, drop-down, etc.
+            const int controlID = LOWORD(wParam);          // dialog item ID of button, drop-down, etc.
             const WORD notificationMsg = HIWORD(wParam);    // e.g., BN_CLICKED
 
             // check BN_CLICKED messages for left-hand and right-hand panel mode buttons
@@ -791,7 +791,7 @@ void XRVCMainDialog::SetCommandText(const char *pNewText) const
     SetWindowTextSmart(hCommandBox, pNewText);
 
     // reset the cursor to the end of the text in the box
-    const int textLength = strlen(pNewText);
+    const size_t textLength = strlen(pNewText);
     SendMessage(hCommandBox, EM_SETSEL, textLength, textLength);
 }
 

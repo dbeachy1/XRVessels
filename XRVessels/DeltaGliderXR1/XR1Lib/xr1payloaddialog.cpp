@@ -49,7 +49,7 @@ HWND XR1PayloadDialog::Launch(OBJHANDLE hVessel)
 
 // message proc that handles all our Windows messages
 // Returns: TRUE if message handled, FALSE if message not handled; i.e., the next window in the chain should handle it
-BOOL CALLBACK XR1PayloadDialog::Proc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK XR1PayloadDialog::Proc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     // handle bay slot buttons here via a for loop since there are an unknown number of them
     if (uMsg == WM_COMMAND)

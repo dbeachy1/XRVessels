@@ -59,5 +59,5 @@ extern const DamageItem D_END;
 // ==============================================================
 // Global callback prototypes 
 
-BOOL CALLBACK XR5Ctrl_DlgProc(HWND, UINT, WPARAM, LPARAM);
+INT_PTR CALLBACK XR5Ctrl_DlgProc(HWND, UINT, WPARAM, LPARAM);
 

@@ -9,7 +9,7 @@
 // express consent from the author.  
 //
 // http://www.alteaaerospace.com
-// mailto:dbeachy@speakeasy.net
+// mailto:doug.beachy@outlook.com
 //-------------------------------------------------------------------------
 
 #pragma once
@@ -30,7 +30,7 @@ public:
     bool AutoCompleteCommand(CString &csCommand, const bool direction) const { return m_commandParserTree->AutoComplete(csCommand, direction); }  // returns true if we autocompleted all tokens in csCommand
     int GetAvailableArgumentsForCommand(CString &csCommand, vector<CString> &argsOut) const { return m_commandParserTree->GetAvailableArgumentsForCommand(csCommand, argsOut); }
     const char *RetrieveCommand(const bool getNext);  // returns next/previous executed command
-    void ResetCommandRecallIndex() { m_commandRecallIndex = m_commandHistoryVector.size(); }  // reset to 1 beyond the end of the vector, which denotes "empty line"
+    void ResetCommandRecallIndex() { m_commandRecallIndex = static_cast<int>(m_commandHistoryVector.size()); }  // reset to 1 beyond the end of the vector, which denotes "empty line"
     void ResetAutocompletionState() { m_commandParserTree->ResetAutocompletionState(); }  // invoked when any non-tab character pressed
 
     // this method is only used for debugging
@@ -40,7 +40,7 @@ protected:
     XRVCClient &m_xrvcClient;         // performs all the XRVesselCtrl calls
     ParserTree *m_commandParserTree;  // root node of the parser tree
     vector<const CString *> m_commandHistoryVector;  // order is oldest -> newest
-    int m_commandRecallIndex;       // index into m_commandHistoryVector of last command recalled; -1 = no recall yet
+    int m_commandRecallIndex;         // index into m_commandHistoryVector of last command recalled; -1 = no recall yet
 
 
     // other static utility methods

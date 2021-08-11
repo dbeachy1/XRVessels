@@ -10,7 +10,7 @@
 // express consent from the author.  
 //
 // http://www.alteaaerospace.com
-// mailto:dbeachy@speakeasy.net
+// mailto:doug.beachy@outlook.com
 //-------------------------------------------------------------------------
 
 #pragma once

@@ -94,7 +94,7 @@ public:
 
 protected:
     VESSEL &m_parentVessel;
-    // map of slots numbers -> slot data: key=(int)slot #, value=(XRPayloadBaySlot) data
+    // map of slots numbers -> slot data: key=(int) slot #, value=(XRPayloadBaySlot) data
     HASHMAP_INT_XRPAYLOADBAYSLOT m_allSlotsMap;
     SlotsDrainedFilled m_slotsDrainedFilled;  // only updated by AdjustPropellantMass
 };

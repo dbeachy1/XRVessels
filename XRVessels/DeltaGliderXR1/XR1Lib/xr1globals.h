@@ -17,6 +17,13 @@
 
 class DeltaGliderXR1;
 
+// for use by build version strings
+#ifdef _WIN64
+#define ARCH_TYPE "64-bit"
+#else
+#define ARCH_TYPE "32-bit"
+#endif
+
 // version globals
 extern const char *VESSELNAME;
 extern const char *VERSION;
@@ -385,7 +392,7 @@ struct HullTemperatureLimits
 // ==============================================================
 // Global callback prototypes 
 
-BOOL CALLBACK XR1Ctrl_DlgProc(HWND, UINT, WPARAM, LPARAM);
+INT_PTR CALLBACK XR1Ctrl_DlgProc(HWND, UINT, WPARAM, LPARAM);
 
 // callout globals
 extern const double V1_CALLOUT_AIRSPEED;

@@ -48,7 +48,7 @@ public:
     // Callback invoked for non-empty file nodes that passed the clbkFilterNode check; this is here for subclasses to hook.
     virtual void clbkProcessFile(const char *pFilespec, const WIN32_FIND_DATA &fd);
 
-    int GetScannedFileCount() const { return m_allFiles.size(); }
+    int GetScannedFileCount() const { return static_cast<int>(m_allFiles.size()); }
     bool IsEmpty() const { return m_allFiles.empty(); }
     const vector<CString> &GetScannedFilesList() const { return m_allFiles;  }
     const CString &GetRootPath() const { return m_rootPath; }

@@ -241,7 +241,7 @@ public:
     double GetAPUFuelBurnRate() const { return m_apuFuelBurnRate[APUFuelBurnRate]; }
 
     // returns the number of cheatcodes found in the config file(s)
-    int GetCheatcodesFoundCount() const { return m_cheatcodeVector.size(); }
+    int GetCheatcodesFoundCount() const { return static_cast<int>(m_cheatcodeVector.size()); }
 
 protected:
     void AddCheatcode(const char *pName, const double value, double *ptr1, double *ptr2 = nullptr);

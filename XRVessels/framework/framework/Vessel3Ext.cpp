@@ -715,7 +715,7 @@ int VESSEL3_EXT::ResetAllFuelLevels(VESSEL *pVessel, const double levelFrac)
         pVessel->SetPropellantMass(ph, maxPropMass * levelFrac);
     }
 
-    return (int)dwPropCount;
+    return static_cast<int>(dwPropCount);
 }
 
 // get distance and name of landing target (closest surface base) [vessel altitude is ignored]

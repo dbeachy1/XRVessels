@@ -92,18 +92,12 @@ public:
     // returns the number of '1' bits in dwBitmask
     static int CountOneBits(DWORD dwBitmask)
     {
-        __asm
-        {
-            xor     eax, eax
-            mov     ebx, [dwBitmask]
-            mov     ecx, 32    ; 32 bits
-rotate_loop:
-            rcr     ebx, 1     ; bit 0 ->  CF (we don't care about the CF state -> bit 31 of ebx)
-            adc     eax, 0     ; eax += 1 if CF set
-            dec     ecx        ; Note: dec/jnz is faster than 'loop' instruction
-            jnz     short rotate_loop
-            ; fall through and return count in eax
+        int oneBitsCount = 0;
+        for (int i = 0; i < 32; i++) {
+            oneBitsCount += (dwBitmask & 1); // add 1 if the LSB is set
+            dwBitmask >>= 1;
         }
+        return oneBitsCount;
     }
 
     void SetMeshGroupsVisibility(const bool isVisible, const DEVMESHHANDLE hMesh, const int groupCount, const UINT *meshGroups) const

@@ -31,7 +31,7 @@ XR5Vanguard *GetXR5 (HWND hDlg)
 // Message procedure for editor page 1 (animation settings)
 // lParam = Orbiter vessel handle
 // --------------------------------------------------------------
-BOOL CALLBACK EdPg1Proc (HWND hTab, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK EdPg1Proc (HWND hTab, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg) {
     /* Note: for some reason Orbiter appears to be trapping keystrokes, so this will not work.

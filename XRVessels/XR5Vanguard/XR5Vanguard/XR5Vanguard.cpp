@@ -964,7 +964,7 @@ void XR5Vanguard::clbkVisualDestroyed (VISHANDLE vis, int refcount)
 // Message callback function for control dialog box
 // ==============================================================
 
-BOOL CALLBACK XR5Ctrl_DlgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK XR5Ctrl_DlgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     XR5Vanguard *dg = (uMsg == WM_INITDIALOG ? reinterpret_cast<XR5Vanguard *>(lParam) : reinterpret_cast<XR5Vanguard *>(oapiGetDialogContext(hWnd)));
     // pointer to vessel instance was passed as dialog context
@@ -1076,7 +1076,7 @@ BOOL CALLBACK XR5Ctrl_DlgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
         }
         break;
     }
-    return oapiDefDialogProc (hWnd, uMsg, wParam, lParam);
+    return oapiDefDialogProc(hWnd, uMsg, wParam, lParam);
 }
 
 void XR5Vanguard::UpdateCtrlDialog(XR5Vanguard *dg, HWND hWnd)

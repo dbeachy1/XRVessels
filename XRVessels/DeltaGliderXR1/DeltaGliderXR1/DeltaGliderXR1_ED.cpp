@@ -53,7 +53,7 @@ DeltaGliderXR1 *GetDG (HWND hDlg)
 // --------------------------------------------------------------
 // Message procedure for editor page 1 (animation settings)
 // --------------------------------------------------------------
-BOOL CALLBACK EdPg1Proc (HWND hTab, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK EdPg1Proc (HWND hTab, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg) {
     case WM_COMMAND:
@@ -121,7 +121,7 @@ BOOL CALLBACK EdPg1Proc (HWND hTab, UINT uMsg, WPARAM wParam, LPARAM lParam)
 // --------------------------------------------------------------
 // Message procedure for editor page 2 (passengers)
 // --------------------------------------------------------------
-BOOL CALLBACK EdPg2Proc (HWND hTab, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK EdPg2Proc (HWND hTab, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     DeltaGliderXR1 *dg;
     
@@ -191,7 +191,7 @@ BOOL CALLBACK EdPg2Proc (HWND hTab, UINT uMsg, WPARAM wParam, LPARAM lParam)
 // --------------------------------------------------------------
 // Message procedure for editor page 3 (damage)
 // --------------------------------------------------------------
-BOOL CALLBACK EdPg3Proc (HWND hTab, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK EdPg3Proc (HWND hTab, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     DeltaGliderXR1 *dg;
     

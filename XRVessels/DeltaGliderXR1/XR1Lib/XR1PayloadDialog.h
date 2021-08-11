@@ -30,7 +30,7 @@ public:
     
 protected:
     static DeltaGliderXR1 &GetXR1(HWND hDlg) { return *static_cast<DeltaGliderXR1 *>(oapiGetDialogContext(hDlg)); }  // WARNING: not valid during WM_INITDIALOG! 
-    static BOOL CALLBACK Proc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);  // message handler
+    static INT_PTR CALLBACK Proc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);  // message handler
     static void UpdateMassValues(HWND hDlg, const DeltaGliderXR1 &xr1);
     static void UpdatePayloadFields(HWND hDlg, const char *pClassname);
     static bool ProcessSlotButtonMsg(HWND hDlg, const int slotNumber, const HWND hButton, const WORD notificationMsg);

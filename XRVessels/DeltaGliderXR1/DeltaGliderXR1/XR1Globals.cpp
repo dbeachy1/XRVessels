@@ -22,17 +22,12 @@ const char *VESSELNAME = "DeltagliderXR1";
 
 // VERSION ID
 // {XXX} UPDATE THIS FOR THE CURRENT BUILD VERSION; DO NOT REMOVE THIS {XXX} COMMENT
-const char *VERSION = "Version 2.0 RC1, Build Date: " __DATE__;
+const char *VERSION = "Version 2.0 RC1 [" ARCH_TYPE  "], Build Date : " __DATE__;
 
 // file is always written to the Orbiter directory
 const char *XR_LOG_FILE = "DeltaGliderXR1.log";
 
-// for Release builds, config file is located in the Orbiter directory
-#ifdef _DEBUG
-const char *XR_CONFIG_FILE = "Orbitersdk\\dougb\\DeltaGliderXR1\\DeltaGliderXR1Prefs.cfg";
-#else
 const char *XR_CONFIG_FILE = "Config\\DeltaGliderXR1Prefs.cfg";
-#endif
 
 // data hud text strings
 const char *DATA_HUD_VALUES[] =

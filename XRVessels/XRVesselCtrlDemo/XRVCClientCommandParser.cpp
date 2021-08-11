@@ -9,7 +9,7 @@
 // express consent from the author.  
 //
 // http://www.alteaaerospace.com
-// mailto:dbeachy@speakeasy.net
+// mailto:doug.beachy@outlook.com
 //
 //-------------------------------------------------------------------------
 
@@ -356,7 +356,7 @@ const char *XRVCClientCommandParser::RetrieveCommand(const bool getNext)
         else if (m_commandRecallIndex > historyVectorSize)
         {
             // user went beyond the newest command+1
-            m_commandRecallIndex = m_commandHistoryVector.size(); // reset to one beyond newest command, which means "clear the line"
+            m_commandRecallIndex = static_cast<int>(m_commandHistoryVector.size()); // reset to one beyond newest command, which means "clear the line"
         }
 
         _ASSERTE(m_commandRecallIndex <= historyVectorSize);  
@@ -382,7 +382,7 @@ bool XRVCClientCommandParser::EngineLeafHandler::Execute(const ParserTreeNode *p
 {
     _ASSERTE(pTreeNode != nullptr);
 
-    if (!ValidateArgumentCount(remainingArgv.size(), 1, 1, statusOut))
+    if (!ValidateArgumentCount(static_cast<int>(remainingArgv.size()), 1, 1, statusOut))
         return false;   // too few/many arguments
 
     // Retrieve our engine enum ID(s)
@@ -467,7 +467,7 @@ bool XRVCClientCommandParser::DamageStateLeafHandler::Execute(const ParserTreeNo
 {
     _ASSERTE(pTreeNode != nullptr);
 
-    if (!ValidateArgumentCount(remainingArgv.size(), 1, 1, statusOut))
+    if (!ValidateArgumentCount(static_cast<int>(remainingArgv.size()), 1, 1, statusOut))
         return false;   // too few/many arguments
 
     const DamageStateNodeData *pNodeData = static_cast<const DamageStateNodeData *>(pTreeNode->GetNodeData());  // downcast to actual type
@@ -553,7 +553,7 @@ bool XRVCClientCommandParser::DoorLeafHandler::Execute(const ParserTreeNode *pTr
 {
     _ASSERTE(pTreeNode != nullptr);
 
-    if (!ValidateArgumentCount(remainingArgv.size(), 1, 1, statusOut))
+    if (!ValidateArgumentCount(static_cast<int>(remainingArgv.size()), 1, 1, statusOut))
         return false;   // too few/many arguments
 
     // Retrieve our door enum ID
@@ -612,7 +612,7 @@ bool XRVCClientCommandParser::EnumBoolLeafHandler::Execute(const ParserTreeNode 
 {
     _ASSERTE(pTreeNode != nullptr);
 
-    if (!ValidateArgumentCount(remainingArgv.size(), 1, 1, statusOut))
+    if (!ValidateArgumentCount(static_cast<int>(remainingArgv.size()), 1, 1, statusOut))
         return false;   // too few/many arguments
 
     // Retrieve our ID (usually an enum value)
@@ -644,7 +644,7 @@ bool XRVCClientCommandParser::SingleIntLeafHandler::Execute(const ParserTreeNode
 
     const SingleIntNodeData *pNodeData = static_cast<const SingleIntNodeData *>(pTreeNode->GetNodeData());  // downcast to actual type
     _ASSERTE(pNodeData != nullptr);
-    if (!ValidateArgumentCount(remainingArgv.size(), 1, 1, statusOut))
+    if (!ValidateArgumentCount(static_cast<int>(remainingArgv.size()), 1, 1, statusOut))
         return false;   // too few/many arguments
 
     // parse our single argument
@@ -694,7 +694,7 @@ bool XRVCClientCommandParser::SingleDoubleLeafHandler::Execute(const ParserTreeN
 
     const SingleDoubleNodeData *pNodeData = static_cast<const SingleDoubleNodeData *>(pTreeNode->GetNodeData());  // downcast to actual type
     _ASSERTE(pNodeData != nullptr);
-    if (!ValidateArgumentCount(remainingArgv.size(), 1, 1, statusOut))
+    if (!ValidateArgumentCount(static_cast<int>(remainingArgv.size()), 1, 1, statusOut))
         return false;   // too few/many arguments
 
     // parse our single argument
@@ -734,9 +734,9 @@ bool XRVCClientCommandParser::AttitudeHoldLeafHandler::Execute(const ParserTreeN
 
     const BaseNodeData *pNodeData = static_cast<const BaseNodeData *>(pTreeNode->GetNodeData());  // downcast to actual type
     _ASSERTE(pNodeData != nullptr);
-    if (!ValidateArgumentCount(remainingArgv.size(), 1, 4, statusOut))
+    if (!ValidateArgumentCount(static_cast<int>(remainingArgv.size()), 1, 4, statusOut))
         return false;   // too few/many arguments
-    const int argc = remainingArgv.size();
+    const int argc = static_cast<int>(remainingArgv.size());
 
     //
     // parse our arguments
@@ -815,9 +815,9 @@ bool XRVCClientCommandParser::DescentHoldLeafHandler::Execute(const ParserTreeNo
 
     const BaseNodeData *pNodeData = static_cast<const BaseNodeData *>(pTreeNode->GetNodeData());  // downcast to actual type
     _ASSERTE(pNodeData != nullptr);
-    if (!ValidateArgumentCount(remainingArgv.size(), 1, 3, statusOut))
+    if (!ValidateArgumentCount(static_cast<int>(remainingArgv.size()), 1, 3, statusOut))
         return false;   // too few/many arguments
-    const int argc = remainingArgv.size();
+    const int argc = static_cast<int>(remainingArgv.size());
 
     //
     // parse our arguments
@@ -884,9 +884,9 @@ bool XRVCClientCommandParser::AirspeedHoldLeafHandler::Execute(const ParserTreeN
 
     const BaseNodeData *pNodeData = static_cast<const BaseNodeData *>(pTreeNode->GetNodeData());  // downcast to actual type
     _ASSERTE(pNodeData != nullptr);
-    if (!ValidateArgumentCount(remainingArgv.size(), 1, 2, statusOut))
+    if (!ValidateArgumentCount(static_cast<int>(remainingArgv.size()), 1, 2, statusOut))
         return false;   // too few/many arguments
-    const int argc = remainingArgv.size();
+    const int argc = static_cast<int>(remainingArgv.size());
 
     //
     // parse our arguments
@@ -937,9 +937,9 @@ bool XRVCClientCommandParser::SimpleResetLeafHandler::Execute(const ParserTreeNo
 
     const BaseNodeData *pNodeData = static_cast<const BaseNodeData *>(pTreeNode->GetNodeData());  // downcast to actual type
     _ASSERTE(pNodeData != nullptr);
-    if (!ValidateArgumentCount(remainingArgv.size(), 1, 1, statusOut))
+    if (!ValidateArgumentCount(static_cast<int>(remainingArgv.size()), 1, 1, statusOut))
         return false;   // too few/many arguments
-    const int argc = remainingArgv.size();
+    const int argc = static_cast<int>(remainingArgv.size());
     
     //
     // parse our single argument
@@ -990,7 +990,7 @@ bool XRVCClientCommandParser::ExecuteCommand(const CString &command, CString &st
     }
 
     // check whether this command is identical to the last command on the stack; if so, do not add it again
-    const int commandHistoryCount = m_commandHistoryVector.size();
+    const int commandHistoryCount = static_cast<int>(m_commandHistoryVector.size());
     if (commandHistoryCount > 0)
     {
         const CString *pLastCommand = m_commandHistoryVector[commandHistoryCount - 1];
@@ -1018,7 +1018,7 @@ bool XRVCClientCommandParser::RunScriptLeafHandler::Execute(const ParserTreeNode
 
     const BaseNodeData *pNodeData = static_cast<const BaseNodeData *>(pTreeNode->GetNodeData());  // downcast to actual type
     _ASSERTE(pNodeData != nullptr);
-    if (!ValidateArgumentCount(remainingArgv.size(), 1, 1, statusOut))
+    if (!ValidateArgumentCount(static_cast<int>(remainingArgv.size()), 1, 1, statusOut))
         return false;   // too few/many arguments
 
     // Verify that the file exists before we bother sending it to the thread

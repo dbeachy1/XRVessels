@@ -33,7 +33,7 @@
 // Message callback function for control dialog box
 // ==============================================================
 
-BOOL CALLBACK XR1Ctrl_DlgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK XR1Ctrl_DlgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     DeltaGliderXR1 *dg = (uMsg == WM_INITDIALOG ? reinterpret_cast<DeltaGliderXR1 *>(lParam) : reinterpret_cast<DeltaGliderXR1 *>(oapiGetDialogContext(hWnd)));
     // pointer to vessel instance was passed as dialog context
@@ -110,7 +110,7 @@ BOOL CALLBACK XR1Ctrl_DlgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
         }
         break;
     }
-    return oapiDefDialogProc (hWnd, uMsg, wParam, lParam);
+    return oapiDefDialogProc(hWnd, uMsg, wParam, lParam);
 }
 
 
@@ -3598,7 +3598,7 @@ void DeltaGliderXR1::RestoreOrbiterRenderWindowPosition()
 				bSuccess &= m_regKeyManager.ReadRegistryDWORD(yCoordValName, (DWORD &)y);
 				if (bSuccess)
 				{
-					::SetWindowPos(hOrbiterWnd, 0, (int)x, (int)y, 0, 0, (SWP_NOSIZE | SWP_NOZORDER));
+					::SetWindowPos(hOrbiterWnd, 0, static_cast<int>(x), static_cast<int>(y), 0, 0, (SWP_NOSIZE | SWP_NOZORDER));
 					char msg[256];
 					sprintf(msg, "Restored Orbiter window to coordinates x=%d, y=%d for window size %u x %u", x, y, GetVideoWindowWidth(), GetVideoWindowHeight());
 					m_pConfig->WriteLog(msg);
