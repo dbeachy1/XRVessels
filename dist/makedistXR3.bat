@@ -1,4 +1,5 @@
 @echo off
+setlocal
 set version=%1
 set vessel=XR3
 
@@ -13,6 +14,7 @@ goto :eof
 set workdir=%version%\work
 set orbiterdir=..\..\..\Orbiter
 set XRVesselsDir=..\..\..\XRVessels
+set vesselName=XR3Phoenix
 set outdir=out\%vessel%
 
 if not exist %outdir% mkdir %outdir%
@@ -42,26 +44,13 @@ call :copyfile %orbiterdir%\config\vessels\XR3Phoenix.cfg                   %wor
 
 call :copyfile %orbiterdir%\meshes\XR3Phoenix\*.msh                 %workdir%\meshes\XR3Phoenix\*
 call :copyfile %orbiterdir%\meshes\XRPayloadBay.msh                 %workdir%\meshes\*
-call :copyfile %XRVesselsDir%\release\XR3Phoenix.dll                %workdir%\Modules\*
 call :copyfile "%orbiterdir%\scenarios\XR3 Phoenix\*.scn"          "%workdir%\scenarios\XR3 Phoenix\*"
 call :copyfile %orbiterdir%\textures\XR3Phoenix\*.dds               %workdir%\textures\XR3Phoenix\*
 
-@rem create the special DLL-only ZIP file (useful for unofficial releases such as a beta)
-set zipfile=%version%\XR3Phoenix-%version%-dll.zip
-if exist %zipfile% del %zipfile%
-call WinRar a -afzip -m5 %zipfile% %workdir%\Modules\XR3Phoenix.dll
+@rem create the x86 and x64 zip files
+call ..\..\create_vessel_zip_files.bat %XRVesselsDir% %workdir% %vesselName%
 
-@rem create the ZIP distribution file
-set zipfile=%version%\XR3Phoenix-%version%.zip
-if exist %zipfile% del %zipfile%
-pushd %workdir%
-@rem THIS ASSUMES WORKDIR IS ONE LEVEL UNDER VERSION DIR
-call WinRar a -afzip -ep1 -m5 -r ..\XR3Phoenix-%version%.zip *
 popd
-
-@echo DONE
-cd %version%
-dir
 goto :eof
 
 rem -------------

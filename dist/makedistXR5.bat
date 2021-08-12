@@ -1,4 +1,5 @@
 @echo off
+setlocal
 set version=%1
 set vessel=XR5
 
@@ -13,6 +14,7 @@ goto :eof
 set workdir=%version%\work
 set orbiterdir=..\..\..\Orbiter
 set XRVesselsDir=..\..\..\XRVessels
+set vesselName=XR5Vanguard
 set outdir=out\%vessel%
 
 if not exist %outdir% mkdir %outdir%
@@ -58,28 +60,14 @@ call :copyfile %orbiterdir%\config\vessels\CSA_XR5_ER_*.bmp          %workdir%\c
 call :copyfile %orbiterdir%\meshes\XR5Vanguard\*.msh                 %workdir%\meshes\XR5Vanguard\*
 call :copyfile %orbiterdir%\meshes\XRPayloadBay.msh                  %workdir%\meshes\*
 call :copyfile %orbiterdir%\meshes\XRPayload\*.msh                   %workdir%\meshes\XRPayload\*
-call :copyfile %XRVesselsDir%\release\XR5Vanguard.dll                %workdir%\Modules\*
 call :copyfile "%orbiterdir%\scenarios\XR5 Vanguard\*.scn"           "%workdir%\scenarios\XR5 Vanguard\*"
 call :copyfile %orbiterdir%\textures\XR5Vanguard\*.dds               %workdir%\textures\XR5Vanguard\*
 call :copyfile %orbiterdir%\textures\XRPayload\*.dds                 %workdir%\textures\XRPayload\*
-rem SHIPPED SEPARATELY NOW: call :copyfile %orbiterdir%\Orbitersdk\dougb\framework\framework\include\XRVesselCtrl.h  %workdir%\Orbitersdk\include\XR5_XRVesselCtrl.h
 
-@rem create the special DLL-only ZIP file (useful for unofficial releases such as a beta)
-set zipfile=%version%\XR5Vanguard-%version%-dll.zip
-if exist %zipfile% del %zipfile%
-call WinRar a -afzip -m5 %zipfile% %workdir%\Modules\XR5Vanguard.dll
+@rem create the x86 and x64 zip files
+call ..\..\create_vessel_zip_files.bat %XRVesselsDir% %workdir% %vesselName%
 
-@rem create the ZIP distribution file
-set zipfile=%version%\XR5Vanguard-%version%.zip
-if exist %zipfile% del %zipfile%
-pushd %workdir%
-@rem THIS ASSUMES WORKDIR IS ONE LEVEL UNDER VERSION DIR
-call WinRar a -afzip -ep1 -m5 -r  ..\XR5Vanguard-%version%.zip *
 popd
-
-@echo DONE
-cd %version%
-dir
 goto :eof
 
 rem -------------

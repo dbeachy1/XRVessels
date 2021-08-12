@@ -1,4 +1,5 @@
 @echo off
+setlocal
 set version=%1
 set vessel=XR1
 
@@ -13,6 +14,7 @@ goto :eof
 set workdir=%version%\work
 set orbiterdir=..\..\..\Orbiter
 set XRVesselsDir=..\..\..\XRVessels
+set vesselName=DeltaGliderXR1
 set outdir=out\%vessel%
 
 if not exist %outdir% mkdir %outdir%
@@ -39,27 +41,13 @@ call :copyfile %orbiterdir%\images\vessels\DeltagliderXR1.bmp         %workdir%\
 call :copyfile %orbiterdir%\config\XR1-EXAMPLE.xrcfg                  %workdir%\config\*
 call :copyfile %orbiterdir%\config\vessels\DeltagliderXR1.cfg         %workdir%\config\vessels\*
 call :copyfile %orbiterdir%\meshes\DG-XR1\*.msh                       %workdir%\meshes\DG-XR1\*
-call :copyfile %XRVesselsDir%\release\DeltaGliderXR1.dll              %workdir%\Modules\*
 call :copyfile %orbiterdir%\scenarios\DG-XR1\*.scn                    %workdir%\scenarios\DG-XR1\*
 call :copyfile %orbiterdir%\textures\DG-XR1\*.dds                     %workdir%\textures\DG-XR1\*.dds
 
-@rem create the special DLL-only ZIP file (useful for unofficial releases such as a beta)
-set zipfile=%version%\DeltaGliderXR1-%version%-dll.zip
-if exist %zipfile% del %zipfile%
-call WinRar a -afzip -ep -m5 %zipfile% %workdir%\Modules\DeltaGliderXR1.dll
+@rem create the x86 and x64 zip files
+call ..\..\create_vessel_zip_files.bat %XRVesselsDir% %workdir% %vesselName%
 
-@rem create the ZIP distribution file
-set zipfile=%version%\DeltaGliderXR1-%version%.zip
-if exist %zipfile% del %zipfile%
-pushd %workdir%
-@rem THIS ASSUMES WORKDIR IS ONE LEVEL UNDER VERSION DIR
-call WinRar a -afzip -ep1 -m5 -r  ..\DeltaGliderXR1-%version%.zip *
 popd
-@echo Done with ZIP.
-
-@echo DONE
-cd %version%
-dir
 @goto :eof
 
 rem -------------
