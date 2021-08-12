@@ -27,6 +27,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "makedist", "makedist", "{779102D2-D7CB-42B9-981F-A9BB52BFFC11}"
 	ProjectSection(SolutionItems) = preProject
 		..\dist\create_vessel_zip_files.bat = ..\dist\create_vessel_zip_files.bat
+		..\dist\makedistAllVessels.bat = ..\dist\makedistAllVessels.bat
 		..\dist\makedistXR1.bat = ..\dist\makedistXR1.bat
 		..\dist\makedistXR2.bat = ..\dist\makedistXR2.bat
 		..\dist\makedistXR3.bat = ..\dist\makedistXR3.bat
