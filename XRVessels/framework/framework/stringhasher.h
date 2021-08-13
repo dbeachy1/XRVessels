@@ -1,11 +1,25 @@
+/**
+  XR Vessel add-ons for OpenOrbiter Space Flight Simulator
+  Copyright (C) 2006-2021 Douglas Beachy
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  Email: mailto:doug.beachy@outlook.com
+  Web: https://www.alteaaerospace.com
+**/
+
 // ==============================================================
-// XR Vessel Framework
-//
-// Copyright 2007-2016 Douglas E. Beachy
-// All rights reserved.
-//
-// This software is FREEWARE and may not be sold!
-//
 // stringhasher.h
 // Header file defining a custom stringhasher designed for use in hash tables.
 // ==============================================================
@@ -18,10 +32,6 @@
 using namespace stdext;
 using namespace std;
 
-//=========================================================================
-// The following class defines a hash function for string objects.
-// See http://stackoverflow.com/a/15811185/2347831
-//=========================================================================
 class stringhasher
 {
 public:
@@ -36,7 +46,7 @@ public:
 		return hash;
 	}
 
-	// Compares two string objects for equality; returns true if string match
+	// Compares two string objects for equality; returns true if strings match
 	bool operator() (const string *s1, const string *s2) const
 	{
 		return ((*s1).compare(*s2) == 0);

@@ -1,10 +1,26 @@
+/**
+  XR Vessel add-ons for OpenOrbiter Space Flight Simulator
+  Copyright (C) 2006-2021 Douglas Beachy
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  Email: mailto:doug.beachy@outlook.com
+  Web: https://www.alteaaerospace.com
+**/
+
 // ==============================================================
 // XR3Phoenix implementation class
-//
-// Copyright 2007-2016 Douglas E. Beachy
-// All rights reserved.
-//
-// This software is FREEWARE and may not be sold!
 //
 // XR3Animations.cpp
 // Contains animation code for the XR3
@@ -55,11 +71,8 @@ void XR3Phoenix::SetXRAnimation(const UINT &anim, const double state) const
 // --------------------------------------------------------------
 void XR3Phoenix::DefineAnimations()
 {
-    // TODO: WRITE THIS FOR XR3 BASED ON LORU'S XR3 SC3 CODE
+    // TODO: WRITE THIS FOR XR3 USING LORU'S XR3 SC3 COORDINATES; the code below #if'd out is a copy of the XR5's code for reference purposes
 #if 0
-    // {DEB} Note: this code originally written by Russell Hicks.
-    // Refactored and finished by D. Beachy, 8.25.2007
-
     //----------landing gear start-----------landing gear start-------------landing gear start----------landing gear start----------
     //----------landing gear start-----------landing gear start-------------landing gear start----------landing gear start----------
     //----------------nose gear doors front start--------------------

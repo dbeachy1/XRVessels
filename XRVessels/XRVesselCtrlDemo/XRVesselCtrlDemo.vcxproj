@@ -213,7 +213,7 @@
     <ResourceCompile Include="XRVesselCtrlDemo.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\XRVessels\XRVessels\doc\XRVesselCtrlDemo-readme.txt" />
+    <Text Include="..\..\Orbiter\Doc\XRVesselCtrlDemo-readme.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

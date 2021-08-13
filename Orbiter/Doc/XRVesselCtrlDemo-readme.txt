@@ -1,52 +1,54 @@
 ===========================================================================
+  XR Vessel add-ons for OpenOrbiter Space Flight Simulator
+  Copyright (C) 2006-2021 Douglas Beachy
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  Email: mailto:doug.beachy@outlook.com
+  Web: https://www.alteaaerospace.com
+===========================================================================
+
 XRVesselCtrlDemo 3.2
 
 Release Date: 11-Aug-2021
   
-Copyright 2010-2021 Douglas Beachy; All Rights Reserved.
-
-This software is FREEWARE and may not be sold!
-
-NOTE: You may not redistribute this software or its source code nor use it in any other project without express consent from the author.  
-
-http://www.alteaaerospace.com
-mailto:doug.beachy@outlook.com
-    
   Requirements:
     Orbiter 2016 or newer
 
-    (Optional) Visual Studio 2015 or newer [Only necessary if you want to recompile the module using the included Visual Studio 2015 project file.]
+    (Optional) Visual Studio 2019 or newer [Only necessary if you want to recompile the module using the included Visual Studio 2019 project file.]
+
 ===========================================================================
 
 -------
 SUMMARY
 -------
 
-I originally developed this module so I could properly test the XRVesselCtrl 2.0 APIs.  However, I decided to release it so that other add-on developers could use it to view sample code for each XRVesselCtrl API call as well as play around with the XRVesselCtrl APIs in order to see exactly what effect a given API call has.  Please note that unlike other XR software, this product is not designed for use by end users (XR pilots): it is designed to provide sample code for Orbiter add-on developers to demonstrate and test the XRVesselCtrl APIs want to develop their own code that interfaces with XR vessels.  Full source code and Visual Studio 2015 C++ project files are included.
-
----------
-COPYRIGHT
----------
-
-This software copyright 2010-2021 Douglas Beachy.  This software is FREEWARE and may not be sold or distributed for a fee under any circumstances, including a "distribution fee."  You may not redistribute this software or host it on your own Web site; however, you are free to link to my Web page at http://www.alteaaerospace.com.
-
-You may not charge a fee of any kind to use this software, nor may you use this software for any commercial purpose (i.e., where profit is involved), regardless of the terms governing the Orbiter instance on which it is running, without express written permission signed by the author and sent via hardcopy letter or fax; i.e., an email is not sufficient to grant permission.  Please feel free to email me at dougb@alteaaerospace.com if you have any questions.   
-
-This software is provided without any warranty, either expressed or implied.
+I originally developed this module so I could properly test the XRVesselCtrl 2.0 APIs.  However, I decided to release it so that other add-on developers could use it to view sample code for each XRVesselCtrl API call as well as play around with the XRVesselCtrl APIs in order to see exactly what effect a given API call has.  Please note that unlike other XR software, this product is not designed for use by end users (XR pilots): it is designed to provide sample code for Orbiter add-on developers to demonstrate and test the XRVesselCtrl APIs want to develop their own code that interfaces with XR vessels.  Full source code and Visual Studio 2019 C++ project files are included.
 
 ----------
 WHAT'S NEW
 ----------
 
-XRVesselCtrlDemo 3.1 was compiled using Visual Studio 2015 against Orbiter 2016.
+XRVesselCtrlDemo 3.2 was compiled using Visual Studio 2019 against OpenOrbiter 2021.
 
-Beyond the new XRVesselCtrlDemo test/demo application, the significant changes to the XRVesselCtrl 3.x APIs over version 1.0 are:
+Beyond the new XRVesselCtrlDemo test/demo application, the significant changes to the XRVesselCtrl 3.x APIs over version 1.0 and 2.0 are:
 
 1) A new static XRVesselCtrl::IsXRVesselCtrl(const VESSEL *pVessel) method that allows you to easily and safely check whether a given vessel supports the XRVesselCtrl APIs.
 
 2) A new SetXRSystemStatus(const XRSystemStatusWrite &status) method that allows you to set or clear damage dynamically at runtime.  This will allow developers to write custom damage modules that perform things like "random damage", and you can now repair damage to XR vessels at runtime.  [In the demo application, the command to repair all damage is 'Reset Damage'.]  Note, however, that the Reset Damage call cannot "uncrash" a crashed ship.
 
-3) Several bugfixes made to the XRVesselCtrl APIs.  
+3) Several bugfixes made to the XRVesselCtrl APIs.
 
 
 ------------
@@ -57,7 +59,7 @@ Unzip the XRVesselCtrlDemo zip file to your Orbiter home directory.  The followi
 
     Doc\XRVesselCtrlDemo-readme.txt  (this file)
     Modules\Plugin\XRVesselCtrlDemo.dll
-    Orbitersdk\AlteaAerospace\XRVesselCtrlDemo\<source code and VS 2015 project files>
+    Orbitersdk\AlteaAerospace\XRVesselCtrlDemo\<source code and VS 2019 project files>
 
 After you unzip the files:
 
@@ -229,7 +231,7 @@ ShiftCenterOfGravity <double> (limits are vessel-specific)
 VIEWING/COMPILING THE SOURCE CODE
 ---------------------------------
 
-This C++ module was built and compiled using Microsoft Visual Studio 2015, so if you want to use the included project files you will need Visual Studio 2015 or newer.  [In theory it should work with the Express edition as well, but I have not tested it with that.]  You should also be able to compile the source under a newer version of Visual Studio.  In any case, you do NOT need to recompile the source code in order to run the application.  
+This C++ module was built and compiled using Microsoft Visual Studio 2019, so if you want to use the included project files you will need Visual Studio 2019 or newer.  [In theory it should work with the Express edition as well, but I have not tested it with that.]  You should also be able to compile the source under a newer version of Visual Studio.  In any case, you do NOT need to recompile the source code in order to run the application.  
 
 For XRVesselCtrl reference purposes the only two source files you need to look at are XRVesselCtrl.h, which defines the API, and XRVCClient.cpp, which actually makes all the XRVesselCtrl API calls in the module execpt for XRVesselCtrl::IsXRVesselCtrl(pOrbiterVessel), which is called from XRVCMainDialog.cpp.  
 
@@ -238,7 +240,7 @@ For XRVesselCtrl reference purposes the only two source files you need to look a
 REPORTING A BUG
 ---------------
 
-If you find a bug in the XRVesselCtrl APIs, its implementation in an XR vessel, or in the demo application, please drop me an email at dbeachy@speakeasy.net and I'll do my best to get it fixed in the next release.  However, please do try reproduce the problem in a clean Orbiter installation first so we can eliminate the possibility that a third-party add-on is causing the problem.
+If you find a bug in the XRVesselCtrl APIs, its implementation in an XR vessel, or in the demo application, please drop me an email at doug.beachy@outlook.com and I'll do my best to get it fixed in the next release.  However, please do try reproduce the problem in a clean Orbiter installation first so we can eliminate the possibility that a third-party add-on is causing the problem.
 
 Happy Orbiting!
 

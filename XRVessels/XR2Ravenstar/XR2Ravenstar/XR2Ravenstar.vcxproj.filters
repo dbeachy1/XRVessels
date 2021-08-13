@@ -284,9 +284,6 @@
     <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\YellowIndicator2.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\XR2RavenstarPrefs.cfg">
-      <Filter>Source Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="XR2Ravenstar.rc">

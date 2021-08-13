@@ -30,7 +30,7 @@
     <ClCompile Include="framework\VesselConfigFileParser.cpp" />
     <ClCompile Include="framework\XRGrappleTargetVessel.cpp" />
     <ClCompile Include="framework\XRPayload.cpp" />
-    <ClCompile Include="framework\xrpayloadbay.cpp" />
+    <ClCompile Include="framework\XRPayloadBay.cpp" />
     <ClCompile Include="framework\XRPayloadBaySlot.cpp" />
   </ItemGroup>
   <ItemGroup>

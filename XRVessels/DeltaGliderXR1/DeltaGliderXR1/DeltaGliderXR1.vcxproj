@@ -225,7 +225,6 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\DeltaGliderXR1Prefs.cfg" />
     <None Include="Bitmaps\AirspeedHoldMultiDisplay.bmp" />
     <None Include="Bitmaps\APU Button.bmp" />
     <None Include="Bitmaps\AttitudeHoldMultiDisplay.bmp" />

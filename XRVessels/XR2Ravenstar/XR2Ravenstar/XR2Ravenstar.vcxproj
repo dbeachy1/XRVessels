@@ -250,7 +250,6 @@
     <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\coolant Gauge.bmp" />
     <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Cover1.bmp" />
     <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Cover2.bmp" />
-    <None Include="..\XR2RavenstarPrefs.cfg" />
     <None Include="Bitmaps\DeployPayloadLanded.bmp" />
     <None Include="Bitmaps\DeployPayloadOrbit.bmp" />
     <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\DescentHoldMultiDisplay.bmp" />

@@ -305,9 +305,6 @@
     <None Include="Bitmaps\XR3 Warning Lights.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\XR3PhoenixPrefs.cfg">
-      <Filter>Source Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="XR3Phoenix.rc">

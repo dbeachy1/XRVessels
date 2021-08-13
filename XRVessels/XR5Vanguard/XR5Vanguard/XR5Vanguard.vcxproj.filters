@@ -305,9 +305,6 @@
     <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\YellowIndicator2.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\XR5VanguardPrefs.cfg">
-      <Filter>Source Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="XR5Vanguard.rc">

@@ -52,7 +52,7 @@ END
 
 IDD_MAINDIALOG DIALOGEX 0, 0, 628, 386
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "XRVesselCtrlDemo 3.1"
+CAPTION "XRVesselCtrlDemo 3.2"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     COMBOBOX        IDC_COMBO_VESSEL,43,12,156,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
@@ -141,7 +141,7 @@ IDB_LOGO                BITMAP                  "altealogo2_small.bmp"
 
 STRINGTABLE
 BEGIN
-    MODULE_DESC             "XRVesselCtrl 3.1 Demo for Orbiter 2016\r\n===============================\r\n\r\nSample plugin that uses the XRVesselCtrl APIs to interface with XR vessels.\r\n\r\nRefer to $ORBITER_ROOT\\Doc\\XRVesselCtrlDemo-readme.txt for more information.\r\nhttp://www.alteaaerospace.com"
+    MODULE_DESC             "XRVesselCtrl 3.2 Demo for OpenOrbiter\r\n===============================\r\n\r\nSample plugin that uses the XRVesselCtrl APIs to interface with XR vessels.\r\n\r\nRefer to $ORBITER_ROOT\\Doc\\XRVesselCtrlDemo-readme.txt for more information.\r\nhttp://www.alteaaerospace.com"
     CATEGORY_NAME           "Developer resources and samples"
 END
 

@@ -212,9 +212,6 @@
     <None Include="Bitmaps\YellowIndicator2.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\DeltaGliderXR1Prefs.cfg">
-      <Filter>Source Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DeltaGliderXR1.rc">
