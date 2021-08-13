@@ -287,9 +287,6 @@
     <None Include="..\XR2RavenstarPrefs.cfg">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="..\..\makedistXR2.bat">
-      <Filter>Source Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="XR2Ravenstar.rc">

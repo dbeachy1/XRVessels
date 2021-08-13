@@ -56,15 +56,19 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\GlobalShared.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\GlobalShared.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\GlobalShared.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\GlobalShared.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -110,7 +114,7 @@
     </Link>
     <PostBuildEvent>
       <Message>Copying DLL to Orbiter\Modules directory...</Message>
-      <Command>copy $(OutDir)\DeltaGliderXR1.dll $(ORBITER_ROOT)\Modules\* /y</Command>
+      <Command>copy $(OutDir)\DeltaGliderXR1.dll $(ORBITER_ROOT)\Modules\* /y &amp;&amp; copy $(SolutionDir)\DeltaGliderXR1\DeltaGliderXR1Prefs.cfg $(ORBITER_ROOT)\Config\* /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -140,7 +144,7 @@
     </Link>
     <PostBuildEvent>
       <Message>Copying DLL to Orbiter\Modules directory...</Message>
-      <Command>copy $(OutDir)\DeltaGliderXR1.dll $(ORBITER_ROOT_X64)\Modules\* /y</Command>
+      <Command>copy $(OutDir)\DeltaGliderXR1.dll $(ORBITER_ROOT_X64)\Modules\* /y &amp;&amp; copy $(SolutionDir)\DeltaGliderXR1\DeltaGliderXR1Prefs.cfg $(ORBITER_ROOT_X64)\Config\* /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -177,7 +181,7 @@
     </Link>
     <PostBuildEvent>
       <Message>Copying DLL to Orbiter\Modules directory...</Message>
-      <Command>copy $(OutDir)\DeltaGliderXR1.dll $(ORBITER_ROOT)\Modules\* /y</Command>
+      <Command>copy $(OutDir)\DeltaGliderXR1.dll $(ORBITER_ROOT)\Modules\* /y &amp;&amp; copy $(SolutionDir)\DeltaGliderXR1\DeltaGliderXR1Prefs.cfg $(ORBITER_ROOT)\Config\* /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -213,7 +217,7 @@
     </Link>
     <PostBuildEvent>
       <Message>Copying DLL to Orbiter\Modules directory...</Message>
-      <Command>copy $(OutDir)\DeltaGliderXR1.dll $(ORBITER_ROOT_X64)\Modules\* /y</Command>
+      <Command>copy $(OutDir)\DeltaGliderXR1.dll $(ORBITER_ROOT_X64)\Modules\* /y &amp;&amp; copy $(SolutionDir)\DeltaGliderXR1\DeltaGliderXR1Prefs.cfg $(ORBITER_ROOT_X64)\Config\* /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -221,9 +225,6 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\makedistall.bat" />
-    <None Include="..\..\makedistXR1.bat" />
-    <None Include="..\..\XR2Ravenstar\XR2RavenstarPrefs.cfg" />
     <None Include="..\DeltaGliderXR1Prefs.cfg" />
     <None Include="Bitmaps\AirspeedHoldMultiDisplay.bmp" />
     <None Include="Bitmaps\APU Button.bmp" />

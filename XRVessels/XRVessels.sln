@@ -35,6 +35,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "makedist", "makedist", "{77
 		..\dist\makedistXRVesselCtrlDemo.bat = ..\dist\makedistXRVesselCtrlDemo.bat
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prefs", "prefs", "{1132405D-569F-4E0E-9F46-669A40CB3160}"
+	ProjectSection(SolutionItems) = preProject
+		DeltaGliderXR1\DeltaGliderXR1Prefs.cfg = DeltaGliderXR1\DeltaGliderXR1Prefs.cfg
+		XR2Ravenstar\XR2RavenstarPrefs.cfg = XR2Ravenstar\XR2RavenstarPrefs.cfg
+		XR3Phoenix\XR3PhoenixPrefs.cfg = XR3Phoenix\XR3PhoenixPrefs.cfg
+		XR5Vanguard\XR5VanguardPrefs.cfg = XR5Vanguard\XR5VanguardPrefs.cfg
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

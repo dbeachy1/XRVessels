@@ -67,9 +67,6 @@
     <None Include="altealogo2_small.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\makedistXRVesselCtrlDemo.bat">
-      <Filter>Source Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="XRVesselCtrlDemo.rc">

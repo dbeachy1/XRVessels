@@ -56,15 +56,19 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\GlobalShared.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\GlobalShared.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\GlobalShared.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\GlobalShared.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -112,7 +116,7 @@
     </Link>
     <PostBuildEvent>
       <Message>Copying DLL to Orbiter\Modules directory...</Message>
-      <Command>copy $(OutDir)\XR2Ravenstar.dll $(ORBITER_ROOT)\Modules\* /y</Command>
+      <Command>copy $(OutDir)\XR2Ravenstar.dll $(ORBITER_ROOT)\Modules\* /y &amp;&amp; copy $(SolutionDir)\XR2Ravenstar\XR2RavenstarPrefs.cfg $(ORBITER_ROOT)\Config\* /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -142,7 +146,7 @@
     </Link>
     <PostBuildEvent>
       <Message>Copying DLL to Orbiter\Modules directory...</Message>
-      <Command>copy $(OutDir)\XR2Ravenstar.dll $(ORBITER_ROOT_X64)\Modules\* /y</Command>
+      <Command>copy $(OutDir)\XR2Ravenstar.dll $(ORBITER_ROOT_X64)\Modules\* /y &amp;&amp; copy $(SolutionDir)\XR2Ravenstar\XR2RavenstarPrefs.cfg $(ORBITER_ROOT_X64)\Config\* /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -180,7 +184,7 @@
     </Link>
     <PostBuildEvent>
       <Message>Copying DLL to Orbiter\Modules directory...</Message>
-      <Command>copy $(OutDir)\XR2Ravenstar.dll $(ORBITER_ROOT)\Modules\* /y</Command>
+      <Command>copy $(OutDir)\XR2Ravenstar.dll $(ORBITER_ROOT)\Modules\* /y &amp;&amp; copy $(SolutionDir)\XR2Ravenstar\XR2RavenstarPrefs.cfg $(ORBITER_ROOT)\Config\* /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -217,7 +221,7 @@
     </Link>
     <PostBuildEvent>
       <Message>Copying DLL to Orbiter\Modules directory...</Message>
-      <Command>copy $(OutDir)\XR2Ravenstar.dll $(ORBITER_ROOT_X64)\Modules\* /y</Command>
+      <Command>copy $(OutDir)\XR2Ravenstar.dll $(ORBITER_ROOT_X64)\Modules\* /y &amp;&amp; copy $(SolutionDir)\XR2Ravenstar\XR2RavenstarPrefs.cfg $(ORBITER_ROOT_X64)\Config\* /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -246,7 +250,6 @@
     <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\coolant Gauge.bmp" />
     <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Cover1.bmp" />
     <None Include="..\..\DeltaGliderXR1\DeltaGliderXR1\Bitmaps\Cover2.bmp" />
-    <None Include="..\..\makedistXR2.bat" />
     <None Include="..\XR2RavenstarPrefs.cfg" />
     <None Include="Bitmaps\DeployPayloadLanded.bmp" />
     <None Include="Bitmaps\DeployPayloadOrbit.bmp" />

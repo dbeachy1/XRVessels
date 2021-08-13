@@ -212,16 +212,7 @@
     <None Include="Bitmaps\YellowIndicator2.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\XR2Ravenstar\XR2RavenstarPrefs.cfg">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\makedistXR1.bat">
-      <Filter>Source Files</Filter>
-    </None>
     <None Include="..\DeltaGliderXR1Prefs.cfg">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="..\..\makedistall.bat">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

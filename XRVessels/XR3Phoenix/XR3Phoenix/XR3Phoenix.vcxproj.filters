@@ -308,9 +308,6 @@
     <None Include="..\XR3PhoenixPrefs.cfg">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="..\..\makedistXR3.bat">
-      <Filter>Source Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="XR3Phoenix.rc">

@@ -308,9 +308,6 @@
     <None Include="..\XR5VanguardPrefs.cfg">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="..\..\makedistXR5.bat">
-      <Filter>Source Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="XR5Vanguard.rc">
