@@ -1,9 +1,26 @@
-﻿//-------------------------------------------------------------------------
+﻿/**
+  Obj2Msh Converter for Orbiter
+  Copyright (C) 2007-2021 Douglas Beachy
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  Email: mailto:doug.beachy@outlook.com
+  Web: https://www.alteaaerospace.com
+**/
+
+//-------------------------------------------------------------------------
 // ObjToMsh.cs : convert .obj model to Orbiter .msh
-//
-// Copyright 2007-2011 Douglas E. Beachy; All Rights Reserved.
-//
-// This software is FREEWARE and may not be sold!
 //-------------------------------------------------------------------------
 
 using System;
@@ -19,10 +36,10 @@ namespace com.alteaaerospace.Obj2Msh
     public class Obj2Msh
     {
         public const string PROGRAM_NAME   = "Obj2Msh";
-        public const string VERSION        = "3.0";
-        public const string COPYRIGHT_YEAR = "2007-2011";
-        public const string RELEASE_DATE   = "7.10.2011";
-        public const string WEB_PAGE       = "http://www.alteaaerospace.com";
+        public const string VERSION        = "3.1";
+        public const string COPYRIGHT_YEAR = "2007-2021";
+        public const string RELEASE_DATE   = "14-Aug-2021";
+        public const string WEB_PAGE       = "https://www.alteaaerospace.com";
 
         protected const int DEFAULT_SPECULAR_POWER = 25;
 
@@ -54,8 +71,9 @@ namespace com.alteaaerospace.Obj2Msh
         {
             Out("");
             Out(" >>> " + PROGRAM_NAME + " " + VERSION + " <<<");
-            Out("Copyright " + COPYRIGHT_YEAR + " Douglas E. Beachy; All Rights Reserved.");
-            Out("This software is FREEWARE and may not be sold!");
+            Out("Copyright " + COPYRIGHT_YEAR + " Douglas Beachy");
+            Out("Licensed under the terms of the GNU General Public License.");
+            Out("See https://www.gnu.org/licenses/ for license details.");
             Out("Release Date: " + RELEASE_DATE);
             Out(WEB_PAGE);
             Out("-------------------------------------------------------");
