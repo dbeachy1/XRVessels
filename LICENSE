@@ -659,16 +659,9 @@ is quoted below:
 
 ----
 
-2) The XR2 requires the XR2's mesh and texture files in order to run. However,
-those files remain the copyright of their author, Steve Tyler (steve3d@gmail.com).
-As such, those files are not part of the XR Vessel public repository, nor can
-they be. However, these files continue to be included with every XR2 binary
-release, and you are free to download and continue using those files in Orbiter,
-including with using any custom XR2 DLL. Per the XR2's mesh copyright, however,
-you may NOT modify or create derivative works from any of the XR2's mesh or 
-texture files without express written permission from the author, Steve Tyler
-(steve3d@gmail.com).
-
-----
+2) The XR2's DLL loads the XR2's mesh at runtime. However, the mesh is not
+necessary to build the XR vessel source, and the mesh remains freely
+downloadable as part of every XR vessel release. The XR2's mesh and texture
+files remain the copyright of their author, Steve Tyler (steve3d@gmail.com).
 
 END
