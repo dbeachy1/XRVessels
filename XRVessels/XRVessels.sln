@@ -24,17 +24,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XRVesselCtrlDemo", "XRVesse
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XR3Phoenix", "XR3Phoenix\XR3Phoenix\XR3Phoenix.vcxproj", "{97160EB1-4503-4E49-BEC7-EF03E20C0FB2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "makedist", "makedist", "{779102D2-D7CB-42B9-981F-A9BB52BFFC11}"
-	ProjectSection(SolutionItems) = preProject
-		..\dist\create_vessel_zip_files.bat = ..\dist\create_vessel_zip_files.bat
-		..\dist\makedistAllVessels.bat = ..\dist\makedistAllVessels.bat
-		..\dist\makedistXR1.bat = ..\dist\makedistXR1.bat
-		..\dist\makedistXR2.bat = ..\dist\makedistXR2.bat
-		..\dist\makedistXR3.bat = ..\dist\makedistXR3.bat
-		..\dist\makedistXR5.bat = ..\dist\makedistXR5.bat
-		..\dist\makedistXRVesselCtrlDemo.bat = ..\dist\makedistXRVesselCtrlDemo.bat
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prefs", "prefs", "{1132405D-569F-4E0E-9F46-669A40CB3160}"
 	ProjectSection(SolutionItems) = preProject
 		DeltaGliderXR1\DeltaGliderXR1Prefs.cfg = DeltaGliderXR1\DeltaGliderXR1Prefs.cfg
