@@ -79,10 +79,15 @@ call :copyfile %orbiterdir%\config\vessels\PayloadThumbnailLOX_Half.bmp   %workd
 call :copyfile %orbiterdir%\config\vessels\PayloadThumbnailCHM.bmp        %workdir%\config\vessels\*
 call :copyfile %orbiterdir%\config\vessels\Altea_Default_Payload_Thumbnail.bmp    %workdir%\config\vessels\*
 
-call :copyfile %orbiterdir%\meshes\XR2Ravenstar\*.msh                 %workdir%\meshes\XR2Ravenstar\*
-call :copyfile %orbiterdir%\meshes\XRPayloadBay.msh                   %workdir%\meshes\*
-xcopy "%orbiterdir%\scenarios\XR2 Ravenstar\*.scn"                    "%workdir%\scenarios\XR2 Ravenstar\*" /s
-xcopy %orbiterdir%\textures\XR2Ravenstar\*.dds                        %workdir%\textures\XR2Ravenstar\* /s
+call :copyfile %orbiterdir%\meshes\XRPayloadBay.msh                       %workdir%\meshes\*
+
+@rem these two sets of files, although free, cannot be open-source due to copyright
+call :copyfile "%ORBITER_ROOT_X64%\meshes\XR2Ravenstar\*.msh"             %workdir%\meshes\XR2Ravenstar\*
+set src=%ORBITER_ROOT_X64%\textures\XR2Ravenstar\*.dds
+if not exist "%src%" goto :not_found
+xcopy "%ORBITER_ROOT_X64%\textures\XR2Ravenstar\*.dds"                    %workdir%\textures\XR2Ravenstar\* /s
+
+xcopy "%orbiterdir%\scenarios\XR2 Ravenstar\*.scn"                        "%workdir%\scenarios\XR2 Ravenstar\*" /s
 
 @rem create the x86 and x64 zip files
 call ..\..\create_vessel_zip_files.bat %XRVesselsDir% %workdir% %vesselName%
