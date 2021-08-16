@@ -98,7 +98,7 @@ class MultiDisplayMode
 {
 public:
     MultiDisplayMode(int modeNumber) : 
-        m_modeNumber(modeNumber)  { }
+        m_modeNumber(modeNumber), m_pParentMDA(nullptr)  { }
 
     // gateway methods to parent XR1Area methods that the MDM objects need
     VESSEL2 &GetVessel() const { return m_pParentMDA->GetVessel(); }

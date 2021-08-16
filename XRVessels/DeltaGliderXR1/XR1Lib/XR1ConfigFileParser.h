@@ -94,7 +94,7 @@ private:
 class CrewMember
 {
 public:
-    CrewMember() { *name = age = pulse = *rank = *mesh = 0; }
+    CrewMember() { *name = age = pulse = mass = *rank = *mesh = 0; }
 
     char name[CrewMemberNameLength+1];  // allow room for terminator
     int age;                // limited to 2 digits

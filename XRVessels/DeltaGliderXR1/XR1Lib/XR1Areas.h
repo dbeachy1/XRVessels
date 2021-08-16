@@ -542,7 +542,7 @@ public:
     class RENDERDATA
     { 
     public:
-        RENDERDATA(int sizeInChars) { pStrToRender = new char[sizeInChars+1]; color = COLOR::GREEN; }
+        RENDERDATA(int sizeInChars) : forceRedraw(false), value(0), color(COLOR::GREEN) { pStrToRender = new char[sizeInChars + 1]; }
         virtual ~RENDERDATA() { delete pStrToRender; }
         // NOTE: do not set value=-999 here!  The string might not be long enough to render it, resulting in a heap overrun.
         void Reset() { forceRedraw = true; value=0; color = COLOR::GREEN; }

@@ -912,9 +912,9 @@ void UpdateCoolantTempPostStep::clbkPrePostStep(const double simt, const double 
 
 AirlockDecompressionPostStep::AirlockDecompressionPostStep(DeltaGliderXR1 &vessel) : 
     XR1PrePostStep(vessel),
-    m_decompressionStream(nullptr), m_ventTime(-1), m_streamLevel(0.4)
+    m_decompressionStream(nullptr), m_ventTime(-1), m_streamLevel(0.4), m_particleStreamSpec{ 0 }
 {
-    // NOTE: m_particleStreamSpec is not initialized here; it is write-only
+    // NOTE: m_particleStreamSpec is write-only
 
     // initialize our airvent data
     m_airvent.flags = 0;        //     streamspec bitflags

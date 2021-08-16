@@ -83,7 +83,16 @@ DeltaGliderXR1::DeltaGliderXR1 (OBJHANDLE hObj, int fmodel, XR1ConfigFileParser 
     m_pHudNormalFont(nullptr), m_pHudNormalFontSize(0),
     hLeftAileron(0), hRightAileron(0), hElevator(0), hElevatorTrim(0),    // damageable control surfaces
     m_MainFuelFlowedFromBayToMainThisTimestep(0), m_SCRAMFuelFlowedFromBayToMainThisTimestep(0),
-    m_mainThrusterLightLevel(0), m_hoverThrusterLightLevel(0), m_pXRSound(nullptr)
+    m_mainThrusterLightLevel(0), m_hoverThrusterLightLevel(0), m_pXRSound(nullptr),
+    // the fields below here are initialized properlyi before being used, but we initialize them here just in case we miss some later
+    anim_afdial(0), anim_brake(0), anim_elevator(0), anim_elevatortrim(0), anim_gear(0), anim_gearlever(0), anim_hatch(0),
+    anim_hatchswitch(0), anim_hbalance(0), anim_hoverdoor(0), anim_hoverthrottle(0), anim_hudintens(0), anim_ilock(0),
+    anim_ilockswitch(0), anim_ladder(0), anim_ladderswitch(0), anim_laileron(0), anim_mainthrottle{ 0 }, anim_nconelever(0),
+    anim_nose(0), anim_olock(0), anim_olockswitch(0), anim_pmaingimbal{ 0 }, anim_radiator(0), anim_radiatorswitch(0),
+    anim_raileron(0), anim_rcover(0), anim_rcsdial(0), anim_retroswitch(0), anim_rudder(0), anim_scramdoor(0), anim_scramgimbal{ 0 },
+    anim_scramthrottle{ 0 }, anim_ymaingimbal{ 0 }, beacon{ 0 }, hatch_vent_t(0), hatch_venting_lvl(0), hwing(0), m_F{ 0 },    m_W{ 0 }, m_acceleration{ 0 }, m_hiddenElevatorTrimState(0), m_hullTemperatureLimits{ 0 }, m_latestHydraulicDoorRunningSimt(0),
+    m_pActiveAirlockDoorStatus(0), m_slope(0), max_rocketfuel(0), max_scramfuel(0), ph_main(0), ph_rcs(0), ph_scram(0), th_hover{ 0 },
+    th_main{ 0 }, th_rcs{ 0 }, th_retro{ 0 }, th_scram{ 0 }, thg_hover{ 0 }, thg_main{ 0 }, thg_retro{ 0 }
 {
 #ifdef _DEBUG
     m_tweakedInternalValue = 0;  
