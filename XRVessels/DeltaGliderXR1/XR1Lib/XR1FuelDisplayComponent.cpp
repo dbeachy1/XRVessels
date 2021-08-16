@@ -56,7 +56,7 @@ FuelDisplayComponent::FuelDisplayComponent(InstrumentPanel &parentPanel, COORD2 
 
 // used for all three fuel remaining bars
 FuelRemainingBarArea::FuelRemainingBarArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, PROPELLANT_HANDLE ph) :
-    BarArea(parentPanel, panelCoordinates, areaID, 85, 7, HORIZONTAL),  // 84 pixels wide, inclusive (so we add 1)
+    BarArea(parentPanel, panelCoordinates, areaID, 85, 7, ORIENTATION::HORIZONTAL),  // 84 pixels wide, inclusive (so we add 1)
     m_propHandle(ph)
 {
 }
@@ -67,7 +67,7 @@ BarArea::RENDERDATA FuelRemainingBarArea::GetRenderData()
     const double totalPropMass = GetXR1().GetXRPropellantMass(m_propHandle);   // includes bay qty, if any
     const double startingDarkValue = GetVessel().GetPropellantMass(m_propHandle);  // any qty shown over what is currently in the INTERNAL TANK must be from the BAY
 
-    return _RENDERDATA(GREEN, startingDarkValue, totalPropMass, maxPropMass);
+    return _RENDERDATA(COLOR::GREEN, startingDarkValue, totalPropMass, maxPropMass);
 }
 
 //-------------------------------------------------------------------------

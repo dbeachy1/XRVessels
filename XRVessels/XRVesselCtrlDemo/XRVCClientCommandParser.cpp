@@ -100,14 +100,14 @@ void XRVCClientCommandParser::InitializeCommandParserTree()
     //
     // Level-1 commands
     //
-    BaseNodeData baseNodeData(m_xrvcClient);   
+    BaseNodeData baseNodeData(m_xrvcClient);
     int nodeGroup = 0;      // incremented as we add each successive group (keeps like commands grouped together)
-    ParserTreeNode *pptnSet = new ParserTreeNode("Set", nodeGroup);
+    ParserTreeNode* pptnSet = new ParserTreeNode("Set", nodeGroup);
     m_commandParserTree->AddTopLevelNode(pptnSet);
 
     // Reset [Autopilots | MWS | Damage]  (this is a top-level leaf node)
     nodeGroup++;
-    ParserTreeNode *pptnReset = new ParserTreeNode("Reset", nodeGroup, &baseNodeData, m_pSimpleResetLeafHandler);
+    ParserTreeNode* pptnReset = new ParserTreeNode("Reset", nodeGroup, &baseNodeData, m_pSimpleResetLeafHandler);
     m_commandParserTree->AddTopLevelNode(pptnReset);
 
     // Runscript 
@@ -116,24 +116,24 @@ void XRVCClientCommandParser::InitializeCommandParserTree()
 
     // Shift center-of-gravity
     nodeGroup++;
-    SingleDoubleNodeData singleDoubleNodeData(m_xrvcClient);   
+    SingleDoubleNodeData singleDoubleNodeData(m_xrvcClient);
     // limits are vessel-specific, so do not limit them here
-    singleDoubleNodeData.limitLow = -numeric_limits<double>::max();             
-    singleDoubleNodeData.limitHigh = numeric_limits<double>::max();           
-    singleDoubleNodeData.method = &XRVCClient::ShiftCenterOfGravity;  
+    singleDoubleNodeData.limitLow = -numeric_limits<double>::max();
+    singleDoubleNodeData.limitHigh = numeric_limits<double>::max();
+    singleDoubleNodeData.method = &XRVCClient::ShiftCenterOfGravity;
     m_commandParserTree->AddTopLevelNode(new ParserTreeNode("ShiftCenterOfGravity", nodeGroup, &singleDoubleNodeData, m_pSingleDoubleLeafHandler));
 
     //
     // Level-2 commands
     //
     nodeGroup++;
-    ParserTreeNode *pptnEngine       = new ParserTreeNode("Engine",    nodeGroup);
-    ParserTreeNode *pptnDoor         = new ParserTreeNode("Door",      nodeGroup);
-    ParserTreeNode *pptnLight        = new ParserTreeNode("Light",     nodeGroup);
-    ParserTreeNode *pptnStdAutopilot = new ParserTreeNode("StdAutopilot", nodeGroup);
-    ParserTreeNode *pptnXRAutopilot  = new ParserTreeNode("XRAutopilot",  nodeGroup);
-    ParserTreeNode *pptnDamageState  = new ParserTreeNode("DamageState",  nodeGroup);
-    ParserTreeNode *pptnOther        = new ParserTreeNode("Other",     nodeGroup);
+    ParserTreeNode* pptnEngine       = new ParserTreeNode("Engine", nodeGroup);
+    ParserTreeNode* pptnDoor         = new ParserTreeNode("Door", nodeGroup);
+    ParserTreeNode* pptnLight        = new ParserTreeNode("Light", nodeGroup);
+    ParserTreeNode* pptnStdAutopilot = new ParserTreeNode("StdAutopilot", nodeGroup);
+    ParserTreeNode* pptnXRAutopilot  = new ParserTreeNode("XRAutopilot", nodeGroup);
+    ParserTreeNode* pptnDamageState  = new ParserTreeNode("DamageState", nodeGroup);
+    ParserTreeNode* pptnOther        = new ParserTreeNode("Other", nodeGroup);
     pptnSet->AddChild(pptnEngine);
     pptnSet->AddChild(pptnDoor);
     pptnSet->AddChild(pptnLight);
@@ -150,35 +150,35 @@ void XRVCClientCommandParser::InitializeCommandParserTree()
     // SET Engine commands; each engine node is identical except for the engine IDs (the command)
     struct EngineData { const char *command; XREngineID engineID1; XREngineID engineID2; };
 
-    EngineData engineDataArray[] = 
+    EngineData engineDataArray[] =
     {
-        { "MainBoth",   XRE_MainLeft,  XRE_MainRight },
-        { "MainLeft",   XRE_MainLeft,  XRE_MainLeft  },  // only one engine 
-        { "MainRight",  XRE_MainRight, XRE_MainRight },
+        { "MainBoth",   XREngineID::XRE_MainLeft,  XREngineID::XRE_MainRight },
+        { "MainLeft",   XREngineID::XRE_MainLeft,  XREngineID::XRE_MainLeft  },  // only one engine 
+        { "MainRight",  XREngineID::XRE_MainRight, XREngineID::XRE_MainRight },
 
-        { "HoverBoth",  XRE_HoverFore, XRE_HoverAft  },
-        { "HoverFore",  XRE_HoverFore, XRE_HoverFore },
-        { "HoverAft",   XRE_HoverAft,  XRE_HoverAft  },
+        { "HoverBoth",  XREngineID::XRE_HoverFore, XREngineID::XRE_HoverAft  },
+        { "HoverFore",  XREngineID::XRE_HoverFore, XREngineID::XRE_HoverFore },
+        { "HoverAft",   XREngineID::XRE_HoverAft,  XREngineID::XRE_HoverAft  },
 
-        { "ScramBoth",  XRE_ScramLeft,  XRE_ScramRight },  
-        { "ScramLeft",  XRE_ScramLeft,  XRE_ScramLeft  },
-        { "ScramRight", XRE_ScramRight, XRE_ScramRight },
+        { "ScramBoth",  XREngineID::XRE_ScramLeft,  XREngineID::XRE_ScramRight },
+        { "ScramLeft",  XREngineID::XRE_ScramLeft,  XREngineID::XRE_ScramLeft  },
+        { "ScramRight", XREngineID::XRE_ScramRight, XREngineID::XRE_ScramRight },
 
-        { "RetroBoth",  XRE_RetroLeft,  XRE_RetroRight },  
-        { "RetroLeft",  XRE_RetroLeft,  XRE_RetroLeft  },
-        { "RetroRight", XRE_RetroRight, XRE_RetroRight },
+        { "RetroBoth",  XREngineID::XRE_RetroLeft,  XREngineID::XRE_RetroRight },
+        { "RetroLeft",  XREngineID::XRE_RetroLeft,  XREngineID::XRE_RetroLeft  },
+        { "RetroRight", XREngineID::XRE_RetroRight, XREngineID::XRE_RetroRight },
     };
 
-    for (int i=0; i < (sizeof(engineDataArray) / sizeof(EngineData)); i++)
+    for (int i = 0; i < (sizeof(engineDataArray) / sizeof(EngineData)); i++)
     {
-        const EngineData *pDat = engineDataArray + i;     // points to a row in the array
+        const EngineData* pDat = engineDataArray + i;     // points to a row in the array
         EngineNodeData nodeData(m_xrvcClient);  // reused and cloned for each leaf below
         nodeData.engine1 = pDat->engineID1;
         nodeData.engine2 = pDat->engineID2;
         // Note: the remaining fields are set and reused by the ADD_ENGINE_LEAF macro below
-        
+
         // build the middle node ("MainBoth", "MainLeft", etc.)
-        ParserTreeNode *pEngineNode = new ParserTreeNode(pDat->command, nodeGroup);  // e.g., "MainBoth", "MainLeft", etc.
+        ParserTreeNode* pEngineNode = new ParserTreeNode(pDat->command, nodeGroup);  // e.g., "MainBoth", "MainLeft", etc.
         pptnEngine->AddChild(pEngineNode);  // Set->Engine->MainLeft, Set->Engine->MainRight, etc.
 
         // Now build the leaf nodes underneath ("ThrottleLevel", "GimbalX", etc.)
@@ -193,15 +193,15 @@ void XRVCClientCommandParser::InitializeCommandParserTree()
             pEngineNode->AddChild(new ParserTreeNode(#FIELD, (nodeGroup+1), &nodeData, m_pEngineLeafHandler))
 
         // define the leaf nodes for EngineStateWrite    
-        ADD_ENGINE_LEAF(ThrottleLevel,        XRVCClient::Double,  0.0, 1.0);
-        ADD_ENGINE_LEAF(GimbalX,              XRVCClient::Double, -1.0, 1.0);
-        ADD_ENGINE_LEAF(GimbalY,              XRVCClient::Double, -1.0, 1.0);
-        ADD_ENGINE_LEAF(Balance,              XRVCClient::Double, -1.0, 1.0);
-        ADD_ENGINE_LEAF(CenteringModeX,       XRVCClient::Bool, 0, 0);
-        ADD_ENGINE_LEAF(CenteringModeY,       XRVCClient::Bool, 0, 0);
-        ADD_ENGINE_LEAF(CenteringModeBalance, XRVCClient::Bool, 0, 0);
-        ADD_ENGINE_LEAF(AutoMode,             XRVCClient::Bool, 0, 0);
-        ADD_ENGINE_LEAF(DivergentMode,        XRVCClient::Bool, 0, 0);
+        ADD_ENGINE_LEAF(ThrottleLevel, XRVCClient::DataType::Double, 0.0, 1.0);
+        ADD_ENGINE_LEAF(GimbalX, XRVCClient::DataType::Double, -1.0, 1.0);
+        ADD_ENGINE_LEAF(GimbalY, XRVCClient::DataType::Double, -1.0, 1.0);
+        ADD_ENGINE_LEAF(Balance, XRVCClient::DataType::Double, -1.0, 1.0);
+        ADD_ENGINE_LEAF(CenteringModeX, XRVCClient::DataType::Bool, 0, 0);
+        ADD_ENGINE_LEAF(CenteringModeY, XRVCClient::DataType::Bool, 0, 0);
+        ADD_ENGINE_LEAF(CenteringModeBalance, XRVCClient::DataType::Bool, 0, 0);
+        ADD_ENGINE_LEAF(AutoMode, XRVCClient::DataType::Bool, 0, 0);
+        ADD_ENGINE_LEAF(DivergentMode, XRVCClient::DataType::Bool, 0, 0);
     }
     nodeGroup++;  // skip the leaf node group we used above
 
@@ -213,7 +213,7 @@ void XRVCClientCommandParser::InitializeCommandParserTree()
     // Note: local DoorNodeData object is deep-cloned inside ParserTreeNode's constructor
     nodeGroup++;
 #define ADD_DOOR_LEAF(FIELD) {                                          \
-            DoorNodeData nodeData(m_xrvcClient, XRD_##FIELD);           \
+            DoorNodeData nodeData(m_xrvcClient, XRDoorID::XRD_##FIELD);           \
             pptnDoor->AddChild(new ParserTreeNode(#FIELD, nodeGroup, &nodeData, m_pDoorLeafHandler));  } 
 
     ADD_DOOR_LEAF(DockingPort);
@@ -236,11 +236,11 @@ void XRVCClientCommandParser::InitializeCommandParserTree()
     // Set Light state comands; each light node is identical except for the light enum ID.
     //
     nodeGroup++;
-    EnumBoolNodeData EnumBoolNodeData(m_xrvcClient);
-    EnumBoolNodeData.method = &XRVCClient::UpdateLightState;
-#define ADD_LIGHT_LEAF(FIELD)                               \
-            EnumBoolNodeData.enumID = XRL_##FIELD;          \
-            pptnLight->AddChild(new ParserTreeNode(#FIELD, nodeGroup, &EnumBoolNodeData, m_pEnumBoolLeafHandler))
+    EnumBoolNodeData enumBoolNodeData(m_xrvcClient);
+    enumBoolNodeData.method = &XRVCClient::UpdateLightState;
+#define ADD_LIGHT_LEAF(FIELD)                                                 \
+        enumBoolNodeData.enumID = static_cast<int>(XRLight::XRL_##FIELD); \
+        pptnLight->AddChild(new ParserTreeNode(#FIELD, nodeGroup, &enumBoolNodeData, m_pEnumBoolLeafHandler))
 
     ADD_LIGHT_LEAF(Nav);
     ADD_LIGHT_LEAF(Beacon);
@@ -251,36 +251,36 @@ void XRVCClientCommandParser::InitializeCommandParserTree()
     // Each of these leaf nodes take a single int (or BOOL) as an argument, so we can use the same handler for each
     //
     SingleIntNodeData singleIntNodeData(m_xrvcClient);   // reused below for each single-int command
-#define ADD_SINGLEINT_LEAF(COMMAND_NAME, LIMIT_LOW, LIMIT_HIGH, METHOD)       \
-            nodeGroup++;                                        \
-            singleIntNodeData.limitLow = LIMIT_LOW;             \
-            singleIntNodeData.limitHigh = LIMIT_HIGH;           \
-            singleIntNodeData.method = &XRVCClient::METHOD;     \
-            pptnOther->AddChild(new ParserTreeNode(#COMMAND_NAME, nodeGroup, &singleIntNodeData, m_pSingleIntLeafHandler))
+#define ADD_SINGLEINT_LEAF(COMMAND_NAME, LIMIT_LOW, LIMIT_HIGH, METHOD) \
+        nodeGroup++;                                        \
+        singleIntNodeData.limitLow = LIMIT_LOW;             \
+        singleIntNodeData.limitHigh = LIMIT_HIGH;           \
+        singleIntNodeData.method = &XRVCClient::METHOD;     \
+        pptnOther->AddChild(new ParserTreeNode(#COMMAND_NAME, nodeGroup, &singleIntNodeData, m_pSingleIntLeafHandler))
 
-    ADD_SINGLEINT_LEAF(SecondaryHUDMode,      0, 5, SetSecondaryHUDMode);
-    ADD_SINGLEINT_LEAF(SetTertiaryHUDState,   0, 1, SetTertiaryHUDState);      // BOOL
-    ADD_SINGLEINT_LEAF(RCSDockingMode,        0, 1, SetRCSDockingMode);        // BOOL
+    ADD_SINGLEINT_LEAF(SecondaryHUDMode, 0, 5, SetSecondaryHUDMode);
+    ADD_SINGLEINT_LEAF(SetTertiaryHUDState, 0, 1, SetTertiaryHUDState);        // BOOL
+    ADD_SINGLEINT_LEAF(RCSDockingMode, 0, 1, SetRCSDockingMode);               // BOOL
     ADD_SINGLEINT_LEAF(ElevatorEVAPortActive, 0, 1, SetElevatorEVAPortActive); // BOOL
-    
+
     //
     // Set DamageState <system> <state>
     //
     nodeGroup++;
-    
+
     // Now build a leaf node for each damage leaf nodes underneath ("LeftWing", "RightWing", etc.)
     //
     // e.g., nodeData.pValueToSet = &m_xrEngineStateWrite.ThrottleLevel; 
     //       pEngineNode->AddChild(new ParserTreeNode("LeftWing", &nodeData, &s_doubleLeafHandler));
     DamageStateNodeData damageStateNodeData(m_xrvcClient);    // cloned and reused for each leaf
 
-#define ADD_DAMAGE_LEAF_DBL(FIELD)  ADD_DAMAGE_LEAF(FIELD, XRVCClient::Double)
-#define ADD_DAMAGE_LEAF_INT(FIELD)  ADD_DAMAGE_LEAF(FIELD, XRVCClient::Int)
+#define ADD_DAMAGE_LEAF_DBL(FIELD)  ADD_DAMAGE_LEAF(FIELD, XRVCClient::DataType::Double)
+#define ADD_DAMAGE_LEAF_INT(FIELD)  ADD_DAMAGE_LEAF(FIELD, XRVCClient::DataType::Int)
 
 #define ADD_DAMAGE_LEAF(FIELD, DATATYPE)                                         \
-        damageStateNodeData.dataType = DATATYPE;                                 \
-        damageStateNodeData.pValueToSet = &m_xrvcClient.GetXRSystemStatusWrite().##FIELD;  \
-        pptnDamageState->AddChild(new ParserTreeNode(#FIELD, (nodeGroup+1), &damageStateNodeData, m_pDamageStateLeafHandler))
+    damageStateNodeData.dataType = DATATYPE;                                 \
+    damageStateNodeData.pValueToSet = &m_xrvcClient.GetXRSystemStatusWrite().##FIELD;  \
+    pptnDamageState->AddChild(new ParserTreeNode(#FIELD, (nodeGroup+1), &damageStateNodeData, m_pDamageStateLeafHandler))
 
     // define the leaf nodes for EngineStateWrite    
     ADD_DAMAGE_LEAF_DBL(LeftWing);
@@ -325,10 +325,10 @@ void XRVCClientCommandParser::InitializeCommandParserTree()
     // Set StdAutopilot <name> [on/off]
     //
     nodeGroup++;
-    EnumBoolNodeData.method = &XRVCClient::SetStdAutopilotState;   // object updated and reused below (deep-cloned)
-#define ADD_STDAUTOPILOT_LEAF(FIELD)                            \
-            EnumBoolNodeData.enumID = XRSAP_##FIELD;            \
-            pptnStdAutopilot->AddChild(new ParserTreeNode(#FIELD, nodeGroup, &EnumBoolNodeData, m_pEnumBoolLeafHandler))
+    enumBoolNodeData.method = &XRVCClient::SetStdAutopilotState;   // object updated and reused below (deep-cloned)
+#define ADD_STDAUTOPILOT_LEAF(FIELD)                                    \
+        enumBoolNodeData.enumID = static_cast<int>(XRStdAutopilot::XRSAP_##FIELD);  \
+        pptnStdAutopilot->AddChild(new ParserTreeNode(#FIELD, nodeGroup, &enumBoolNodeData, m_pEnumBoolLeafHandler))
 
     ADD_STDAUTOPILOT_LEAF(KillRot);
     ADD_STDAUTOPILOT_LEAF(Prograde);
@@ -345,7 +345,7 @@ void XRVCClientCommandParser::InitializeCommandParserTree()
     // reuse BaseNodeData we already defined
 #define ADD_XRAUTOPILOT_LEAF(NAME)                  \
     pptnXRAutopilot->AddChild(new ParserTreeNode(#NAME, nodeGroup, &baseNodeData, m_p##NAME##LeafHandler))
-    
+
     ADD_XRAUTOPILOT_LEAF(AttitudeHold);
     ADD_XRAUTOPILOT_LEAF(DescentHold);
     ADD_XRAUTOPILOT_LEAF(AirspeedHold);
@@ -360,7 +360,7 @@ const char *XRVCClientCommandParser::RetrieveCommand(const bool getNext)
     const int direction = (getNext ? 1 : -1);
     if (m_commandRecallIndex >= 0)   // any commands entered yet?
     {
-        m_commandRecallIndex += direction;  
+        m_commandRecallIndex += direction;
         if (m_commandRecallIndex < 0)
             m_commandRecallIndex = 0;   // return earliest command
         else if (m_commandRecallIndex > historyVectorSize)
@@ -369,7 +369,7 @@ const char *XRVCClientCommandParser::RetrieveCommand(const bool getNext)
             m_commandRecallIndex = static_cast<int>(m_commandHistoryVector.size()); // reset to one beyond newest command, which means "clear the line"
         }
 
-        _ASSERTE(m_commandRecallIndex <= historyVectorSize);  
+        _ASSERTE(m_commandRecallIndex <= historyVectorSize);
         if (m_commandRecallIndex < historyVectorSize)
             pRetVal = *m_commandHistoryVector[m_commandRecallIndex];  // normal command recall
         // else fall through and return empty string: the user wants to clear the recall line
@@ -404,11 +404,11 @@ bool XRVCClientCommandParser::EngineLeafHandler::Execute(const ParserTreeNode *p
     const CString &arg = remainingArgv[0];  // this is our only argument
     bool parseStatus;  // populated below
     XRVCClient::Value value;  // populated below
-    if (dataType == XRVCClient::Double)
+    if (dataType == XRVCClient::DataType::Double)
     {
         parseStatus = ParseValidatedDouble(arg, value.Double, pNodeData->minDblValue, pNodeData->maxDblValue, &statusOut);
     }
-    else if (dataType == XRVCClient::Bool)
+    else if (dataType == XRVCClient::DataType::Bool)
     {
         parseStatus = ParseValidatedBool(arg, value.Bool, &statusOut);
     }
@@ -442,9 +442,9 @@ void XRVCClientCommandParser::EngineLeafHandler::GetArgumentHelp(const ParserTre
     _ASSERTE(pNodeData != nullptr);
 
     const XRVCClient::DataType dataType = pNodeData->dataType;
-    if (dataType == XRVCClient::Double)
+    if (dataType == XRVCClient::DataType::Double)
         csOut.Format("<double> (range %.4lf - %.4lf)", pNodeData->minDblValue, pNodeData->maxDblValue);
-    else if (dataType == XRVCClient::Bool)
+    else if (dataType == XRVCClient::DataType::Bool)
         csOut = "<boolean> (true/on, false/off)";
     else   // invalid data type (should never happen)
         csOut.Format("INTERNAL ERROR: invalid DataType: %d", dataType); 
@@ -459,7 +459,7 @@ const char **XRVCClientCommandParser::EngineLeafHandler::GetFirstParamAutocomple
     const XRVCClient::DataType dataType = pNodeData->dataType;
     const char **pRetVal = nullptr;
     static const char *s_pOnOff[] = { "on", "off", NULL };
-    if (dataType == XRVCClient::Bool)
+    if (dataType == XRVCClient::DataType::Bool)
         pRetVal = s_pOnOff;   // autocompletion options for boolean are "on", "off"
 
     return pRetVal;
@@ -488,18 +488,18 @@ bool XRVCClientCommandParser::DamageStateLeafHandler::Execute(const ParserTreeNo
     const CString &arg = remainingArgv[0];  // this is our only argument
     bool parseStatus;  // populated below
     XRVCClient::Value value;  // populated below
-    if (dataType == XRVCClient::Double)
+    if (dataType == XRVCClient::DataType::Double)
     {
         parseStatus = ParseValidatedDouble(arg, value.Double, 0.0, 1.0, &statusOut);
     }
-    else if (dataType == XRVCClient::Int)
+    else if (dataType == XRVCClient::DataType::Int)
     {
         // parse the text XRDamageState argument 
         parseStatus = true;
         if (arg.CompareNoCase("offline") == 0)
-            value.Int = XRDMG_offline;
+            value.Int = static_cast<int>(XRDamageState::XRDMG_offline);
         else if (arg.CompareNoCase("online") == 0)
-            value.Int = XRDMG_online;
+            value.Int = static_cast<int>(XRDamageState::XRDMG_online);
         else
         {
             parseStatus = false;
@@ -528,9 +528,9 @@ void XRVCClientCommandParser::DamageStateLeafHandler::GetArgumentHelp(const Pars
     _ASSERTE(pNodeData != nullptr);
 
     const XRVCClient::DataType dataType = pNodeData->dataType;
-    if (dataType == XRVCClient::Double)
+    if (dataType == XRVCClient::DataType::Double)
         csOut = "<double> (range 0.0 - 1.0)";
-    else if (dataType == XRVCClient::Int)
+    else if (dataType == XRVCClient::DataType::Int)
         csOut = "online | offline";
     else   // invalid data type (should never happen)
         csOut.Format("INTERNAL ERROR: invalid DataType: %d", dataType); 
@@ -545,7 +545,7 @@ const char **XRVCClientCommandParser::DamageStateLeafHandler::GetFirstParamAutoc
     const XRVCClient::DataType dataType = pNodeData->dataType;
     const char **pRetVal = nullptr;
     static const char *s_pOnlineOffline[] = { "online", "offline", NULL };
-    if (dataType == XRVCClient::Int)
+    if (dataType == XRVCClient::DataType::Int)
         pRetVal = s_pOnlineOffline;   // autocompletion options for XRDamageState are "online", "offline"
 
     return pRetVal;
@@ -573,7 +573,7 @@ bool XRVCClientCommandParser::DoorLeafHandler::Execute(const ParserTreeNode *pTr
     // parse our single argument
     const CString &arg = remainingArgv[0];  // this is our only argument
     const XRDoorState doorState = ParseDoorState(arg);    // < 0 == error
-    if (doorState < 0)
+    if (doorState < XRDoorState::XRDS_Opening)
     {
         statusOut.Format("Invalid door state: '%s'", arg);
         return false;  
@@ -591,10 +591,10 @@ XRDoorState XRVCClientCommandParser::DoorLeafHandler::ParseDoorState(const char 
     // this is const static because it never changes
     const static StringToEnum doorStates[] = 
     { 
-        { "opening", XRDS_Opening },
-        { "open",    XRDS_Open    },
-        { "closing", XRDS_Closing },
-        { "closed",  XRDS_Closed  } //,
+        { "opening", XRDoorState::XRDS_Opening },
+        { "open",    XRDoorState::XRDS_Open    },
+        { "closing", XRDoorState::XRDS_Closing },
+        { "closed",  XRDoorState::XRDS_Closed  }
         // not yet supported: { "failed",  XRDS_Failed  }
     };
 

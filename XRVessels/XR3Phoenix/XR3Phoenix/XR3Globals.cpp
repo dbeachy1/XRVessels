@@ -226,7 +226,7 @@ const double HIDDEN_ELEVATOR_TRIM_STATE = -0.598760;   //   XR3TODO: tweak this 
 // NOTE: we assume a LOX mass here // NOTE: we assume a LOX mass here of a 14-day loadout @ 'realistic': 25.6 kg per passenger
 // NOTE: max landing mass does NOT change with cheatcodes!
 // we use an "average" passenger mass of 68 kg for landing limit calculations
-const double FULLY_LOADED_MASS = (EMPTY_MASS + (68 * MAX_PASSENGERS) + TANK1_CAPACITY + TANK2_CAPACITY + RCS_FUEL_CAPACITY + APU_FUEL_CAPACITY + (25.6 * MAX_PASSENGERS));
+const double FULLY_LOADED_MASS = (EMPTY_MASS + (68.0 * MAX_PASSENGERS) + TANK1_CAPACITY + TANK2_CAPACITY + RCS_FUEL_CAPACITY + APU_FUEL_CAPACITY + (25.6 * MAX_PASSENGERS));
 
 // rate at which main fuel is dumped and loaded in kg/sec
 const double FUEL_DUMP_RATE = 85 * 5.94;   // x XR1Multiplier
@@ -466,7 +466,7 @@ const double RETRO_DOOR_LIMIT       = 41e3;
 const double DOOR_DYNAMIC_PRESSURE_WARNING_THRESHOLD = 0.75; // issue "door open" warning for pressure
 
 // defines the LAST VALID damage item for this vessel
-const DamageItem D_END = Elevator;    // XR3TODO: either use this for crew ladder or remove it
+const DamageItem D_END = DamageItem::Elevator;    // XR3TODO: either use this for crew ladder or remove it
 
 // Max. allowed dynamic pressure [Pa]
 const double DYNP_MAX = 150e3;  // 150 kPa

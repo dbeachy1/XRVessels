@@ -97,7 +97,7 @@ bool TextBox::Render(HDC hDC, int topY, HFONT font, int lineSpacing, bool forceR
             const TextLine &line = m_textLineGroup.GetLine(i);
             const char *pText = line.text.c_str();
 
-            SetTextColor(hDC, (line.color == Normal ? m_normalTextColor : m_highlightTextColor));
+            SetTextColor(hDC, (line.color == TEXTCOLOR::Normal ? m_normalTextColor : m_highlightTextColor));
             TextOut(hDC, cx, cy, pText, static_cast<int>(line.text.length()));
 
             // drop to next line
@@ -151,7 +151,7 @@ void TextLineGroup::AddLines(const char *pStr, bool highlighted)
         else
             cont = false;   // this is the last line
 
-        TextLine textLine(pStart, (highlighted ? Highlighted : Normal));
+        TextLine textLine(pStart, (highlighted ? TEXTCOLOR::Highlighted : TEXTCOLOR::Normal));
         AddLine(textLine);
 
         if (pEnd)

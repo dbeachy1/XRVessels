@@ -42,7 +42,7 @@ void DeltaGliderXR1::clbkLoadStateEx(FILEHANDLE scn, void *vs)
     // Workaround for Orbiter core bug: must init gear parameters here in case gear status not present in the scenario file.
     // This is necessary because Orbiter requires the gear to be DOWN when the scenario first loads if the ship is landed; otherwise, a gruesome crash 
     // occurs due to the "bounce bug".
-    gear_status = DOOR_CLOSED;
+    gear_status = DoorStatus::DOOR_CLOSED;
     gear_proc   = 0.0;
 
     while (oapiReadScenario_nextline (scn, line)) 

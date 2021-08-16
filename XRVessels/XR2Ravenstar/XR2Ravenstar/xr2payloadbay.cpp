@@ -78,10 +78,10 @@ XR2PayloadBay::XR2PayloadBay(VESSEL &parentVessel) :
     XRPayloadBaySlot *pSlot2 = GetSlot(2);
     XRPayloadBaySlot *pSlot3 = GetSlot(3);
 
-    pSlot1->SetNeighbor(MINUSZ, pSlot2);
-    pSlot2->SetNeighbor(PLUSZ, pSlot1);
-    pSlot2->SetNeighbor(MINUSZ, pSlot3);
-    pSlot3->SetNeighbor(PLUSZ, pSlot2);
+    pSlot1->SetNeighbor(NEIGHBOR::MINUSZ, pSlot2);
+    pSlot2->SetNeighbor(NEIGHBOR::PLUSZ, pSlot1);
+    pSlot2->SetNeighbor(NEIGHBOR::MINUSZ, pSlot3);
+    pSlot3->SetNeighbor(NEIGHBOR::PLUSZ, pSlot2);
 }
 
 // Returns the ship-local coordinates to deploy the selected slot payload while landed

@@ -45,7 +45,7 @@ int DeltaGliderXR1::clbkConsumeDirectKey(char *kstate)
 #define RESET_KEY_IF_PRESSED(keyCode)  if (KEYDOWN(kstate, keyCode)) RESETKEY(kstate, keyCode)
 
     // swallow these keys regardless of any alt/shift/ctrl pressed
-    if (m_customAutopilotMode == AP_ATTITUDEHOLD)
+    if (m_customAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD)
     {
         RESET_KEY_IF_PRESSED(OAPI_KEY_NUMPAD2);
         RESET_KEY_IF_PRESSED(OAPI_KEY_NUMPAD8);
@@ -53,7 +53,7 @@ int DeltaGliderXR1::clbkConsumeDirectKey(char *kstate)
         RESET_KEY_IF_PRESSED(OAPI_KEY_NUMPAD6);
         RESET_KEY_IF_PRESSED(OAPI_KEY_NUMPAD9);
     }
-    else if (m_customAutopilotMode == AP_DESCENTHOLD)
+    else if (m_customAutopilotMode == AUTOPILOT::AP_DESCENTHOLD)
     {
         RESET_KEY_IF_PRESSED(OAPI_KEY_NUMPAD2);
         RESET_KEY_IF_PRESSED(OAPI_KEY_NUMPAD8);
@@ -227,30 +227,30 @@ int DeltaGliderXR1::clbkConsumeDirectKey(char *kstate)
         RESET_KEY_IF_INCAP(OAPI_KEY_SEMICOLON);
         if (KEYDOWN(kstate, OAPI_KEY_SEMICOLON))  // gimbal all up
         { 
-            GimbalSCRAMPitch(BOTH, UP_OR_LEFT);
-            GimbalMainPitch(BOTH, UP_OR_LEFT);
+            GimbalSCRAMPitch(DeltaGliderXR1::GIMBAL_SWITCH::BOTH, DeltaGliderXR1::DIRECTION::UP_OR_LEFT);
+            GimbalMainPitch(DeltaGliderXR1::GIMBAL_SWITCH::BOTH, DeltaGliderXR1::DIRECTION::UP_OR_LEFT);
             RESETKEY(kstate, OAPI_KEY_SEMICOLON);
         }
 
         RESET_KEY_IF_INCAP(OAPI_KEY_L);
         if (KEYDOWN(kstate, OAPI_KEY_L))  // gimbal all right
         { 
-            GimbalMainYaw(BOTH, DOWN_OR_RIGHT);  // only main engines gimbal left/right
+            GimbalMainYaw(DeltaGliderXR1::GIMBAL_SWITCH::BOTH, DeltaGliderXR1::DIRECTION::DOWN_OR_RIGHT);  // only main engines gimbal left/right
             RESETKEY(kstate, OAPI_KEY_L);
         }
 
         RESET_KEY_IF_INCAP(OAPI_KEY_P);
         if (KEYDOWN(kstate, OAPI_KEY_P))  // gimbal all down
         { 
-            GimbalSCRAMPitch(BOTH, DOWN_OR_RIGHT);
-            GimbalMainPitch(BOTH, DOWN_OR_RIGHT);
+            GimbalSCRAMPitch(DeltaGliderXR1::GIMBAL_SWITCH::BOTH, DeltaGliderXR1::DIRECTION::DOWN_OR_RIGHT);
+            GimbalMainPitch(DeltaGliderXR1::GIMBAL_SWITCH::BOTH, DeltaGliderXR1::DIRECTION::DOWN_OR_RIGHT);
             RESETKEY(kstate, OAPI_KEY_P);
         }
 
         RESET_KEY_IF_INCAP(OAPI_KEY_APOSTROPHE);
         if (KEYDOWN(kstate, OAPI_KEY_APOSTROPHE))  // gimbal all left
         { 
-            GimbalMainYaw(BOTH, UP_OR_LEFT);  // only main engines gimbal left/right
+            GimbalMainYaw(DeltaGliderXR1::GIMBAL_SWITCH::BOTH, DeltaGliderXR1::DIRECTION::UP_OR_LEFT);  // only main engines gimbal left/right
             RESETKEY(kstate, OAPI_KEY_APOSTROPHE);
         }
 
@@ -503,12 +503,12 @@ int DeltaGliderXR1::clbkConsumeBufferedKey (DWORD key, bool down, char *kstate)
             {
             case OAPI_KEY_ADD:
                 RET_IF_INCAP();
-                SetAirspeedHold(true, AS_ADJUST, ASRATE_SMALL);
+                SetAirspeedHold(true, AIRSPEEDHOLD_ADJUST::AS_ADJUST, ASRATE_SMALL);
                 return 1;
 
             case OAPI_KEY_SUBTRACT:
                 RET_IF_INCAP();
-                SetAirspeedHold(true, AS_ADJUST, -ASRATE_SMALL);
+                SetAirspeedHold(true, AIRSPEEDHOLD_ADJUST::AS_ADJUST, -ASRATE_SMALL);
                 return 1;
             }
         }
@@ -524,7 +524,7 @@ int DeltaGliderXR1::clbkConsumeBufferedKey (DWORD key, bool down, char *kstate)
     {
         // CTRL key down
         // autopilot keys
-        if (m_customAutopilotMode == AP_DESCENTHOLD)
+        if (m_customAutopilotMode == AUTOPILOT::AP_DESCENTHOLD)
         {
             const bool invert = GetXR1Config()->InvertDescentHoldRateArrows;
             switch (key)
@@ -533,18 +533,18 @@ int DeltaGliderXR1::clbkConsumeBufferedKey (DWORD key, bool down, char *kstate)
                 RET_IF_INCAP();
                 if (invert) goto numpad8c_descent;
 numpad2c_descent:
-                SetAutoDescentRate(true, AD_ADJUST, ADRATE_LARGE);
+                SetAutoDescentRate(true, AUTODESCENT_ADJUST::AD_ADJUST, ADRATE_LARGE);
                 return 1;
 
             case OAPI_KEY_NUMPAD8:
                 RET_IF_INCAP();
                 if (invert) goto numpad2c_descent;
 numpad8c_descent:
-                SetAutoDescentRate(true, AD_ADJUST, -ADRATE_LARGE);
+                SetAutoDescentRate(true, AUTODESCENT_ADJUST::AD_ADJUST, -ADRATE_LARGE);
                 return 1;
             }
         }
-        else if (m_customAutopilotMode == AP_ATTITUDEHOLD)
+        else if (m_customAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD)
         {
             switch (key)
             {
@@ -568,12 +568,12 @@ numpad8c_descent:
             {
             case OAPI_KEY_ADD:
                 RET_IF_INCAP();
-                SetAirspeedHold(true, AS_ADJUST, ASRATE_LARGE);
+                SetAirspeedHold(true, AIRSPEEDHOLD_ADJUST::AS_ADJUST, ASRATE_LARGE);
                 return 1;
 
             case OAPI_KEY_SUBTRACT:
                 RET_IF_INCAP();
-                SetAirspeedHold(true, AS_ADJUST, -ASRATE_LARGE);
+                SetAirspeedHold(true, AIRSPEEDHOLD_ADJUST::AS_ADJUST, -ASRATE_LARGE);
                 return 1;
             }
         }
@@ -720,7 +720,7 @@ numpad8c_descent:
             SyncAttitudeHold(true, true); // play sound here and force PITCH mode
 
             // if autopilot not already engaged, turn it on
-            if (m_customAutopilotMode != AP_ATTITUDEHOLD)
+            if (m_customAutopilotMode != AUTOPILOT::AP_ATTITUDEHOLD)
                 ToggleAttitudeHold();  // use 'toggle' here because we don't have an explicit 'ActivateAttitudeHold' method
 
             return 1;
@@ -731,7 +731,7 @@ numpad8c_descent:
         // ALT key down
 
         // special autopilot keys
-        if (m_customAutopilotMode == AP_DESCENTHOLD)
+        if (m_customAutopilotMode == AUTOPILOT::AP_DESCENTHOLD)
         {
             const bool invert = GetXR1Config()->InvertDescentHoldRateArrows;
             switch (key)
@@ -740,18 +740,18 @@ numpad8c_descent:
                 RET_IF_INCAP();
                 if (invert) goto numpad8_descent;
 numpad2_descent:
-                SetAutoDescentRate(true, AD_ADJUST, ADRATE_SMALL);
+                SetAutoDescentRate(true, AUTODESCENT_ADJUST::AD_ADJUST, ADRATE_SMALL);
                 return 1;
 
             case OAPI_KEY_NUMPAD8:
                 RET_IF_INCAP();
                 if (invert) goto numpad2_descent;
 numpad8_descent:
-                SetAutoDescentRate(true, AD_ADJUST, -ADRATE_SMALL);
+                SetAutoDescentRate(true, AUTODESCENT_ADJUST::AD_ADJUST, -ADRATE_SMALL);
                 return 1;
             }
         }
-        else if (m_customAutopilotMode == AP_ATTITUDEHOLD)
+        else if (m_customAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD)
         {
             const bool invert = GetXR1Config()->InvertAttitudeHoldPitchArrows;
             switch (key)
@@ -778,12 +778,12 @@ numpad8:
             {
             case OAPI_KEY_ADD:
                 RET_IF_INCAP();
-                SetAirspeedHold(true, AS_ADJUST, ASRATE_TINY);
+                SetAirspeedHold(true, AIRSPEEDHOLD_ADJUST::AS_ADJUST, ASRATE_TINY);
                 return 1;
 
             case OAPI_KEY_SUBTRACT:
                 RET_IF_INCAP();
-                SetAirspeedHold(true, AS_ADJUST, -ASRATE_TINY);
+                SetAirspeedHold(true, AIRSPEEDHOLD_ADJUST::AS_ADJUST, -ASRATE_TINY);
                 return 1;
             }
         }
@@ -827,7 +827,7 @@ numpad8:
                 PlayErrorBeep();
             else
             {
-                m_pMDA->SwitchActiveMode(MultiDisplayArea::DOWN);
+                m_pMDA->SwitchActiveMode(MultiDisplayArea::DIRECTION::DOWN);
                 PlaySound(BeepLow, ST_Other);
             }
             return 1;
@@ -875,7 +875,7 @@ numpad8:
         //
         // Handle custom autopilot mode-specific keys
         //
-        if (m_customAutopilotMode == AP_ATTITUDEHOLD)
+        if (m_customAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD)
         {
             const bool invert = GetXR1Config()->InvertAttitudeHoldPitchArrows;
             switch (key)
@@ -910,7 +910,7 @@ numpad8n:
                 return 1;
             }
         }
-        else if (m_customAutopilotMode == AP_DESCENTHOLD)
+        else if (m_customAutopilotMode == AUTOPILOT::AP_DESCENTHOLD)
         {
             const bool invert = GetXR1Config()->InvertDescentHoldRateArrows;
             switch(key)
@@ -919,24 +919,24 @@ numpad8n:
                 RET_IF_INCAP(); 
                 if (invert) goto numpad8n_descent;
 numpad2n_descent:
-                SetAutoDescentRate(true, AD_ADJUST, ADRATE_MED);
+                SetAutoDescentRate(true, AUTODESCENT_ADJUST::AD_ADJUST, ADRATE_MED);
                 return 1;
 
             case OAPI_KEY_NUMPAD8:
                 RET_IF_INCAP(); 
                 if (invert) goto numpad2n_descent;
 numpad8n_descent:
-                SetAutoDescentRate(true, AD_ADJUST, -ADRATE_MED);
+                SetAutoDescentRate(true, AUTODESCENT_ADJUST::AD_ADJUST, -ADRATE_MED);
                 return 1;
 
             case OAPI_KEY_NUMPAD0:
                 RET_IF_INCAP(); 
-                SetAutoDescentRate(true, AD_AUTOLAND, 0);
+                SetAutoDescentRate(true, AUTODESCENT_ADJUST::AD_AUTOLAND, 0);
                 return 1;
 
             case OAPI_KEY_DECIMAL:
                 RET_IF_INCAP(); 
-                SetAutoDescentRate(true, AD_LEVEL, 0);
+                SetAutoDescentRate(true, AUTODESCENT_ADJUST::AD_LEVEL, 0);
                 return 1;
             }
         }
@@ -947,22 +947,22 @@ numpad8n_descent:
             {
             case OAPI_KEY_ADD:
                 RET_IF_INCAP(); 
-                SetAirspeedHold(true, AS_ADJUST, ASRATE_MED);
+                SetAirspeedHold(true, AIRSPEEDHOLD_ADJUST::AS_ADJUST, ASRATE_MED);
                 return 1;
 
             case OAPI_KEY_SUBTRACT:
                 RET_IF_INCAP(); 
-                SetAirspeedHold(true, AS_ADJUST, -ASRATE_MED);
+                SetAirspeedHold(true, AIRSPEEDHOLD_ADJUST::AS_ADJUST, -ASRATE_MED);
                 return 1;
             
             case OAPI_KEY_NUMPADENTER:
                 RET_IF_INCAP(); 
-                SetAirspeedHold(true, AS_HOLDCURRENT, 0);
+                SetAirspeedHold(true, AIRSPEEDHOLD_ADJUST::AS_HOLDCURRENT, 0);
                 return 1;
 
             case OAPI_KEY_MULTIPLY:
                 RET_IF_INCAP(); 
-                SetAirspeedHold(true, AS_RESET, 0);
+                SetAirspeedHold(true, AIRSPEEDHOLD_ADJUST::AS_RESET, 0);
                 return 1;
             }
         }
@@ -1032,7 +1032,7 @@ numpad8n_descent:
                 PlayErrorBeep();
             else
             {
-                m_pMDA->SwitchActiveMode(MultiDisplayArea::UP);
+                m_pMDA->SwitchActiveMode(MultiDisplayArea::DIRECTION::UP);
                 PlaySound(BeepHigh, ST_Other);
             }
             return 1;

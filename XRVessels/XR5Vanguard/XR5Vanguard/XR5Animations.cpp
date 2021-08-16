@@ -603,11 +603,11 @@ void XR5Vanguard::DefineAnimations()
 
     // ---------- Elevator animation ---------
     static UINT ElevatorGrp[2] = {GRP_elevator_left,GRP_elevator_right};
-    static MGROUP_ROTATE Elevator (0, ElevatorGrp, 2,
+    static MGROUP_ROTATE ElevatorMeshGroupRotate (0, ElevatorGrp, 2,
         _V(10.917201, -0.0924926, -23.058558), _V(1,0,0), static_cast<float>(40*RAD));
     anim_elevator = CreateAnimation (0.5);
 
-    AddAnimationComponent (anim_elevator, 0, 1, &Elevator);
+    AddAnimationComponent (anim_elevator, 0, 1, &ElevatorMeshGroupRotate);
 
     // ---------- Elevator trim animation ---------
     static MGROUP_ROTATE ElevatorTrim (0, ElevatorGrp, 2,

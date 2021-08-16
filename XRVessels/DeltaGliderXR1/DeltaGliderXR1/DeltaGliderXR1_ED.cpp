@@ -70,53 +70,53 @@ INT_PTR CALLBACK EdPg1Proc (HWND hTab, UINT uMsg, WPARAM wParam, LPARAM lParam)
             oapiOpenHelp (&g_hc);
             return TRUE;
         case IDC_GEAR_UP:
-            GetDG(hTab)->ActivateLandingGear (DOOR_CLOSED);
+            GetDG(hTab)->ActivateLandingGear(DoorStatus::DOOR_CLOSED);
             return TRUE;
         case IDC_GEAR_DOWN:
-            GetDG(hTab)->ActivateLandingGear (DOOR_OPEN);
+            GetDG(hTab)->ActivateLandingGear(DoorStatus::DOOR_OPEN);
             return TRUE;
         case IDC_RETRO_CLOSE:
-            GetDG(hTab)->ActivateRCover (DOOR_CLOSED);
+            GetDG(hTab)->ActivateRCover(DoorStatus::DOOR_CLOSED);
             return TRUE;
         case IDC_RETRO_OPEN:
-            GetDG(hTab)->ActivateRCover (DOOR_OPEN);
+            GetDG(hTab)->ActivateRCover(DoorStatus::DOOR_OPEN);
             return TRUE;
         case IDC_OLOCK_CLOSE:
-            GetDG(hTab)->ActivateOuterAirlock (DOOR_CLOSED);
+            GetDG(hTab)->ActivateOuterAirlock(DoorStatus::DOOR_CLOSED);
             return TRUE;
         case IDC_OLOCK_OPEN:
-            GetDG(hTab)->ActivateOuterAirlock (DOOR_OPEN);
+            GetDG(hTab)->ActivateOuterAirlock(DoorStatus::DOOR_OPEN);
             return TRUE;
         case IDC_ILOCK_CLOSE:
-            GetDG(hTab)->ActivateInnerAirlock (DOOR_CLOSED);
+            GetDG(hTab)->ActivateInnerAirlock(DoorStatus::DOOR_CLOSED);
             return TRUE;
         case IDC_ILOCK_OPEN:
-            GetDG(hTab)->ActivateInnerAirlock (DOOR_OPEN);
+            GetDG(hTab)->ActivateInnerAirlock(DoorStatus::DOOR_OPEN);
             return TRUE;
         case IDC_NCONE_CLOSE:
-            GetDG(hTab)->ActivateOuterAirlock(DOOR_CLOSED);  // NOTE: outer airlock must close, too!
-            GetDG(hTab)->ActivateNoseCone (DOOR_CLOSED);
+            GetDG(hTab)->ActivateOuterAirlock(DoorStatus::DOOR_CLOSED);  // NOTE: outer airlock must close, too!
+            GetDG(hTab)->ActivateNoseCone(DoorStatus::DOOR_CLOSED);
             return TRUE;
         case IDC_NCONE_OPEN:
-            GetDG(hTab)->ActivateNoseCone (DOOR_OPEN);
+            GetDG(hTab)->ActivateNoseCone(DoorStatus::DOOR_OPEN);
             return TRUE;
         case IDC_LADDER_RETRACT:
-            GetDG(hTab)->ActivateLadder (DOOR_CLOSED);
+            GetDG(hTab)->ActivateLadder(DoorStatus::DOOR_CLOSED);
             return TRUE;
         case IDC_LADDER_EXTEND:
-            GetDG(hTab)->ActivateLadder (DOOR_OPEN);
+            GetDG(hTab)->ActivateLadder(DoorStatus::DOOR_OPEN);
             return TRUE;
         case IDC_HATCH_CLOSE:
-            GetDG(hTab)->ActivateHatch (DOOR_CLOSED);
+            GetDG(hTab)->ActivateHatch(DoorStatus::DOOR_CLOSED);
             return TRUE;
         case IDC_HATCH_OPEN:
-            GetDG(hTab)->ActivateHatch (DOOR_OPEN);
+            GetDG(hTab)->ActivateHatch(DoorStatus::DOOR_OPEN);
             return TRUE;
         case IDC_RADIATOR_RETRACT:
-            GetDG(hTab)->ActivateRadiator (DOOR_CLOSED);
+            GetDG(hTab)->ActivateRadiator(DoorStatus::DOOR_CLOSED);
             return TRUE;
         case IDC_RADIATOR_EXTEND:
-            GetDG(hTab)->ActivateRadiator (DOOR_OPEN);
+            GetDG(hTab)->ActivateRadiator(DoorStatus::DOOR_OPEN);
             return TRUE;
         }
         break;

@@ -360,6 +360,6 @@ public:
 
 protected:
     // state data
-    enum LightState { UNPRESSED_DARK, UNPRESSED_BRIGHT, PRESSED_DARK, PRESSED_BRIGHT };
+    enum class LightState { UNPRESSED_DARK, UNPRESSED_BRIGHT, PRESSED_DARK, PRESSED_BRIGHT };
     LightState m_lightState;
 };

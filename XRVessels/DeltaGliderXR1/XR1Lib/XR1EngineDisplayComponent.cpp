@@ -51,14 +51,14 @@ EngineDisplayComponent::EngineDisplayComponent(InstrumentPanel &parentPanel, COO
     
     // G ACC indicators
     AddArea(new AccScaleArea              (parentPanel, GetAbsCoords(_COORD2( 39, 74)), AID_ACC_SCALE));
-    AddArea(new AccHorizontalGaugeArea    (parentPanel, GetAbsCoords(_COORD2( 40, 87)), AID_ACCX_G, AccHorizontalGaugeArea::X, false, HorizontalGaugeArea::TOP));
-    AddArea(new AccHorizontalGaugeArea    (parentPanel, GetAbsCoords(_COORD2( 40, 95)), AID_ACCY_G, AccHorizontalGaugeArea::Y, true,  HorizontalGaugeArea::BOTTOM));  // singleSide ignored here
-    AddArea(new AccHorizontalGaugeArea    (parentPanel, GetAbsCoords(_COORD2( 40,108)), AID_ACCZ_G, AccHorizontalGaugeArea::Z, false, HorizontalGaugeArea::BOTTOM));
+    AddArea(new AccHorizontalGaugeArea    (parentPanel, GetAbsCoords(_COORD2( 40, 87)), AID_ACCX_G, AccHorizontalGaugeArea::AXIS::X, false, HorizontalGaugeArea::SIDE::TOP));
+    AddArea(new AccHorizontalGaugeArea    (parentPanel, GetAbsCoords(_COORD2( 40, 95)), AID_ACCY_G, AccHorizontalGaugeArea::AXIS::Y, true,  HorizontalGaugeArea::SIDE::BOTTOM));  // singleSide ignored here
+    AddArea(new AccHorizontalGaugeArea    (parentPanel, GetAbsCoords(_COORD2( 40,108)), AID_ACCZ_G, AccHorizontalGaugeArea::AXIS::Z, false, HorizontalGaugeArea::SIDE::BOTTOM));
 
     // ACC m/s^2 numbers
-    AddArea(new AccNumberArea             (parentPanel, GetAbsCoords(_COORD2(131, 83)), AID_ACCX_NUMBER, AccNumberArea::X));
-    AddArea(new AccNumberArea             (parentPanel, GetAbsCoords(_COORD2(131, 95)), AID_ACCY_NUMBER, AccNumberArea::Y));
-    AddArea(new AccNumberArea             (parentPanel, GetAbsCoords(_COORD2(131,107)), AID_ACCZ_NUMBER, AccNumberArea::Z));
+    AddArea(new AccNumberArea             (parentPanel, GetAbsCoords(_COORD2(131, 83)), AID_ACCX_NUMBER, AccNumberArea::AXIS::X));
+    AddArea(new AccNumberArea             (parentPanel, GetAbsCoords(_COORD2(131, 95)), AID_ACCY_NUMBER, AccNumberArea::AXIS::Y));
+    AddArea(new AccNumberArea             (parentPanel, GetAbsCoords(_COORD2(131,107)), AID_ACCZ_NUMBER, AccNumberArea::AXIS::Z));
 }   
 
 //-------------------------------------------------------------------------
@@ -76,7 +76,7 @@ double EngineEfficiencyGaugeArea::GetFraction(const SIDE side, COLOR &color)
     if (efficiency < 0)     // in case we're landed on Venus, etc.
         efficiency = 0;
 
-    color = GREEN;  // set color of indicator arrow
+    color = COLOR::GREEN;  // set color of indicator arrow
     return efficiency;
 }
 
@@ -84,7 +84,7 @@ double EngineEfficiencyGaugeArea::GetFraction(const SIDE side, COLOR &color)
 
 // used for hover and scram thrust bars only
 NormalThrustBarArea::NormalThrustBarArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, THRUSTER_HANDLE th) :
-    BarArea(parentPanel, panelCoordinates, areaID, 85, 7, HORIZONTAL),
+    BarArea(parentPanel, panelCoordinates, areaID, 85, 7, ORIENTATION::HORIZONTAL),
     m_thrusterHandle(th)
 {
 }
@@ -92,14 +92,14 @@ NormalThrustBarArea::NormalThrustBarArea(InstrumentPanel &parentPanel, const COO
 BarArea::RENDERDATA NormalThrustBarArea::GetRenderData()
 {
     double currentThrustLevel = GetVessel().GetThrusterLevel(m_thrusterHandle);  // 0...1
-    return _RENDERDATA(GREEN, currentThrustLevel, currentThrustLevel, 1.0);
+    return _RENDERDATA(COLOR::GREEN, currentThrustLevel, currentThrustLevel, 1.0);
 }
 
 //-------------------------------------------------------------------------
 
 // handles main/retro thrust bar
 MainRetroThrustBarArea::MainRetroThrustBarArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID) :
-    BarArea(parentPanel, panelCoordinates, areaID, 85, 7, HORIZONTAL)
+    BarArea(parentPanel, panelCoordinates, areaID, 85, 7, ORIENTATION::HORIZONTAL)
 {
 }
 
@@ -109,7 +109,7 @@ BarArea::RENDERDATA MainRetroThrustBarArea::GetRenderData()
 
     // Either the MAIN or the RETRO may be firing, but not BOTH.
     // get the thrust levels
-    COLOR color = GREEN;   // assume mains firing
+    COLOR color = COLOR::GREEN;   // assume mains firing
     double level = GetVessel().GetThrusterLevel(GetXR1().th_main[thruster]);
     if (level == 0)
     {
@@ -117,7 +117,7 @@ BarArea::RENDERDATA MainRetroThrustBarArea::GetRenderData()
         level = GetVessel().GetThrusterLevel(GetXR1().th_retro[thruster]);  // level may be 0 here
         if (level > 0)
         {
-            color = RED; // retros firing!
+            color = COLOR::RED; // retros firing!
         }
     }
     

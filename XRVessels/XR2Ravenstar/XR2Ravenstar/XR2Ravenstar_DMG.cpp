@@ -37,10 +37,10 @@ void XR2Ravenstar::PerformCrashDamage()
     DeltaGliderXR1::PerformCrashDamage();  // handle all the common systems
 
     // set our custom systems to *crashed*
-    bay_status = DOOR_FAILED;
+    bay_status = DoorStatus::DOOR_FAILED;
 
     // blink our new warning light
-    m_xr2WarningLights[wl2Bay] = true;
+    m_xr2WarningLights[static_cast<int>(XR2WarningLight::wl2Bay)] = true;
 }
 
 //
@@ -113,8 +113,8 @@ const DamageStatus &XR2Ravenstar::GetDamageStatus(DamageItem item) const
     // check for our custom damage items first
     switch (item)
     {
-    case BayDoors:
-        frac = ((bay_status == DOOR_FAILED) ? 0 : 1);
+    case DamageItem::BayDoors:
+        frac = ((bay_status == DoorStatus::DOOR_FAILED) ? 0 : 1);
         pLabel = "Bay Doors";
         pShortLabel = "BDor";
         break;
@@ -140,14 +140,14 @@ const DamageStatus &XR2Ravenstar::GetDamageStatus(DamageItem item) const
 void XR2Ravenstar::SetDamageStatus(DamageItem item, double fracIntegrity)
 {
 // NOTE: because some warning lights can have multiple causes (e.g., left and right engines), we never CLEAR a warning flag here
-#define SET_WARNING_LIGHT(wlIdx)  m_xr2WarningLights[wlIdx] |= (fracIntegrity < 1.0)
+#define SET_WARNING_LIGHT(wlEnum)  m_xr2WarningLights[static_cast<int>(wlEnum)] |= (fracIntegrity < 1.0)
 
     // check for our custom damage items first
     switch (item)
     {   
-    case BayDoors:
+    case DamageItem::BayDoors:
         UpdateDoorDamage(bay_status, bay_proc, fracIntegrity);
-        SET_WARNING_LIGHT(wl2Bay);
+        SET_WARNING_LIGHT(XR2WarningLight::wl2Bay);
         break;
 
     default:
@@ -175,7 +175,7 @@ bool XR2Ravenstar::CheckDoorFailure(DoorStatus *doorStatus)
     // check for our new doors first
 
     // do not re-check or warn if door already failed
-    bool doorOpen = ((*doorStatus != DOOR_CLOSED) && (*doorStatus != DOOR_FAILED));
+    bool doorOpen = ((*doorStatus != DoorStatus::DOOR_CLOSED) && (*doorStatus != DoorStatus::DOOR_FAILED));
     const double dt = oapiGetSimStep();
 
     if (doorOpen)
@@ -190,17 +190,17 @@ bool XR2Ravenstar::CheckDoorFailure(DoorStatus *doorStatus)
             if (IS_DOOR_FAILURE(m_topHullTemp, BAY_LIMIT))
             {
                 ShowWarning("Warning Bay Door Failure.wav", DeltaGliderXR1::ST_WarningCallout, "Bay doors FAILED due to excessive&heat and/or dynamic pressure!", true); // force this
-                *doorStatus = DOOR_FAILED;
-                m_xr2WarningLights[wl2Bay] = true;
+                *doorStatus = DoorStatus::DOOR_FAILED;
+                m_xr2WarningLights[static_cast<int>(XR2WarningLight::wl2Bay)] = true;
                 retVal = true;   // new damage
             }
             else if (IS_DOOR_WARNING(m_topHullTemp, BAY_LIMIT))
             {
                 ShowWarning("Warning Bay Doors Open.wav", DeltaGliderXR1::ST_WarningCallout, "Bay doors are open:&close them or reduce speed!");
-                m_xr2WarningLights[wl2Bay] = true;
+                m_xr2WarningLights[static_cast<int>(XR2WarningLight::wl2Bay)] = true;
             }
             else if (IS_DOOR_FAILED() == false) 
-                m_xr2WarningLights[wl2Bay] = false;   // reset light
+                m_xr2WarningLights[static_cast<int>(XR2WarningLight::wl2Bay)] = false;   // reset light
         }
         else    // one of the unmodified doors, so let the base class handle it
             retVal = DeltaGliderXR1::CheckDoorFailure(doorStatus);    // let our superclass handle it
@@ -212,7 +212,7 @@ bool XR2Ravenstar::CheckDoorFailure(DoorStatus *doorStatus)
             // only need to handle NEW doors here
             // door is closed; reset the warning light
             if (doorStatus == &bay_status)
-                m_xr2WarningLights[wl2Bay] = false;  
+                m_xr2WarningLights[static_cast<int>(XR2WarningLight::wl2Bay)] = false;
             else
             {
                 // notify our superclass
@@ -256,6 +256,6 @@ void XR2Ravenstar::SetDamageVisuals()
     }
 
     // top hatch
-    if (hatch_status == DOOR_FAILED)
+    if (hatch_status == DoorStatus::DOOR_FAILED)
         SetXRAnimation(anim_hatch, 0.2);  // show partially deployed
 }

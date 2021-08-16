@@ -69,7 +69,7 @@ public:
     virtual bool CheckEVADoor();
 
     // active EVA port enum
-    enum ACTIVE_EVA_PORT { DOCKING_PORT, CREW_ELEVATOR };
+    enum class ACTIVE_EVA_PORT { DOCKING_PORT, CREW_ELEVATOR };
 
     // overidden XR1 methods
 #ifdef TOO_MESSY

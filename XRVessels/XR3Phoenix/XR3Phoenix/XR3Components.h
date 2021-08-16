@@ -92,7 +92,7 @@ public:
 protected:
     virtual double GetHighestTempFrac();
 
-    // if DOOR_OPEN, temperature values will be displayed in yellow or red correctly since that door is open
+    // if DoorStatus::DOOR_OPEN, temperature values will be displayed in yellow or red correctly since that door is open
     virtual DoorStatus GetNoseDoorStatus();
     virtual DoorStatus GetLeftWingDoorStatus();
     virtual DoorStatus GetRightWingDoorStatus();

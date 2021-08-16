@@ -22,10 +22,10 @@
 // ==============================================================
 // Public XR-Class Vessel Control Header File.
 // 
-// XRVesselControl Version: 3.2
-// Release Date: 13-Aug-2021
+// XRVesselControl Version: 4.0
+// Release Date: 15-Aug-2021
 //
-// Minimum XR vessel versions implementing this API version: XR1 1.15, XR2 1.10, XR5 1.13
+// Minimum XR vessel versions implementing this API version: XR1 2.0, XR2 2.0, XR5 2.0
 //
 // XRVesselCtrl.h : Main header file defining the public XR-class vessel control API.
 //
@@ -84,7 +84,7 @@ class XRVesselCtrl;
 
 // Defines XR engine IDs
 // Note: "Left" is port, "Right" is starboard.
-enum XREngineID 
+enum class XREngineID 
 { 
     XRE_MainLeft,  XRE_MainRight, 
     XRE_HoverFore, XRE_HoverAft,
@@ -137,7 +137,7 @@ struct XREngineStateRead : public XREngineStateWrite
 // In addtion, a door has a 'proc' showing how far it is open or closed, from 0 (close) to 1 (open) (-1 = proc not supported).
 // Also note that XRD_AirlockChamber refers to the state of the air pressure in the airlock: 
 // OPEN = pressurized, CLOSED = vacuum, OPENING = pressurizing, CLOSING = depressurizing
-enum XRDoorID 
+enum class XRDoorID 
 { 
     XRD_DockingPort, XRD_ScramDoors, XRD_HoverDoors, XRD_Ladder, XRD_Gear, 
     XRD_RetroDoors, XRD_OuterAirlock, XRD_InnerAirlock, XRD_AirlockChamber, 
@@ -145,12 +145,12 @@ enum XRDoorID
     XRD_CrewElevator, XRD_PayloadBayDoors
 };
 
-enum XRDoorState { XRDS_Opening, XRDS_Open, XRDS_Closing, XRDS_Closed, XRDS_Failed, XRDS_DoorNotSupported };
+enum class XRDoorState { XRDS_Opening, XRDS_Open, XRDS_Closing, XRDS_Closed, XRDS_Failed, XRDS_DoorNotSupported };
 
 //-------------------------------------------------------------------------
 
-enum XRDamageState  { XRDMG_offline, XRDMG_online, XRDMG_NotSupported };
-enum XRWarningState { XRW_warningActive, XRW_warningInactive };
+enum class XRDamageState  { XRDMG_offline, XRDMG_online, XRDMG_NotSupported };
+enum class XRWarningState { XRW_warningActive, XRW_warningInactive };
 
 // Warning, damage, and system status: XR-class vessels support incremental damage, from 1.0 (100% working)
 // to 0.0 (0% working).  For example, a wing that is 50% damaged will only provide 50% of 
@@ -260,12 +260,12 @@ struct XRPayloadSlotData
 //-------------------------------------------------------------------------
 
 // Define exterior lights
-enum XRLight { XRL_Nav, XRL_Beacon, XRL_Strobe };
+enum class XRLight { XRL_Nav, XRL_Beacon, XRL_Strobe };
 
 //-------------------------------------------------------------------------
 
 // Define standard autopilot modes
-enum XRStdAutopilot 
+enum class XRStdAutopilot
 { 
     XRSAP_KillRot, XRSAP_Prograde, XRSAP_Retrograde, 
     XRSAP_Normal, XRSAP_AntiNormal, XRSAP_LevelHorizon, XRSAP_Hover
@@ -273,13 +273,13 @@ enum XRStdAutopilot
 
 // Define autopilot state return values.  Not all vessels will support all autopilot modes; in
 // that case, XRAPSTATE_NotSupported is returned.
-enum XRAutopilotState
+enum class XRAutopilotState
 {
     XRAPSTATE_Engaged, XRAPSTATE_Disengaged, XRAPSTATE_NotSupported
 };
 
 // Attitude Hold modes
-enum XRAttitudeHoldMode { XRAH_HoldPitch, XRAH_HoldAOA };
+enum class XRAttitudeHoldMode { XRAH_HoldPitch, XRAH_HoldAOA };
 
 // Define extended autopilot status structures
 struct XRAttitudeHoldState 
@@ -311,7 +311,7 @@ bool XRVesselCtrlFlag = true;
 #endif
 
 // added in XRVesselCtrl API version 3.0
-enum XRXFEED_STATE { XRXF_MAIN, XRXF_OFF, XRXF_RCS };
+enum class XRXFEED_STATE { XRXF_MAIN, XRXF_OFF, XRXF_RCS };
 
 //=========================================================================
 // Each vessel that supports this API will extend this abstract 

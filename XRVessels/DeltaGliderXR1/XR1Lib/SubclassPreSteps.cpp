@@ -81,7 +81,7 @@ void RotateWheelsPreStep::clbkPrePostStep(const double simt, const double simdt,
         return;     // nothing to do
 
     // Efficiency check: exit immediately if gear is retracted and has stopped spinning
-    if ((GetXR1().gear_status == DOOR_CLOSED) && (m_noseWheelRotationVelocity == 0) && (m_rearWheelRotationVelocity == 0))
+    if ((GetXR1().gear_status == DoorStatus::DOOR_CLOSED) && (m_noseWheelRotationVelocity == 0) && (m_rearWheelRotationVelocity == 0))
         return;  
 
     VECTOR3 gsVector;
@@ -204,7 +204,7 @@ void AnimateGearCompressionPreStep::clbkPrePostStep(const double simt, const dou
     // lower the gear just a few meters off the ground and to "push the gear below the ground" until they fully
     // extend, at which point they would "snap" up into the correct compression, but handling that absurdly rare
     // condition would make the already-complex math much worse since we would have to deal with angled and moving struts as well.
-    if (GetXR1().gear_status != DOOR_OPEN)
+    if (GetXR1().gear_status != DoorStatus::DOOR_OPEN)
     {
         GetXR1().m_noseGearProc = GetXR1().m_rearGearProc = 1.0;    // gear is fully uncompressed since gear not fully deployed yet
         return;

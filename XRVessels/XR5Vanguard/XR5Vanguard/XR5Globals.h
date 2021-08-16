@@ -51,7 +51,7 @@ extern const double GEAR_UNCOMPRESSED_YCOORD;
 
 // addtional warning light values
 #define XR5_WARNING_LIGHT_COUNT  2
-enum XR5WarningLight 
+enum class XR5WarningLight 
 { 
     wl5NONE = -1,    // no light
     wl5Elev,

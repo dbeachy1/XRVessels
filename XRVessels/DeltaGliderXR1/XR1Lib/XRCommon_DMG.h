@@ -33,8 +33,8 @@
 #define OPEN_DOOR_OVER_PRESSURE_FAIL(maxDynP)    (GetXR1Config()->DoorStressDamageEnabled && AllowDamageIfDockedCheck() && !Playback() && (((GetDynPressure() * (0.20 + (doorProc / 1.25))) > maxDynP )))
 
 // do not issue warnings if door already failed
-#define IS_DOOR_OPEN(status)  (status != DOOR_CLOSED)   // includes DOOR_FAILED
-#define IS_DOOR_FAILED() (*doorStatus == DOOR_FAILED)
+#define IS_DOOR_OPEN(status)  (status != DoorStatus::DOOR_CLOSED)   // includes DoorStatus::DOOR_FAILED
+#define IS_DOOR_FAILED() (*doorStatus == DoorStatus::DOOR_FAILED)
 #define IS_DOOR_WARNING(tempK, maxDynP)        ((IS_DOOR_FAILED() == false) && (OPEN_DOOR_WARN_TEMP(tempK) || OPEN_DOOR_OVER_PRESSURE_WARN((maxDynP * DOOR_DYNAMIC_PRESSURE_WARNING_THRESHOLD))))
 #define IS_DOOR_FAILURE(tempK, maxDynP)        ((IS_DOOR_FAILED() == false) && (OPEN_DOOR_OVER_TEMP(tempK) || OPEN_DOOR_OVER_PRESSURE_FAIL(maxDynP)))
 

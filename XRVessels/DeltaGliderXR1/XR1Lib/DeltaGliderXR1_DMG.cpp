@@ -108,20 +108,20 @@ void DeltaGliderXR1::TestDamage()
                 case 0: // fail left wing
                     lwingstatus *= exp (-alpha*oapiRand());
                     pMsg = "Left Wing Failure!";
-                    m_warningLights[wlLwng] = true;
+                    m_warningLights[static_cast<int>(WarningLight::wlLwng)] = true;
                     break;
                 case 1: // fail right wing
                     rwingstatus *= exp (-alpha*oapiRand());
                     pMsg = "Right Wing Failure!";
-                    m_warningLights[wlRwng] = true;
+                    m_warningLights[static_cast<int>(WarningLight::wlRwng)] = true;
                     break;
                 case 2: 
                     { 
                         pMsg = "Left Aileron Failure!";
                         aileronfail[0] = aileronfail[1] = true;     // delete both aileron mesh groups
-                        m_warningLights[wlLail] = true;
-                        brake_status = DOOR_FAILED;  // airbrake inoperable as well
-                        m_warningLights[wlAirb] = true;
+                        m_warningLights[static_cast<int>(WarningLight::wlLail)] = true;
+                        brake_status = DoorStatus::DOOR_FAILED;  // airbrake inoperable as well
+                        m_warningLights[static_cast<int>(WarningLight::wlAirb)] = true;
                         FailAileronsIfDamaged();   // delete control surface
                     } 
                     break;
@@ -129,9 +129,9 @@ void DeltaGliderXR1::TestDamage()
                     { 
                         pMsg = "Right Aileron Failure!";
                         aileronfail[2] = aileronfail[3] = true;     // delete both aileron mesh groups
-                        m_warningLights[wlRail] = true;
-                        brake_status = DOOR_FAILED;  // airbrake inoperable as well
-                        m_warningLights[wlAirb] = true;
+                        m_warningLights[static_cast<int>(WarningLight::wlRail)] = true;
+                        brake_status = DoorStatus::DOOR_FAILED;  // airbrake inoperable as well
+                        m_warningLights[static_cast<int>(WarningLight::wlAirb)] = true;
                         FailAileronsIfDamaged();   // delete control surface
                     } 
                     break;
@@ -147,38 +147,38 @@ void DeltaGliderXR1::TestDamage()
     if (value > (max * warningThreshold))                      \
     {                                                          \
         ShowWarning(soundFilename, ST_WarningCallout, msg);    \
-        m_warningLights[lightIdx] = true;                      \
-        m_warningLights[lightIdx2] = true;                     \
+        m_warningLights[static_cast<int>(lightIdx)] = true;    \
+        m_warningLights[static_cast<int>(lightIdx2)] = true;   \
         newdamage = true;                                      \
         wingWarnLightsOn = true;                               \
     }                                                          \
     else if (wingWarnLightsOn == false)                        \
     {                                                          \
-        if (wingstatus == 1.0)  m_warningLights[lightIdx] = false;  \
-        if (wingstatus2 == 1.0) m_warningLights[lightIdx2] = false; \
+        if (wingstatus == 1.0)  m_warningLights[static_cast<int>(lightIdx)] = false;  \
+        if (wingstatus2 == 1.0) m_warningLights[static_cast<int>(lightIdx2)] = false; \
     }
 
 #define CHECK_MIN_THRESHOLD(value, min, soundFilename, msg, lightIdx, lightIdx2, wingstatus, wingstatus2) \
     if (value < (min * warningThreshold))                      \
     {                                                          \
         ShowWarning(soundFilename, ST_WarningCallout, msg);    \
-        m_warningLights[lightIdx] = true;                      \
-        m_warningLights[lightIdx2] = true;                     \
+        m_warningLights[static_cast<int>(lightIdx)] = true;                      \
+        m_warningLights[static_cast<int>(lightIdx2)] = true;                     \
         wingWarnLightsOn = true;                               \
         newdamage = true;                                      \
     }                                                          \
     else if (wingWarnLightsOn == false)                        \
     {                                                          \
-        if (wingstatus == 1.0)  m_warningLights[lightIdx] = false;  \
-        if (wingstatus2 == 1.0) m_warningLights[lightIdx2] = false; \
+        if (wingstatus == 1.0)  m_warningLights[static_cast<int>(lightIdx)] = false;  \
+        if (wingstatus2 == 1.0) m_warningLights[static_cast<int>(lightIdx2)] = false; \
     }
 
             static const double warningThreshold = .85;     // 85%
             const char *pWingStress = "WARNING Wing Stress.wav";
             bool wingWarnLightsOn = false;  // true if either wing warning light is turned on below; we don't want to turn off
-            CHECK_MAX_THRESHOLD(load, WINGLOAD_MAX, pWingStress, "Wing load over 85% of maximum.", wlRwng, wlLwng, rwingstatus, lwingstatus);
-            CHECK_MIN_THRESHOLD(load, WINGLOAD_MIN, pWingStress, "Negative wing load over 85%&of maximum.", wlRwng, wlLwng, rwingstatus, lwingstatus); 
-            CHECK_MAX_THRESHOLD(dynp, DYNP_MAX,     "Warning dynamic pressure.wav", "Dynamic pressure over 85%&of maximum.", wlDynp, wlDynp, 1.0, 1.0);  // always OK to turn off warning light for DynP
+            CHECK_MAX_THRESHOLD(load, WINGLOAD_MAX, pWingStress, "Wing load over 85% of maximum.", WarningLight::wlRwng, WarningLight::wlLwng, rwingstatus, lwingstatus);
+            CHECK_MIN_THRESHOLD(load, WINGLOAD_MIN, pWingStress, "Negative wing load over 85%&of maximum.", WarningLight::wlRwng, WarningLight::wlLwng, rwingstatus, lwingstatus);
+            CHECK_MAX_THRESHOLD(dynp, DYNP_MAX,     "Warning dynamic pressure.wav", "Dynamic pressure over 85%&of maximum.", WarningLight::wlDynp, WarningLight::wlDynp, 1.0, 1.0);  // always OK to turn off warning light for DynP
         }
     }   // if WingStressDamageEnabled
 
@@ -263,7 +263,7 @@ bool DeltaGliderXR1::CheckHullHeatingDamage()
     double alpha = 0;
     char temp[128];
     const double mach = GetMachNumber();
-    m_warningLights[wlHtmp] = false;     // assume hull temp warning light OFF
+    m_warningLights[static_cast<int>(WarningLight::wlHtmp)] = false;     // assume hull temp warning light OFF
 
     // check nosecone temperature using both nosecone and hover doors
     if (CheckTemperature(m_noseconeTemp,  m_hullTemperatureLimits.noseCone, IS_DOOR_OPEN(nose_status)) != 0)
@@ -300,7 +300,7 @@ bool DeltaGliderXR1::CheckHullHeatingDamage()
         // NOTE: do not integrate dt here; dt was already taken into account by CheckTemperature
         const double wingFrac = min(0, (1.0 - alpha));
         lwingstatus *= wingFrac;
-        m_warningLights[wlLwng] = true;   // warning light ON
+        m_warningLights[static_cast<int>(WarningLight::wlLwng)] = true;   // warning light ON
 
         if (oapiRand() > lwingstatus)    
         {
@@ -320,7 +320,7 @@ bool DeltaGliderXR1::CheckHullHeatingDamage()
     {
         const double wingFrac = min(0, (1.0 - alpha));
         rwingstatus *= wingFrac;
-        m_warningLights[wlRwng] = true;   // warning light ON
+        m_warningLights[static_cast<int>(WarningLight::wlRwng)] = true;   // warning light ON
 
         // WING DAMAGE -- check for critical ship failure vs. just wing damage
         if (oapiRand() > rwingstatus)
@@ -411,7 +411,7 @@ void DeltaGliderXR1::PerformCrashDamage()
         m_warningLights[i] = true;
 
     // disable any autopilots
-    m_customAutopilotMode = AP_OFF;
+    m_customAutopilotMode = AUTOPILOT::AP_OFF;
     for (int i=0; i <=7; i++)
         DeactivateNavmode(i);
 
@@ -436,7 +436,7 @@ void DeltaGliderXR1::PerformCrashDamage()
     FailAileronsIfDamaged();
 
     // Deactivate doors
-    hoverdoor_status = nose_status = hatch_status = radiator_status = brake_status = rcover_status = brake_status = DOOR_FAILED;
+    hoverdoor_status = nose_status = hatch_status = radiator_status = brake_status = rcover_status = brake_status = DoorStatus::DOOR_FAILED;
 
     //
     // deactivate engines 
@@ -481,7 +481,7 @@ void DeltaGliderXR1::PerformCrashDamage()
     ClearControlSurfaceDefinitions();
 
     // kill the APU
-    apu_status = DOOR_FAILED;   // this will deactivate all doors as well
+    apu_status = DoorStatus::DOOR_FAILED;   // this will deactivate all doors as well
     m_apuWarning = true;
     m_apuFuelQty = 0;
     StopSound(APU);
@@ -494,7 +494,7 @@ bool DeltaGliderXR1::IsDamagePresent() const
     bool retVal = false;        // assume no damage
     
     // loop through all surfaces
-    for (int i=0; i <= D_END; i++)
+    for (int i=0; i <= static_cast<int>(D_END); i++)
     {
         DamageStatus ds = GetDamageStatus((DamageItem)i);
         if (ds.fracIntegrity < 1.0)
@@ -547,69 +547,69 @@ const DamageStatus &DeltaGliderXR1::GetDamageStatus(DamageItem item) const
 
     switch (item)
     {   
-    case LeftWing:
+    case DamageItem::LeftWing:
         frac = lwingstatus;
         pLabel = "Left Wing";
         pShortLabel = "LWng";
         onlineOffline = false;     // has partial failure
         break;
 
-    case RightWing:
+    case DamageItem::RightWing:
         frac = rwingstatus;
         pLabel = "Right Wing";
         pShortLabel = "RWng";
         onlineOffline = false;     // has partial failure
         break;
 
-    case LeftAileron:
+    case DamageItem::LeftAileron:
         frac = ((aileronfail[0] | aileronfail[1]) ? 0 : 1);    // either mesh index 0 or 1 could be marked FAILED, so we must check both
         pLabel = "Left Aileron";
         pShortLabel = "LAil";
         break;
 
-    case RightAileron:
+    case DamageItem::RightAileron:
         frac = ((aileronfail[2] | aileronfail[3]) ? 0 : 1);    // either mesh index 2 or 3 could be marked FAILED, so we must check both
         pLabel = "Right Aileron";
         pShortLabel = "RAil";
         break;
 
-    case LandingGear:
-        frac = ((gear_status == DOOR_FAILED) ? 0 : 1);
+    case DamageItem::LandingGear:
+        frac = ((gear_status == DoorStatus::DOOR_FAILED) ? 0 : 1);
         pLabel = "Landing Gear";
         pShortLabel = "Gear";
         break;
 
-    case Nosecone:
-        frac = ((nose_status == DOOR_FAILED) ? 0 : 1);
+    case DamageItem::Nosecone:
+        frac = ((nose_status == DoorStatus::DOOR_FAILED) ? 0 : 1);
         pLabel = NOSECONE_LABEL;
         pShortLabel = NOSECONE_SHORT_LABEL;
         break;
 
-    case RetroDoors:
-        frac = ((rcover_status == DOOR_FAILED) ? 0 : 1);
+    case DamageItem::RetroDoors:
+        frac = ((rcover_status == DoorStatus::DOOR_FAILED) ? 0 : 1);
         pLabel = "Retro Doors";
         pShortLabel = "RDor";
         break;
 
-    case Hatch:
-        frac = ((hatch_status == DOOR_FAILED) ? 0 : 1);
+    case DamageItem::Hatch:
+        frac = ((hatch_status == DoorStatus::DOOR_FAILED) ? 0 : 1);
         pLabel = "Top Hatch";
         pShortLabel = "Htch";
         break;
 
-    case Radiator:
-        frac = ((radiator_status == DOOR_FAILED) ? 0 : 1);
+    case DamageItem::Radiator:
+        frac = ((radiator_status == DoorStatus::DOOR_FAILED) ? 0 : 1);
         pLabel = "Radiator";
         pShortLabel = "Rad";
         break;
 
-    case Airbrake:
-        frac = ((brake_status == DOOR_FAILED) ? 0 : 1);
+    case DamageItem::Airbrake:
+        frac = ((brake_status == DoorStatus::DOOR_FAILED) ? 0 : 1);
         pLabel = "Airbrake";
         pShortLabel = "Airb";
         break;
 
-    case MainEngineLeft:
+    case DamageItem::MainEngineLeft:
     {
         const double maxMainThrust = MAX_MAIN_THRUST[GetXR1Config()->MainEngineThrust];
         frac = (maxMainThrust > 0 ? (GetThrusterMax0(th_main[0]) / MAX_MAIN_THRUST[GetXR1Config()->MainEngineThrust]) : 1.0);  // if max main thrust set to zero via cheatcode, engines cannot fail (avoid divide-by-zero here as well)
@@ -619,7 +619,7 @@ const DamageStatus &DeltaGliderXR1::GetDamageStatus(DamageItem item) const
         break;
     }
 
-    case MainEngineRight:
+    case DamageItem::MainEngineRight:
     {
         const double maxMainThrust = MAX_MAIN_THRUST[GetXR1Config()->MainEngineThrust];
         frac = (maxMainThrust > 0 ? (GetThrusterMax0(th_main[1]) / MAX_MAIN_THRUST[GetXR1Config()->MainEngineThrust]) : 1.0);  // if max main thrust set to zero via cheatcode, engines cannot fail (avoid divide-by-zero here as well)
@@ -629,21 +629,21 @@ const DamageStatus &DeltaGliderXR1::GetDamageStatus(DamageItem item) const
         break;
     }
 
-    case SCRAMEngineLeft:
+    case DamageItem::SCRAMEngineLeft:
         frac = ramjet->GetEngineIntegrity(0);
         pLabel = "Left SCRAM Engine";
         pShortLabel = "LScr";
         onlineOffline = false;     // has partial failure
         break;
 
-    case SCRAMEngineRight:
+    case DamageItem::SCRAMEngineRight:
         frac = ramjet->GetEngineIntegrity(1);
         pLabel = "Right SCRAM Engine";
         pShortLabel = "RScr";
         onlineOffline = false;     // has partial failure
         break;
 
-    case HoverEngineFore:
+    case DamageItem::HoverEngineFore:
         // must make explicit check for damage here because we can vary the max thrust based on gimbaling
         frac = m_hoverEngineIntegrity[0];
         pLabel = "Fore Hover Engine";
@@ -651,7 +651,7 @@ const DamageStatus &DeltaGliderXR1::GetDamageStatus(DamageItem item) const
         onlineOffline = false;     // has partial failure
         break;
 
-    case HoverEngineAft:
+    case DamageItem::HoverEngineAft:
         // must make explicit check for damage here because we can vary the max thrust based on gimbaling
         frac = m_hoverEngineIntegrity[1];
         // can't do this: frac = GetThrusterMax0(th_hover[1]) / MAX_HOVER_THRUST[GetXR1Config()->HoverEngineThrust];
@@ -660,36 +660,36 @@ const DamageStatus &DeltaGliderXR1::GetDamageStatus(DamageItem item) const
         onlineOffline = false;     // has partial failure
         break;
 
-    case RetroEngineLeft:
+    case DamageItem::RetroEngineLeft:
         frac = (MAX_RETRO_THRUST > 0 ? (GetThrusterMax0(th_retro[0]) / MAX_RETRO_THRUST) : 1.0);    // if retro max thrust set to zero via cheatcode, engines cannot fail (avoid divide-by-zero here as well)
         pLabel = "Left Retro Engine";
         pShortLabel = "LRet";
         onlineOffline = false;     // has partial failure
         break;
 
-    case RetroEngineRight:
+    case DamageItem::RetroEngineRight:
         frac = (MAX_RETRO_THRUST > 0 ? (GetThrusterMax0(th_retro[1]) / MAX_RETRO_THRUST) : 1.0);    // if retro max thrust set to zero via cheatcode, engines cannot fail (avoid divide-by-zero here as well)
         pLabel = "Right Retro Engine";
         pShortLabel = "RRet";
         onlineOffline = false;     // has partial failure
         break;
 
-    case RCS1:
-    case RCS2:
-    case RCS3:
-    case RCS4:
-    case RCS5:
-    case RCS6:
-    case RCS7:
-    case RCS8:
-    case RCS9:
-    case RCS10:
-    case RCS11:
-    case RCS12:
-    case RCS13:
-    case RCS14:
+    case DamageItem::RCS1:
+    case DamageItem::RCS2:
+    case DamageItem::RCS3:
+    case DamageItem::RCS4:
+    case DamageItem::RCS5:
+    case DamageItem::RCS6:
+    case DamageItem::RCS7:
+    case DamageItem::RCS8:
+    case DamageItem::RCS9:
+    case DamageItem::RCS10:
+    case DamageItem::RCS11:
+    case DamageItem::RCS12:
+    case DamageItem::RCS13:
+    case DamageItem::RCS14:
         {
-            int index = item - static_cast<int>(RCS1);    // 0-13
+            int index = static_cast<int>(item) - static_cast<int>(DamageItem::RCS1);    // 0-13
             // these are display names for the MDA screens, so keep the length reasonable
             static const char *pLabels[] = 
             { 
@@ -732,7 +732,7 @@ const DamageStatus &DeltaGliderXR1::GetDamageStatus(DamageItem item) const
 void DeltaGliderXR1::ResetDamageStatus()
 {
     // first, clear all damage states
-    for (int i=0; i <= D_END; i++)
+    for (int i=0; i <= static_cast<int>(D_END); i++)
         SetDamageStatus((DamageItem)i, 1.0);  // this will not reset warning lights, however
 
     // second, clear all warning lights
@@ -754,121 +754,121 @@ void DeltaGliderXR1::ResetDamageStatus()
 void DeltaGliderXR1::SetDamageStatus(DamageItem item, double fracIntegrity)
 {
 // NOTE: because some warning lights can have multiple causes (e.g., left and right engines), we never CLEAR a warning flag here
-#define SET_WARNING_LIGHT(wlIdx)  m_warningLights[wlIdx] |= (fracIntegrity < 1.0)
+#define SET_WARNING_LIGHT(wlIdx)  m_warningLights[static_cast<int>(wlIdx)] |= (fracIntegrity < 1.0)
 #define UPDATE_DOOR_DMG(name)  UpdateDoorDamage(name##_status, name##_proc, fracIntegrity)
 
     switch (item)
     {   
-    case LeftWing:
+    case DamageItem::LeftWing:
         lwingstatus = fracIntegrity;
-        SET_WARNING_LIGHT(wlLwng);
+        SET_WARNING_LIGHT(WarningLight::wlLwng);
         break;
 
-    case RightWing:
+    case DamageItem::RightWing:
         rwingstatus = fracIntegrity;
-        SET_WARNING_LIGHT(wlRwng);
+        SET_WARNING_LIGHT(WarningLight::wlRwng);
         break;
 
-    case LeftAileron:
+    case DamageItem::LeftAileron:
         aileronfail[0] = aileronfail[1] = ((fracIntegrity < 1.0) ? true : false);  // affect both aileron mesh groups here
         // NOTE: the control surfaces are failed later in our main damange method
-        SET_WARNING_LIGHT(wlLail);
+        SET_WARNING_LIGHT(WarningLight::wlLail);
         break;
 
-    case RightAileron:
+    case DamageItem::RightAileron:
         aileronfail[2] = aileronfail[3] = ((fracIntegrity < 1.0) ? true : false);  // affect both aileron mesh groups here
         // NOTE: the control surfaces are failed later in our main damange method
-        SET_WARNING_LIGHT(wlRail);
+        SET_WARNING_LIGHT(WarningLight::wlRail);
         break;
 
-    case LandingGear:
+    case DamageItem::LandingGear:
         UPDATE_DOOR_DMG(gear);
-        SET_WARNING_LIGHT(wlGear);
+        SET_WARNING_LIGHT(WarningLight::wlGear);
         break;
 
-    case Nosecone:
+    case DamageItem::Nosecone:
         UPDATE_DOOR_DMG(nose);
-        SET_WARNING_LIGHT(wlNose);
+        SET_WARNING_LIGHT(WarningLight::wlNose);
         break;
 
-    case RetroDoors:
+    case DamageItem::RetroDoors:
         UPDATE_DOOR_DMG(rcover);
-        SET_WARNING_LIGHT(wlRdor);
+        SET_WARNING_LIGHT(WarningLight::wlRdor);
         break;
 
-    case Hatch:
+    case DamageItem::Hatch:
         UPDATE_DOOR_DMG(hatch);
-        SET_WARNING_LIGHT(wlHtch);
+        SET_WARNING_LIGHT(WarningLight::wlHtch);
         break;
 
-    case Radiator:
+    case DamageItem::Radiator:
         UPDATE_DOOR_DMG(radiator);
-        SET_WARNING_LIGHT(wlRad);
+        SET_WARNING_LIGHT(WarningLight::wlRad);
         break;
 
-    case Airbrake:
+    case DamageItem::Airbrake:
         UPDATE_DOOR_DMG(brake);
-        SET_WARNING_LIGHT(wlAirb);
+        SET_WARNING_LIGHT(WarningLight::wlAirb);
         break;
 
-    case MainEngineLeft:
+    case DamageItem::MainEngineLeft:
         SetThrusterMax0(th_main[0], MAX_MAIN_THRUST[GetXR1Config()->MainEngineThrust] * fracIntegrity);
-        SET_WARNING_LIGHT(wlMain);
+        SET_WARNING_LIGHT(WarningLight::wlMain);
         break;
 
-    case MainEngineRight:
+    case DamageItem::MainEngineRight:
         SetThrusterMax0(th_main[1], MAX_MAIN_THRUST[GetXR1Config()->MainEngineThrust] * fracIntegrity);
-        SET_WARNING_LIGHT(wlMain);
+        SET_WARNING_LIGHT(WarningLight::wlMain);
         break;
 
-    case SCRAMEngineLeft:
+    case DamageItem::SCRAMEngineLeft:
         ramjet->SetEngineIntegrity(0, fracIntegrity);
-        SET_WARNING_LIGHT(wlScrm);
+        SET_WARNING_LIGHT(WarningLight::wlScrm);
         break;
 
-    case SCRAMEngineRight:
+    case DamageItem::SCRAMEngineRight:
         ramjet->SetEngineIntegrity(1, fracIntegrity);
-        SET_WARNING_LIGHT(wlScrm);
+        SET_WARNING_LIGHT(WarningLight::wlScrm);
         break;
 
-    case HoverEngineFore:
+    case DamageItem::HoverEngineFore:
         SetHoverThrusterMaxAndIntegrity(0, fracIntegrity);
-        SET_WARNING_LIGHT(wlHovr);
+        SET_WARNING_LIGHT(WarningLight::wlHovr);
         break;
 
-    case HoverEngineAft:
+    case DamageItem::HoverEngineAft:
         SetHoverThrusterMaxAndIntegrity(1, fracIntegrity);
-        SET_WARNING_LIGHT(wlHovr);
+        SET_WARNING_LIGHT(WarningLight::wlHovr);
         break;
 
-    case RetroEngineLeft:
+    case DamageItem::RetroEngineLeft:
         SetThrusterMax0(th_retro[0], MAX_RETRO_THRUST * fracIntegrity);
-        SET_WARNING_LIGHT(wlRtro);
+        SET_WARNING_LIGHT(WarningLight::wlRtro);
         break;
 
-    case RetroEngineRight:
+    case DamageItem::RetroEngineRight:
         SetThrusterMax0(th_retro[1], MAX_RETRO_THRUST * fracIntegrity);
-        SET_WARNING_LIGHT(wlRtro);
+        SET_WARNING_LIGHT(WarningLight::wlRtro);
         break;
 
-    case RCS1:
-    case RCS2:
-    case RCS3:
-    case RCS4:
-    case RCS5:
-    case RCS6:
-    case RCS7:
-    case RCS8:
-    case RCS9:
-    case RCS10:
-    case RCS11:
-    case RCS12:
-    case RCS13:
-    case RCS14:
+    case DamageItem::RCS1:
+    case DamageItem::RCS2:
+    case DamageItem::RCS3:
+    case DamageItem::RCS4:
+    case DamageItem::RCS5:
+    case DamageItem::RCS6:
+    case DamageItem::RCS7:
+    case DamageItem::RCS8:
+    case DamageItem::RCS9:
+    case DamageItem::RCS10:
+    case DamageItem::RCS11:
+    case DamageItem::RCS12:
+    case DamageItem::RCS13:
+    case DamageItem::RCS14:
         {
-            int index = item - static_cast<int>(RCS1);    // 0-13
+            int index = static_cast<int>(item) - static_cast<int>(DamageItem::RCS1);    // 0-13
             SetRCSThrusterMaxAndIntegrity(index, fracIntegrity);
-            SET_WARNING_LIGHT(wlRcs);
+            SET_WARNING_LIGHT(WarningLight::wlRcs);
         }
         break;
 
@@ -891,20 +891,20 @@ void DeltaGliderXR1::SetDamageStatus(DamageItem item, double fracIntegrity)
 void DeltaGliderXR1::UpdateDoorDamage(DoorStatus &doorStatus, double &doorProc, const double fracIntegrity)
 {
     if (fracIntegrity < 1.0)
-        doorStatus = DOOR_FAILED;
+        doorStatus = DoorStatus::DOOR_FAILED;
     else 
     {
         // door is OK, so let's see if we are restoring this door from an OFFLINE state
-        if (doorStatus == DOOR_FAILED)
+        if (doorStatus == DoorStatus::DOOR_FAILED)
         {
             // door just came back online
             if (doorProc == 0.0)
-                doorStatus = DOOR_CLOSED;
+                doorStatus = DoorStatus::DOOR_CLOSED;
             else if (doorProc == 1.0)
-                doorStatus = DOOR_OPEN;   
+                doorStatus = DoorStatus::DOOR_OPEN;
             else  // door was halfway open or closed, but we have no way of knowing which...
             {
-                doorStatus = DOOR_CLOSING;   // ...so let's mark it 'closing'
+                doorStatus = DoorStatus::DOOR_CLOSING;   // ...so let's mark it 'closing'
             }
         }
     }
@@ -945,7 +945,7 @@ void DeltaGliderXR1::SetDamageVisuals()
     }
     
     // top hatch
-    if (hatch_status == DOOR_FAILED)
+    if (hatch_status == DoorStatus::DOOR_FAILED)
         SetXRAnimation(anim_hatch, 0.2);  // show partially deployed
 }
 
@@ -977,7 +977,7 @@ void DeltaGliderXR1::DoCrash(const char *pMsg, double touchdownVerticalSpeed)
         // due to the Orbiter "bounce bug", where it bounces the ship.
         // NOTE #3: if crew is already dead, always display this message.  
         // Also note that if the crew is dead GetCrewMembersCount() returns 0, so be careful when modifying this section
-        if ((touchdownVerticalSpeed <= 0) || (touchdownVerticalSpeed > CREW_IMPACT_DEATH_THRESHOLD) || (m_crewState == DEAD))
+        if ((touchdownVerticalSpeed <= 0) || (touchdownVerticalSpeed > CREW_IMPACT_DEATH_THRESHOLD) || (m_crewState == CrewState::DEAD))
         {
             strcat(m_crashMessage, "&You and the crew are DEAD!");
             KillCrew();
@@ -987,7 +987,7 @@ void DeltaGliderXR1::DoCrash(const char *pMsg, double touchdownVerticalSpeed)
             if (touchdownVerticalSpeed > CREW_IMPACT_SEVERE_INJURY_THRESHOLD)
             {
                 strcat(m_crashMessage, "&You and the crew&sustained SEVERE INJURIES,&but you survived!");
-                m_crewState = INCAPACITATED;
+                m_crewState = CrewState::INCAPACITATED;
             }
             else if (touchdownVerticalSpeed > CREW_IMPACT_MODERATE_INJURY_THRESHOLD)
                 strcat(m_crashMessage, "&You and the crew&sustained MODERATE INJURIES,&but you survived!");
@@ -1090,8 +1090,8 @@ void DeltaGliderXR1::FailGear(bool setGearAnimState)
     SetGearParameters(gear_proc);       // sets friction coeff and nosewheel steering
     SetMaxWheelbrakeForce(0);           // brakes disabled
     m_MWSActive = true;
-    gear_status = DOOR_FAILED;
-    m_warningLights[wlGear] = true;
+    gear_status = DoorStatus::DOOR_FAILED;
+    m_warningLights[static_cast<int>(WarningLight::wlGear)] = true;
 }
 
 // check HULL temperature and issue warning if necessary
@@ -1111,7 +1111,7 @@ double DeltaGliderXR1::CheckTemperature(double tempK, double limitK, bool doorOp
     // check for over-limit
     if (tempK > limitK)
     {
-        m_warningLights[wlHtmp] |= true;       // turn light ON
+        m_warningLights[static_cast<int>(WarningLight::wlHtmp)] |= true;       // turn light ON
 
         // fail the structure if necessary
         const double dt = oapiGetSimStep();     // # of seconds since last timestep
@@ -1137,7 +1137,7 @@ double DeltaGliderXR1::CheckTemperature(double tempK, double limitK, bool doorOp
         double criticalK = m_hullTemperatureLimits.criticalFrac * limitK;
         if (tempK >= criticalK)
         {
-            m_warningLights[wlHtmp] |= true;       // turn hull temp light ON
+            m_warningLights[static_cast<int>(WarningLight::wlHtmp)] |= true;       // turn hull temp light ON
             ShowWarning("Warning Hull Temperature.wav", ST_WarningCallout, "WARNING: HULL TEMP. CRITICAL!");  // can't force this because we're in a post-step and the sound would never get to play since this gets call for each frame
         }
     }
@@ -1153,7 +1153,7 @@ bool DeltaGliderXR1::CheckDoorFailure(DoorStatus *doorStatus)
     bool retVal = false;        // assume no damage
 
     // do not re-check or warn if door already failed
-    bool doorOpen = ((*doorStatus != DOOR_CLOSED) && (*doorStatus != DOOR_FAILED));
+    bool doorOpen = ((*doorStatus != DoorStatus::DOOR_CLOSED) && (*doorStatus != DoorStatus::DOOR_FAILED));
     const double dt = oapiGetSimStep();
 
     if (doorOpen)
@@ -1169,8 +1169,8 @@ bool DeltaGliderXR1::CheckDoorFailure(DoorStatus *doorStatus)
                 char msg[128];
                 sprintf(msg, "%s FAILED due to excessive&heat and/or dynamic pressure!", NOSECONE_LABEL);
                 ShowWarning("Warning Nosecone Failure.wav", ST_WarningCallout, msg, true); // OK to force this here
-                *doorStatus = DOOR_FAILED;
-                m_warningLights[wlNose] = true;
+                *doorStatus = DoorStatus::DOOR_FAILED;
+                m_warningLights[static_cast<int>(WarningLight::wlNose)] = true;
                 FailDoor(nose_proc, anim_nose);
                 retVal = true;   // new damage
             }
@@ -1179,10 +1179,10 @@ bool DeltaGliderXR1::CheckDoorFailure(DoorStatus *doorStatus)
                 char msg[128];
                 sprintf(msg, "%s is open:&close it or reduce speed!", NOSECONE_LABEL);
                 ShowWarning(WARNING_NOSECONE_OPEN_WAV, ST_WarningCallout, msg);
-                m_warningLights[wlNose] = true;
+                m_warningLights[static_cast<int>(WarningLight::wlNose)] = true;
             }
             else if (IS_DOOR_FAILED() == false) 
-                m_warningLights[wlNose] = false;   // reset light
+                m_warningLights[static_cast<int>(WarningLight::wlNose)] = false;   // reset light
         }
         if (doorStatus == &hoverdoor_status)
         {
@@ -1201,8 +1201,8 @@ bool DeltaGliderXR1::CheckDoorFailure(DoorStatus *doorStatus)
                 IS_DOOR_FAILURE(m_rightWingTemp, RETRO_DOOR_LIMIT))
             {
                 ShowWarning("Warning Retro Door Failure.wav", ST_WarningCallout, "Retro Doors FAILED due to excessive&heat and/or dynamic pressure!", true); // force this
-                *doorStatus = DOOR_FAILED;
-                m_warningLights[wlRdor] = true;
+                *doorStatus = DoorStatus::DOOR_FAILED;
+                m_warningLights[static_cast<int>(WarningLight::wlRdor)] = true;
                 FailDoor(rcover_proc, anim_rcover);
                 retVal = true;   // new damage
             }
@@ -1210,10 +1210,10 @@ bool DeltaGliderXR1::CheckDoorFailure(DoorStatus *doorStatus)
                      IS_DOOR_WARNING(m_rightWingTemp, RETRO_DOOR_LIMIT))
             {
                 ShowWarning("Warning Retro Doors Open.wav", ST_WarningCallout, "Retro Doors are open:&close them or reduce speed!");
-                m_warningLights[wlRdor] = true;
+                m_warningLights[static_cast<int>(WarningLight::wlRdor)] = true;
             }
             else if (IS_DOOR_FAILED() == false) 
-                m_warningLights[wlRdor] = false;   // reset light
+                m_warningLights[static_cast<int>(WarningLight::wlRdor)] = false;   // reset light
         }
         else if (doorStatus == &hatch_status)
         {
@@ -1222,18 +1222,18 @@ bool DeltaGliderXR1::CheckDoorFailure(DoorStatus *doorStatus)
             if (IS_DOOR_FAILURE(m_cockpitTemp, HATCH_OPEN_LIMIT))
             {
                 ShowWarning("Warning Hatch Failure.wav", ST_WarningCallout, "Top Hatch FAILED due to excessive&heat and/or dynamic pressure!", true); // force this
-                *doorStatus = DOOR_FAILED;
-                m_warningLights[wlHtch] = true;
+                *doorStatus = DoorStatus::DOOR_FAILED;
+                m_warningLights[static_cast<int>(WarningLight::wlHtch)] = true;
                 FailDoor(hatch_proc, anim_hatch);
                 retVal = true;   // new damage
             }
             else if (IS_DOOR_WARNING(m_cockpitTemp, HATCH_OPEN_LIMIT))
             {
                 ShowWarning("Warning Hatch Open.wav", ST_WarningCallout, "Top Hatch is open:&close it or reduce speed!");
-                m_warningLights[wlHtch] = true;
+                m_warningLights[static_cast<int>(WarningLight::wlHtch)] = true;
             }
             else if (IS_DOOR_FAILED() == false) 
-                m_warningLights[wlHtch] = false;   // reset light
+                m_warningLights[static_cast<int>(WarningLight::wlHtch)] = false;   // reset light
         }
         else if (doorStatus == &radiator_status)
         {
@@ -1241,18 +1241,18 @@ bool DeltaGliderXR1::CheckDoorFailure(DoorStatus *doorStatus)
             if (IS_DOOR_FAILURE(m_topHullTemp, RADIATOR_LIMIT))
             {
                 ShowWarning("Warning Radiator Failure.wav", ST_WarningCallout, "Radiator FAILED due to excessive&heat and/or dynamic pressure!", true); // force this
-                *doorStatus = DOOR_FAILED;
-                m_warningLights[wlRad] = true;
+                *doorStatus = DoorStatus::DOOR_FAILED;
+                m_warningLights[static_cast<int>(WarningLight::wlRad)] = true;
                 FailDoor(radiator_proc, anim_radiator);
                 retVal = true;   // new damage
             }
             else if (IS_DOOR_WARNING(m_topHullTemp, RADIATOR_LIMIT))
             {
                 ShowWarning("Warning Radiator Deployed.wav", ST_WarningCallout, "Radiator is deployed:&stow it or reduce speed!");
-                m_warningLights[wlRad] = true;
+                m_warningLights[static_cast<int>(WarningLight::wlRad)] = true;
             }
             else if (IS_DOOR_FAILED() == false) 
-                m_warningLights[wlRad] = false;   // reset light
+                m_warningLights[static_cast<int>(WarningLight::wlRad)] = false;   // reset light
         }
         else if (doorStatus == &gear_status)
         {
@@ -1262,33 +1262,33 @@ bool DeltaGliderXR1::CheckDoorFailure(DoorStatus *doorStatus)
             if (IS_DOOR_FAILURE(m_noseconeTemp, GEAR_LIMIT))
             {
                 ShowWarning("Warning Gear Failure.wav", ST_WarningCallout, "Landing Gear FAILED due to excessive&heat and/or dynamic pressure!", true); // force this
-                *doorStatus = DOOR_FAILED;
+                *doorStatus = DoorStatus::DOOR_FAILED;
                 FailGear(true);     // also invoke FailDoor to show gear partially collapsed
-                m_warningLights[wlGear] = true;
+                m_warningLights[static_cast<int>(WarningLight::wlGear)] = true;
                 retVal = true;   // new damage
             }
             else if (IS_DOOR_WARNING(m_noseconeTemp, GEAR_LIMIT))
             {
                 ShowWarning("Warning Gear Deployed.wav", ST_WarningCallout, "Gear is deployed:&retract it or reduce speed!");
-                m_warningLights[wlGear] = true;
+                m_warningLights[static_cast<int>(WarningLight::wlGear)] = true;
             }
             else if (IS_DOOR_FAILED() == false) 
-                m_warningLights[wlGear] = false;   // reset light
+                m_warningLights[static_cast<int>(WarningLight::wlGear)] = false;   // reset light
         }
     }
     else if (IS_DOOR_FAILED() == false)
     {
         // door is closed; reset the warning light
         if (doorStatus == &nose_status)
-            m_warningLights[wlNose] = false;  
+            m_warningLights[static_cast<int>(WarningLight::wlNose)] = false;
         else if (doorStatus == &rcover_status)
-            m_warningLights[wlRdor] = false;  
+            m_warningLights[static_cast<int>(WarningLight::wlRdor)] = false;
         else if (doorStatus == &hatch_status)
-            m_warningLights[wlHtch] = false;  
+            m_warningLights[static_cast<int>(WarningLight::wlHtch)] = false;
         else if (doorStatus == &radiator_status)
-            m_warningLights[wlRad] = false;   
+            m_warningLights[static_cast<int>(WarningLight::wlRad)] = false;
         else if (doorStatus == &gear_status)
-            m_warningLights[wlGear] = false;  
+            m_warningLights[static_cast<int>(WarningLight::wlGear)] = false;
     }
 
     return retVal;
@@ -1301,7 +1301,7 @@ double DeltaGliderXR1::CheckScramTemperature(double tempK, double limitK)
     double retVal = 0;
 
     // turn on SCRAM light if engines over-temp or if either is damaged; otherwise, turn it off
-    m_warningLights[wlScrm] = ((tempK > limitK) || (ramjet->GetEngineIntegrity(0) < 1.0) || (ramjet->GetEngineIntegrity(1) < 1.0));
+    m_warningLights[static_cast<int>(WarningLight::wlScrm)] = ((tempK > limitK) || (ramjet->GetEngineIntegrity(0) < 1.0) || (ramjet->GetEngineIntegrity(1) < 1.0));
 
     // check for over-limit
     if (tempK > limitK)
@@ -1336,7 +1336,7 @@ double DeltaGliderXR1::CheckScramTemperature(double tempK, double limitK)
             const double mach = GetMachNumber();
             // only play warning is SCRAM throttle is CLOSED
             const double throttleLevelX2 = GetThrusterLevel(th_scram[0]) + GetThrusterLevel(th_scram[1]);
-            if ((throttleLevelX2 == 0.0) && (tempK > extTemp) && (mach >= MACH_REENTRY_WARNING_THRESHOLD) && ((scramdoor_status != DOOR_CLOSED) && (scramdoor_status != DOOR_CLOSING)))
+            if ((throttleLevelX2 == 0.0) && (tempK > extTemp) && (mach >= MACH_REENTRY_WARNING_THRESHOLD) && ((scramdoor_status != DoorStatus::DOOR_CLOSED) && (scramdoor_status != DoorStatus::DOOR_CLOSING)))
             {
                 ShowWarning("Warning SCRAM doors open.wav", ST_WarningCallout, "WARNING: SCRAM DOORS OPEN!");
             }

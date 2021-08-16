@@ -294,7 +294,7 @@ void ConfigFileParser::WriteLog(const char *pMsg) const
     csMsg.Format("%02d.%02d.%04d %02d:%02d:%02d.%03d - %s%s\n", 
         st.wMonth, st.wDay, st.wYear, 
         st.wHour, st.wMinute, st.wSecond, st.wMilliseconds,
-        csPrefix, pMsg);
+        static_cast<const char *>(csPrefix), pMsg);
 
     // no point in checking for error here
     OutputDebugString(csMsg);   // send to debug console

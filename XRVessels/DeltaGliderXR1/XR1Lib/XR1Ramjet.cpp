@@ -208,7 +208,7 @@ double XR1Ramjet::Temp(UINT idx, UINT which) const
 
     // DEFENSIVE CODE: clamp the temperature to freestream temp if SCRAM doors are closed.
     // This should never be necessary (i.e., is should be OK to fall through to the code below), but the code is complex and we want to be defensive here.
-    if (vessel->scramdoor_status == DOOR_CLOSED)
+    if (vessel->scramdoor_status == DoorStatus::DOOR_CLOSED)
         return freestreamTemp;
 
     double t = thdef[idx]->T[which] / SCRAM_COOLING; // adjusted for the XR1

@@ -93,7 +93,7 @@ public:
 class PopupHUDArea : public XR1Area
 {
 public:
-    enum OnOffState { Off, TurningOn, On, TurningOff };  // used for scroll management
+    enum class OnOffState { Off, TurningOn, On, TurningOff };  // used for scroll management
 
     PopupHUDArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const int width, const int height);
     virtual ~PopupHUDArea();
@@ -107,8 +107,8 @@ public:
 
     // NOTE: this is the caller's responsibility to delete this text box eventually
     void SetTextBox(TextBox *pTextBox) { m_pTextBox = pTextBox; }
-    TextBox *GetTextBox() { return m_pTextBox; }
-    OnOffState GetState() { return m_state; }  // Off, TurningOn, On, TurningOff
+    TextBox *GetTextBox() const { return m_pTextBox; }
+    OnOffState GetState() const { return m_state; }  // Off, TurningOn, On, TurningOff
     
     // retrieve the background and highlight colors; if a TextBox is present, that value overrides any colors set manually
     COLORREF GetBackgroundColor() const { return m_bgColorRef; }

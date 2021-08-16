@@ -164,7 +164,7 @@ public:
 
 protected:
     // enum for DoMainYawCenter; do not change the order of these values.
-    enum BUTTON { CENTER, DIVERGENT, AUTO };
+    enum class BUTTON { CENTER, DIVERGENT, AUTO };
 
     // handlers for each different button
     void DoCenterOfGravityCenter(const double simt, const double simdt, const double mjd);

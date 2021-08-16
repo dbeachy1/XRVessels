@@ -45,9 +45,9 @@ void FuelCalloutsPostStep::clbkPrePostStep(const double simt, const double simdt
     if (GetXR1().IsCrewIncapacitatedOrNoPilotOnBoard())  // covers IsCrashed() as well
         return;     
 
-    CheckFuelLevel("Main", GetXR1().ph_main, m_prevMainFuelFrac, wlMfuel);
-    CheckFuelLevel("RCS", GetXR1().ph_rcs, m_prevRcsFuelFrac, wlRfuel);
-    CheckFuelLevel("SCRAM", GetXR1().ph_scram, m_prevScramFuelFrac, wlNONE);  // no light for SCRAM fuel; low SCRAM fuel is not a critical warning condition: it is normal
+    CheckFuelLevel("Main", GetXR1().ph_main, m_prevMainFuelFrac, WarningLight::wlMfuel);
+    CheckFuelLevel("RCS", GetXR1().ph_rcs, m_prevRcsFuelFrac, WarningLight::wlRfuel);
+    CheckFuelLevel("SCRAM", GetXR1().ph_scram, m_prevScramFuelFrac, WarningLight::wlNONE);  // no light for SCRAM fuel; low SCRAM fuel is not a critical warning condition: it is normal
     
     // NOTE: APU fuel is checked in APUPostStep later in this file
 
@@ -90,23 +90,23 @@ void FuelCalloutsPostStep::CheckFuelLevel(const char *pLabel, PROPELLANT_HANDLE 
         else if ((currentPropMassFrac <= 0) && (prevQtyFrac > 0))    // just hit 0%?
         {
             SEND_FUEL_WARNING("Depleted");
-            if (warningLight != wlNONE)
+            if (warningLight != WarningLight::wlNONE)
                 GetXR1().m_MWSActive = true;
         }
         else if ((currentPropMassFrac < warningFrac) && (prevQtyFrac >= warningFrac)) // just crossed below 5% remaining?
         {
             SEND_FUEL_WARNING("Low");
-            if (warningLight != wlNONE)
+            if (warningLight != WarningLight::wlNONE)
                 GetXR1().m_MWSActive = true;
         }
 
         // warning light always blinks regardless of main MWS light
-        if (warningLight != wlNONE)
+        if (warningLight != WarningLight::wlNONE)
         {
             if (currentPropMassFrac < warningFrac)
-                GetXR1().m_warningLights[warningLight] = true;
+                GetXR1().m_warningLights[static_cast<int>(warningLight)] = true;
             else
-                GetXR1().m_warningLights[warningLight] = false;  // fuel level OK
+                GetXR1().m_warningLights[static_cast<int>(warningLight)] = false;  // fuel level OK
         }
     }
 
@@ -142,9 +142,9 @@ void FuelCalloutsPostStep::CheckLoxLevel()
 
         // warning light always blinks regardless of main MWS light
         if (currentQtyFrac < warningFrac)
-            GetXR1().m_warningLights[wlLox] = true;
+            GetXR1().m_warningLights[static_cast<int>(WarningLight::wlLox)] = true;
         else
-            GetXR1().m_warningLights[wlLox] = false;  // LOX level OK
+            GetXR1().m_warningLights[static_cast<int>(WarningLight::wlLox)] = false;  // LOX level OK
     }
 
     // update m_prevQty for next loop
@@ -155,7 +155,7 @@ void FuelCalloutsPostStep::CheckLoxLevel()
 
 APUPostStep::APUPostStep(DeltaGliderXR1 &vessel) : 
     XR1PrePostStep(vessel),
-    m_prevDoorStatus(NOT_SET), m_doorTargetSimt(0), m_prevQty(-1), m_firstTimeStep(true), m_poweringUpOrDown(false)
+    m_prevDoorStatus(DoorStatus::NOT_SET), m_doorTargetSimt(0), m_prevQty(-1), m_firstTimeStep(true), m_poweringUpOrDown(false)
 {
 }
 
@@ -171,8 +171,8 @@ void APUPostStep::clbkPrePostStep(const double simt, const double simdt, const d
         !GetVessel().Playback())
     {
         // turn off the APU if not already off.
-        if ((GetXR1().apu_status == DOOR_OPEN) || (GetXR1().apu_status == DOOR_OPENING))
-            GetXR1().ActivateAPU(DOOR_CLOSING);
+        if ((GetXR1().apu_status == DoorStatus::DOOR_OPEN) || (GetXR1().apu_status == DoorStatus::DOOR_OPENING))
+            GetXR1().ActivateAPU(DoorStatus::DOOR_CLOSING);
     }
 
     BurnAPUFuel(simt, simdt, mjd);
@@ -190,7 +190,7 @@ void APUPostStep::clbkPrePostStep(const double simt, const double simdt, const d
         {
             // check for runtime callout if APU is running AND limited APU fuel enabled
             // NOTE: AF Ctrl already handled above
-            if ((GetXR1().apu_status == DOOR_OPEN) && (pConfig->APUFuelBurnRate > 0))
+            if ((GetXR1().apu_status == DoorStatus::DOOR_OPEN) && (pConfig->APUFuelBurnRate > 0))
             {
                 // Note: don't need to worry about deltaFromLastLoad going negative here 
                 const double deltaFromLastLoad = simt - GetXR1().m_latestHydraulicDoorRunningSimt;
@@ -207,7 +207,7 @@ void APUPostStep::clbkPrePostStep(const double simt, const double simdt, const d
 void APUPostStep::BurnAPUFuel(const double simt, const double simdt, const double mjd)
 {
     // burn fuel if APU is running or starting up
-    if ((GetXR1().apu_status == DOOR_OPEN) || (GetXR1().apu_status == DOOR_OPENING))
+    if ((GetXR1().apu_status == DoorStatus::DOOR_OPEN) || (GetXR1().apu_status == DoorStatus::DOOR_OPENING))
     {
         // burn fuel at the specified rate
         const double kgPerMin = GetXR1().GetXR1Config()->GetAPUFuelBurnRate();  // may be 0
@@ -238,8 +238,8 @@ void APUPostStep::BurnAPUFuel(const double simt, const double simdt, const doubl
             GetXR1().m_MWSActive = true;
 
             // shut down the APU if it is running (we may be dumping fuel!)
-            if (GetXR1().apu_status == DOOR_OPEN)
-                GetXR1().apu_status = DOOR_CLOSING;
+            if (GetXR1().apu_status == DoorStatus::DOOR_OPEN)
+                GetXR1().apu_status = DoorStatus::DOOR_CLOSING;
         }
         else if ((frac <= warningFrac) && (prevFrac > warningFrac))   // just cross warning threshold?
         {
@@ -325,20 +325,20 @@ void APUPostStep::UpdateAPUDoorState(const double simt, const double simdt, cons
     if (m_poweringUpOrDown && (simt >= m_doorTargetSimt))
     {
         // APU has finished powering up or powering down now
-        doorStatus = GetXR1().apu_status = ((doorStatus == DOOR_OPENING) ? DOOR_OPEN : DOOR_CLOSED);
+        doorStatus = GetXR1().apu_status = ((doorStatus == DoorStatus::DOOR_OPENING) ? DoorStatus::DOOR_OPEN : DoorStatus::DOOR_CLOSED);
         m_poweringUpOrDown = false;  // reset for next time
 
         // if APU just reached full ON state, turn AF CTRL ON as well *if* inside any atmosphere
-        if ((doorStatus == DOOR_OPEN) && (GetVessel().GetDynPressure() >= 5.0e3))   // 5 kPa dynamic pressure
+        if ((doorStatus == DoorStatus::DOOR_OPEN) && (GetVessel().GetDynPressure() >= 5.0e3))   // 5 kPa dynamic pressure
             GetVessel().SetADCtrlMode(7);
     }
 
     // check whether door is functional and has just changed state
-    if ((doorStatus != DOOR_FAILED) && (doorStatus != m_prevDoorStatus))
+    if ((doorStatus != DoorStatus::DOOR_FAILED) && (doorStatus != m_prevDoorStatus))
     {
         const double spinupSpindownTime = 2.5;  // time in seconds (allow 1/10th second buffer so no gap in sound: sound is 2.6 sec long)
         // APU is audible only inside the ship
-        if (doorStatus == DOOR_OPENING)
+        if (doorStatus == DoorStatus::DOOR_OPENING)
         {
             GetXR1().LoadXR1Sound(GetXR1().APU, "APU Startup.wav", XRSound::PlaybackType::InternalOnly);
             GetXR1().PlaySound(GetXR1().APU, DeltaGliderXR1::ST_Other, APU_VOL);
@@ -346,7 +346,7 @@ void APUPostStep::UpdateAPUDoorState(const double simt, const double simdt, cons
             m_poweringUpOrDown = true;
             GetXR1().ShowInfo(NULL, DeltaGliderXR1::ST_None, "APU powering up.");
         }
-        else if (doorStatus == DOOR_CLOSING)
+        else if (doorStatus == DoorStatus::DOOR_CLOSING)
         {
             GetXR1().LoadXR1Sound(GetXR1().APU, "APU Shutdown.wav", XRSound::PlaybackType::InternalOnly);
             GetXR1().PlaySound(GetXR1().APU, DeltaGliderXR1::ST_Other, APU_VOL);
@@ -354,16 +354,16 @@ void APUPostStep::UpdateAPUDoorState(const double simt, const double simdt, cons
             m_poweringUpOrDown = true;
             GetXR1().ShowInfo(NULL, DeltaGliderXR1::ST_None, "APU powering down.");
         }
-        else if (doorStatus == DOOR_OPEN)
+        else if (doorStatus == DoorStatus::DOOR_OPEN)
         {
             GetXR1().LoadXR1Sound(GetXR1().APU, "APU Run.wav", XRSound::PlaybackType::InternalOnly);
             GetXR1().PlaySound(GetXR1().APU, DeltaGliderXR1::ST_Other, APU_VOL, true);    // LOOP this sound
-            if (m_prevDoorStatus != NOT_SET)    // not the first time through here?
+            if (m_prevDoorStatus != DoorStatus::NOT_SET)    // not the first time through here?
                 GetXR1().ShowInfo(NULL, DeltaGliderXR1::ST_None, "APU online.");
         }
-        else if (doorStatus == DOOR_CLOSED)
+        else if (doorStatus == DoorStatus::DOOR_CLOSED)
         {
-            if (m_prevDoorStatus != NOT_SET)    // not the first time through here?
+            if (m_prevDoorStatus != DoorStatus::NOT_SET)    // not the first time through here?
                 GetXR1().ShowInfo(NULL, DeltaGliderXR1::ST_None, "APU offline.");
         }
     }
@@ -397,7 +397,7 @@ DisableControlSurfForAPUPostStep::DisableControlSurfForAPUPostStep(DeltaGliderXR
 void DisableControlSurfForAPUPostStep::clbkPrePostStep(const double simt, const double simdt, const double mjd)
 {
     // NOTE: is it very difficult and cumbersome to delete and re-create control surfaces, so we simply force the AF mode to OFF here as necessary
-    if (GetXR1().apu_status != DOOR_OPEN)
+    if (GetXR1().apu_status != DoorStatus::DOOR_OPEN)
     {
         // APU is still offline; ensure the AF mode == OFF
         DWORD ctrlMode = GetXR1().GetADCtrlMode();
@@ -624,17 +624,19 @@ void XFeedPostStep::clbkPrePostStep(const double simt, const double simdt, const
     // NOTE: flow is to or from RCS tank here, so use RCS_FLOW_FRACTION
     switch (GetXR1().m_xfeedMode)
     {
-    case XF_MAIN:
+    case XFEED_MODE::XF_MAIN:
         // RCS -> MAIN
         mainToRCSFlow = -(FUEL_DUMP_RATE * simdt * RCS_FLOW_FRACTION); 
         break;
 
-    case XF_RCS:
+    case XFEED_MODE::XF_RCS:
         // MAIN -> RCS
         mainToRCSFlow = (FUEL_DUMP_RATE * simdt * RCS_FLOW_FRACTION); 
         break;
 
-    // no default handler for this; fall through and do nothing
+    default:
+        // no default handler for this; fall through and do nothing
+        break;
     }
 
     // flow the fuel
@@ -694,7 +696,7 @@ void XFeedPostStep::clbkPrePostStep(const double simt, const double simdt, const
 
         if (haltFlow)
         {
-            GetXR1().SetCrossfeedMode(XF_OFF, pMsg);  // also triggers the knob to redraw
+            GetXR1().SetCrossfeedMode(XFEED_MODE::XF_OFF, pMsg);  // also triggers the knob to redraw
             // flow sound will stop next timestep 
         }
         else    // flow still in progress
@@ -714,7 +716,7 @@ void XFeedPostStep::clbkPrePostStep(const double simt, const double simdt, const
 
 ResupplyPostStep::ResupplyPostStep(DeltaGliderXR1 &vessel) : 
     XR1PrePostStep(vessel),
-    m_prevResupplyEnabledStatus(false), m_prevFuelHatchStatus(DOOR_CLOSED), m_prevLoxHatchStatus(DOOR_CLOSED), m_prevExternalCoolingStatus(DOOR_CLOSED),
+    m_prevResupplyEnabledStatus(false), m_prevFuelHatchStatus(DoorStatus::DOOR_CLOSED), m_prevLoxHatchStatus(DoorStatus::DOOR_CLOSED), m_prevExternalCoolingStatus(DoorStatus::DOOR_CLOSED),
     m_refuelingSequenceStartSimt(-1), m_loxSequenceStartSimt(-1), m_externalCoolingSequenceStartSimt(-1),
     m_resupplyStartupTime(5.0), // time in seconds
     m_prevSimt(-1), m_resupplyMovementFirstDetectedSimt(-1)
@@ -784,10 +786,10 @@ void ResupplyPostStep::clbkPrePostStep(const double simt, const double simdt, co
         //
         // Check whether fuel hatch is open
         //
-        if (GetXR1().fuelhatch_status == DOOR_OPEN)
+        if (GetXR1().fuelhatch_status == DoorStatus::DOOR_OPEN)
         {
             // check if the hatch just opened
-            if (m_prevFuelHatchStatus != DOOR_OPEN)
+            if (m_prevFuelHatchStatus != DoorStatus::DOOR_OPEN)
             {
                 // start the refueling sequence countdown; this sound is NOT the hatch opening; it is the supply line extending from outside the ship
                 m_refuelingSequenceStartSimt = simt + m_resupplyStartupTime;
@@ -848,7 +850,7 @@ void ResupplyPostStep::clbkPrePostStep(const double simt, const double simdt, co
         else    // fuel hatch is CLOSED
         {
             m_refuelingSequenceStartSimt = -1;  // refueling disabled now
-            if (m_prevFuelHatchStatus == DOOR_OPEN)     // was the hatch just closed?
+            if (m_prevFuelHatchStatus == DoorStatus::DOOR_OPEN)     // was the hatch just closed?
             {
                 // play a thump of the hatch closing
                 GetXR1().LoadXR1Sound(GetXR1().FuelResupplyLine, "Resupply Line Attach.wav", XRSound::PlaybackType::InternalOnly);
@@ -862,10 +864,10 @@ void ResupplyPostStep::clbkPrePostStep(const double simt, const double simdt, co
         //
         // Check whether lox hatch is open
         //
-        if (GetXR1().loxhatch_status == DOOR_OPEN)
+        if (GetXR1().loxhatch_status == DoorStatus::DOOR_OPEN)
         {
             // check if the hatch just opened
-            if (m_prevLoxHatchStatus != DOOR_OPEN)
+            if (m_prevLoxHatchStatus != DoorStatus::DOOR_OPEN)
             {
                 // start the LOX resupply sequence countdown
                 m_loxSequenceStartSimt = simt + m_resupplyStartupTime;
@@ -907,7 +909,7 @@ void ResupplyPostStep::clbkPrePostStep(const double simt, const double simdt, co
         else    // LOX hatch is CLOSED
         {
             m_loxSequenceStartSimt = -1;  // refueling disabled now
-            if (m_prevLoxHatchStatus == DOOR_OPEN)     // was the hatch just closed?
+            if (m_prevLoxHatchStatus == DoorStatus::DOOR_OPEN)     // was the hatch just closed?
             {
                 GetXR1().StopSound(GetXR1().LoxResupplyLine);
                 GetXR1().ShowInfo("LOX Resupply Systems Offline.wav", DeltaGliderXR1::ST_InformationCallout, "External LOX line detached;&LOX resupply systems OFFLINE.");
@@ -919,10 +921,10 @@ void ResupplyPostStep::clbkPrePostStep(const double simt, const double simdt, co
         //
         // Check whether external cooling hatch is open
         //
-        if (GetXR1().externalcooling_status == DOOR_OPEN)  
+        if (GetXR1().externalcooling_status == DoorStatus::DOOR_OPEN)
         {
             // check if the hatch just opened
-            if (m_prevExternalCoolingStatus != DOOR_OPEN)
+            if (m_prevExternalCoolingStatus != DoorStatus::DOOR_OPEN)
             {
                 // start the external cooling sequence countdown
                 m_externalCoolingSequenceStartSimt = simt + m_resupplyStartupTime;
@@ -959,7 +961,7 @@ void ResupplyPostStep::clbkPrePostStep(const double simt, const double simdt, co
         else    // external cooling hatch is CLOSED
         {
             m_externalCoolingSequenceStartSimt = -1;   // external cooling disabled now
-            if (m_prevExternalCoolingStatus == DOOR_OPEN)      // was the hatch just closed?
+            if (m_prevExternalCoolingStatus == DoorStatus::DOOR_OPEN)      // was the hatch just closed?
             {
                 GetXR1().StopSound(GetXR1().ExternalCoolingLine);
                 GetXR1().ShowInfo("External Cooling Offline.wav", DeltaGliderXR1::ST_InformationCallout, "External cooling line detached;&External cooling systems OFFLINE.");
@@ -973,7 +975,7 @@ void ResupplyPostStep::clbkPrePostStep(const double simt, const double simdt, co
         if (m_prevResupplyEnabledStatus)
         {
             // we were enabled the previous timestep; close all open hatches and show a warning if either hatch is still open
-            if ((GetXR1().fuelhatch_status != DOOR_CLOSED) || (GetXR1().loxhatch_status != DOOR_CLOSED))
+            if ((GetXR1().fuelhatch_status != DoorStatus::DOOR_CLOSED) || (GetXR1().loxhatch_status != DoorStatus::DOOR_CLOSED))
             {
                 // close the hatches and sound a hatch thump
                 GetXR1().CloseFuelHatch(true);  // will reset line pressures to 0
@@ -988,7 +990,7 @@ void ResupplyPostStep::clbkPrePostStep(const double simt, const double simdt, co
             }
             
             // check for external cooling
-            if (GetXR1().externalcooling_status != DOOR_CLOSED)
+            if (GetXR1().externalcooling_status != DoorStatus::DOOR_CLOSED)
             {
                 // close the hatch and sound a hatch thump
                 GetXR1().CloseExternalCoolingHatch(true);
@@ -1120,7 +1122,7 @@ void ResupplyPostStep::FlowMainFuel(const double simt, const double simdt, const
             mainTankQty = mainTankMaxQty;
 
             // halt fuel flow ONLY if cross-feed is not set to RCS; i.e., fuel is not draining into the RCS tank
-            if (GetXR1().m_xfeedMode != XF_RCS)
+            if (GetXR1().m_xfeedMode != XFEED_MODE::XF_RCS)
                 haltFlow = true;
 
             // no need for a msg here; the FuelCalloutsPostStep will handle it
@@ -1153,7 +1155,7 @@ void ResupplyPostStep::FlowScramFuel(const double simt, const double simdt, cons
 
     // if SCRAM tank is hidden and no SCRAM tank present in bay, we cannot flow any fuel to resupply anything
     // Note: if the SCRAM tank is hidden, then by definition we have a payload bay, so no need to check if m_pPayloadBay is null here
-    if (GetXR1().m_SCRAMTankHidden && (GetXR1().m_pPayloadBay->GetPropellantMaxMass(PT_SCRAM) <= 0))  // < 0 for sanity check
+    if (GetXR1().m_SCRAMTankHidden && (GetXR1().m_pPayloadBay->GetPropellantMaxMass(PROP_TYPE::PT_SCRAM) <= 0))  // < 0 for sanity check
     {
         GetXR1().ShowWarning(NULL, DeltaGliderXR1::ST_None, "No SCRAM fuel tank in bay.");
         GetXR1().PlayErrorBeep();
@@ -1437,7 +1439,7 @@ LOXConsumptionPostStep::LOXConsumptionPostStep(DeltaGliderXR1 &vessel) :
 void LOXConsumptionPostStep::clbkPrePostStep(const double simt, const double simdt, const double mjd)
 {
     // if crew is DEAD, nothing to do here
-    if (GetXR1().m_crewState == DEAD)
+    if (GetXR1().m_crewState == CrewState::DEAD)
         return;
 
     const int crewMembers = GetXR1().GetCrewMembersCount();
@@ -1450,7 +1452,7 @@ void LOXConsumptionPostStep::clbkPrePostStep(const double simt, const double sim
     // no LOX consumption if landed in earth ATM or docked and both airlocks and noscone open, OR if in earth ATM and hatch open, OR if external cooling active
     bool ambientO2Available = false;
     const bool bothAirlocksOpen = ((GetXR1().ilock_proc >= 0.25) && (GetXR1().olock_proc >= 0.25) && (GetXR1().nose_proc >= 0.25));
-    const bool externalCoolingActive = (GetXR1().externalcooling_status == DOOR_OPEN);
+    const bool externalCoolingActive = (GetXR1().externalcooling_status == DoorStatus::DOOR_OPEN);
     const bool isHatchOpen = (GetXR1().hatch_proc > 0.25);  
     double loxQty = GetXR1().GetXRLOXMass();  // includes payload LOX as well
     double o2Level = GetXR1().m_cabinO2Level;   // fraction of O2 in cabin atm
@@ -1546,7 +1548,7 @@ void LOXConsumptionPostStep::clbkPrePostStep(const double simt, const double sim
         //
         // Check for crew unconsciousness or death UNLESS crew is already dead OR not on board (remember that the death threshold can vary slightly)
         //
-        if ((GetXR1().m_crewState != DEAD) && (GetXR1().GetCrewMembersCount() > 0))
+        if ((GetXR1().m_crewState != CrewState::DEAD) && (GetXR1().GetCrewMembersCount() > 0))
         {
             if ((o2Level <= CREW_DEATH_O2_LEVEL) && (m_previousO2Level > CREW_DEATH_O2_LEVEL))
             {
@@ -1567,7 +1569,7 @@ void LOXConsumptionPostStep::clbkPrePostStep(const double simt, const double sim
                 // blink this on the HUD was well
                 sprintf(GetXR1().m_crashMessage, "OXYGEN DEPLETED!&CREW IS UNCONSCIOUS -- DEATH IMMINENT!");
 
-                GetXR1().m_crewState = INCAPACITATED;
+                GetXR1().m_crewState = CrewState::INCAPACITATED;
                 GetXR1().m_MWSActive = true;
             }
             else if ((o2Level > CREW_LOC_O2_LEVEL) && (m_previousO2Level <= CREW_LOC_O2_LEVEL))   // is O2 level is now OK?
@@ -1577,11 +1579,11 @@ void LOXConsumptionPostStep::clbkPrePostStep(const double simt, const double sim
                 // NOTE: this can only occur if some rescue crew member arrives, since the onboard crew will not be conscious to 
                 // open the hatch or deploy the radiator, etc.; however, handle this anyway in case we implement external 
                 // rescue ability someday.  
-                if (GetXR1().m_crewState != DEAD)
+                if (GetXR1().m_crewState != CrewState::DEAD)
                 {
-                    GetXR1().m_crewState = OK;
+                    GetXR1().m_crewState = CrewState::OK;
 
-                    // reset HUD warning if msg begins with OXYGEN
+                    // reset HUD warning if msg begins with OXYGEN (bit of a hack, but suffices for now)
                     if (strncmp(GetXR1().m_crashMessage, "OXYGEN", 6) == 0)
                         *GetXR1().m_crashMessage = 0;      // reset
 
@@ -1648,9 +1650,9 @@ void PreventAutoRefuelPostStep::clbkPrePostStep(const double simt, const double 
     // perform one-time initialization if payload bay is present
     if ((GetXR1().m_pPayloadBay != nullptr) && (m_previousBayFuelQty[0] < 0))  // entire array is in sync, so checking just one is sufficient
     {
-        m_previousBayFuelQty[0] = GetXR1().m_pPayloadBay->GetPropellantMaxMass(PT_Main);
+        m_previousBayFuelQty[0] = GetXR1().m_pPayloadBay->GetPropellantMaxMass(PROP_TYPE::PT_Main);
         m_previousBayFuelQty[1] = 0;  // no bay RCS-only tanks, and bay tanks never feed the RCS internal tank directly
-        m_previousBayFuelQty[2] = GetXR1().m_pPayloadBay->GetPropellantMaxMass(PT_SCRAM);
+        m_previousBayFuelQty[2] = GetXR1().m_pPayloadBay->GetPropellantMaxMass(PROP_TYPE::PT_SCRAM);
     }
 
     // allow auto-refueling if the user configured it in the prefs file OR if the ship is NOT landed (i.e., allow fuel MFD refueling in space)

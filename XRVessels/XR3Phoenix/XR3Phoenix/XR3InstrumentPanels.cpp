@@ -129,7 +129,7 @@ bool XR3MainInstrumentPanel::Activate()
     // activate all our areas, including our components' areas
     ActivateAllAreas();
 
-    GetXR3().campos = GetXR3().CAM_PANELMAIN;
+    GetXR3().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_PANELMAIN;
     return true;
 }
 
@@ -172,7 +172,7 @@ bool XR3PayloadInstrumentPanel::Activate()
     // activate all our areas, including our components' areas
     ActivateAllAreas();
 
-    GetXR3().campos = GetXR3().CAM_PANELPAYLOAD;
+    GetXR3().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_PANELPAYLOAD;
 
     return true;
 }
@@ -254,7 +254,7 @@ bool XR3OverheadInstrumentPanel::Activate()
     // set our MFD to DOCKING mode
     oapiOpenMFD(MFD_DOCKING, MFD_USER1);
 
-    GetXR3().campos = GetXR3().CAM_PANELOVERHEAD;
+    GetXR3().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_PANELOVERHEAD;
     return true;
 }
 
@@ -373,7 +373,7 @@ bool XR3UpperInstrumentPanel::Activate()
     // activate all our areas, including our components' areas
     ActivateAllAreas();
 
-    GetXR3().campos = GetXR3().CAM_PANELUP;
+    GetXR3().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_PANELUP;
     return true;
 }
 
@@ -402,7 +402,7 @@ bool XR3LowerInstrumentPanel::Activate()
     // activate all our areas, including our components' areas
     ActivateAllAreas();
 
-    GetXR3().campos = GetXR3().CAM_PANELDN;
+    GetXR3().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_PANELDN;
     return true;
 }
 
@@ -765,7 +765,7 @@ bool XR3Phoenix::clbkLoadGenericCockpit()
     SetCameraOffset(twoDCockpitCoordinates);
     oapiSetDefNavDisplay (1);
     oapiSetDefRCSDisplay (1);
-    campos = CAM_GENERIC;
+    campos = DeltaGliderXR1::CAMERA_POSITION::CAM_GENERIC;
 
     return true;
 }

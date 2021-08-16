@@ -136,7 +136,7 @@ bool XR2MainInstrumentPanel::Activate()
     // activate all our areas, including our components' areas
     ActivateAllAreas();
 
-    GetXR2().campos = GetXR2().CAM_PANELMAIN;
+    GetXR2().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_PANELMAIN;
     return true;
 }
 
@@ -180,7 +180,7 @@ bool XR2PayloadInstrumentPanel::Activate()
     // activate all our areas, including our components' areas
     ActivateAllAreas();
 
-    GetXR2().campos = GetXR2().CAM_PANELPAYLOAD;
+    GetXR2().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_PANELPAYLOAD;
 
     return true;
 }
@@ -326,7 +326,7 @@ bool XR2UpperInstrumentPanel::Activate()
     // activate all our areas, including our components' areas
     ActivateAllAreas();
 
-    GetXR2().campos = GetXR2().CAM_PANELUP;
+    GetXR2().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_PANELUP;
     return true;
 }
 
@@ -355,7 +355,7 @@ bool XR2LowerInstrumentPanel::Activate()
     // activate all our areas, including our components' areas
     ActivateAllAreas();
 
-    GetXR2().campos = GetXR2().CAM_PANELDN;
+    GetXR2().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_PANELDN;
     return true;
 }
 
@@ -366,21 +366,20 @@ void XR2LowerInstrumentPanel::AddCommonAreas(const int width)
     const int shift = (width - 1600) / 2;   // calibrated below for 1600 pixels, but the end result is the same
 
     // create our components
-    
     AddComponent(new METTimerComponent      (*this, _COORD2(shift +  588, 108)));
-
+          
     AddComponent(new MainFuelGaugeComponent (*this, _COORD2(shift +  417, 193)));
     AddComponent(new RCSFuelGaugeComponent  (*this, _COORD2(shift +  522, 193)));
     AddComponent(new SCRAMFuelGaugeComponent(*this, _COORD2(shift +  628, 193)));
     AddComponent(new APUFuelGaugeComponent  (*this, _COORD2(shift +  732, 193)));
     AddComponent(new FuelHatchComponent     (*this, _COORD2(shift + 1053, 267)));
     AddComponent(new LoxHatchComponent      (*this, _COORD2(shift + 1120, 267)));
-
+    
     AddComponent(new MainSupplyLineGaugeComponent (*this, _COORD2(shift +  830, 209)));
-    AddComponent(new ScramSupplyLineGaugeComponent(*this, _COORD2(shift +  881, 209)));
+    new ScramSupplyLineGaugeComponent(*this, _COORD2(shift +  881, 209));
     AddComponent(new ApuSupplyLineGaugeComponent  (*this, _COORD2(shift +  932, 209)));
     AddComponent(new LoxSupplyLineGaugeComponent  (*this, _COORD2(shift +  983, 209)));
-
+  
     AddComponent(new ShipMassDisplayComponent     (*this, _COORD2(shift + 1043, 200)));
     AddComponent(new LoxGaugeComponent            (*this, _COORD2(shift + 1217, 178)));
     AddComponent(new OxygenRemainingPanelComponent(*this, _COORD2(shift + 1299,  87)));
@@ -400,7 +399,7 @@ void XR2LowerInstrumentPanel::AddCommonAreas(const int width)
     AddArea(new SystemsDisplayScreen   (*this, _COORD2(shift + 1199, 409), AID_SYSTEMS_DISPLAY_SCREEN));
     AddArea(new DoorMediumLEDArea      (*this, _COORD2(shift + 1393, 323), AID_RADIATOR_DEPLOYED_LED, GetXR2().radiator_status, true));  // redraw always
     AddArea(new AlteaAerospaceArea     (*this, _COORD2(shift +  379,  88), AID_ALTEA_LOGO));
-
+    
 #ifdef TURBOPACKS
     AddArea(new TurbopackDisplayArea   (*this, _COORD2(shift +  362, 561), AID_TURBOPACK_MANAGEMENT_SCREEN));
 #endif
@@ -714,7 +713,7 @@ bool XR2Ravenstar::clbkLoadGenericCockpit()
     SetCameraOffset(twoDCockpitCoordinates);
     oapiSetDefNavDisplay (1);
     oapiSetDefRCSDisplay (1);
-    campos = CAM_GENERIC;
+    campos = DeltaGliderXR1::CAMERA_POSITION::CAM_GENERIC;
 
     return true;
 }

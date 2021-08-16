@@ -183,7 +183,7 @@ XR2Ravenstar::XR2Ravenstar(OBJHANDLE hObj, int fmodel, XR2ConfigFileParser *pCon
         m_xr2WarningLights[i] = false;  // not lit
 
     // init new doors
-    bay_status = DOOR_CLOSED;
+    bay_status = DoorStatus::DOOR_CLOSED;
     bay_proc   = 0.0;
 
     // replace the data HUD font with a smaller one
@@ -1002,9 +1002,9 @@ void XR2Ravenstar::clbkPostCreation()
     XRPayloadClassData::InitializeXRPayloadClassData();
 
     ApplyElevatorAreaChanges();   // apply "dual-mode" AF Ctrl elevator settings
-    EnableRetroThrusters(rcover_status == DOOR_OPEN);
-    EnableHoverEngines(hoverdoor_status == DOOR_OPEN);
-    EnableScramEngines(scramdoor_status == DOOR_OPEN);
+    EnableRetroThrusters(rcover_status == DoorStatus::DOOR_OPEN);
+    EnableHoverEngines(hoverdoor_status == DoorStatus::DOOR_OPEN);
+    EnableScramEngines(scramdoor_status == DoorStatus::DOOR_OPEN);
 
     // set initial animation states
     SetXRAnimation (anim_gear, gear_proc);
@@ -1184,9 +1184,9 @@ void XR2Ravenstar::HideActiveVCHUDMesh()
     bool pilotHUDVisible = true;
     bool copilotHUDVisible = true;
 
-    if (campos == CAM_VCPILOT)
+    if (campos == CAMERA_POSITION::CAM_VCPILOT)
         pilotHUDVisible = false;
-    else if (campos == CAM_VCCOPILOT)
+    else if (campos == CAMERA_POSITION::CAM_VCCOPILOT)
         copilotHUDVisible = false;
 
     SetMeshGroupVisible(exmesh, PILOT_HUD_MESHGRP, pilotHUDVisible);  
@@ -1305,8 +1305,8 @@ void XR2Ravenstar::ResetCameraToPayloadBay()
 }
 
 // handle instant jumps to open or closed here
-#define CHECK_DOOR_JUMP(proc, anim) if (action == DOOR_OPEN) proc = 1.0;            \
-                                    else if (action == DOOR_CLOSED) proc = 0.0;     \
+#define CHECK_DOOR_JUMP(proc, anim) if (action == DoorStatus::DOOR_OPEN) proc = 1.0;            \
+                                    else if (action == DoorStatus::DOOR_CLOSED) proc = 0.0;     \
                                     SetXRAnimation(anim, proc)
 
 // state: 0=fully retracted, 1.0 = fully deployed

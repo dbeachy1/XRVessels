@@ -308,7 +308,7 @@ const char *XRVCMainDialog::GetComboLineForVessel(const VESSEL *pVessel)
 void XRVCMainDialog::ProcessModeSwitchLeft(const int buttonIDC)
 {
     // uncheck all the other left-hand mode buttons and then check this new one
-    UncheckAllModeButtons(TEXTPANEL_LEFT);
+    UncheckAllModeButtons(TextPanel::TEXTPANEL_LEFT);
     SendMessage(GetDlgItem(m_hwndDlg, buttonIDC), BM_SETCHECK, BST_CHECKED, 0);
 
     if (m_xrvcClient.GetXRVessel() != nullptr)   // repaint only if valid XR vessel selected
@@ -321,7 +321,7 @@ void XRVCMainDialog::ProcessModeSwitchLeft(const int buttonIDC)
 // buttonIDC = IDC of new button pressed
 void XRVCMainDialog::ProcessModeSwitchRight(const int buttonIDC)
 {
-    UncheckAllModeButtons(TEXTPANEL_RIGHT);
+    UncheckAllModeButtons(TextPanel::TEXTPANEL_RIGHT);
     SendMessage(GetDlgItem(m_hwndDlg, buttonIDC), BM_SETCHECK, BST_CHECKED, 0);
 
     if (m_xrvcClient.GetXRVessel() != nullptr)   // repaint only if valid XR vessel selected
@@ -415,7 +415,7 @@ void XRVCMainDialog::EnsureLeftRightModesSet()
 void XRVCMainDialog::UncheckAllModeButtons(TextPanel panelID)
 {
     // left panel
-    if ((panelID == TEXTPANEL_LEFT) || (panelID == TEXTPANEL_BOTH))
+    if ((panelID == TextPanel::TEXTPANEL_LEFT) || (panelID == TextPanel::TEXTPANEL_BOTH))
     {
         for (int i=0; i < MODE_GROUP_LEFT_COUNT; i++)
         {
@@ -425,7 +425,7 @@ void XRVCMainDialog::UncheckAllModeButtons(TextPanel panelID)
     }
     
     // right panel
-    if ((panelID == TEXTPANEL_RIGHT) || (panelID == TEXTPANEL_BOTH))
+    if ((panelID == TextPanel::TEXTPANEL_RIGHT) || (panelID == TextPanel::TEXTPANEL_BOTH))
     {
         for (int i=0; i < MODE_GROUP_RIGHT_COUNT; i++)
         {
@@ -976,19 +976,19 @@ void XRVCMainDialog::XRStatusOut(const int editBoxOutIDC, const int modeIDC)
     switch (modeIDC)
     {
         case IDC_CHECK_MAIN:
-            m_xrvcClient.RetrieveEngineState(csOut, XRE_MainLeft, XRE_MainRight, "Port Main Engine", "Starboard Main Engine");
+            m_xrvcClient.RetrieveEngineState(csOut, XREngineID::XRE_MainLeft, XREngineID::XRE_MainRight, "Port Main Engine", "Starboard Main Engine");
             break;
 
         case IDC_CHECK_RETRO:
-            m_xrvcClient.RetrieveEngineState(csOut, XRE_RetroLeft, XRE_RetroRight, "Port Retro Engine", "Starboard Retro Engine");
+            m_xrvcClient.RetrieveEngineState(csOut, XREngineID::XRE_RetroLeft, XREngineID::XRE_RetroRight, "Port Retro Engine", "Starboard Retro Engine");
             break;
         
         case IDC_CHECK_HOVER:
-            m_xrvcClient.RetrieveEngineState(csOut, XRE_HoverFore, XRE_HoverAft, "Forward Hover Engine", "Aft Hover Engine");
+            m_xrvcClient.RetrieveEngineState(csOut, XREngineID::XRE_HoverFore, XREngineID::XRE_HoverAft, "Forward Hover Engine", "Aft Hover Engine");
             break;
         
         case IDC_CHECK_SCRAM:
-            m_xrvcClient.RetrieveEngineState(csOut, XRE_ScramLeft, XRE_ScramRight, "Port SCRAM Engine", "Starboard SCRAM Engine");
+            m_xrvcClient.RetrieveEngineState(csOut, XREngineID::XRE_ScramLeft, XREngineID::XRE_ScramRight, "Port SCRAM Engine", "Starboard SCRAM Engine");
             break;
         
         case IDC_CHECK_STATUS:

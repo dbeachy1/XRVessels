@@ -54,7 +54,7 @@ public:
     void RetrieveOther(CString &csOut) const;
 
     // generic reusable enums/unions
-    enum DataType { Double, Bool, Int};  // type of value to set
+    enum class DataType { Double, Bool, Int};  // type of value to set
     union Value { double Double; bool Bool; int Int; };  // value to be written
 
     // State update methods; each methods writes a status message to statusOut

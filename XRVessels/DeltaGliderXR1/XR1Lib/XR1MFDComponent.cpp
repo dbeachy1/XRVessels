@@ -48,12 +48,12 @@ MFDComponent::MFDComponent(InstrumentPanel &parentPanel, COORD2 topLeft, int mfd
         // For this component in the VC, topLeft component coords are at the top-left of AID_MFD1_LBUTTONS or AID_MFD2_LBUTTONS
         AddArea(new MFDScreenArea        (parentPanel, _COORD2(-1,-1), AID_MFD1_SCREEN + mfdID, mfdID, screenMeshGroup));  // coords not used in VC mode
 
-        AddArea(new VCMFDBottomButtonArea(parentPanel, AID_MFD1_PWR + mfdID, mfdID, VCMFDBottomButtonArea::PWR));  // top-left of PWR button face
-        AddArea(new VCMFDBottomButtonArea(parentPanel, AID_MFD1_SEL + mfdID, mfdID, VCMFDBottomButtonArea::SEL));  // top-left of SEL button face
-        AddArea(new VCMFDBottomButtonArea(parentPanel, AID_MFD1_MNU + mfdID, mfdID, VCMFDBottomButtonArea::MNU));  // top-left of MNU button face
+        AddArea(new VCMFDBottomButtonArea(parentPanel, AID_MFD1_PWR + mfdID, mfdID, VCMFDBottomButtonArea::BUTTON_FUNC::PWR));  // top-left of PWR button face
+        AddArea(new VCMFDBottomButtonArea(parentPanel, AID_MFD1_SEL + mfdID, mfdID, VCMFDBottomButtonArea::BUTTON_FUNC::SEL));  // top-left of SEL button face
+        AddArea(new VCMFDBottomButtonArea(parentPanel, AID_MFD1_MNU + mfdID, mfdID, VCMFDBottomButtonArea::BUTTON_FUNC::MNU));  // top-left of MNU button face
 
-        AddArea(new MFDMainButtonsArea   (parentPanel, GetAbsCoords(_COORD2(0,  0)), AID_MFD1_LBUTTONS + mfdID, mfdID, MFDMainButtonsArea::LEFT,  m_meshTextureID));  // left main button row (on top-left button face)
-        AddArea(new MFDMainButtonsArea   (parentPanel, GetAbsCoords(_COORD2(0, 10)), AID_MFD1_RBUTTONS + mfdID, mfdID, MFDMainButtonsArea::RIGHT, m_meshTextureID));  // right main button row (on top-left button face)
+        AddArea(new MFDMainButtonsArea   (parentPanel, GetAbsCoords(_COORD2(0,  0)), AID_MFD1_LBUTTONS + mfdID, mfdID, MFDMainButtonsArea::BUTTON_SIDE::LEFT,  m_meshTextureID));  // left main button row (on top-left button face)
+        AddArea(new MFDMainButtonsArea   (parentPanel, GetAbsCoords(_COORD2(0, 10)), AID_MFD1_RBUTTONS + mfdID, mfdID, MFDMainButtonsArea::BUTTON_SIDE::RIGHT, m_meshTextureID));  // right main button row (on top-left button face)
     }
     else    // 2D panel
     {
@@ -61,8 +61,8 @@ MFDComponent::MFDComponent(InstrumentPanel &parentPanel, COORD2 topLeft, int mfd
         // NOTE: for MFD screen area, area begins at where TEXT is drawn, which is two pixels below the top-left corner
         AddArea(new MFDScreenArea       (parentPanel, GetAbsCoords(_COORD2( 55,  14+2)), AID_MFD1_SCREEN + mfdID, mfdID, m_screenMeshGroup));  // top-left of screen + 2 pixels Y offset
         AddArea(new MFDBottomButtonsArea(parentPanel, GetAbsCoords(_COORD2( 66, 313)), AID_MFD1_BBUTTONS + mfdID, mfdID));  // top-left of PWR button face
-        AddArea(new MFDMainButtonsArea  (parentPanel, GetAbsCoords(_COORD2( 13,  56)), AID_MFD1_LBUTTONS + mfdID, mfdID, MFDMainButtonsArea::LEFT));   // left main button row (on top-left button face)
-        AddArea(new MFDMainButtonsArea  (parentPanel, GetAbsCoords(_COORD2(366,  56)), AID_MFD1_RBUTTONS + mfdID, mfdID, MFDMainButtonsArea::RIGHT));  // right main button row (on top-left button face)
+        AddArea(new MFDMainButtonsArea  (parentPanel, GetAbsCoords(_COORD2( 13,  56)), AID_MFD1_LBUTTONS + mfdID, mfdID, MFDMainButtonsArea::BUTTON_SIDE::LEFT));   // left main button row (on top-left button face)
+        AddArea(new MFDMainButtonsArea  (parentPanel, GetAbsCoords(_COORD2(366,  56)), AID_MFD1_RBUTTONS + mfdID, mfdID, MFDMainButtonsArea::BUTTON_SIDE::RIGHT));  // right main button row (on top-left button face)
     }
 }   
 
@@ -220,7 +220,7 @@ bool MFDMainButtonsArea::Redraw2D(const int event, const SURFHANDLE surf)
     {
         // ORBITER BUG: for some reason, oapiMFDButtonLabel(0,0) returns NULL immediately after a vessel switch.
         // Workaround is via the PostStep which follows this method.
-        if ((label = oapiMFDButtonLabel(GetMfdID(), bt + ((GetButtonSide() == LEFT) ? 0 : 6))) != nullptr)
+        if ((label = oapiMFDButtonLabel(GetMfdID(), bt + ((GetButtonSide() == BUTTON_SIDE::LEFT) ? 0 : 6))) != nullptr)
         {
             TextOut (hDC, x, y, label, static_cast<int>(strlen(label)));
             m_justActivated = true;
@@ -264,7 +264,7 @@ bool MFDMainButtonsArea::ProcessMouseEvent(const int event, const int mx, const 
     if (my % 41 < 18)
     {
         int mfd = GetMfdID();   // 0...9
-        int bt = (my / 41) + ((GetButtonSide() == LEFT) ? 0 : 6);
+        int bt = (my / 41) + ((GetButtonSide() == BUTTON_SIDE::LEFT) ? 0 : 6);
         oapiProcessMFDButton (mfd, bt, event);
         retVal = true;
 
@@ -286,7 +286,7 @@ bool MFDMainButtonsArea::ProcessVCMouseEvent(const int event, const VECTOR3 &coo
     double dp;
     if (modf(coords.y * 23.0 / 4.0, &dp) < 0.75)
     {
-        int bt = static_cast<int>(dp + ((GetButtonSide() == LEFT) ? 0 : 6));
+        int bt = static_cast<int>(dp + ((GetButtonSide() == BUTTON_SIDE::LEFT) ? 0 : 6));
         oapiProcessMFDButton (GetMfdID(), bt, event);
         retVal = true;
         
@@ -324,15 +324,15 @@ bool VCMFDBottomButtonArea::ProcessVCMouseEvent(const int event, const VECTOR3 &
 
     switch (GetButtonFunc())
     {
-    case PWR:
+    case BUTTON_FUNC::PWR:
         oapiToggleMFD_on(MFD_LEFT + GetMfdID());
         break;
         
-    case SEL:
+    case BUTTON_FUNC::SEL:
         oapiSendMFDKey(MFD_LEFT + GetMfdID(), OAPI_KEY_F1);
         break;
 
-    case MNU:
+    case BUTTON_FUNC::MNU:
         oapiSendMFDKey(MFD_LEFT + GetMfdID(), OAPI_KEY_GRAVE);
         break;
 

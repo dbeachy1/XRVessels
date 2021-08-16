@@ -63,7 +63,7 @@ void DeltaGliderXR1::UpdateVCMesh()
     if (vcmesh)
     {
         // hide pilot head if in VCPILOT position
-        SetMeshGroupVisible(vcmesh, 138, !(campos == CAM_VCPILOT));
+        SetMeshGroupVisible(vcmesh, 138, !(campos == CAMERA_POSITION::CAM_VCPILOT));
     }
  }
 
@@ -89,35 +89,35 @@ void DeltaGliderXR1::UpdateVCStatusIndicators()
 	ges.Vtx = vtx;
     const double simt = GetAbsoluteSimTime();
 	// gear indicator
-	x = (gear_status == DOOR_CLOSED ? xoff : gear_status == DOOR_OPEN ? xon : modf(simt, &d) < 0.5 ? xon : xoff);
+	x = (gear_status == DoorStatus::DOOR_CLOSED ? xoff : gear_status == DoorStatus::DOOR_OPEN ? xon : modf(simt, &d) < 0.5 ? xon : xoff);
 	vtx[0].tu = vtx[1].tu = x;
 
 	// retro cover indicator
-	x = (rcover_status == DOOR_CLOSED ? xoff : rcover_status == DOOR_OPEN ? xon : modf(simt, &d) < 0.5 ? xon : xoff);
+	x = (rcover_status == DoorStatus::DOOR_CLOSED ? xoff : rcover_status == DoorStatus::DOOR_OPEN ? xon : modf(simt, &d) < 0.5 ? xon : xoff);
 	vtx[2].tu = vtx[3].tu = x;
 
 	// airbrake indicator
-	x = (brake_status == DOOR_CLOSED ? xoff : brake_status == DOOR_OPEN ? xon : modf(simt, &d) < 0.5 ? xon : xoff);
+	x = (brake_status == DoorStatus::DOOR_CLOSED ? xoff : brake_status == DoorStatus::DOOR_OPEN ? xon : modf(simt, &d) < 0.5 ? xon : xoff);
 	vtx[4].tu = vtx[5].tu = x;
 
 	// nose cone indicator
-	x = (nose_status == DOOR_CLOSED ? xoff : nose_status == DOOR_OPEN ? xon : modf(simt, &d) < 0.5 ? xon : xoff);
+	x = (nose_status == DoorStatus::DOOR_CLOSED ? xoff : nose_status == DoorStatus::DOOR_OPEN ? xon : modf(simt, &d) < 0.5 ? xon : xoff);
 	vtx[6].tu = vtx[7].tu = x;
 
 	// top hatch indicator
-	x = (hatch_status == DOOR_CLOSED ? xoff : hatch_status == DOOR_OPEN ? xon : modf(simt, &d) < 0.5 ? xon : xoff);
+	x = (hatch_status == DoorStatus::DOOR_CLOSED ? xoff : hatch_status == DoorStatus::DOOR_OPEN ? xon : modf(simt, &d) < 0.5 ? xon : xoff);
 	vtx[8].tu = vtx[9].tu = x;
 
 	// radiator indicator
-	x = (radiator_status == DOOR_CLOSED ? xoff : radiator_status == DOOR_OPEN ? xon : modf(simt, &d) < 0.5 ? xon : xoff);
+	x = (radiator_status == DoorStatus::DOOR_CLOSED ? xoff : radiator_status == DoorStatus::DOOR_OPEN ? xon : modf(simt, &d) < 0.5 ? xon : xoff);
 	vtx[10].tu = vtx[11].tu = x;
 
 	// outer airlock indicator
-	x = (olock_status == DOOR_CLOSED ? xoff : olock_status == DOOR_OPEN ? xon : modf(simt, &d) < 0.5 ? xon : xoff);
+	x = (olock_status == DoorStatus::DOOR_CLOSED ? xoff : olock_status == DoorStatus::DOOR_OPEN ? xon : modf(simt, &d) < 0.5 ? xon : xoff);
 	vtx[12].tu = vtx[13].tu = x;
 
 	// inner airlock indicator
-	x = (ilock_status == DOOR_CLOSED ? xoff : ilock_status == DOOR_OPEN ? xon : modf (simt, &d) < 0.5 ? xon : xoff);
+	x = (ilock_status == DoorStatus::DOOR_CLOSED ? xoff : ilock_status == DoorStatus::DOOR_OPEN ? xon : modf (simt, &d) < 0.5 ? xon : xoff);
 	vtx[14].tu = vtx[15].tu = x;
 
 	oapiEditMeshGroup (vcmesh, MESHGRP_VC_STATUSIND, &ges);

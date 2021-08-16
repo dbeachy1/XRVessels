@@ -64,52 +64,52 @@ INT_PTR CALLBACK XR1Ctrl_DlgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lP
             oapiCloseDialog (hWnd);
             return TRUE;
         case IDC_GEAR_UP:
-            dg->ActivateLandingGear (DOOR_CLOSING);
+            dg->ActivateLandingGear(DoorStatus::DOOR_CLOSING);
             return 0;
         case IDC_GEAR_DOWN:
-            dg->ActivateLandingGear (DOOR_OPENING);
+            dg->ActivateLandingGear(DoorStatus::DOOR_OPENING);
             return 0;
         case IDC_RETRO_CLOSE:
-            dg->ActivateRCover (DOOR_CLOSING);
+            dg->ActivateRCover(DoorStatus::DOOR_CLOSING);
             return 0;
         case IDC_RETRO_OPEN:
-            dg->ActivateRCover (DOOR_OPENING);
+            dg->ActivateRCover(DoorStatus::DOOR_OPENING);
             return 0;
         case IDC_NCONE_CLOSE:
-            dg->ActivateNoseCone (DOOR_CLOSING);
+            dg->ActivateNoseCone(DoorStatus::DOOR_CLOSING);
             return 0;
         case IDC_NCONE_OPEN:
-            dg->ActivateNoseCone (DOOR_OPENING);
+            dg->ActivateNoseCone(DoorStatus::DOOR_OPENING);
             return 0;
         case IDC_OLOCK_CLOSE:
-            dg->ActivateOuterAirlock (DOOR_CLOSING);
+            dg->ActivateOuterAirlock(DoorStatus::DOOR_CLOSING);
             return 0;
         case IDC_OLOCK_OPEN:
-            dg->ActivateOuterAirlock (DOOR_OPENING);
+            dg->ActivateOuterAirlock(DoorStatus::DOOR_OPENING);
             return 0;
         case IDC_ILOCK_CLOSE:
-            dg->ActivateInnerAirlock (DOOR_CLOSING);
+            dg->ActivateInnerAirlock(DoorStatus::DOOR_CLOSING);
             return 0;
         case IDC_ILOCK_OPEN:
-            dg->ActivateInnerAirlock (DOOR_OPENING);
+            dg->ActivateInnerAirlock(DoorStatus::DOOR_OPENING);
             return 0;
         case IDC_LADDER_RETRACT:
-            dg->ActivateLadder (DOOR_CLOSING);
+            dg->ActivateLadder(DoorStatus::DOOR_CLOSING);
             return 0;
         case IDC_LADDER_EXTEND:
-            dg->ActivateLadder (DOOR_OPENING);
+            dg->ActivateLadder(DoorStatus::DOOR_OPENING);
             return 0;
         case IDC_HATCH_CLOSE:
-            dg->ActivateHatch (DOOR_CLOSING);
+            dg->ActivateHatch(DoorStatus::DOOR_CLOSING);
             return 0;
         case IDC_HATCH_OPEN:
-            dg->ActivateHatch (DOOR_OPENING);
+            dg->ActivateHatch(DoorStatus::DOOR_OPENING);
             return 0;
         case IDC_RADIATOR_RETRACT:
-            dg->ActivateRadiator (DOOR_CLOSING);
+            dg->ActivateRadiator(DoorStatus::DOOR_CLOSING);
             return 0;
         case IDC_RADIATOR_EXTEND:
-            dg->ActivateRadiator (DOOR_OPENING);
+            dg->ActivateRadiator(DoorStatus::DOOR_OPENING);
             return 0;
         case IDC_NAVLIGHT:
             dg->SetNavlight (SendDlgItemMessage (hWnd, IDC_NAVLIGHT, BM_GETCHECK, 0, 0) == BST_CHECKED);
@@ -200,25 +200,25 @@ HWND DeltaGliderXR1::s_hPayloadEditorDialog = 0;
 DeltaGliderXR1::DeltaGliderXR1 (OBJHANDLE hObj, int fmodel, XR1ConfigFileParser *pConfigFileParser) : 
     VESSEL3_EXT(hObj, fmodel),
     m_secondaryHUDMode(3), m_preStepPreviousAirspeed(0), m_preStepPreviousGearFullyUncompressedAltitude(-1), m_airborneTargetTime(0), 
-    m_takeoffTime(0), m_touchdownTime(0), m_preStepPreviousVerticalSpeed(0), m_forceWarning(false), m_accScale(NONE), m_maxGaugeAcc(0),
+    m_takeoffTime(0), m_touchdownTime(0), m_preStepPreviousVerticalSpeed(0), m_forceWarning(false), m_accScale(AccScale::NONE), m_maxGaugeAcc(0),
     m_isCrashed(false),
     m_noseconeTemp(0), m_leftWingTemp(0), m_rightWingTemp(0), m_cockpitTemp(0), m_topHullTemp(0),
-    m_activeMultiDisplayMode(DEFAULT_MMID), m_activeTempScale(Celsius), m_pMDA(nullptr),
+    m_activeMultiDisplayMode(DEFAULT_MMID), m_activeTempScale(TempScale::Celsius), m_pMDA(nullptr),
     m_tertiaryHUDOn(true), m_damagedWingBalance(0), m_crashProcessed(false),
     m_infoWarningTextLineGroup(INFO_WARNING_BUFFER_LINES), m_mwsTestActive(false),
     m_nextMDARefresh(0), m_nextSecondaryHUDRefresh(0), m_lastSecondaryHUDMode(0),
     m_metMJDStartingTime(-1), m_interval1ElapsedTime(-1), m_interval2ElapsedTime(-1),
     m_metTimerRunning(false), m_interval1TimerRunning(false), m_interval2TimerRunning(false),
     m_apuFuelQty(APU_FUEL_CAPACITY), m_mainFuelDumpInProgress(false), m_rcsFuelDumpInProgress(false),
-    m_scramFuelDumpInProgress(false), m_apuFuelDumpInProgress(false), m_xfeedMode(XF_OFF),
+    m_scramFuelDumpInProgress(false), m_apuFuelDumpInProgress(false), m_xfeedMode(XFEED_MODE::XF_OFF),
     m_mainExtLinePressure(0), m_scramExtLinePressure(0), m_apuExtLinePressure(0), m_loxExtLinePressure(0),
     m_nominalMainExtLinePressure(0), m_nominalScramExtLinePressure(0), m_nominalApuExtLinePressure(0), m_nominalLoxExtLinePressure(0),
     m_mainSupplyLineStatus(false), m_scramSupplyLineStatus(false), m_apuSupplyLineStatus(false), m_loxSupplyLineStatus(false),
     m_mainFuelFlowSwitch(false), m_scramFuelFlowSwitch(false), m_apuFuelFlowSwitch(false), m_loxFlowSwitch(false),
     m_loxQty(-1), // set for real in clbkSetClassCaps
     m_loxDumpInProgress(false), m_oxygenRemainingTime(0), m_cabinO2Level(NORMAL_O2_LEVEL),
-    m_crewState(OK), m_coolantTemp(NOMINAL_COOLANT_TEMP), m_internalSystemsFailure(false),
-    m_customAutopilotMode(AP_OFF), m_airspeedHoldEngaged(false), m_setPitchOrAOA(0), m_setBank(0), m_initialAHBankCompleted(false), m_holdAOA(false),
+    m_crewState(CrewState::OK), m_coolantTemp(NOMINAL_COOLANT_TEMP), m_internalSystemsFailure(false),
+    m_customAutopilotMode(AUTOPILOT::AP_OFF), m_airspeedHoldEngaged(false), m_setPitchOrAOA(0), m_setBank(0), m_initialAHBankCompleted(false), m_holdAOA(false),
     m_customAutopilotSuspended(false), m_airspeedHoldSuspended(false), m_setDescentRate(0), m_latchedAutoTouchdownMinDescentRate(-3), m_autoLand(false), m_maxShipHoverAcc(0),
     m_dataHUDActive(false), m_setAirspeed(0), m_maxMainAcc(0), m_nextTertiaryHUDRefresh(0), m_nextArtificialHorizonRefresh(0),
     m_crewHatchInterlocksDisabled(false), m_airlockInterlocksDisabled(false), m_isRetroEnabled(false), m_isHoverEnabled(false), m_isScramEnabled(false),
@@ -234,7 +234,7 @@ DeltaGliderXR1::DeltaGliderXR1 (OBJHANDLE hObj, int fmodel, XR1ConfigFileParser 
     // initialize subclass-use-only variables; these are NOT used by the XR1
     m_dummyAttachmentPoint(nullptr), m_pPayloadBay(nullptr),
     m_deployDeltaV(0.2), m_grappleRangeIndex(0), m_selectedSlotLevel(1), m_selectedSlot(0),
-    anim_bay(0), bay_status(DOOR_CLOSED), bay_proc(0), m_requestSwitchToTwoDPanelNumber(-1),
+    anim_bay(0), bay_status(DoorStatus::DOOR_CLOSED), bay_proc(0), m_requestSwitchToTwoDPanelNumber(-1),
     m_animFrontTireRotation(0), m_animRearTireRotation(0),
     heatingmesh_tpl(nullptr), heatingmesh(nullptr),
     m_animNoseGearCompression(0), m_animRearGearCompression(0),
@@ -299,46 +299,46 @@ DeltaGliderXR1::DeltaGliderXR1 (OBJHANDLE hObj, int fmodel, XR1ConfigFileParser 
     m_pDataHudFont = oapiCreateFont(22, true, "Tahoma", FONT_BOLD);  // will be freed by the XR1's destructor
     m_pDataHudFontSize = 18;      // includes spacing
 
-    gear_status       = DOOR_CLOSED;
+    gear_status       = DoorStatus::DOOR_CLOSED;
     gear_proc         = 0.0;
-    rcover_status     = DOOR_CLOSED;
+    rcover_status     = DoorStatus::DOOR_CLOSED;
     rcover_proc       = 0.0;
-    nose_status       = DOOR_CLOSED;
+    nose_status       = DoorStatus::DOOR_CLOSED;
     nose_proc         = 0.0;
-    scramdoor_status  = DOOR_CLOSED;
+    scramdoor_status  = DoorStatus::DOOR_CLOSED;
     scramdoor_proc    = 0.0;
-    hoverdoor_status  = DOOR_CLOSED;
+    hoverdoor_status  = DoorStatus::DOOR_CLOSED;
     hoverdoor_proc    = 0.0;
-    ladder_status     = DOOR_CLOSED;
+    ladder_status     = DoorStatus::DOOR_CLOSED;
     ladder_proc       = 0.0;
-    olock_status      = DOOR_CLOSED;
+    olock_status      = DoorStatus::DOOR_CLOSED;
     olock_proc        = 0.0;
-    ilock_status      = DOOR_CLOSED;
+    ilock_status      = DoorStatus::DOOR_CLOSED;
     ilock_proc        = 0.0;
-    chamber_status    = DOOR_CLOSED;  // closed = PRESSURIZED
+    chamber_status    = DoorStatus::DOOR_CLOSED;  // closed = PRESSURIZED
     chamber_proc = 0.0;
-    hatch_status      = DOOR_CLOSED;
+    hatch_status      = DoorStatus::DOOR_CLOSED;
     hatch_proc        = 0.0;
-    brake_status      = DOOR_CLOSED;
+    brake_status      = DoorStatus::DOOR_CLOSED;
     brake_proc        = 0.0;
-    radiator_status   = DOOR_CLOSED;
+    radiator_status   = DoorStatus::DOOR_CLOSED;
     radiator_proc     = 0.0;
 
     // no proc for these; supply hatches are battery powered and "snap" open or closed
-    fuelhatch_status = DOOR_CLOSED;
-    loxhatch_status  = DOOR_CLOSED;
-    externalcooling_status = DOOR_CLOSED;
+    fuelhatch_status = DoorStatus::DOOR_CLOSED;
+    loxhatch_status  = DoorStatus::DOOR_CLOSED;
+    externalcooling_status = DoorStatus::DOOR_CLOSED;
     
     // NOTE: we treat the APU like a door here since it has spin-up and spin-down states
     // however, there is no proc for it
-    apu_status        = DOOR_CLOSED;
+    apu_status        = DoorStatus::DOOR_CLOSED;
     
     exmesh            = nullptr;
     vcmesh            = nullptr;
     vcmesh_tpl        = nullptr;
     ramjet            = nullptr;
     hatch_vent        = nullptr;
-    campos            = CAM_GENERIC;
+    campos            = DeltaGliderXR1::CAMERA_POSITION::CAM_GENERIC;
 
     // no custom skin loaded yet
     *skinpath = 0;  
@@ -437,7 +437,7 @@ void DeltaGliderXR1::SetEmptyMass()
 // playSound = true to play hatch sound
 void DeltaGliderXR1::CloseFuelHatch(bool playSound)
 {
-    fuelhatch_status = DOOR_CLOSED;
+    fuelhatch_status = DoorStatus::DOOR_CLOSED;
 
     /* DO NOT reset line pressures here: the PostStep will drop them to zero gradually
     // reset line pressures
@@ -480,7 +480,7 @@ void DeltaGliderXR1::CloseFuelHatch(bool playSound)
 // playSound = true to play hatch thump
 void DeltaGliderXR1::CloseLoxHatch(bool playSound)
 {
-    loxhatch_status = DOOR_CLOSED;
+    loxhatch_status = DoorStatus::DOOR_CLOSED;
     /* DO NOT reset line pressure here: the PostStep will drop them to zero gradually
     m_loxExtLinePressure = 0;
     */
@@ -505,7 +505,7 @@ void DeltaGliderXR1::CloseLoxHatch(bool playSound)
 // playSound = true to play hatch thump
 void DeltaGliderXR1::CloseExternalCoolingHatch(bool playSound)
 {
-    externalcooling_status = DOOR_CLOSED;
+    externalcooling_status = DoorStatus::DOOR_CLOSED;
 
     // reset external coolant switch
     m_externalCoolingSwitch = false;
@@ -582,18 +582,18 @@ void DeltaGliderXR1::SetAirspeedHoldMode(bool on, bool playSound)
 
 void DeltaGliderXR1::ToggleDescentHold()
 {
-    if (m_customAutopilotMode == AP_DESCENTHOLD)
-        SetCustomAutopilotMode(AP_OFF, true);
+    if (m_customAutopilotMode == AUTOPILOT::AP_DESCENTHOLD)
+        SetCustomAutopilotMode(AUTOPILOT::AP_OFF, true);
     else
-        SetCustomAutopilotMode(AP_DESCENTHOLD, true);
+        SetCustomAutopilotMode(AUTOPILOT::AP_DESCENTHOLD, true);
 }
 
 void DeltaGliderXR1::ToggleAttitudeHold()
 {
-    if (m_customAutopilotMode == AP_ATTITUDEHOLD)
-        SetCustomAutopilotMode(AP_OFF, true);
+    if (m_customAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD)
+        SetCustomAutopilotMode(AUTOPILOT::AP_OFF, true);
     else
-        SetCustomAutopilotMode(AP_ATTITUDEHOLD, true);
+        SetCustomAutopilotMode(AUTOPILOT::AP_ATTITUDEHOLD, true);
 }
 
 // holdCurrent: if 'true', hold current airspeed
@@ -606,7 +606,7 @@ void DeltaGliderXR1::ToggleAirspeedHold(bool holdCurrent)
         if (holdCurrent)
         {
             // will hold current airspeed now (no sound for this since we just played one)
-            SetAirspeedHold(false, AS_HOLDCURRENT, 0);  
+            SetAirspeedHold(false, AIRSPEEDHOLD_ADJUST::AS_HOLDCURRENT, 0);
         }
         SetAirspeedHoldMode(true, true);    // turn on
     }
@@ -622,11 +622,11 @@ void DeltaGliderXR1::SetCustomAutopilotMode(AUTOPILOT mode, bool playSound, bool
         return;     // nothing to do
 
     // if descent hold, verify that the hover doors are open
-    if ((force == false) && (mode == AP_DESCENTHOLD) && (m_isHoverEnabled == false))
+    if ((force == false) && (mode == AUTOPILOT::AP_DESCENTHOLD) && (m_isHoverEnabled == false))
     {
         PlaySound(HoverDoorsAreClosed, ST_WarningCallout);
         ShowWarning(NULL, DeltaGliderXR1::ST_None, "WARNING: Hover Doors are closed;&cannot engage DESCENT HOLD."); 
-        SetCustomAutopilotMode(AP_OFF, false, false);   // kill any existing autopilot
+        SetCustomAutopilotMode(AUTOPILOT::AP_OFF, false, false);   // kill any existing autopilot
         m_autoLand = false;   // reset just in case
         return;     // nothing to do            
     }
@@ -641,18 +641,18 @@ void DeltaGliderXR1::SetCustomAutopilotMode(AUTOPILOT mode, bool playSound, bool
     SetMDAModeForCustomAutopilot();
 
     // display the appropriate info message
-    const char *pAction = (mode == AP_OFF ? "disengaged" : "engaged");
+    const char *pAction = (mode == AUTOPILOT::AP_OFF ? "disengaged" : "engaged");
     char temp[50];
     
     // set mode being switched into or out of
-    const AUTOPILOT actionMode = ((mode == AP_OFF) ? oldMode : mode);
+    const AUTOPILOT actionMode = ((mode == AUTOPILOT::AP_OFF) ? oldMode : mode);
     switch(actionMode)
     {
-    case AP_ATTITUDEHOLD:
+    case AUTOPILOT::AP_ATTITUDEHOLD:
         sprintf(temp, "ATTITUDE HOLD autopilot %s.", pAction);
         ShowInfo(NULL, DeltaGliderXR1::ST_None,temp);
 
-        if (mode != AP_OFF)     // autopilot on?
+        if (mode != AUTOPILOT::AP_OFF)     // autopilot on?
         {
             if (m_holdAOA)
                 sprintf(temp, "Hold AOA=%+.1f°, Hold Bank=%+.1f°", m_setPitchOrAOA, m_setBank);
@@ -668,11 +668,11 @@ void DeltaGliderXR1::SetCustomAutopilotMode(AUTOPILOT mode, bool playSound, bool
         }
         break;
 
-    case AP_DESCENTHOLD:
+    case AUTOPILOT::AP_DESCENTHOLD:
         sprintf(temp, "DESCENT HOLD autopilot %s.", pAction);
         ShowInfo(NULL, DeltaGliderXR1::ST_None,temp);
 
-        if (mode != AP_OFF)     // turning autopilot on?
+        if (mode != AUTOPILOT::AP_OFF)     // turning autopilot on?
         {
             // if grounded and rate < 0.1, set rate = +0.1 m/s
             if (GroundContact() && (m_setDescentRate < 0.1))
@@ -693,7 +693,7 @@ void DeltaGliderXR1::SetCustomAutopilotMode(AUTOPILOT mode, bool playSound, bool
 
     // play the correct sound and deactivate normal navmode if set
     // NOTE: do not modify AIRSPEED HOLD autopilot here
-    if (mode == AP_OFF)     
+    if (mode == AUTOPILOT::AP_OFF)
     {
         if (playSound)
             PlaySound(AutopilotOff, ST_Other, AUTOPILOT_VOL);
@@ -721,9 +721,9 @@ void DeltaGliderXR1::SetCustomAutopilotMode(AUTOPILOT mode, bool playSound, bool
 void DeltaGliderXR1::SetMDAModeForCustomAutopilot()
 {
     int modeNumber = -1;
-    if (m_customAutopilotMode == AP_DESCENTHOLD)
+    if (m_customAutopilotMode == AUTOPILOT::AP_DESCENTHOLD)
         modeNumber = MDMID_DESCENT_HOLD;
-    else if (m_customAutopilotMode == AP_ATTITUDEHOLD)
+    else if (m_customAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD)
         modeNumber = MDMID_ATTITUDE_HOLD;
     else if (m_airspeedHoldEngaged)
         modeNumber = MDMID_AIRSPEED_HOLD;
@@ -744,7 +744,7 @@ void DeltaGliderXR1::ResetAllRCSThrustMaxLevels()
 // kill all autopilots, including airspeed hold.  Sound will play automatically.
 void DeltaGliderXR1::KillAllAutopilots()
 {
-    SetCustomAutopilotMode(AP_OFF, true); // turn off custom autopilot
+    SetCustomAutopilotMode(AUTOPILOT::AP_OFF, true); // turn off custom autopilot
     SetAirspeedHoldMode(false, false);    // turn off AIRSPEED HOLD; do not play sound again
 
     for (int i=0; i <= 7; i++)
@@ -765,7 +765,7 @@ void DeltaGliderXR1::SetAirspeedHold(bool playSound, const AIRSPEEDHOLD_ADJUST m
 
     switch(mode)
     {
-    case AS_HOLDCURRENT:
+    case AIRSPEEDHOLD_ADJUST::AS_HOLDCURRENT:
         // hold current airspeed
         m_setAirspeed = GetAirspeed(); 
         if (m_setAirspeed < 0)
@@ -775,13 +775,13 @@ void DeltaGliderXR1::SetAirspeedHold(bool playSound, const AIRSPEEDHOLD_ADJUST m
         sprintf(msg, "Airspeed Hold: holding %.1lf m/s.", m_setAirspeed);
         break;
 
-    case AS_RESET:
+    case AIRSPEEDHOLD_ADJUST::AS_RESET:
         m_setAirspeed = 0;
         sound = BeepLow;
         sprintf(msg, "Airspeed Hold: reset to 0 m/s.");
         break;
 
-    case AS_ADJUST:
+    case AIRSPEEDHOLD_ADJUST::AS_ADJUST:
         m_setAirspeed += delta;
         if (m_setAirspeed < 0)
             m_setAirspeed = 0;
@@ -811,18 +811,18 @@ void DeltaGliderXR1::SetAutoDescentRate(bool playSound, const AUTODESCENT_ADJUST
     Sound sound = NO_SOUND;    // set below
     char msg[128];
 
-    if (mode != AD_AUTOLAND)
+    if (mode != AUTODESCENT_ADJUST::AD_AUTOLAND)
         m_autoLand = false;     // reset
 
     switch(mode)
     {
-    case AD_LEVEL:
+    case AUTODESCENT_ADJUST::AD_LEVEL:
         m_setDescentRate = 0;
         sound = BeepLow;
         strcpy(msg, "Descent Hold: reset to HOVER.");
         break;
 
-    case AD_ADJUST:
+    case AUTODESCENT_ADJUST::AD_ADJUST:
         m_setDescentRate += delta;
         if (m_setDescentRate > MAX_DESCENT_HOLD_RATE)
             m_setDescentRate = MAX_DESCENT_HOLD_RATE;
@@ -833,7 +833,7 @@ void DeltaGliderXR1::SetAutoDescentRate(bool playSound, const AUTODESCENT_ADJUST
         sprintf(msg, "Descent Hold: set to %+.1f m/s.", m_setDescentRate);
         break;
 
-    case AD_AUTOLAND:
+    case AUTODESCENT_ADJUST::AD_AUTOLAND:
         // TOGGLE auto-land 
         if (m_autoLand == false)
         {
@@ -913,7 +913,7 @@ void DeltaGliderXR1::ToggleAOAPitchAttitudeHold(bool playSound)
         PlaySound((m_holdAOA ? BeepLow : BeepHigh), ST_Other);
 
     // if autopilot is current ENGAGED, perform an implicit SYNC as well so we don't pitch like crazy in some situations
-    if (m_customAutopilotMode == AP_ATTITUDEHOLD)
+    if (m_customAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD)
     {
         // perform an implicit sync
         SyncAttitudeHold(false, false);  // no sound for this, since we just beeped above; also, do not force PITCH mode
@@ -1015,7 +1015,7 @@ void DeltaGliderXR1::LimitAttitudeHoldBank(const bool increment, double &val, co
     // "Snap-to" clockwise quadrant sequence will be 1 -> 2 -> 3 -> 4 -> 1 ... (jump across quadrants), but *only if* the attitude hold autopilot is disengaged.
     //  i.e., 2 o'clock -> 4 o'clock -> 8 o'clock -> 10 o'clock
     // 0 degrees = midnight on a clock for our diagram purposes here
-    if (m_customAutopilotMode == AP_ATTITUDEHOLD)
+    if (m_customAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD)
     {
         bool limitedBank = false;  // set to true if we had to limit the bank setting below
 
@@ -1158,7 +1158,7 @@ bool DeltaGliderXR1::CheckHydraulicPressure(bool showWarning, bool playErrorBeep
 {
     bool retVal = true;  // assume APU is running
 
-        if (apu_status != DOOR_OPEN)   // APU not running?
+        if (apu_status != DoorStatus::DOOR_OPEN)   // APU not running?
         {
             retVal = false;
 
@@ -1245,7 +1245,7 @@ bool DeltaGliderXR1::clbkPanelRedrawEvent(const int areaID, const int event, SUR
             {
                 // only delay rendering if the HUD is fully deployed!
                 PopupHUDArea *pHud = static_cast<PopupHUDArea *>(GetArea(PANEL_MAIN, AID_SECONDARY_HUD));  // will never be null
-                if (pHud->GetState() == PopupHUDArea::On)
+                if (pHud->GetState() == PopupHUDArea::OnOffState::On)
                 {
                     if (uptime < m_nextSecondaryHUDRefresh)
                         return false;
@@ -1265,7 +1265,7 @@ bool DeltaGliderXR1::clbkPanelRedrawEvent(const int areaID, const int event, SUR
             {
                 // only delay rendering if the HUD is fully deployed!
                 PopupHUDArea *pHud = static_cast<PopupHUDArea *>(GetArea(PANEL_MAIN, AID_TERTIARY_HUD));  // will never be null
-                if (pHud->GetState() == PopupHUDArea::On)
+                if (pHud->GetState() == PopupHUDArea::OnOffState::On)
                 {
                     if (uptime < m_nextTertiaryHUDRefresh)
                         return false;
@@ -1373,14 +1373,14 @@ bool DeltaGliderXR1::ResetMWS()
 }
 
 // handle instant jumps to open or closed here
-#define CHECK_DOOR_JUMP(proc, anim) if (action == DOOR_OPEN) proc = 1.0;            \
-                                    else if (action == DOOR_CLOSED) proc = 0.0;     \
+#define CHECK_DOOR_JUMP(proc, anim) if (action == DoorStatus::DOOR_OPEN) proc = 1.0;            \
+                                    else if (action == DoorStatus::DOOR_CLOSED) proc = 0.0;     \
                                     SetXRAnimation(anim, proc)
 
 void DeltaGliderXR1::ActivateLandingGear (DoorStatus action)
 {
     // check for failure
-    if (gear_status == DOOR_FAILED)
+    if (gear_status == DoorStatus::DOOR_FAILED)
     {
         PlayErrorBeep();
         ShowWarning("Warning Gear Failure.wav", ST_WarningCallout, "Landing Gear inoperative due to&excessive heat and/or dynamic&pressure.");
@@ -1390,7 +1390,7 @@ void DeltaGliderXR1::ActivateLandingGear (DoorStatus action)
     // We cannot raise or deploy the landing gear if 1) we are already sitting on the ground OR 2) if
     // the gear is up but we are at or below GEAR_FULLY_UNCOMPRESSED_DISTANCE in altitude.
     const double altitude = GetAltitude(ALTMODE_GROUND);
-    if ((action == DOOR_OPENING) || (action == DOOR_CLOSING))
+    if ((action == DoorStatus::DOOR_OPENING) || (action == DoorStatus::DOOR_CLOSING))
     {
         if (GroundContact())   // check #1
         {
@@ -1400,13 +1400,13 @@ void DeltaGliderXR1::ActivateLandingGear (DoorStatus action)
         }
         else if (altitude <= GEAR_FULLY_UNCOMPRESSED_DISTANCE)  // would gear be below the ground?
         {
-            if (action == DOOR_CLOSING)
+            if (action == DoorStatus::DOOR_CLOSING)
             {
                 PlayErrorBeep();
                 ShowWarning("Gear Locked.wav", ST_WarningCallout, "Gear in contact with ground:&cannot raise landing gear.");
                 return;
             }
-            else if (action == DOOR_OPENING)
+            else if (action == DoorStatus::DOOR_OPENING)
             {
                 PlayErrorBeep();
                 ShowWarning("Gear Locked.wav", ST_WarningCallout, "Insufficient altitude to lower&the landing gear.");
@@ -1418,7 +1418,7 @@ void DeltaGliderXR1::ActivateLandingGear (DoorStatus action)
     if (CheckHydraulicPressure(true, true) == false)   // show warning if no hydraulic pressure
         return;     // no hydraulic pressure
 
-    bool close = (action == DOOR_CLOSED || action == DOOR_CLOSING);
+    bool close = (action == DoorStatus::DOOR_CLOSED || action == DoorStatus::DOOR_CLOSING);
     gear_status = action;
 
     CHECK_DOOR_JUMP(gear_proc, anim_gear);
@@ -1436,7 +1436,7 @@ void DeltaGliderXR1::ActivateLandingGear (DoorStatus action)
 
 void DeltaGliderXR1::ToggleLandingGear ()
 {
-    ActivateLandingGear ( ((gear_status == DOOR_CLOSED || gear_status == DOOR_CLOSING) ? DOOR_OPENING : DOOR_CLOSING) );
+    ActivateLandingGear ( ((gear_status == DoorStatus::DOOR_CLOSED || gear_status == DoorStatus::DOOR_CLOSING) ? DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING) );
     UpdateCtrlDialog (this);
 }
 
@@ -1445,7 +1445,7 @@ void DeltaGliderXR1::ToggleLandingGear ()
 void DeltaGliderXR1::ActivateBayDoors(DoorStatus action)
 {
     // check for failure
-    if (bay_status == DOOR_FAILED)
+    if (bay_status == DoorStatus::DOOR_FAILED)
     {
         PlayErrorBeep();
         ShowWarning("Warning Bay Door Failure.wav", ST_WarningCallout, "Bay doors inoperative due to excessive&heat and/or dynamic pressure.");
@@ -1455,10 +1455,10 @@ void DeltaGliderXR1::ActivateBayDoors(DoorStatus action)
     if (CheckHydraulicPressure(true, true) == false)   // show warning if no hydraulic pressure
         return;     // no hydraulic pressure
 
-    /* OK on the Ravenstar
+    /* OK on the Ravenstar, so we handle this check in the subclasses
     // cannot deploy or retract bay doors if the radiator is in motion
-    // NOTE: allow for DOOR_FAILED here so that a radiator failure does not lock the bay doors
-    if ((radiator_status == DOOR_OPENING) || (radiator_status == DOOR_CLOSING))
+    // NOTE: allow for DoorStatus::DOOR_FAILED here so that a radiator failure does not lock the bay doors
+    if ((radiator_status == DoorStatus::DOOR_OPENING) || (radiator_status == DoorStatus::DOOR_CLOSING))
     {
         PlayErrorBeep();
         ShowWarning("Warning Radiator in Motion Bay Doors Are Locked.wav", "Cannot open/close bay doors while&radiator is in motion.");
@@ -1468,7 +1468,7 @@ void DeltaGliderXR1::ActivateBayDoors(DoorStatus action)
 
     CHECK_DOOR_JUMP(bay_proc, anim_bay);
 
-    bool close = (action == DOOR_CLOSING) || (action == DOOR_CLOSED);
+    bool close = (action == DoorStatus::DOOR_CLOSING) || (action == DoorStatus::DOOR_CLOSED);
     bay_status = action;
     TriggerRedrawArea(AID_BAYDOORSSWITCH);
     TriggerRedrawArea(AID_BAYDOORSINDICATOR);
@@ -1480,8 +1480,8 @@ void DeltaGliderXR1::ActivateBayDoors(DoorStatus action)
 // NOTE: not used by the XR1; this is here for subclasses only
 void DeltaGliderXR1::ToggleBayDoors()
 {
-    ActivateBayDoors(bay_status == DOOR_CLOSED || bay_status == DOOR_CLOSING ?
-            DOOR_OPENING : DOOR_CLOSING);
+    ActivateBayDoors(bay_status == DoorStatus::DOOR_CLOSED || bay_status == DoorStatus::DOOR_CLOSING ?
+        DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
 }
 
 #ifdef NOT_USED_ANYMORE
@@ -1581,14 +1581,14 @@ void DeltaGliderXR1::ActivateHoverDoors(DoorStatus action)
     if (CheckHydraulicPressure(true, true) == false)   // show warning if no hydraulic pressure
         return;     // no hydraulic pressure
 
-    bool close = (action == DOOR_CLOSED || action == DOOR_CLOSING);
+    bool close = (action == DoorStatus::DOOR_CLOSED || action == DoorStatus::DOOR_CLOSING);
     hoverdoor_status = action;
 
     CHECK_DOOR_JUMP(hoverdoor_proc, anim_hoverdoor);
 
     // No VC lights for these doors: UpdateVCStatusIndicators();
 
-    EnableHoverEngines(action == DOOR_OPEN);
+    EnableHoverEngines(action == DoorStatus::DOOR_OPEN);
     TriggerRedrawArea(AID_HOVERDOORSWITCH);
     TriggerRedrawArea(AID_HOVERDOORINDICATOR);
     // no VC switch for this
@@ -1603,14 +1603,14 @@ void DeltaGliderXR1::ActivateScramDoors(DoorStatus action)
     if (CheckHydraulicPressure(true, true) == false)   // show warning if no hydraulic pressure
         return;     // no hydraulic pressure
 
-    bool close = (action == DOOR_CLOSED || action == DOOR_CLOSING);
+    bool close = (action == DoorStatus::DOOR_CLOSED || action == DoorStatus::DOOR_CLOSING);
     scramdoor_status = action;
 
     CHECK_DOOR_JUMP(scramdoor_proc, anim_scramdoor);
 
     // No VC lights for these doors: UpdateVCStatusIndicators();
 
-    EnableScramEngines(action == DOOR_OPEN);
+    EnableScramEngines(action == DoorStatus::DOOR_OPEN);
     TriggerRedrawArea(AID_SCRAMDOORSWITCH);
     TriggerRedrawArea(AID_SCRAMDOORINDICATOR);
     // no VC switch for this
@@ -1621,7 +1621,7 @@ void DeltaGliderXR1::ActivateScramDoors(DoorStatus action)
 void DeltaGliderXR1::ActivateRCover(DoorStatus action)
 {
     // check for failure
-    if (rcover_status == DOOR_FAILED)
+    if (rcover_status == DoorStatus::DOOR_FAILED)
     {
         PlayErrorBeep();
         ShowWarning("Warning Retro Door Failure.wav", ST_WarningCallout, "Retro Doors inoperative due to excessive&heat and/or dynamic pressure.");
@@ -1631,18 +1631,18 @@ void DeltaGliderXR1::ActivateRCover(DoorStatus action)
     if (CheckHydraulicPressure(true, true) == false)   // show warning if no hydraulic pressure
         return;     // no hydraulic pressure
 
-    bool close = (action == DOOR_CLOSED || action == DOOR_CLOSING);
+    bool close = (action == DoorStatus::DOOR_CLOSED || action == DoorStatus::DOOR_CLOSING);
     rcover_status = action;
 
     CHECK_DOOR_JUMP(rcover_proc, anim_rcover);
     /* {DEB} causes door to "jump"
-    if (action <= DOOR_OPEN) {
-        rcover_proc = (action == DOOR_CLOSED ? 0.0 : 1.0);
+    if (action <= DoorStatus::DoorStatus::DOOR_OPEN) {
+        rcover_proc = (action == DoorStatus::DOOR_CLOSED ? 0.0 : 1.0);
         SetXRAnimation (anim_rcover, rcover_proc);
     }
     */
     UpdateVCStatusIndicators();
-    EnableRetroThrusters (action == DOOR_OPEN);
+    EnableRetroThrusters (action == DoorStatus::DOOR_OPEN);
     TriggerRedrawArea(AID_RETRODOORSWITCH);
     TriggerRedrawArea(AID_RETRODOORINDICATOR);
     SetXRAnimation(anim_retroswitch, close ? 0:1);
@@ -1653,7 +1653,7 @@ void DeltaGliderXR1::ActivateRCover(DoorStatus action)
 void DeltaGliderXR1::ActivateNoseCone(DoorStatus action)
 {
     // check for failure
-    if (nose_status == DOOR_FAILED)
+    if (nose_status == DoorStatus::DOOR_FAILED)
     {
         PlayErrorBeep();
         char msg[128];
@@ -1663,7 +1663,7 @@ void DeltaGliderXR1::ActivateNoseCone(DoorStatus action)
     }
 
     // if docked, cannot close nosecone
-    if (IsDocked() && ((action == DOOR_CLOSING) || (action == DOOR_CLOSED)))
+    if (IsDocked() && ((action == DoorStatus::DOOR_CLOSING) || (action == DoorStatus::DOOR_CLOSED)))
     {
         PlayErrorBeep();
         char msg[128];
@@ -1676,20 +1676,20 @@ void DeltaGliderXR1::ActivateNoseCone(DoorStatus action)
         return;     // no hydraulic pressure
 
     // if outer airlock door is open and nosecone is CLOSING, close the outer airlock door as well
-    if (((olock_status == DOOR_OPEN) || (olock_status == DOOR_OPENING)) &&
-        ((action == DOOR_CLOSING) || (action == DOOR_CLOSED)))
+    if (((olock_status == DoorStatus::DOOR_OPEN) || (olock_status == DoorStatus::DOOR_OPENING)) &&
+        ((action == DoorStatus::DOOR_CLOSING) || (action == DoorStatus::DOOR_CLOSED)))
     {
         // close the outer airlock door since it is OPEN or OPENING!
-        ActivateOuterAirlock(DOOR_CLOSING);
+        ActivateOuterAirlock(DoorStatus::DOOR_CLOSING);
     }
 
-    bool close = (action == DOOR_CLOSED || action == DOOR_CLOSING);
+    bool close = (action == DoorStatus::DOOR_CLOSED || action == DoorStatus::DOOR_CLOSING);
     nose_status = action;
     
     CHECK_DOOR_JUMP(nose_proc, anim_nose);
     /* {DEB} causes door to "jump"
-    if (action <= DOOR_OPEN) {
-        nose_proc = (action == DOOR_CLOSED ? 0.0 : 1.0);
+    if (action <= DoorStatus::DOOR_OPEN) {
+        nose_proc = (action == DoorStatus::DOOR_CLOSED ? 0.0 : 1.0);
         SetXRAnimation (anim_nose, nose_proc);
         UpdateVCStatusIndicators();
     }
@@ -1699,7 +1699,7 @@ void DeltaGliderXR1::ActivateNoseCone(DoorStatus action)
     TriggerRedrawArea(AID_NOSECONEINDICATOR);
     SetXRAnimation(anim_nconelever, close ? 0:1);
     
-    if (close && ladder_status != DOOR_CLOSED)
+    if (close && ladder_status != DoorStatus::DOOR_CLOSED)
         ActivateLadder (action); // retract ladder before closing the nose cone
     
     UpdateCtrlDialog (this);
@@ -1709,35 +1709,35 @@ void DeltaGliderXR1::ActivateNoseCone(DoorStatus action)
 // invoked from key handler
 void DeltaGliderXR1::ToggleRCover()
 {
-    ActivateRCover(rcover_status == DOOR_CLOSED || rcover_status == DOOR_CLOSING ?
-            DOOR_OPENING : DOOR_CLOSING);
+    ActivateRCover(rcover_status == DoorStatus::DOOR_CLOSED || rcover_status == DoorStatus::DOOR_CLOSING ?
+        DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
 }
 
 // invoked from key handler
 void DeltaGliderXR1::ToggleHoverDoors()
 {
-    ActivateHoverDoors(hoverdoor_status == DOOR_CLOSED || hoverdoor_status == DOOR_CLOSING ?
-            DOOR_OPENING : DOOR_CLOSING);
+    ActivateHoverDoors(hoverdoor_status == DoorStatus::DOOR_CLOSED || hoverdoor_status == DoorStatus::DOOR_CLOSING ?
+        DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
 }
 
 // invoked from key handler
 void DeltaGliderXR1::ToggleScramDoors()
 {
-    ActivateScramDoors(scramdoor_status == DOOR_CLOSED || scramdoor_status == DOOR_CLOSING ?
-            DOOR_OPENING : DOOR_CLOSING);
+    ActivateScramDoors(scramdoor_status == DoorStatus::DOOR_CLOSED || scramdoor_status == DoorStatus::DOOR_CLOSING ?
+        DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
 }
 
 // invoked from key handler
 void DeltaGliderXR1::ToggleNoseCone ()
 {
-    ActivateNoseCone(nose_status == DOOR_CLOSED || nose_status == DOOR_CLOSING ?
-            DOOR_OPENING : DOOR_CLOSING);
+    ActivateNoseCone(nose_status == DoorStatus::DOOR_CLOSED || nose_status == DoorStatus::DOOR_CLOSING ?
+        DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
 }
 
 void DeltaGliderXR1::ActivateHatch(DoorStatus action)
 {
     // check for failure
-    if (hatch_status == DOOR_FAILED)
+    if (hatch_status == DoorStatus::DOOR_FAILED)
     {
         PlayErrorBeep();
         ShowWarning("Warning Hatch Failure.wav", ST_WarningCallout, "Top Hatch inoperative due to excessive&heat and/or dynamic pressure.");
@@ -1745,7 +1745,7 @@ void DeltaGliderXR1::ActivateHatch(DoorStatus action)
     }
 
     // check for ATM pressure outside
-    bool opening = ((action == DOOR_OPENING) || (action == DOOR_OPEN));
+    bool opening = ((action == DoorStatus::DOOR_OPENING) || (action == DoorStatus::DOOR_OPEN));
     if ((InEarthAtm() == false) && opening)
     {
         // check whether safety interlocks are still engaged
@@ -1796,8 +1796,8 @@ void DeltaGliderXR1::ForceActivateCabinHatch(DoorStatus action)
 
     CHECK_DOOR_JUMP(hatch_proc, anim_hatch);
     /* {DEB} causes door to "jump"
-    if (action <= DOOR_OPEN) {
-        hatch_proc = (action == DOOR_CLOSED ? 0.0 : 1.0);
+    if (action <= DoorStatus::DOOR_OPEN) {
+        hatch_proc = (action == DoorStatus::DOOR_CLOSED ? 0.0 : 1.0);
         SetXRAnimation (anim_hatch, hatch_proc);
     }
     */
@@ -1805,7 +1805,7 @@ void DeltaGliderXR1::ForceActivateCabinHatch(DoorStatus action)
     TriggerRedrawArea(AID_HATCHSWITCH);
     TriggerRedrawArea(AID_HATCHINDICATOR);
 
-    const bool close = (action == DOOR_CLOSED || action == DOOR_CLOSING);
+    const bool close = (action == DoorStatus::DOOR_CLOSED || action == DoorStatus::DOOR_CLOSING);
     SetXRAnimation(anim_hatchswitch, close ? 0:1);
     UpdateCtrlDialog (this);
     RecordEvent ("HATCH", close ? "CLOSE" : "OPEN");
@@ -1846,7 +1846,7 @@ void DeltaGliderXR1::PerformUndocking()
     }
 
     // safety check: prevent undocking if both airlock doors are open
-    if ((olock_status != DOOR_CLOSED) && (ilock_status != DOOR_CLOSED))
+    if ((olock_status != DoorStatus::DOOR_CLOSED) && (ilock_status != DoorStatus::DOOR_CLOSED))
     {
         PlayErrorBeep();
         ShowWarning("Warning Decompression Danger.wav", DeltaGliderXR1::ST_WarningCallout, "WARNING: DECOMPRESSION DANGER:&Both airlock doors open!");
@@ -1856,9 +1856,9 @@ void DeltaGliderXR1::PerformUndocking()
     Undock(0);
 
     // if ship is docked, set airlock pressure to EXTERNAL PRESSURE if outer door is not closed
-    if (olock_status != DOOR_CLOSED)
+    if (olock_status != DoorStatus::DOOR_CLOSED)
     {
-        DoorStatus newChamberStatus = (InEarthAtm() ? DOOR_CLOSED : DOOR_OPEN);
+        DoorStatus newChamberStatus = (InEarthAtm() ? DoorStatus::DOOR_CLOSED : DoorStatus::DOOR_OPEN);
         ActivateChamber(newChamberStatus, true);  // instantly force pressure or vacuum
     }
 }
@@ -1870,7 +1870,7 @@ int DeltaGliderXR1::KillCrew()
 {
     int crewMembersKilled = 0;
 
-    m_crewState = DEAD;   // do this even if nobody on board so that the controls will be disabled.
+    m_crewState = CrewState::DEAD;   // do this even if nobody on board so that the controls will be disabled.
 #ifdef MMU
     // remove all the crew members
     for (int i=0; i < MAX_PASSENGERS; i++)
@@ -1895,17 +1895,17 @@ int DeltaGliderXR1::KillCrew()
 
 void DeltaGliderXR1::ToggleHatch ()
 {
-    ActivateHatch (hatch_status == DOOR_CLOSED || hatch_status == DOOR_CLOSING ?
-            DOOR_OPENING : DOOR_CLOSING);
+    ActivateHatch (hatch_status == DoorStatus::DOOR_CLOSED || hatch_status == DoorStatus::DOOR_CLOSING ?
+        DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
 }
 
 void DeltaGliderXR1::ActivateLadder(DoorStatus action)
 {
     // Note: this is never called by subclasses that do not have a nosecone, so there is no need to use NOSECONE_LABEL here.
-    bool close = (action == DOOR_CLOSED || action == DOOR_CLOSING);
+    bool close = (action == DoorStatus::DOOR_CLOSED || action == DoorStatus::DOOR_CLOSING);
     
     // don't extend ladder if nose cone is closed
-    if (!close && nose_status != DOOR_OPEN) 
+    if (!close && nose_status != DoorStatus::DOOR_OPEN)
     {
         PlayErrorBeep();
         ShowWarning("Warning Nosecone is Closed.wav", ST_WarningCallout, "Cannot deploy ladder while&nosecone is closed!");
@@ -1913,7 +1913,7 @@ void DeltaGliderXR1::ActivateLadder(DoorStatus action)
     }
 
     // if docked, cannot deploy ladder
-    if (IsDocked() && ((action == DOOR_OPENING) || (action == DOOR_OPEN)))
+    if (IsDocked() && ((action == DoorStatus::DOOR_OPENING) || (action == DoorStatus::DOOR_OPEN)))
     {
         PlayErrorBeep();
         ShowWarning("Warning Ship is Docked.wav", ST_WarningCallout, "Cannot deploy ladder while&ship is docked!");
@@ -1927,8 +1927,8 @@ void DeltaGliderXR1::ActivateLadder(DoorStatus action)
 
     CHECK_DOOR_JUMP(ladder_proc, anim_ladder);
     /* {DEB} causes door to "jump"
-    if (action <= DOOR_OPEN) {
-        ladder_proc = (action == DOOR_CLOSED ? 0.0 : 1.0);
+    if (action <= DoorStatus::DOOR_OPEN) {
+        ladder_proc = (action == DoorStatus::DOOR_CLOSED ? 0.0 : 1.0);
         SetXRAnimation (anim_ladder, ladder_proc);
     }
     */
@@ -1943,8 +1943,8 @@ void DeltaGliderXR1::ActivateLadder(DoorStatus action)
 // Not currently used, but keep it anyway
 void DeltaGliderXR1::ToggleLadder ()
 {
-    ActivateLadder (ladder_status == DOOR_CLOSED || ladder_status == DOOR_CLOSING ?
-            DOOR_OPENING : DOOR_CLOSING);
+    ActivateLadder (ladder_status == DoorStatus::DOOR_CLOSED || ladder_status == DoorStatus::DOOR_CLOSING ?
+        DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
 }
 
 void DeltaGliderXR1::ActivateOuterAirlock (DoorStatus action)
@@ -1953,7 +1953,7 @@ void DeltaGliderXR1::ActivateOuterAirlock (DoorStatus action)
 
     // if the nosecone is not open, cannot open outer airlock door;
     // HOWEVER, we can CLOSE it.
-    if (((action != DOOR_CLOSING) && (action != DOOR_CLOSED)) && (nose_status != DOOR_OPEN))
+    if (((action != DoorStatus::DOOR_CLOSING) && (action != DoorStatus::DOOR_CLOSED)) && (nose_status != DoorStatus::DOOR_OPEN))
     {
         PlayErrorBeep();
         char msg[128];
@@ -1963,10 +1963,10 @@ void DeltaGliderXR1::ActivateOuterAirlock (DoorStatus action)
     }
 
     // verify that pressure changes are not in progress
-    if ((chamber_status != DOOR_CLOSED) && (chamber_status != DOOR_OPEN))
+    if ((chamber_status != DoorStatus::DOOR_CLOSED) && (chamber_status != DoorStatus::DOOR_OPEN))
     {
         PlayErrorBeep();
-        ShowWarning(((chamber_status == DOOR_CLOSING) ? 
+        ShowWarning(((chamber_status == DoorStatus::DOOR_CLOSING) ?
             "WARNING Chamber Pressurizing Outer Door is Locked.wav" : 
             "WARNING Chamber Depressurizing Outer Door is Locked.wav"), ST_WarningCallout, 
             "WARNING: Airlock chamber pressure is&in flux; outer door is LOCKED.");
@@ -1975,9 +1975,9 @@ void DeltaGliderXR1::ActivateOuterAirlock (DoorStatus action)
 
     // check whether ATM pressure outside matches chamber pressure 
     // NOTE: always allow door to be CLOSED; this can be an issue if we DOCK with vacuum in the chamber and outer doors open
-    if ((action != DOOR_CLOSING) && (action != DOOR_CLOSED))
+    if ((action != DoorStatus::DOOR_CLOSING) && (action != DoorStatus::DOOR_CLOSED))
     {
-        if (chamber_status == DOOR_OPEN)      // vacuum in chamber?
+        if (chamber_status == DoorStatus::DOOR_OPEN)      // vacuum in chamber?
         {
             if ((InEarthAtm() || IsDocked()) && (m_airlockInterlocksDisabled == false))
             {
@@ -1987,7 +1987,7 @@ void DeltaGliderXR1::ActivateOuterAirlock (DoorStatus action)
                 return;
             }
         }
-        else if (chamber_status == DOOR_CLOSED)    // ATM in chamber?
+        else if (chamber_status == DoorStatus::DOOR_CLOSED)    // ATM in chamber?
         {
             if (((InEarthAtm() == false) && (IsDocked() == false)) && (m_airlockInterlocksDisabled == false))
             {
@@ -2002,26 +2002,26 @@ void DeltaGliderXR1::ActivateOuterAirlock (DoorStatus action)
     if (CheckHydraulicPressure(true, true) == false)   // show warning if no hydraulic pressure
         return;     // no hydraulic pressure
 
-    bool close = (action == DOOR_CLOSED || action == DOOR_CLOSING);
+    bool close = (action == DoorStatus::DOOR_CLOSED || action == DoorStatus::DOOR_CLOSING);
     olock_status = action;
 
     CHECK_DOOR_JUMP(olock_proc, anim_olock);
     /* {DEB} causes door to "jump"
-    if (action <= DOOR_OPEN) 
+    if (action <= DoorStatus::DOOR_OPEN) 
     {
-        olock_proc = (action == DOOR_CLOSED ? 0.0 : 1.0);
+        olock_proc = (action == DoorStatus::DOOR_CLOSED ? 0.0 : 1.0);
         SetXRAnimation (anim_olock, olock_proc);
     }
     */
 
     // If door opening and atm in chamber, it means that the interlocks were disabled and the door
     // is opening: chamber pressure now matches external pressure!
-    if (action == DOOR_OPENING)
+    if (action == DoorStatus::DOOR_OPENING)
     {
         if (InEarthAtm() || IsDocked())
-            ActivateChamber(DOOR_CLOSED, true);   // force this
+            ActivateChamber(DoorStatus::DOOR_CLOSED, true);   // force this
         else    // vacuum (or close enough to it)
-            ActivateChamber(DOOR_OPEN, true);     // force this
+            ActivateChamber(DoorStatus::DOOR_OPEN, true);     // force this
 
         TriggerRedrawArea(AID_CHAMBERSWITCH);
         TriggerRedrawArea(AID_CHAMBERINDICATOR);        
@@ -2037,8 +2037,8 @@ void DeltaGliderXR1::ActivateOuterAirlock (DoorStatus action)
 
 void DeltaGliderXR1::ToggleOuterAirlock ()
 {
-    ActivateOuterAirlock (olock_status == DOOR_CLOSED || olock_status == DOOR_CLOSING ?
-            DOOR_OPENING : DOOR_CLOSING);
+    ActivateOuterAirlock (olock_status == DoorStatus::DOOR_CLOSED || olock_status == DoorStatus::DOOR_CLOSING ?
+        DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
 }
 
 void DeltaGliderXR1::ActivateInnerAirlock(DoorStatus action)
@@ -2047,8 +2047,8 @@ void DeltaGliderXR1::ActivateInnerAirlock(DoorStatus action)
 
     // verify that chamber is pressurized before opening it; always allow it to CLOSE, however!
     // NOTE: allow airlock interlock override to affect the INNER airlock door, too
-    if (((action == DOOR_OPEN) || (action == DOOR_OPENING)) &&
-        (chamber_status != DOOR_CLOSED) && (m_airlockInterlocksDisabled == false))    // chamber not fully pressurized?
+    if (((action == DoorStatus::DOOR_OPEN) || (action == DoorStatus::DOOR_OPENING)) &&
+        (chamber_status != DoorStatus::DOOR_CLOSED) && (m_airlockInterlocksDisabled == false))    // chamber not fully pressurized?
     {
         PlayErrorBeep();
         ShowWarning("Warning Chamber Not Pressurized.wav", ST_WarningCallout, 
@@ -2065,22 +2065,22 @@ void DeltaGliderXR1::ActivateInnerAirlock(DoorStatus action)
 // force the inner airlock and don't do any checks
 void DeltaGliderXR1::ForceActivateInnerAirlock(DoorStatus action)
 {
-    bool close = (action == DOOR_CLOSED || action == DOOR_CLOSING);
+    bool close = (action == DoorStatus::DOOR_CLOSED || action == DoorStatus::DOOR_CLOSING);
     ilock_status = action;
 
     CHECK_DOOR_JUMP(ilock_proc, anim_ilock);
     /* {DEB} causes door to "jump"
-    if (action <= DOOR_OPEN) {
-        ilock_proc = (action == DOOR_CLOSED ? 0.0 : 1.0);
+    if (action <= DoorStatus::DOOR_OPEN) {
+        ilock_proc = (action == DoorStatus::DOOR_CLOSED ? 0.0 : 1.0);
         SetXRAnimation (anim_ilock, ilock_proc);
     }
     */
 
     // If door opening and chamber in vacuum, it means that the interlocks were disabled and the door
     // is opening: chamber is now fully pressurized!
-    if (action == DOOR_OPENING)
+    if (action == DoorStatus::DOOR_OPENING)
     {
-        ActivateChamber(DOOR_CLOSED, true);   // air in chamber (force this)
+        ActivateChamber(DoorStatus::DOOR_CLOSED, true);   // air in chamber (force this)
         TriggerRedrawArea(AID_CHAMBERSWITCH);
         TriggerRedrawArea(AID_CHAMBERINDICATOR);        
     }
@@ -2095,8 +2095,8 @@ void DeltaGliderXR1::ForceActivateInnerAirlock(DoorStatus action)
 
 void DeltaGliderXR1::ToggleInnerAirlock ()
 {
-    ActivateInnerAirlock (ilock_status == DOOR_CLOSED || ilock_status == DOOR_CLOSING ?
-            DOOR_OPENING : DOOR_CLOSING);
+    ActivateInnerAirlock (ilock_status == DoorStatus::DOOR_CLOSED || ilock_status == DoorStatus::DOOR_CLOSING ?
+        DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
 }
 
 // pressurize or depressurize the airlock chamber
@@ -2108,13 +2108,13 @@ void DeltaGliderXR1::ActivateChamber(DoorStatus action, bool force)
     if (force == false)
     {
         // verify that the chamber can change states; i.e., both doors are CLOSED
-        if (ilock_status != DOOR_CLOSED)
+        if (ilock_status != DoorStatus::DOOR_CLOSED)
         {
             ShowWarning("Inner Door is Open.wav", ST_WarningCallout, "Inner airlock door is open.");
             return;
         }
 
-        if (olock_status != DOOR_CLOSED)
+        if (olock_status != DoorStatus::DOOR_CLOSED)
         {
             ShowWarning("Outer Door is Open.wav", ST_WarningCallout, "Outer airlock door is open.");
             return;
@@ -2123,11 +2123,11 @@ void DeltaGliderXR1::ActivateChamber(DoorStatus action, bool force)
         // chamber presently cannot fail, so don't bother to check for it here
     }
 
-    bool close = (action == DOOR_CLOSED || action == DOOR_CLOSING);
+    bool close = (action == DoorStatus::DOOR_CLOSED || action == DoorStatus::DOOR_CLOSING);
     chamber_status = action;
-    if (action == DOOR_CLOSED)
+    if (action == DoorStatus::DOOR_CLOSED)
         chamber_proc = 0.0;
-    else if (action == DOOR_OPEN)
+    else if (action == DoorStatus::DOOR_OPEN)
         chamber_proc = 1.0;
     
     // no VC status indicator for this
@@ -2140,7 +2140,7 @@ void DeltaGliderXR1::ActivateChamber(DoorStatus action, bool force)
 
 void DeltaGliderXR1::ActivateAirbrake(DoorStatus action)
 {
-    if (brake_status == DOOR_FAILED)
+    if (brake_status == DoorStatus::DOOR_FAILED)
     {
         PlayErrorBeep();
         // TODO: if a new speech pack is created, create a "Warning: airbrake failure" callout.
@@ -2153,7 +2153,7 @@ void DeltaGliderXR1::ActivateAirbrake(DoorStatus action)
         return;     // no hydraulic pressure
 
     brake_status = action;
-    RecordEvent ("AIRBRAKE", action == DOOR_CLOSING ? "CLOSE" : "OPEN");
+    RecordEvent ("AIRBRAKE", action == DoorStatus::DOOR_CLOSING ? "CLOSE" : "OPEN");
 
     CHECK_DOOR_JUMP(brake_proc, anim_brake);
     TriggerRedrawArea(AID_AIRBRAKESWITCH);
@@ -2162,14 +2162,14 @@ void DeltaGliderXR1::ActivateAirbrake(DoorStatus action)
 
 void DeltaGliderXR1::ToggleAirbrake (void)
 {
-    ActivateAirbrake (brake_status == DOOR_CLOSED || brake_status == DOOR_CLOSING ?
-            DOOR_OPENING : DOOR_CLOSING);
+    ActivateAirbrake (brake_status == DoorStatus::DOOR_CLOSED || brake_status == DoorStatus::DOOR_CLOSING ?
+        DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
 }
 
 void DeltaGliderXR1::ActivateRadiator(DoorStatus action)
 {
     // check for failure
-    if (radiator_status == DOOR_FAILED)
+    if (radiator_status == DoorStatus::DOOR_FAILED)
     {
         PlayErrorBeep();
         ShowWarning("Warning Radiator Failure.wav", ST_WarningCallout, "Radiator inoperative due to excessive&heat and/or dynamic pressure.");
@@ -2179,14 +2179,14 @@ void DeltaGliderXR1::ActivateRadiator(DoorStatus action)
     if (CheckHydraulicPressure(true, true) == false)   // show warning if no hydraulic pressure
         return;     // no hydraulic pressure
 
-    bool close = (action == DOOR_CLOSED || action == DOOR_CLOSING);
+    bool close = (action == DoorStatus::DOOR_CLOSED || action == DoorStatus::DOOR_CLOSING);
     radiator_status = action;
 
     CHECK_DOOR_JUMP(radiator_proc, anim_radiator);
 
     /* {DEB} causes door to "jump"
-    if (action <= DOOR_OPEN) {
-        radiator_proc = (action == DOOR_CLOSED ? 0.0 : 1.0);
+    if (action <= DoorStatus::DOOR_OPEN) {
+        radiator_proc = (action == DoorStatus::DOOR_CLOSED ? 0.0 : 1.0);
         SetXRAnimation (anim_radiator, radiator_proc);
         UpdateVCStatusIndicators();
     }
@@ -2201,8 +2201,8 @@ void DeltaGliderXR1::ActivateRadiator(DoorStatus action)
 
 void DeltaGliderXR1::ToggleRadiator (void)
 {
-    ActivateRadiator(radiator_status == DOOR_CLOSED || radiator_status == DOOR_CLOSING ?
-        DOOR_OPENING : DOOR_CLOSING);
+    ActivateRadiator(radiator_status == DoorStatus::DOOR_CLOSED || radiator_status == DoorStatus::DOOR_CLOSING ?
+        DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
 }
 
 void DeltaGliderXR1::SetNavlight (bool on)
@@ -2273,7 +2273,7 @@ void DeltaGliderXR1::ActivateAPU(DoorStatus action)
 
     // TODO: add code to fail this or take out the failure check below
     // check for failure
-    if (apu_status == DOOR_FAILED)
+    if (apu_status == DoorStatus::DOOR_FAILED)
     {
         PlayErrorBeep();
         ShowWarning("Warning Aux Power Unit Failure.wav", ST_WarningCallout, "APU FAILED.");
@@ -2281,7 +2281,7 @@ void DeltaGliderXR1::ActivateAPU(DoorStatus action)
     }
 
     // check fuel level
-    if ((m_apuFuelQty <= 0.0) && ((action == DOOR_OPEN) || (action == DOOR_OPENING)))
+    if ((m_apuFuelQty <= 0.0) && ((action == DoorStatus::DOOR_OPEN) || (action == DoorStatus::DOOR_OPENING)))
     {
         PlayErrorBeep();
         ShowWarning("Warning APU Fuel Depleted No Hydraulic Pressure.wav", ST_WarningCallout, "APU fuel depleted:&NO HYDRAULIC PRESSURE!");
@@ -2292,14 +2292,14 @@ void DeltaGliderXR1::ActivateAPU(DoorStatus action)
     MarkAPUActive();  // reset the APU idle warning callout time
 
     apu_status = action;
-    RecordEvent("APU", ((action == DOOR_CLOSING) || (action == DOOR_CLOSED)) ? "CLOSE" : "OPEN");
+    RecordEvent("APU", ((action == DoorStatus::DOOR_CLOSING) || (action == DoorStatus::DOOR_CLOSED)) ? "CLOSE" : "OPEN");
 
     TriggerRedrawArea(AID_APU_BUTTON);
 }
 
 void DeltaGliderXR1::ToggleAPU(void)
 {
-    ActivateAPU((apu_status == DOOR_CLOSED || apu_status == DOOR_CLOSING) ? DOOR_OPENING : DOOR_CLOSING);
+    ActivateAPU((apu_status == DoorStatus::DOOR_CLOSED || apu_status == DoorStatus::DOOR_CLOSING) ? DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
 }
 
 // Returns max configured thrust for the specified thruster BEFORE taking atmosphere or 
@@ -2320,7 +2320,7 @@ double DeltaGliderXR1::GetRCSThrustMax(const int index) const
     // For attitude hold or descent hold in an atmosphere, the pitch jets switch to a high-power mode.
     if (GetAtmPressure() > 1)
     {
-        if ((m_customAutopilotMode == AP_ATTITUDEHOLD) || (m_customAutopilotMode == AP_DESCENTHOLD))
+        if ((m_customAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD) || (m_customAutopilotMode == AUTOPILOT::AP_DESCENTHOLD))
             retVal *= AP_ATTITUDE_HOLD_RCS_THRUST_MULTIPLIER;
     }
 
@@ -2369,7 +2369,7 @@ void DeltaGliderXR1::clbkADCtrlMode(DWORD mode)
 
     // play our custom sound IF the APU is running and IF the crew is not incapacitated
     // otherwise, the AD ctrls may have just been turned off automatically
-    if ((apu_status == DOOR_OPEN) && (IsCrewIncapacitatedOrNoPilotOnBoard() == false))
+    if ((apu_status == DoorStatus::DOOR_OPEN) && (IsCrewIncapacitatedOrNoPilotOnBoard() == false))
     {
         Sound s;
         if (mode == 0)
@@ -2405,7 +2405,7 @@ void DeltaGliderXR1::clbkNavMode (int mode, bool active)
             PlaySound(AutopilotOn, ST_Other, AUTOPILOT_VOL);
             
             // disable any custom autopilot mode
-            SetCustomAutopilotMode(AP_OFF, false);  // do not play sounds for this
+            SetCustomAutopilotMode(AUTOPILOT::AP_OFF, false);  // do not play sounds for this
         }
 
         pAction = "engaged";
@@ -2414,7 +2414,7 @@ void DeltaGliderXR1::clbkNavMode (int mode, bool active)
     {
         // play the AutopilotOff sound for all modes except KILLROT, UNLESS custom autopilot is active now
         // (we don't want to play AutoPilotOff if custom autopilot is on now)
-        if ((mode != NAVMODE_KILLROT) && (m_customAutopilotMode == AP_OFF))
+        if ((mode != NAVMODE_KILLROT) && (m_customAutopilotMode == AUTOPILOT::AP_OFF))
             PlaySound(AutopilotOff, ST_Other, AUTOPILOT_VOL);
 
         pAction = "disengaged";
@@ -2441,7 +2441,7 @@ bool DeltaGliderXR1::clbkLoadGenericCockpit ()
     SetCameraOffset (_V(0,1.467,6.782));
     oapiSetDefNavDisplay (1);
     oapiSetDefRCSDisplay (1);
-    campos = CAM_GENERIC;
+    campos = DeltaGliderXR1::CAMERA_POSITION::CAM_GENERIC;
     return true;
 }
 
@@ -2691,9 +2691,9 @@ void DeltaGliderXR1::PlayErrorBeep()
 // Play a door opening/closing beep; usually invoked from key handlers
 void DeltaGliderXR1::PlayDoorSound(DoorStatus doorStatus)
 {
-    if (doorStatus == DOOR_OPENING)
+    if (doorStatus == DoorStatus::DOOR_OPENING)
         PlaySound(_DoorOpening, ST_Other);
-    else if (doorStatus == DOOR_CLOSING)
+    else if (doorStatus == DoorStatus::DOOR_CLOSING)
         PlaySound(_DoorClosing, ST_Other);
 }
 
@@ -2817,7 +2817,7 @@ bool DeltaGliderXR1::CheckEVADoor()
     // verify that the outer door and nosecone are both open
     // We really wouldn't have to check for nosecone here, since the outer door already requires that
     // the nosecone be open before the outer door can open; however, we want to give the pilot an accurate callout.
-    if (nose_status != DOOR_OPEN)
+    if (nose_status != DoorStatus::DOOR_OPEN)
     {
         PlayErrorBeep();
         char msg[128];
@@ -2826,7 +2826,7 @@ bool DeltaGliderXR1::CheckEVADoor()
         return false;
     }
 
-    if (olock_status != DOOR_OPEN)
+    if (olock_status != DoorStatus::DOOR_OPEN)
     {
         PlayErrorBeep();
         ShowWarning("Warning Outer Door is Closed.wav", ST_WarningCallout, "Outer door is closed.");
@@ -2938,43 +2938,43 @@ void DeltaGliderXR1::UpdateCtrlDialog (DeltaGliderXR1 *dg, HWND hWnd)
     
     int op;
     
-    op = dg->gear_status & 1;
+    op = static_cast<int>(dg->gear_status) & 1;
     SendDlgItemMessage (hWnd, IDC_GEAR_DOWN, BM_SETCHECK, bstatus[op], 0);
     SendDlgItemMessage (hWnd, IDC_GEAR_UP, BM_SETCHECK, bstatus[1-op], 0);
     
-    op = dg->rcover_status & 1;
+    op = static_cast<int>(dg->rcover_status) & 1;
     SendDlgItemMessage (hWnd, IDC_RETRO_OPEN, BM_SETCHECK, bstatus[op], 0);
     SendDlgItemMessage (hWnd, IDC_RETRO_CLOSE, BM_SETCHECK, bstatus[1-op], 0);
     
-    op = dg->nose_status & 1;
+    op = static_cast<int>(dg->nose_status) & 1;
     SendDlgItemMessage (hWnd, IDC_NCONE_OPEN, BM_SETCHECK, bstatus[op], 0);
     SendDlgItemMessage (hWnd, IDC_NCONE_CLOSE, BM_SETCHECK, bstatus[1-op], 0);
     
-    op = dg->olock_status & 1;
+    op = static_cast<int>(dg->olock_status) & 1;
     SendDlgItemMessage (hWnd, IDC_OLOCK_OPEN, BM_SETCHECK, bstatus[op], 0);
     SendDlgItemMessage (hWnd, IDC_OLOCK_CLOSE, BM_SETCHECK, bstatus[1-op], 0);
     
-    op = dg->ilock_status & 1;
+    op = static_cast<int>(dg->ilock_status) & 1;
     SendDlgItemMessage (hWnd, IDC_ILOCK_OPEN, BM_SETCHECK, bstatus[op], 0);
     SendDlgItemMessage (hWnd, IDC_ILOCK_CLOSE, BM_SETCHECK, bstatus[1-op], 0);
     
-    op = dg->ladder_status & 1;
+    op = static_cast<int>(dg->ladder_status) & 1;
     SendDlgItemMessage (hWnd, IDC_LADDER_EXTEND, BM_SETCHECK, bstatus[op], 0);
     SendDlgItemMessage (hWnd, IDC_LADDER_RETRACT, BM_SETCHECK, bstatus[1-op], 0);
     
-    op = dg->hatch_status & 1;
+    op = static_cast<int>(dg->hatch_status) & 1;
     SendDlgItemMessage (hWnd, IDC_HATCH_OPEN, BM_SETCHECK, bstatus[op], 0);
     SendDlgItemMessage (hWnd, IDC_HATCH_CLOSE, BM_SETCHECK, bstatus[1-op], 0);
     
-    op = dg->radiator_status & 1;
+    op = static_cast<int>(dg->radiator_status) & 1;
     SendDlgItemMessage (hWnd, IDC_RADIATOR_EXTEND, BM_SETCHECK, bstatus[op], 0);
     SendDlgItemMessage (hWnd, IDC_RADIATOR_RETRACT, BM_SETCHECK, bstatus[1-op], 0);
     
-    op = dg->beacon[0].active ? 1:0;
+    op = static_cast<int>(dg->beacon[0].active) ? 1:0;
     SendDlgItemMessage (hWnd, IDC_NAVLIGHT, BM_SETCHECK, bstatus[op], 0);
-    op = dg->beacon[3].active ? 1:0;
+    op = static_cast<int>(dg->beacon[3].active) ? 1:0;
     SendDlgItemMessage (hWnd, IDC_BEACONLIGHT, BM_SETCHECK, bstatus[op], 0);
-    op = dg->beacon[5].active ? 1:0;
+    op = static_cast<int>(dg->beacon[5].active) ? 1:0;
     SendDlgItemMessage (hWnd, IDC_STROBELIGHT, BM_SETCHECK, bstatus[op], 0);
 }
 
@@ -3487,9 +3487,9 @@ void DeltaGliderXR1::clbkPostCreation()
     // Invoke XR PostCreation code common to all XR vessels (code is in XRVessel.cpp)
     clbkPostCreationCommonXRCode();
 
-    EnableRetroThrusters(rcover_status == DOOR_OPEN);
-    EnableHoverEngines(hoverdoor_status == DOOR_OPEN);
-    EnableScramEngines(scramdoor_status == DOOR_OPEN);
+    EnableRetroThrusters(rcover_status == DoorStatus::DOOR_OPEN);
+    EnableHoverEngines(hoverdoor_status == DoorStatus::DOOR_OPEN);
+    EnableScramEngines(scramdoor_status == DoorStatus::DOOR_OPEN);
 
     // set initial animation states
     SetXRAnimation (anim_gear, gear_proc);
@@ -3503,14 +3503,14 @@ void DeltaGliderXR1::clbkPostCreation()
     SetXRAnimation (anim_hatch, hatch_proc);
     SetXRAnimation (anim_radiator, radiator_proc);
     SetXRAnimation (anim_brake, brake_proc);
-    SetXRAnimation (anim_gearlever, gear_status & 1);
-    SetXRAnimation (anim_nconelever, nose_status & 1);
-    SetXRAnimation (anim_olockswitch, olock_status & 1);
-    SetXRAnimation (anim_ilockswitch, ilock_status & 1);
-    SetXRAnimation (anim_retroswitch, rcover_status & 1);
-    SetXRAnimation (anim_radiatorswitch, radiator_status & 1);
-    SetXRAnimation (anim_hatchswitch, hatch_status & 1);
-    SetXRAnimation (anim_ladderswitch, ladder_status & 1);
+    SetXRAnimation (anim_gearlever, static_cast<int>(gear_status) & 1);
+    SetXRAnimation (anim_nconelever, static_cast<int>(nose_status) & 1);
+    SetXRAnimation (anim_olockswitch, static_cast<int>(olock_status) & 1);
+    SetXRAnimation (anim_ilockswitch, static_cast<int>(ilock_status) & 1);
+    SetXRAnimation (anim_retroswitch, static_cast<int>(rcover_status) & 1);
+    SetXRAnimation (anim_radiatorswitch, static_cast<int>(radiator_status) & 1);
+    SetXRAnimation (anim_hatchswitch, static_cast<int>(hatch_status) & 1);
+    SetXRAnimation (anim_ladderswitch, static_cast<int>(ladder_status) & 1);
     
     // NOTE: instrument panel initialization moved to clbkSetClassCaps (earlier) because the Post-2010-P1 Orbiter Beta invokes clbkLoadPanel before invoking clbkPostCreation
 
@@ -3682,7 +3682,7 @@ void DeltaGliderXR1::clbkPostCreationCommonXRCode()
         m_startupRCSFuelFrac   = GetPropellantMass(ph_rcs) / GetPropellantMaxMass(ph_rcs);
         
         // APU on
-        ActivateAPU(DOOR_OPENING);
+        ActivateAPU(DoorStatus::DOOR_OPENING);
 
         // RCS off
         SetAttitudeMode(RCS_NONE);
@@ -3690,7 +3690,7 @@ void DeltaGliderXR1::clbkPostCreationCommonXRCode()
         // Workaround for Orbiter core bug: must init gear parameters here in case gear status not present in the scenario file.
         // This is necessary because Orbiter requires the gear to be DOWN when the scenario first loads if the ship is landed; otherwise, a gruesome crash 
         // occurs due to the "bounce bug".
-        gear_status = DOOR_CLOSED;
+        gear_status = DoorStatus::DOOR_CLOSED;
         gear_proc    = 0.0;
     }
 
@@ -3748,72 +3748,72 @@ bool DeltaGliderXR1::clbkPlaybackEvent (double simt, double event_t, const char 
 {
     if (!_stricmp (event_type, "GEAR"))
     {
-        ActivateLandingGear (!_stricmp (event, "UP") ? DOOR_CLOSING : DOOR_OPENING);
+        ActivateLandingGear (!_stricmp (event, "UP") ? DoorStatus::DOOR_CLOSING : DoorStatus::DOOR_OPENING);
         return true;
     }
     else if (!_stricmp (event_type, "NOSECONE"))
     {
-        ActivateNoseCone (!_stricmp (event, "CLOSE") ? DOOR_CLOSING : DOOR_OPENING);
+        ActivateNoseCone (!_stricmp (event, "CLOSE") ? DoorStatus::DOOR_CLOSING : DoorStatus::DOOR_OPENING);
         return true;
     }
     else if (!_stricmp (event_type, "RCOVER"))
     {
-        ActivateRCover (!_stricmp (event, "CLOSE") ? DOOR_CLOSING : DOOR_OPENING);
+        ActivateRCover (!_stricmp (event, "CLOSE") ? DoorStatus::DOOR_CLOSING : DoorStatus::DOOR_OPENING);
         return true;
     }
     else if (!_stricmp (event_type, "RADIATOR"))
     {
-        ActivateRadiator (!_stricmp (event, "CLOSE") ? DOOR_CLOSING : DOOR_OPENING);
+        ActivateRadiator (!_stricmp (event, "CLOSE") ? DoorStatus::DOOR_CLOSING : DoorStatus::DOOR_OPENING);
         return true;
     }
     else if (!_stricmp (event_type, "AIRBRAKE"))
     {
-        ActivateAirbrake(!_stricmp (event, "CLOSE") ? DOOR_CLOSING : DOOR_OPENING);
+        ActivateAirbrake(!_stricmp (event, "CLOSE") ? DoorStatus::DOOR_CLOSING : DoorStatus::DOOR_OPENING);
         return true;
     }
     else if (!_stricmp (event_type, "HATCH")) 
     {
-        ActivateHatch (!_stricmp (event, "CLOSE") ? DOOR_CLOSING : DOOR_OPENING);
+        ActivateHatch (!_stricmp (event, "CLOSE") ? DoorStatus::DOOR_CLOSING : DoorStatus::DOOR_OPENING);
         return true;
     } 
     else if (!_stricmp (event_type, "OLOCK"))
     {
-        ActivateOuterAirlock (!_stricmp (event, "CLOSE") ? DOOR_CLOSING : DOOR_OPENING);
+        ActivateOuterAirlock (!_stricmp (event, "CLOSE") ? DoorStatus::DOOR_CLOSING : DoorStatus::DOOR_OPENING);
         return true;
     } 
     else if (!_stricmp (event_type, "ILOCK"))
     {
-        ActivateInnerAirlock (!_stricmp (event, "CLOSE") ? DOOR_CLOSING : DOOR_OPENING);
+        ActivateInnerAirlock (!_stricmp (event, "CLOSE") ? DoorStatus::DOOR_CLOSING : DoorStatus::DOOR_OPENING);
         return true;
     } 
     else if (!_stricmp (event_type, "LADDER"))
     {
-        ActivateLadder (!_stricmp (event, "CLOSE") ? DOOR_CLOSING : DOOR_OPENING);
+        ActivateLadder (!_stricmp (event, "CLOSE") ? DoorStatus::DOOR_CLOSING : DoorStatus::DOOR_OPENING);
         return true;
     } 
     else if (!_stricmp (event_type, "APU")) 
     {
-        ActivateAPU(!_stricmp (event, "CLOSE") ? DOOR_CLOSING : DOOR_OPENING);
+        ActivateAPU(!_stricmp (event, "CLOSE") ? DoorStatus::DOOR_CLOSING : DoorStatus::DOOR_OPENING);
         return true;
     }
     else if (!_stricmp (event_type, "HOVERDOORS")) 
     {
-        ActivateHoverDoors(!_stricmp (event, "CLOSE") ? DOOR_CLOSING : DOOR_OPENING);
+        ActivateHoverDoors(!_stricmp (event, "CLOSE") ? DoorStatus::DOOR_CLOSING : DoorStatus::DOOR_OPENING);
         return true;
     }
     else if (!_stricmp (event_type, "SCRAMDOORS")) 
     {
-        ActivateScramDoors(!_stricmp (event, "CLOSE") ? DOOR_CLOSING : DOOR_OPENING);
+        ActivateScramDoors(!_stricmp (event, "CLOSE") ? DoorStatus::DOOR_CLOSING : DoorStatus::DOOR_OPENING);
         return true;
     }
     else if (!_stricmp (event_type, "BAYDOORS")) 
     {
-        ActivateBayDoors(!_stricmp (event, "CLOSE") ? DOOR_CLOSING : DOOR_OPENING);
+        ActivateBayDoors(!_stricmp (event, "CLOSE") ? DoorStatus::DOOR_CLOSING : DoorStatus::DOOR_OPENING);
         return true;
     }
     else if (!_stricmp (event_type, "CHAMBER")) 
     {
-        ActivateChamber((!_stricmp (event, "CLOSE") ? DOOR_CLOSING : DOOR_OPENING), true);  // OK to force here, although it shouldn't be necessary
+        ActivateChamber((!_stricmp (event, "CLOSE") ? DoorStatus::DOOR_CLOSING : DoorStatus::DOOR_OPENING), true);  // OK to force here, although it shouldn't be necessary
         return true;
     }
     // new for the XR1-1.9 release group
@@ -3841,11 +3841,11 @@ bool DeltaGliderXR1::clbkPlaybackEvent (double simt, double event_t, const char 
     {
         XFEED_MODE mode;
         if (!_stricmp (event, "MAIN"))
-            mode = XF_MAIN;
+            mode = XFEED_MODE::XF_MAIN;
         else if (!_stricmp (event, "RCS"))
-            mode = XF_RCS;
+            mode = XFEED_MODE::XF_RCS;
         else if (!_stricmp (event, "OFF"))
-            mode = XF_OFF;
+            mode = XFEED_MODE::XF_OFF;
         else  // invalid mode, so ignore it
         {
             _ASSERTE(false);
@@ -4077,7 +4077,7 @@ bool DeltaGliderXR1::VerifyManualCOGShiftAvailable()
         ShowWarning("Warning Center of Gravity Shift Offline.wav", ST_WarningCallout, "Warning: APU offline; cannot&shift the center of gravity.");
         retCode = false;
     }
-    else if (m_customAutopilotMode == AP_ATTITUDEHOLD)
+    else if (m_customAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD)
     {
         PlayErrorBeep();
         ShowWarning("Locked by Attitude Hold.wav", ST_WarningCallout, "Center of Gravity shift locked&by Attitude Hold Autopilot.");
@@ -4295,7 +4295,7 @@ bool DeltaGliderXR1::IsCrewRankOnBoard(const char *pTargetRank) const
 // Gimbal SCRAM engine pitch
 void DeltaGliderXR1::GimbalSCRAMPitch(const GIMBAL_SWITCH which, const DIRECTION dir)
 {
-    if (dir == DIR_NONE)
+    if (dir == DIRECTION::DIR_NONE)
         return;   // nothing to do
 
     // warn the user if APU is offline
@@ -4303,15 +4303,15 @@ void DeltaGliderXR1::GimbalSCRAMPitch(const GIMBAL_SWITCH which, const DIRECTION
         return;
 
     VECTOR3 dirVec;
-    double phi, dphi = oapiGetSimStep() * SCRAM_GIMBAL_SPEED * (dir == UP_OR_LEFT ? -1.0 : 1.0);
+    double phi, dphi = oapiGetSimStep() * SCRAM_GIMBAL_SPEED * (dir == DIRECTION::UP_OR_LEFT ? -1.0 : 1.0);
 
     for (int i = 0; i < 2; i++)  // process both switches
     {
-        if ((i == which) || (which == BOTH))   // is FOO or BOTH switches pressed?
+        if ((i == static_cast<int>(which)) || (which == GIMBAL_SWITCH::BOTH))   // is one or BOTH switches pressed?
         {
             GetThrusterDir(th_scram[i], dirVec);  
             phi = atan2 (dirVec.y, dirVec.z);
-            phi = min (SCRAM_DEFAULT_DIR + SCRAM_GIMBAL_RANGE, max (SCRAM_DEFAULT_DIR - SCRAM_GIMBAL_RANGE, phi+dphi));
+            phi = min(SCRAM_DEFAULT_DIR + SCRAM_GIMBAL_RANGE, max(SCRAM_DEFAULT_DIR - SCRAM_GIMBAL_RANGE, phi+dphi));
             SetThrusterDir(th_scram[i], _V(0, sin(phi), cos(phi)));
 
             MarkAPUActive();  // reset the APU idle warning callout time
@@ -4323,7 +4323,7 @@ void DeltaGliderXR1::GimbalSCRAMPitch(const GIMBAL_SWITCH which, const DIRECTION
 
 void DeltaGliderXR1::GimbalMainPitch(const GIMBAL_SWITCH which, const DIRECTION dir)
 {
-    if (dir == DIR_NONE)
+    if (dir == DIRECTION::DIR_NONE)
         return;   // nothing to do
 
     // warn the user if APU is offline
@@ -4331,11 +4331,11 @@ void DeltaGliderXR1::GimbalMainPitch(const GIMBAL_SWITCH which, const DIRECTION 
         return;
 
     VECTOR3 dirVec;
-    double dy = oapiGetSimStep() * MAIN_PGIMBAL_SPEED * (dir == UP_OR_LEFT ? -1.0 : 1.0);
+    double dy = oapiGetSimStep() * MAIN_PGIMBAL_SPEED * (dir == DIRECTION::UP_OR_LEFT ? -1.0 : 1.0);
 
     for (int i = 0; i < 2; i++)  // process both switches
     {
-        if ((i == which) || (which == BOTH))   // is FOO or BOTH switches pressed?
+        if ((i == static_cast<int>(which)) || (which == GIMBAL_SWITCH::BOTH))   // is FOO or BOTH switches pressed?
         {
             GetThrusterDir(th_main[i], dirVec);
             dirVec /= dirVec.z;
@@ -4351,7 +4351,7 @@ void DeltaGliderXR1::GimbalMainPitch(const GIMBAL_SWITCH which, const DIRECTION 
 
 void DeltaGliderXR1::GimbalMainYaw(const GIMBAL_SWITCH which, const DIRECTION dir)
 {
-    if (dir == DIR_NONE)
+    if (dir == DIRECTION::DIR_NONE)
         return;   // nothing to do
 
     // warn the user if APU is offline
@@ -4359,11 +4359,11 @@ void DeltaGliderXR1::GimbalMainYaw(const GIMBAL_SWITCH which, const DIRECTION di
         return;
 
     VECTOR3 dirVec;
-    double dx = oapiGetSimStep() * MAIN_YGIMBAL_SPEED * (dir == UP_OR_LEFT ? 1.0 : -1.0);
+    double dx = oapiGetSimStep() * MAIN_YGIMBAL_SPEED * (dir == DIRECTION::UP_OR_LEFT ? 1.0 : -1.0);
 
     for (int i = 0; i < 2; i++)  // process both switches
     {
-        if ((which == i) || (which == BOTH))  // is switch #i pressed?
+        if ((static_cast<int>(which) == i) || (which == GIMBAL_SWITCH::BOTH))  // is switch #i pressed?
         {
             GetThrusterDir(th_main[i], dirVec);
             dirVec /= dirVec.z;
@@ -4373,21 +4373,20 @@ void DeltaGliderXR1::GimbalMainYaw(const GIMBAL_SWITCH which, const DIRECTION di
             MarkAPUActive();  // reset the APU idle warning callout time
         } 
     }
-
 }
 
 //-------------------------------------------------------------------------
 
 void DeltaGliderXR1::ShiftHoverBalance(const GIMBAL_SWITCH which, const DIRECTION dir)
 {
-    if (dir == DIR_NONE)
+    if (dir == DIRECTION::DIR_NONE)
         return;   // nothing to do
 
     // warn the user if APU is offline
     if (CheckHydraulicPressure(true, true) == false)
         return;
 
-    double shift = oapiGetSimStep() * HOVER_BALANCE_SPEED * (dir == UP_OR_LEFT ? 1.0 : -1.0);  // shift as a fraction of balance for this timestep
+    double shift = oapiGetSimStep() * HOVER_BALANCE_SPEED * (dir == DIRECTION::UP_OR_LEFT ? 1.0 : -1.0);  // shift as a fraction of balance for this timestep
     m_hoverBalance += shift;       // adjust the balance
 
     // keep in range
@@ -4398,8 +4397,8 @@ void DeltaGliderXR1::ShiftHoverBalance(const GIMBAL_SWITCH which, const DIRECTIO
 
     // NOTE: must take damage into account here!
     const int hoverThrustIdx = GetXR1Config()->HoverEngineThrust;
-    const double maxThrustFore = MAX_HOVER_THRUST[hoverThrustIdx] * GetDamageStatus(HoverEngineFore).fracIntegrity;
-    const double maxThrustAft  = MAX_HOVER_THRUST[hoverThrustIdx] * GetDamageStatus(HoverEngineAft).fracIntegrity;
+    const double maxThrustFore = MAX_HOVER_THRUST[hoverThrustIdx] * GetDamageStatus(DamageItem::HoverEngineFore).fracIntegrity;
+    const double maxThrustAft  = MAX_HOVER_THRUST[hoverThrustIdx] * GetDamageStatus(DamageItem::HoverEngineAft).fracIntegrity;
 
     SetThrusterMax0(th_hover[0], maxThrustFore * (1.0 + m_hoverBalance));
     SetThrusterMax0(th_hover[1], maxThrustAft *  (1.0 - m_hoverBalance));
@@ -4428,7 +4427,7 @@ void DeltaGliderXR1::clbkDockEvent(int dock, OBJHANDLE mate)
     {
         // Note: a separate PreStep enables/disables docking callouts
         // depending on whether nosecone is open/closed.
-        if (nose_status != DOOR_OPEN)
+        if (nose_status != DoorStatus::DOOR_OPEN)
             Undock(dock);   // undo the dock
     }
     */
@@ -4593,16 +4592,16 @@ PROP_TYPE DeltaGliderXR1::GetPropTypeForHandle(PROPELLANT_HANDLE ph) const
 
     // check each of our known propellant handle values
     if (ph == ph_main)
-        pt = PT_Main;
+        pt = PROP_TYPE::PT_Main;
     else if (ph == ph_scram)
-        pt = PT_SCRAM;
+        pt = PROP_TYPE::PT_SCRAM;
     else if (ph == ph_rcs)
-        pt = PT_NONE;  // no separate fuel tank for this
+        pt = PROP_TYPE::PT_NONE;  // no separate fuel tank for this
     else
     {
         // should never happen!
         _ASSERTE(false);
-        pt = PT_NONE;
+        pt = PROP_TYPE::PT_NONE;
     }
 
     return pt;
@@ -4621,7 +4620,7 @@ double DeltaGliderXR1::GetXRPropellantMaxMass(PROPELLANT_HANDLE ph) const
     if (m_pPayloadBay != nullptr)
     {
         const PROP_TYPE pt = GetPropTypeForHandle(ph);
-        if (pt != PT_NONE)   // no extra capacity for RCS
+        if (pt != PROP_TYPE::PT_NONE)   // no extra capacity for RCS
             totalMass += m_pPayloadBay->GetPropellantMaxMass(pt);
     }
     
@@ -4641,7 +4640,7 @@ double DeltaGliderXR1::GetXRBayPropellantMass(PROPELLANT_HANDLE ph) const
     if (m_pPayloadBay != nullptr)
     {
         const PROP_TYPE pt = GetPropTypeForHandle(ph);
-        if (pt != PT_NONE)   // no extra capacity for RCS
+        if (pt != PROP_TYPE::PT_NONE)   // no extra capacity for RCS
             bayPropMass = m_pPayloadBay->GetPropellantMass(pt);
     }
     
@@ -4665,7 +4664,7 @@ void DeltaGliderXR1::SetXRPropellantMass(PROPELLANT_HANDLE ph, const double mass
     {
         // get the delta between the current payload bay quantity and the new quantity
         const PROP_TYPE pt = GetPropTypeForHandle(ph);
-        if (pt != PT_NONE)   // no extra capacity for RCS
+        if (pt != PROP_TYPE::PT_NONE)   // no extra capacity for RCS
         {
             const double bayDeltaRequested = deltaRemaining - m_pPayloadBay->GetPropellantMass(pt);  // newBayMass - currentBayMass
 
@@ -4744,7 +4743,7 @@ double DeltaGliderXR1::GetXRLOXMaxMass() const
 {
     double totalMass = GetXR1Config()->GetMaxLoxMass();
     if (m_pPayloadBay != nullptr)
-        totalMass += m_pPayloadBay->GetPropellantMaxMass(PT_LOX);
+        totalMass += m_pPayloadBay->GetPropellantMaxMass(PROP_TYPE::PT_LOX);
     
     return totalMass;
 }
@@ -4761,7 +4760,7 @@ double DeltaGliderXR1::GetXRBayLOXMass() const
     double bayLoxMass = 0;
 
     if (m_pPayloadBay != nullptr)
-        bayLoxMass = m_pPayloadBay->GetPropellantMass(PT_LOX);
+        bayLoxMass = m_pPayloadBay->GetPropellantMass(PROP_TYPE::PT_LOX);
     
     return bayLoxMass;
 }
@@ -4781,10 +4780,10 @@ void DeltaGliderXR1::SetXRLOXMass(const double mass)
     if (m_pPayloadBay != nullptr)
     {
         // get the delta between the current payload bay quantity and the new quantity
-        const double bayDeltaRequested = deltaRemaining - m_pPayloadBay->GetPropellantMass(PT_LOX);  // newBayMass - currentBayMass
+        const double bayDeltaRequested = deltaRemaining - m_pPayloadBay->GetPropellantMass(PROP_TYPE::PT_LOX);  // newBayMass - currentBayMass
 
         // apply the delta (as a *request*) to the bay tanks
-        const double bayDeltaApplied = AdjustBayPropellantMassWithMessages(PT_LOX, bayDeltaRequested);
+        const double bayDeltaApplied = AdjustBayPropellantMassWithMessages(PROP_TYPE::PT_LOX, bayDeltaRequested);
 
         // if the caller's code is correct, we should never overflow the bay quantity
         // Need to account for slight rounding error possibility here in the nth decimal place, so 0.01 is way overkill, but fine for an assert
@@ -4955,7 +4954,7 @@ void DeltaGliderXR1::SetCrossfeedMode(const XFEED_MODE mode, const char *pMsg)
     char modeString[16];
     m_xfeedMode = mode;
 
-    if (mode == XF_OFF)
+    if (mode == XFEED_MODE::XF_OFF)
     {
         char temp[80];
         if (pMsg != nullptr)
@@ -4965,12 +4964,12 @@ void DeltaGliderXR1::SetCrossfeedMode(const XFEED_MODE mode, const char *pMsg)
         ShowInfo("Cross-Feed Off.wav", DeltaGliderXR1::ST_InformationCallout, temp);
         strcpy(modeString, "OFF");
     }
-    else if (mode == XF_MAIN)
+    else if (mode == XFEED_MODE::XF_MAIN)
     {
         ShowInfo("Cross-Feed Main.wav", DeltaGliderXR1::ST_InformationCallout, "Fuel cross-feed to MAIN.");
         strcpy(modeString, "MAIN");
     }
-    else if (mode == XF_RCS)
+    else if (mode == XFEED_MODE::XF_RCS)
     {
         ShowInfo("Cross-Feed RCS.wav", DeltaGliderXR1::ST_InformationCallout, "Fuel cross-feed to RCS.");
         strcpy(modeString, "RCS");
@@ -5058,7 +5057,7 @@ bool DeltaGliderXR1::RequestExternalCooling(const bool bEnableExternalCooling)
     }
 
     // set door state
-    externalcooling_status = (bEnableExternalCooling ? DOOR_OPEN : DOOR_CLOSED);
+    externalcooling_status = (bEnableExternalCooling ? DoorStatus::DOOR_OPEN : DoorStatus::DOOR_CLOSED);
     
     // play door thump sound 
     PlaySound(SupplyHatch, DeltaGliderXR1::ST_Other, SUPPLY_HATCH_VOL);

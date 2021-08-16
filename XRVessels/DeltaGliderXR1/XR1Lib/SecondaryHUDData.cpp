@@ -34,76 +34,76 @@
 // define all valid Secondary HUD fields
 const SHField SHField::allFields[] = 
 { 
-    { Alt,      { u_met, u_imp },        "Alt" },
-    { Vel,      { u_met, u_imp, u_M},    "Vel" },
-    { StatP,    { u_met, u_imp },        "StatP" },
-    { DynP,     { u_met, u_imp },        "DynP" },
-    { OAT,      { u_K, u_F, u_C },       "OAT" },
-    { Hdg,      { u_NA },                "Hdg" },
-    { VS,       { u_met, u_imp },        "v/s" },
-    { AccX,     { u_G, u_met, u_imp },   "AccX" },
-    { AccY,     { u_G, u_met, u_imp },   "AccY" },
-    { AccZ,     { u_G, u_met, u_imp },   "AccZ" },
-    { Mass,     { u_met, u_imp },        "Mass" },
-    { Ecc,      { u_NA },                "Ecc" },
-    { Inc,      { u_NA },                "Inc" },
-    { PeT,      { u_NA },                "PeT" },
-    { ApT,      { u_NA },                "ApT" },
-    { PeA,      { u_met, u_imp },        "PeA" },
-    { ApA,      { u_met, u_imp },        "ApA" },
-    { PeR,      { u_met, u_imp },        "PeR" },
-    { ApR,      { u_met, u_imp },        "ApR" },
-    { Pitch,    { u_NA },                "Pitch" },
-    { Bank,     { u_NA },                "Bank" },
-    { Slope,    { u_NA },                "Slope" },
-    { Slip,     { u_NA },                "Slip" },
-    { AOA,      { u_NA },                "AOA" },
-    { Long,     { u_NA },                "Long" },
-    { Lat,      { u_NA },                "Lat" },
-    { LEng,     { u_met, u_imp },        "LEng" },
-    { REng,     { u_met, u_imp },        "REng" },
-    { MEng,     { u_met, u_imp },        "MEng" },
-    { FHov,     { u_met, u_imp },        "FHov" },
-    { AHov,     { u_met, u_imp },        "AHov" },
-    { BHov,     { u_met, u_imp },        "BHov" },
-    { LScrm,    { u_met, u_imp },        "LScrm" },
-    { RScrm,    { u_met, u_imp },        "RScrm" },
-    { BScrm,    { u_met, u_imp },        "BScrm" },
-    { rcs_1,    { u_met, u_imp },        "rcs1" },
-    { rcs_2,    { u_met, u_imp },        "rcs2" },
-    { rcs_3,    { u_met, u_imp },        "rcs3" },
-    { rcs_4,    { u_met, u_imp },        "rcs4" },
-    { rcs_5,    { u_met, u_imp },        "rcs5" },
-    { rcs_6,    { u_met, u_imp },        "rcs6" },
-    { rcs_7,    { u_met, u_imp },        "rcs7" },
-    { rcs_8,    { u_met, u_imp },        "rcs8" },
-    { rcs_9,    { u_met, u_imp },        "rcs9" },
-    { rcs_10,   { u_met, u_imp },        "rcs10" },
-    { rcs_11,   { u_met, u_imp },        "rcs11" },
-    { rcs_12,   { u_met, u_imp },        "rcs12" },
-    { rcs_13,   { u_met, u_imp },        "rcs13" },
-    { rcs_14,   { u_met, u_imp },        "rcs14" },
-    { LDtmp,    { u_K, u_F, u_C },       "LDtmp" },
-    { LCtmp,    { u_K, u_F, u_C },       "LCtmp" },
-    { LEtmp,    { u_K, u_F, u_C },       "LEtmp" },
-    { RDtmp,    { u_K, u_F, u_C },       "RDtmp" },
-    { RCtmp,    { u_K, u_F, u_C },       "RCtmp" },
-    { REtmp,    { u_K, u_F, u_C },       "REtmp" },
-    { f_END,    { },                     NULL }     // marks the END of the array
+    { FieldID::Alt,      {  Units::u_met, Units::u_imp },               "Alt" },
+    { FieldID::Vel,      {  Units::u_met, Units::u_imp, Units::u_M},    "Vel" },
+    { FieldID::StatP,    {  Units::u_met, Units::u_imp },               "StatP" },
+    { FieldID::DynP,     {  Units::u_met, Units::u_imp },               "DynP" },
+    { FieldID::OAT,      {  Units::u_K, Units::u_F, Units::u_C },       "OAT" },
+    { FieldID::Hdg,      {  Units::u_NA },                              "Hdg" },
+    { FieldID::VS,       {  Units::u_met, Units::u_imp },                "v/s" },
+    { FieldID::AccX,     {  Units::u_G, Units::u_met, Units::u_imp },   "AccX" },
+    { FieldID::AccY,     {  Units::u_G, Units::u_met, Units::u_imp },   "AccY" },
+    { FieldID::AccZ,     {  Units::u_G, Units::u_met, Units::u_imp },   "AccZ" },
+    { FieldID::Mass,     {  Units::u_met, Units::u_imp },               "Mass" },
+    { FieldID::Ecc,      {  Units::u_NA },                              "Ecc" },
+    { FieldID::Inc,      {  Units::u_NA },                              "Inc" },
+    { FieldID::PeT,      {  Units::u_NA },                              "PeT" },
+    { FieldID::ApT,      {  Units::u_NA },                              "ApT" },
+    { FieldID::PeA,      {  Units::u_met, Units::u_imp },               "PeA" },
+    { FieldID::ApA,      {  Units::u_met, Units::u_imp },               "ApA" },
+    { FieldID::PeR,      {  Units::u_met, Units::u_imp },               "PeR" },
+    { FieldID::ApR,      {  Units::u_met, Units::u_imp },               "ApR" },
+    { FieldID::Pitch,    {  Units::u_NA },                              "Pitch" },
+    { FieldID::Bank,     {  Units::u_NA },                              "Bank" },
+    { FieldID::Slope,    {  Units::u_NA },                              "Slope" },
+    { FieldID::Slip,     {  Units::u_NA },                              "Slip" },
+    { FieldID::AOA,      {  Units::u_NA },                              "AOA" },
+    { FieldID::Long,     {  Units::u_NA },                              "Long" },
+    { FieldID::Lat,      {  Units::u_NA },                              "Lat" },
+    { FieldID::LEng,     {  Units::u_met, Units::u_imp },               "LEng" },
+    { FieldID::REng,     {  Units::u_met, Units::u_imp },               "REng" },
+    { FieldID::MEng,     {  Units::u_met, Units::u_imp },               "MEng" },
+    { FieldID::FHov,     {  Units::u_met, Units::u_imp },               "FHov" },
+    { FieldID::AHov,     {  Units::u_met, Units::u_imp },               "AHov" },
+    { FieldID::BHov,     {  Units::u_met, Units::u_imp },               "BHov" },
+    { FieldID::LScrm,    {  Units::u_met, Units::u_imp },               "LScrm" },
+    { FieldID::RScrm,    {  Units::u_met, Units::u_imp },               "RScrm" },
+    { FieldID::BScrm,    {  Units::u_met, Units::u_imp },               "BScrm" },
+    { FieldID::rcs_1,    {  Units::u_met, Units::u_imp },               "rcs1" },
+    { FieldID::rcs_2,    {  Units::u_met, Units::u_imp },               "rcs2" },
+    { FieldID::rcs_3,    {  Units::u_met, Units::u_imp },               "rcs3" },
+    { FieldID::rcs_4,    {  Units::u_met, Units::u_imp },               "rcs4" },
+    { FieldID::rcs_5,    {  Units::u_met, Units::u_imp },               "rcs5" },
+    { FieldID::rcs_6,    {  Units::u_met, Units::u_imp },               "rcs6" },
+    { FieldID::rcs_7,    {  Units::u_met, Units::u_imp },               "rcs7" },
+    { FieldID::rcs_8,    {  Units::u_met, Units::u_imp },               "rcs8" },
+    { FieldID::rcs_9,    {  Units::u_met, Units::u_imp },               "rcs9" },
+    { FieldID::rcs_10,   {  Units::u_met, Units::u_imp },               "rcs10" },
+    { FieldID::rcs_11,   {  Units::u_met, Units::u_imp },               "rcs11" },
+    { FieldID::rcs_12,   {  Units::u_met, Units::u_imp },               "rcs12" },
+    { FieldID::rcs_13,   {  Units::u_met, Units::u_imp },               "rcs13" },
+    { FieldID::rcs_14,   {  Units::u_met, Units::u_imp },               "rcs14" },
+    { FieldID::LDtmp,    {  Units::u_K, Units::u_F, Units::u_C },       "LDtmp" },
+    { FieldID::LCtmp,    {  Units::u_K, Units::u_F, Units::u_C },       "LCtmp" },
+    { FieldID::LEtmp,    {  Units::u_K, Units::u_F, Units::u_C },       "LEtmp" },
+    { FieldID::RDtmp,    {  Units::u_K, Units::u_F, Units::u_C },       "RDtmp" },
+    { FieldID::RCtmp,    {  Units::u_K, Units::u_F, Units::u_C },       "RCtmp" },
+    { FieldID::REtmp,    {  Units::u_K, Units::u_F, Units::u_C },       "REtmp" },
+    { FieldID::f_END,    { },                     NULL }     // marks the END of the array
 };
 
 // define all valid ParseUnits
 const SHParseUnit SHParseUnit::allParseUnits[] =
 {
-    { u_met, "met" },   // (metric)     : km/meters/kg, etc.
-    { u_imp, "imp" },   // (imperial)   : ft/miles/pounds, etc.
-    { u_G,   "G" },     // (gravities)  : related to acceleration
-    { u_M,   "M" },     // (mach)       : related to speed
-    { u_K,   "K" },     // (Kelvin)     : temperature
-    { u_F,   "F" },     // (Fahrenheit) : temperature
-    { u_C,   "C" },     // (Celsiuis)   : temperature
-    { u_NA,  "-" },     // "N/A"; used for fields where only one unit is valid, such as "degrees" for angles
-    { u_END, NULL},     // marks the END of the array
+    { Units::u_met, "met" },   // (metric)     : km/meters/kg, etc.
+    { Units::u_imp, "imp" },   // (imperial)   : ft/miles/pounds, etc.
+    { Units::u_G,   "G" },     // (gravities)  : related to acceleration
+    { Units::u_M,   "M" },     // (mach)       : related to speed
+    { Units::u_K,   "K" },     // (Kelvin)     : temperature
+    { Units::u_F,   "F" },     // (Fahrenheit) : temperature
+    { Units::u_C,   "C" },     // (Celsiuis)   : temperature
+    { Units::u_NA,  "-" },     // "N/A"; used for fields where only one unit is valid, such as "degrees" for angles
+    { Units::u_END, NULL},     // marks the END of the array
 };
 
 // Set a cell via text IDs; use this when parsing values from the config file
@@ -118,7 +118,7 @@ bool SecondaryHUDMode::SetCell(int row, int column, const char *pFieldName, cons
     for (int fieldIndex = 0; ; fieldIndex++)
     {
         const SHField &field = SHField::allFields[fieldIndex];
-        if (field.id == f_END)
+        if (field.id == FieldID::f_END)
             break;  // end of fields
 
         if (strcmp(pFieldName, field.label) == 0)
@@ -127,7 +127,7 @@ bool SecondaryHUDMode::SetCell(int row, int column, const char *pFieldName, cons
             for (int unitsIndex=0; ; unitsIndex++)
             {
                 const SHParseUnit &parseUnit = SHParseUnit::allParseUnits[unitsIndex];
-                if (parseUnit.units == u_END)
+                if (parseUnit.units == Units::u_END)
                     return false;   // invalid units specified for this field
  
                 if (strcmp(pUnits, parseUnit.parseTag) == 0)

@@ -234,7 +234,7 @@ bool XRPayloadBaySlot::SweepSlots(const VECTOR3 &childCenterOfMass, const VECTOR
     // *increases* the adjacent slot space required instead of *decreasing* it.
     
     // sweep vertically to obtain a list of all vertical slots required; each slot will be on a different level
-    retVal &= SweepAxis(PLUSY, MINUSY, childCenterOfMass, childDimensions.y, vOut);   // UP/DOWN
+    retVal &= SweepAxis(NEIGHBOR::PLUSY, NEIGHBOR::MINUSY, childCenterOfMass, childDimensions.y, vOut);   // UP/DOWN
     
     // Now walk through each neighboring slot above and below us and then sweep the X and Z vectors for each level.
     // For each level, we must sweep left and right (along the X axis) *for each slot along the Z axis*.
@@ -247,26 +247,26 @@ bool XRPayloadBaySlot::SweepSlots(const VECTOR3 &childCenterOfMass, const VECTOR
         
         // obtain the list of slots along the Z axis (forward/aft) for this slot
         vector<const XRPayloadBaySlot *>zAxisVout;  // will contain the *neighbors* required along the Z axis for this slot
-        retVal &= pLayerOriginSlot->SweepAxis(PLUSZ, MINUSZ, childCenterOfMass, childDimensions.z, zAxisVout);   // FORWARD/AFT
+        retVal &= pLayerOriginSlot->SweepAxis(NEIGHBOR::PLUSZ, NEIGHBOR::MINUSZ, childCenterOfMass, childDimensions.z, zAxisVout);   // FORWARD/AFT
 
         // NOTE: the list of Z axis slots here does *NOT* include the origin slot on the origin level.
         // sweep all Z axis slots along the X axis (left/right) as well.  Also add the Z axis slot itself to vOut.
         retVal &= SweepXAxisForSlots(zAxisVout, true, childCenterOfMass, childDimensions.x, vOut);   // RIGHT/LEFT for each slot in zAxisVout
 
         // Now sweep this Z axis origin slot itself along the X axis
-        retVal &= pLayerOriginSlot->SweepAxis(PLUSX, MINUSX, childCenterOfMass, childDimensions.x, vOut);   // RIGHT/LEFT for this layer's *origin* slot
+        retVal &= pLayerOriginSlot->SweepAxis(NEIGHBOR::PLUSX, NEIGHBOR::MINUSX, childCenterOfMass, childDimensions.x, vOut);   // RIGHT/LEFT for this layer's *origin* slot
     }
 
     // Lastly, sweep the origin slot (us!) along the X and Z vectors.  This sweeps the origin level.
     // obtain the list of slots along the Z axis (forward/aft) for this slot
     vector<const XRPayloadBaySlot *>zAxisVout;  // will contain the *neighbors* required along the Z axis for this slot
-    retVal &= SweepAxis(PLUSZ, MINUSZ, childCenterOfMass, childDimensions.z, zAxisVout);   // FORWARD/AFT
+    retVal &= SweepAxis(NEIGHBOR::PLUSZ, NEIGHBOR::MINUSZ, childCenterOfMass, childDimensions.z, zAxisVout);   // FORWARD/AFT
 
     // Sweep all neighboring Z axis slots along the X axis (left and right).  Also add the neighboring Z axis slot itself to vOut.
     retVal &= SweepXAxisForSlots(zAxisVout, true, childCenterOfMass, childDimensions.x, vOut);   // RIGHT/LEFT for each slot in zAxisVout
 
     // now sweep the X axis from *this* slot (the origin)
-    retVal &= SweepAxis(PLUSX, MINUSX, childCenterOfMass, childDimensions.x, vOut);   // RIGHT/LEFT
+    retVal &= SweepAxis(NEIGHBOR::PLUSX, NEIGHBOR::MINUSX, childCenterOfMass, childDimensions.x, vOut);   // RIGHT/LEFT
 
     return retVal;
 }
@@ -289,7 +289,7 @@ bool XRPayloadBaySlot::SweepXAxisForSlots(vector<const XRPayloadBaySlot *> &zAxi
             vOut.push_back(pZaxisOriginSlot);
 
         // sweep along the X axis from this Z axis slot
-        retVal &= pZaxisOriginSlot->SweepAxis(PLUSX, MINUSX, childCenterOfMass, xAxisLength, vOut);   // RIGHT/LEFT
+        retVal &= pZaxisOriginSlot->SweepAxis(NEIGHBOR::PLUSX, NEIGHBOR::MINUSX, childCenterOfMass, xAxisLength, vOut);   // RIGHT/LEFT
     }
 
     return retVal;
@@ -365,18 +365,18 @@ double XRPayloadBaySlot::GetVectorValueForAxis(const NEIGHBOR neighbor, const VE
 
     switch (neighbor)
     {
-    case PLUSY:
-    case MINUSY:
+    case NEIGHBOR::PLUSY:
+    case NEIGHBOR::MINUSY:
         retVal = neighborVector.y;
         break;
 
-    case PLUSX:
-    case MINUSX:
+    case NEIGHBOR::PLUSX:
+    case NEIGHBOR::MINUSX:
         retVal = neighborVector.x;
         break;
 
-    case PLUSZ:
-    case MINUSZ:
+    case NEIGHBOR::PLUSZ:
+    case NEIGHBOR::MINUSZ:
         retVal = neighborVector.z;
         break;
     

@@ -34,7 +34,7 @@ const char *VESSELNAME = "DeltagliderXR1";
 
 // VERSION ID
 // {XXX} UPDATE THIS FOR THE CURRENT BUILD VERSION; DO NOT REMOVE THIS {XXX} COMMENT
-const char *VERSION = "Version 2.0 RC1 [" ARCH_TYPE  "], Build Date : " __DATE__;
+const char *VERSION = "Version 2.0 Beta-1 [" ARCH_TYPE  "], Build Date : " __DATE__;
 
 // file is always written to the Orbiter directory
 const char *XR_LOG_FILE = "DeltaGliderXR1.log";
@@ -231,7 +231,7 @@ const double HIDDEN_ELEVATOR_TRIM_STATE = -0.341136;
 // NOTE: we assume a LOX mass here of a 14-day loadout @ 'realistic': 25.6 kg per passenger (=128 kg)
 // NOTE: max landing mass does NOT change with cheatcodes!
 // we use an "average" passenger mass of 68 kg for landing limit calculations
-const double FULLY_LOADED_MASS = (EMPTY_MASS + (68 * MAX_PASSENGERS) + TANK1_CAPACITY + TANK2_CAPACITY + RCS_FUEL_CAPACITY + APU_FUEL_CAPACITY + (25.6 * MAX_PASSENGERS));
+const double FULLY_LOADED_MASS = (EMPTY_MASS + (68.0 * MAX_PASSENGERS) + TANK1_CAPACITY + TANK2_CAPACITY + RCS_FUEL_CAPACITY + APU_FUEL_CAPACITY + (25.6 * MAX_PASSENGERS));
 
 // rate at which main fuel is dumped and loaded in kg/sec
 const double FUEL_DUMP_RATE = 85;
@@ -456,7 +456,7 @@ const double RETRO_DOOR_LIMIT       = 41e3;
 const double DOOR_DYNAMIC_PRESSURE_WARNING_THRESHOLD = 0.75; // issue "door open" warning for pressure
 
 // defines the LAST VALID damage item for this vessel
-const DamageItem D_END = RCS14;
+const DamageItem D_END = DamageItem::RCS14;
 
 // Max. allowed dynamic pressure [Pa]
 const double DYNP_MAX = 150e3;  // 150 kPa

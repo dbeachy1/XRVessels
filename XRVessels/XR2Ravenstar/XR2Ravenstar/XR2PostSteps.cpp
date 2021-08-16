@@ -49,16 +49,16 @@ void XR2AnimationPostStep::clbkPrePostStep(const double simt, const double simdt
 void XR2AnimationPostStep::AnimateBayDoors(const double simt, const double simdt, const double mjd)
 {
     // animate the payload bay doors
-    if (GetXR2().bay_status >= DOOR_CLOSING)  // closing or opening
+    if (GetXR2().bay_status >= DoorStatus::DOOR_CLOSING)  // closing or opening
     {
         double da = simdt * BAY_OPERATING_SPEED;
-        if (GetXR2().bay_status == DOOR_CLOSING)
+        if (GetXR2().bay_status == DoorStatus::DOOR_CLOSING)
         {
             if (GetXR2().bay_proc > 0.0)
                 GetXR2().bay_proc = max(0.0, GetXR2().bay_proc - da);
             else
             {
-                GetXR2().bay_status = DOOR_CLOSED;
+                GetXR2().bay_status = DoorStatus::DOOR_CLOSED;
                 GetVessel().TriggerRedrawArea(AID_BAYDOORSINDICATOR);
             }
         } 
@@ -68,7 +68,7 @@ void XR2AnimationPostStep::AnimateBayDoors(const double simt, const double simdt
                 GetXR2().bay_proc = min (1.0, GetXR2().bay_proc + da);
             else
             {
-                GetXR2().bay_status = DOOR_OPEN;
+                GetXR2().bay_status = DoorStatus::DOOR_OPEN;
                 GetVessel().TriggerRedrawArea(AID_BAYDOORSINDICATOR);
             }
         }
@@ -82,9 +82,9 @@ XR2DoorSoundsPostStep::XR2DoorSoundsPostStep(XR2Ravenstar &vessel) :
     DoorSoundsPostStep(vessel)
 {
 // set transition state processing to FALSE so we don't play an initial thump when a scenario loads
-#define INIT_DOORSOUND(idx, doorStatus, xr1SoundID, label)      \
+#define INIT_DOORSOUND(idx, doorStatus, xr1SoundID, label)   \
     m_doorSounds[idx].pDoorStatus = &(GetXR2().doorStatus);  \
-    m_doorSounds[idx].prevDoorStatus = NOT_SET;              \
+    m_doorSounds[idx].prevDoorStatus = DoorStatus::NOT_SET;  \
     m_doorSounds[idx].soundID = GetXR1().xr1SoundID;         \
     m_doorSounds[idx].processAPUTransitionState = false;     \
     m_doorSounds[idx].pLabel = label

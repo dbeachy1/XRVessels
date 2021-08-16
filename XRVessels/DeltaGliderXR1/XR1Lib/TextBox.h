@@ -39,7 +39,7 @@
 
 using namespace std;
 
-enum TEXTCOLOR { Normal, Highlighted };
+enum class TEXTCOLOR { Normal, Highlighted };
 
 // line of text to be added to buffer
 struct TextLine

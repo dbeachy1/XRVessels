@@ -62,16 +62,16 @@ void AnimationPostStep::clbkPrePostStep(const double simt, const double simdt, c
 void AnimationPostStep::AnimateLadder(const double simt, const double simdt, const double mjd)
 {
     // animate escape ladder
-    if (GetXR1().ladder_status >= DOOR_CLOSING)  // closing or opening
+    if (GetXR1().ladder_status >= DoorStatus::DOOR_CLOSING)  // closing or opening
     {
         double da = simdt * LADDER_OPERATING_SPEED;
-        if (GetXR1().ladder_status == DOOR_CLOSING)
+        if (GetXR1().ladder_status == DoorStatus::DOOR_CLOSING)
         {
             if (GetXR1().ladder_proc > 0.0)
                 GetXR1().ladder_proc = max(0.0, GetXR1().ladder_proc - da);
             else
             {
-                GetXR1().ladder_status = DOOR_CLOSED;
+                GetXR1().ladder_status = DoorStatus::DOOR_CLOSED;
                 GetVessel().TriggerRedrawArea(AID_LADDERINDICATOR);
             }
         } 
@@ -81,7 +81,7 @@ void AnimationPostStep::AnimateLadder(const double simt, const double simdt, con
                 GetXR1().ladder_proc = min (1.0, GetXR1().ladder_proc + da);
             else
             {
-                GetXR1().ladder_status = DOOR_OPEN;
+                GetXR1().ladder_status = DoorStatus::DOOR_OPEN;
                 GetVessel().TriggerRedrawArea(AID_LADDERINDICATOR);
             }
         }
@@ -93,16 +93,16 @@ void AnimationPostStep::AnimateLadder(const double simt, const double simdt, con
 
 void AnimationPostStep::AnimateNosecone(const double simt, const double simdt, const double mjd)
 {
-    if (GetXR1().nose_status >= DOOR_CLOSING)
+    if (GetXR1().nose_status >= DoorStatus::DOOR_CLOSING)
     {
         double da = simdt * NOSE_OPERATING_SPEED;
-        if (GetXR1().nose_status == DOOR_CLOSING)
+        if (GetXR1().nose_status == DoorStatus::DOOR_CLOSING)
         {
             if (GetXR1().nose_proc > 0.0)  // animation
                 GetXR1().nose_proc = max (0.0, GetXR1().nose_proc-da);
             else
             {
-                GetXR1().nose_status = DOOR_CLOSED;
+                GetXR1().nose_status = DoorStatus::DOOR_CLOSED;
                 GetVessel().TriggerRedrawArea(AID_NOSECONEINDICATOR);
             }
         } 
@@ -112,7 +112,7 @@ void AnimationPostStep::AnimateNosecone(const double simt, const double simdt, c
                 GetXR1().nose_proc = min (1.0, GetXR1().nose_proc+da);
             else 
             {
-                GetXR1().nose_status = DOOR_OPEN;
+                GetXR1().nose_status = DoorStatus::DOOR_OPEN;
                 GetVessel().TriggerRedrawArea(AID_NOSECONEINDICATOR);
             }
         }
@@ -124,16 +124,16 @@ void AnimationPostStep::AnimateNosecone(const double simt, const double simdt, c
 
 void AnimationPostStep::AnimateOuterAirlock(const double simt, const double simdt, const double mjd)
 {
-    if (GetXR1().olock_status >= DOOR_CLOSING)
+    if (GetXR1().olock_status >= DoorStatus::DOOR_CLOSING)
     {
         double da = simdt * AIRLOCK_OPERATING_SPEED;
-        if (GetXR1().olock_status == DOOR_CLOSING)
+        if (GetXR1().olock_status == DoorStatus::DOOR_CLOSING)
         {
             if (GetXR1().olock_proc > 0.0)
                 GetXR1().olock_proc = max (0.0, GetXR1().olock_proc-da);
             else
             {
-                GetXR1().olock_status = DOOR_CLOSED;
+                GetXR1().olock_status = DoorStatus::DOOR_CLOSED;
                 GetVessel().TriggerRedrawArea(AID_OUTERDOORINDICATOR);
             }
         } 
@@ -143,7 +143,7 @@ void AnimationPostStep::AnimateOuterAirlock(const double simt, const double simd
                 GetXR1().olock_proc = min (1.0, GetXR1().olock_proc+da);
             else
             {
-                GetXR1().olock_status = DOOR_OPEN;
+                GetXR1().olock_status = DoorStatus::DOOR_OPEN;
                 GetVessel().TriggerRedrawArea(AID_OUTERDOORINDICATOR);
             }
         }
@@ -155,16 +155,16 @@ void AnimationPostStep::AnimateOuterAirlock(const double simt, const double simd
 
 void AnimationPostStep::AnimateInnerAirlock(const double simt, const double simdt, const double mjd)
 {
-    if (GetXR1().ilock_status >= DOOR_CLOSING)
+    if (GetXR1().ilock_status >= DoorStatus::DOOR_CLOSING)
     {
         double da = simdt * AIRLOCK_OPERATING_SPEED;
-        if (GetXR1().ilock_status == DOOR_CLOSING)
+        if (GetXR1().ilock_status == DoorStatus::DOOR_CLOSING)
         {
             if (GetXR1().ilock_proc > 0.0)
                 GetXR1().ilock_proc = max (0.0, GetXR1().ilock_proc-da);
             else
             {
-                GetXR1().ilock_status = DOOR_CLOSED;
+                GetXR1().ilock_status = DoorStatus::DOOR_CLOSED;
                 GetVessel().TriggerRedrawArea(AID_INNERDOORINDICATOR);
             }
         } 
@@ -174,7 +174,7 @@ void AnimationPostStep::AnimateInnerAirlock(const double simt, const double simd
                 GetXR1().ilock_proc = min (1.0, GetXR1().ilock_proc+da);
             else
             {
-                GetXR1().ilock_status = DOOR_OPEN;
+                GetXR1().ilock_status = DoorStatus::DOOR_OPEN;
                 GetVessel().TriggerRedrawArea(AID_INNERDOORINDICATOR);
             }
         }
@@ -186,16 +186,16 @@ void AnimationPostStep::AnimateInnerAirlock(const double simt, const double simd
 // NOTE: This is not actually animation; however, it does pressurize / depressurize at a fixed speed like a door and so it handled here
 void AnimationPostStep::ManageChamberPressure(const double simt, const double simdt, const double mjd)
 {
-    if (GetXR1().chamber_status >= DOOR_CLOSING)
+    if (GetXR1().chamber_status >= DoorStatus::DOOR_CLOSING)
     {
         double da = simdt * CHAMBER_OPERATING_SPEED;
-        if (GetXR1().chamber_status == DOOR_CLOSING)
+        if (GetXR1().chamber_status == DoorStatus::DOOR_CLOSING)
         {
             if (GetXR1().chamber_proc > 0.0)
                 GetXR1().chamber_proc = max (0.0, GetXR1().chamber_proc-da);
             else
             {
-                GetXR1().chamber_status = DOOR_CLOSED;
+                GetXR1().chamber_status = DoorStatus::DOOR_CLOSED;
                 GetVessel().TriggerRedrawArea(AID_CHAMBERINDICATOR);
             }
         } 
@@ -205,7 +205,7 @@ void AnimationPostStep::ManageChamberPressure(const double simt, const double si
                 GetXR1().chamber_proc = min (1.0, GetXR1().chamber_proc+da);
             else
             {
-                GetXR1().chamber_status = DOOR_OPEN;
+                GetXR1().chamber_status = DoorStatus::DOOR_OPEN;
                 GetVessel().TriggerRedrawArea(AID_CHAMBERINDICATOR);
             }
         }
@@ -217,16 +217,16 @@ void AnimationPostStep::ManageChamberPressure(const double simt, const double si
 
 void AnimationPostStep::AnimateHatch(const double simt, const double simdt, const double mjd)
 {
-    if (GetXR1().hatch_status >= DOOR_CLOSING)
+    if (GetXR1().hatch_status >= DoorStatus::DOOR_CLOSING)
     {
         double da = simdt * HATCH_OPERATING_SPEED;
-        if (GetXR1().hatch_status == DOOR_CLOSING)
+        if (GetXR1().hatch_status == DoorStatus::DOOR_CLOSING)
         {
             if (GetXR1().hatch_proc > 0.0)
                 GetXR1().hatch_proc = max(0.0, GetXR1().hatch_proc-da);
             else
             {
-                GetXR1().hatch_status = DOOR_CLOSED;
+                GetXR1().hatch_status = DoorStatus::DOOR_CLOSED;
                 GetVessel().TriggerRedrawArea(AID_HATCHINDICATOR);
             }
         } 
@@ -236,7 +236,7 @@ void AnimationPostStep::AnimateHatch(const double simt, const double simdt, cons
                 GetXR1().hatch_proc = min(1.0, GetXR1().hatch_proc+da);
             else
             {
-                GetXR1().hatch_status = DOOR_OPEN;
+                GetXR1().hatch_status = DoorStatus::DOOR_OPEN;
                 GetVessel().TriggerRedrawArea(AID_HATCHINDICATOR);
             }
         }
@@ -259,10 +259,10 @@ void AnimationPostStep::AnimateHatch(const double simt, const double simdt, cons
 
 void AnimationPostStep::AnimateRadiator(const double simt, const double simdt, const double mjd)
 {
-    if (GetXR1().radiator_status >= DOOR_CLOSING)
+    if (GetXR1().radiator_status >= DoorStatus::DOOR_CLOSING)
     {
         double da = simdt * RADIATOR_OPERATING_SPEED;
-        if (GetXR1().radiator_status == DOOR_CLOSING)
+        if (GetXR1().radiator_status == DoorStatus::DOOR_CLOSING)
         { 
             // retract radiator
             if (GetXR1().radiator_proc > 0.0) 
@@ -271,7 +271,7 @@ void AnimationPostStep::AnimateRadiator(const double simt, const double simdt, c
             }
             else                     
             {
-                GetXR1().radiator_status = DOOR_CLOSED;
+                GetXR1().radiator_status = DoorStatus::DOOR_CLOSED;
                 GetVessel().TriggerRedrawArea(AID_RADIATORINDICATOR);
             }
         } 
@@ -283,7 +283,7 @@ void AnimationPostStep::AnimateRadiator(const double simt, const double simdt, c
             }
             else
             {
-                GetXR1().radiator_status = DOOR_OPEN;
+                GetXR1().radiator_status = DoorStatus::DOOR_OPEN;
                 GetVessel().TriggerRedrawArea(AID_RADIATORINDICATOR);
             }
         }
@@ -295,16 +295,16 @@ void AnimationPostStep::AnimateRadiator(const double simt, const double simdt, c
 
 void AnimationPostStep::AnimateRetroDoors (const double simt, const double simdt, const double mjd)
 {
-    if (GetXR1().rcover_status >= DOOR_CLOSING)
+    if (GetXR1().rcover_status >= DoorStatus::DOOR_CLOSING)
     {
         double da = simdt * RCOVER_OPERATING_SPEED;
-        if (GetXR1().rcover_status == DOOR_CLOSING)
+        if (GetXR1().rcover_status == DoorStatus::DOOR_CLOSING)
         {
             if (GetXR1().rcover_proc > 0.0)
                 GetXR1().rcover_proc = max (0.0, GetXR1().rcover_proc-da);
             else
             {
-                GetXR1().rcover_status = DOOR_CLOSED;
+                GetXR1().rcover_status = DoorStatus::DOOR_CLOSED;
                 GetVessel().TriggerRedrawArea(AID_RETRODOORINDICATOR);
             }
         } 
@@ -314,7 +314,7 @@ void AnimationPostStep::AnimateRetroDoors (const double simt, const double simdt
                 GetXR1().rcover_proc = min (1.0, GetXR1().rcover_proc+da);
             else
             {
-                GetXR1().rcover_status = DOOR_OPEN;
+                GetXR1().rcover_status = DoorStatus::DOOR_OPEN;
                 GetXR1().EnableRetroThrusters (true);
                 GetVessel().TriggerRedrawArea(AID_RETRODOORINDICATOR);
             }
@@ -328,16 +328,16 @@ void AnimationPostStep::AnimateRetroDoors (const double simt, const double simdt
 
 void AnimationPostStep::AnimateHoverDoors(const double simt, const double simdt, const double mjd)
 {
-    if (GetXR1().hoverdoor_status >= DOOR_CLOSING)
+    if (GetXR1().hoverdoor_status >= DoorStatus::DOOR_CLOSING)
     {
         double da = simdt * HOVERDOOR_OPERATING_SPEED;
-        if (GetXR1().hoverdoor_status == DOOR_CLOSING)
+        if (GetXR1().hoverdoor_status == DoorStatus::DOOR_CLOSING)
         {
             if (GetXR1().hoverdoor_proc > 0.0)
                 GetXR1().hoverdoor_proc = max (0.0, GetXR1().hoverdoor_proc-da);
             else
             {
-                GetXR1().hoverdoor_status = DOOR_CLOSED;
+                GetXR1().hoverdoor_status = DoorStatus::DOOR_CLOSED;
                 GetVessel().TriggerRedrawArea(AID_HOVERDOORINDICATOR);
             }
         } 
@@ -347,7 +347,7 @@ void AnimationPostStep::AnimateHoverDoors(const double simt, const double simdt,
                 GetXR1().hoverdoor_proc = min (1.0, GetXR1().hoverdoor_proc+da);
             else
             {
-                GetXR1().hoverdoor_status = DOOR_OPEN;
+                GetXR1().hoverdoor_status = DoorStatus::DOOR_OPEN;
                 GetXR1().EnableHoverEngines(true);
                 GetVessel().TriggerRedrawArea(AID_SCRAMDOORINDICATOR);
             }
@@ -361,16 +361,16 @@ void AnimationPostStep::AnimateHoverDoors(const double simt, const double simdt,
 
 void AnimationPostStep::AnimateScramDoors(const double simt, const double simdt, const double mjd)
 {
-    if (GetXR1().scramdoor_status >= DOOR_CLOSING)
+    if (GetXR1().scramdoor_status >= DoorStatus::DOOR_CLOSING)
     {
         double da = simdt * SCRAMDOOR_OPERATING_SPEED;
-        if (GetXR1().scramdoor_status == DOOR_CLOSING)
+        if (GetXR1().scramdoor_status == DoorStatus::DOOR_CLOSING)
         {
             if (GetXR1().scramdoor_proc > 0.0)
                 GetXR1().scramdoor_proc = max (0.0, GetXR1().scramdoor_proc-da);
             else
             {
-                GetXR1().scramdoor_status = DOOR_CLOSED;
+                GetXR1().scramdoor_status = DoorStatus::DOOR_CLOSED;
                 GetVessel().TriggerRedrawArea(AID_SCRAMDOORINDICATOR);
             }
         } 
@@ -380,7 +380,7 @@ void AnimationPostStep::AnimateScramDoors(const double simt, const double simdt,
                 GetXR1().scramdoor_proc = min (1.0, GetXR1().scramdoor_proc+da);
             else
             {
-                GetXR1().scramdoor_status = DOOR_OPEN;
+                GetXR1().scramdoor_status = DoorStatus::DOOR_OPEN;
                 GetXR1().EnableScramEngines(true);
                 GetVessel().TriggerRedrawArea(AID_SCRAMDOORINDICATOR);
             }
@@ -394,16 +394,16 @@ void AnimationPostStep::AnimateScramDoors(const double simt, const double simdt,
 
 void AnimationPostStep::AnimateGear(const double simt, const double simdt, const double mjd)
 {
-    if (GetXR1().gear_status >= DOOR_CLOSING)
+    if (GetXR1().gear_status >= DoorStatus::DOOR_CLOSING)
     {
         double da = simdt * GEAR_OPERATING_SPEED;
-        if (GetXR1().gear_status == DOOR_CLOSING)
+        if (GetXR1().gear_status == DoorStatus::DOOR_CLOSING)
         {
             if (GetXR1().gear_proc > 0.0)
                 GetXR1().gear_proc = max (0.0, GetXR1().gear_proc-da);
             else
             {
-                GetXR1().gear_status = DOOR_CLOSED;
+                GetXR1().gear_status = DoorStatus::DOOR_CLOSED;
                 GetVessel().TriggerRedrawArea(AID_GEARINDICATOR);
             }
         } 
@@ -413,7 +413,7 @@ void AnimationPostStep::AnimateGear(const double simt, const double simdt, const
                 GetXR1().gear_proc = min (1.0, GetXR1().gear_proc+da);
             else
             {
-                GetXR1().gear_status = DOOR_OPEN;
+                GetXR1().gear_status = DoorStatus::DOOR_OPEN;
                 GetVessel().TriggerRedrawArea(AID_GEARINDICATOR);
             }
         }
@@ -425,22 +425,22 @@ void AnimationPostStep::AnimateGear(const double simt, const double simdt, const
 
 void AnimationPostStep::AnimateAirbrake(const double simt, const double simdt, const double mjd)
 {
-    if (GetXR1().brake_status >= DOOR_CLOSING)
+    if (GetXR1().brake_status >= DoorStatus::DOOR_CLOSING)
     {
         double da = simdt * AIRBRAKE_OPERATING_SPEED;
-        if (GetXR1().brake_status == DOOR_CLOSING)  // retract brake
+        if (GetXR1().brake_status == DoorStatus::DOOR_CLOSING)  // retract brake
         { 
             if (GetXR1().brake_proc > 0.0) 
                 GetXR1().brake_proc = max (0.0, GetXR1().brake_proc-da);
             else                  
-                GetXR1().brake_status = DOOR_CLOSED;
+                GetXR1().brake_status = DoorStatus::DOOR_CLOSED;
         } 
         else   // deploy brake
         {                            
             if (GetXR1().brake_proc < 1.0) 
                 GetXR1().brake_proc = min (1.0, GetXR1().brake_proc+da);
             else                  
-                GetXR1().brake_status = DOOR_OPEN;
+                GetXR1().brake_status = DoorStatus::DOOR_OPEN;
         }
 
         GetXR1().SetXRAnimation(GetXR1().anim_brake, GetXR1().brake_proc);

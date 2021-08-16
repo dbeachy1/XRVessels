@@ -38,7 +38,7 @@ class XRPayloadBaySlot;
 // enum defining neighbor slot indicies; there are six sides to each cube-shaped slot
 // NOTE: do not change the order of these items.
 //              up,    down,   right, left,   forward, aft
-enum NEIGHBOR { PLUSY, MINUSY, PLUSX, MINUSX, PLUSZ, MINUSZ };
+enum class NEIGHBOR { PLUSY, MINUSY, PLUSX, MINUSX, PLUSZ, MINUSZ };
 
 // data class defining a single payload bay slot of standard size PAYLOAD_SLOT_DIMENSIONS
 class XRPayloadBaySlot
@@ -56,8 +56,8 @@ public:
 
     int GetSlotNumber() const                      { return m_slotNumber; }  // 1...n
     const VECTOR3 &GetLocalCoordinates() const     { return m_localCoordinates; }   // coordinates to the center of the slot
-    void SetNeighbor(const NEIGHBOR n, XRPayloadBaySlot *pNeighbor) { m_neighbors[n] = pNeighbor; }
-    XRPayloadBaySlot *GetNeighbor(const NEIGHBOR n) const { return m_neighbors[n]; }  // may be null
+    void SetNeighbor(const NEIGHBOR n, XRPayloadBaySlot *pNeighbor) { m_neighbors[static_cast<int>(n)] = pNeighbor; }
+    XRPayloadBaySlot *GetNeighbor(const NEIGHBOR n) const { return m_neighbors[static_cast<int>(n)]; }  // may be null
     
     void SetEnabled(bool b)                        { m_isEnabled = b; }
     bool IsEnabled() const                         { return m_isEnabled; }  // returns 'true' if this slot is enabled; i.e., it is available for explicit attach/detach operations by the pilot

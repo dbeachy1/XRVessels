@@ -110,7 +110,7 @@ void XR5NosewheelSteeringPreStep::clbkPrePostStep(const double simt, const doubl
     }
 
     // exit immediately if gear is not down and locked OR if the nosewheel is not touching the ground (i.e., fully uncompressed)
-    if ((GetXR5().gear_status != DOOR_OPEN) || (GetXR5().m_noseGearProc == 1.0))
+    if ((GetXR5().gear_status != DoorStatus::DOOR_OPEN) || (GetXR5().m_noseGearProc == 1.0))
     {
         // reset the steering to centered if we just deactivated nosewheel steering
         // NOTE: we have to do this to ensure that the gear retraction animation works properly!

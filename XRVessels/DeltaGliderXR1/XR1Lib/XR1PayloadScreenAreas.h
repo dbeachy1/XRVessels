@@ -58,7 +58,7 @@ protected:
     COORD2 m_deployAllButton;
     
     // Delta-V
-    enum RATE_ACTION { ACT_NONE, INCRATE1, DECRATE1, INCRATE5, DECRATE5, INCRATE25, DECRATE25 };
+    enum class RATE_ACTION { ACT_NONE, INCRATE1, DECRATE1, INCRATE5, DECRATE5, INCRATE25, DECRATE25 };
     COORD2 m_rateUp1ArrowCoord;     // actually 0.1
     COORD2 m_rateDown1ArrowCoord;
     COORD2 m_rateUp5ArrowCoord;

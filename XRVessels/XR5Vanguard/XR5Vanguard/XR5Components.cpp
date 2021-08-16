@@ -163,7 +163,7 @@ double XR5HullTempsMultiDisplayMode::GetHighestTempFrac()
     double highestTempFrac = 0.0;    // max percentage of any hull temperature to its limit
 
     // if a surface's door is open, its limits will be lower
-#define IS_DOOR_OPEN(status) (status != DOOR_CLOSED)   // includes DOOR_FAILED
+#define IS_DOOR_OPEN(status) (status != DoorStatus::DOOR_CLOSED)   // includes DOOR_FAILED
 #define LIMITK(limitK, doorStatus)  (IS_DOOR_OPEN(doorStatus) ? limits.doorOpen : limitK)
 #define SET_MAX_PCT(tempK, limitK, doorStatus)  { double pct = (tempK / LIMITK(limitK, doorStatus)); if (pct > highestTempFrac) highestTempFrac = pct; }
 
@@ -174,8 +174,8 @@ double XR5HullTempsMultiDisplayMode::GetHighestTempFrac()
     SET_MAX_PCT(xr5.m_noseconeTemp,  limits.noseCone, xr5.rcover_status);  
 
     // no doors on the wings
-    SET_MAX_PCT(xr5.m_leftWingTemp,  limits.wings, DOOR_CLOSED);
-    SET_MAX_PCT(xr5.m_rightWingTemp, limits.wings, DOOR_CLOSED);
+    SET_MAX_PCT(xr5.m_leftWingTemp,  limits.wings, DoorStatus::DOOR_CLOSED);
+    SET_MAX_PCT(xr5.m_rightWingTemp, limits.wings, DoorStatus::DOOR_CLOSED);
 
     // cockpit temp is tied to the crew hatch
     SET_MAX_PCT(xr5.m_cockpitTemp,   limits.cockpit, xr5.hatch_status);
@@ -190,7 +190,7 @@ double XR5HullTempsMultiDisplayMode::GetHighestTempFrac()
 
 
 // determines which door(s) to use for temperature display warning colors
-#define CHECK_AND_RETURN_DOOR(doorStatus) if (doorStatus != DOOR_CLOSED) return doorStatus
+#define CHECK_AND_RETURN_DOOR(doorStatus) if (doorStatus != DoorStatus::DOOR_CLOSED) return doorStatus
 DoorStatus XR5HullTempsMultiDisplayMode::GetNoseDoorStatus()
 {
     CHECK_AND_RETURN_DOOR(GetXR5().crewElevator_status);
@@ -198,17 +198,17 @@ DoorStatus XR5HullTempsMultiDisplayMode::GetNoseDoorStatus()
     CHECK_AND_RETURN_DOOR(GetXR5().rcover_status);
     CHECK_AND_RETURN_DOOR(GetXR5().gear_status);
 
-    return DOOR_CLOSED;  // no open doors for this surface
+    return DoorStatus::DOOR_CLOSED;  // no open doors for this surface
 }
  
 DoorStatus XR5HullTempsMultiDisplayMode::GetLeftWingDoorStatus()
 {
-    return DOOR_CLOSED;  // no doors on the wings
+    return DoorStatus::DOOR_CLOSED;  // no doors on the wings
 }
  
 DoorStatus XR5HullTempsMultiDisplayMode::GetRightWingDoorStatus()
 {
-    return DOOR_CLOSED;  // no doors on the wings
+    return DoorStatus::DOOR_CLOSED;  // no doors on the wings
 }
 
 // base class behavior is fine for GetCockpitDoorStatus (only crew hatch to check)
@@ -219,7 +219,7 @@ DoorStatus XR5HullTempsMultiDisplayMode::GetTopHullDoorStatus()
     CHECK_AND_RETURN_DOOR(GetXR5().radiator_status);
     CHECK_AND_RETURN_DOOR(GetXR5().bay_status);
     
-    return DOOR_CLOSED; 
+    return DoorStatus::DOOR_CLOSED;
 }
 
 //----------------------------------------------------------------------------------
@@ -240,7 +240,7 @@ void DockingPortActiveLEDArea::Activate()
 bool DockingPortActiveLEDArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
     // always render this since it is only drawn by request
-    oapiBlt(surf, m_mainSurface, 0, 0, ((GetXR5().m_activeEVAPort == XR5Vanguard::DOCKING_PORT) ? 18 : 0), 0, 18, 15);
+    oapiBlt(surf, m_mainSurface, 0, 0, ((GetXR5().m_activeEVAPort == XR5Vanguard::ACTIVE_EVA_PORT::DOCKING_PORT) ? 18 : 0), 0, 18, 15);
     return true;
 }
 
@@ -262,16 +262,16 @@ void CrewElevatorActiveLEDArea::Activate()
 bool CrewElevatorActiveLEDArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
     // always render this since it is only drawn by request
-    oapiBlt(surf, m_mainSurface, 0, 0, ((GetXR5().m_activeEVAPort == XR5Vanguard::CREW_ELEVATOR) ? 18 : 0), 0, 18, 15);
+    oapiBlt(surf, m_mainSurface, 0, 0, ((GetXR5().m_activeEVAPort == XR5Vanguard::ACTIVE_EVA_PORT::CREW_ELEVATOR) ? 18 : 0), 0, 18, 15);
     return true;
 }
 
 //-------------------------------------------------------------------------
 
 ActiveEVAPortSwitchArea::ActiveEVAPortSwitchArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID) :
-  HorizontalCenteringRockerSwitchArea(parentPanel, panelCoordinates, areaID, false, false, 
+  HorizontalCenteringRockerSwitchArea(parentPanel, panelCoordinates, areaID, 0, false, false, 
       // Note: we cannot call Area.GetVessel() here yet (since the class is not yet instantiated), so we have to do it the hard way...
-      (( (static_cast<XR5Vanguard &>((parentPanel.GetVessel()))).m_activeEVAPort == XR5Vanguard::DOCKING_PORT) ? LEFT : RIGHT) )  // this is a SINGLE switch
+      (( (static_cast<XR5Vanguard &>((parentPanel.GetVessel()))).m_activeEVAPort == XR5Vanguard::ACTIVE_EVA_PORT::DOCKING_PORT) ? POSITION::LEFT : POSITION::RIGHT) )  // this is a SINGLE switch
 {
 }
 
@@ -279,7 +279,7 @@ ActiveEVAPortSwitchArea::ActiveEVAPortSwitchArea(InstrumentPanel &parentPanel, c
 bool ActiveEVAPortSwitchArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
     // this is a single switch, so we only need to set index 0 here
-    m_lastSwitchPosition[0] = ((GetXR5().m_activeEVAPort == XR5Vanguard::DOCKING_PORT) ? LEFT : RIGHT);
+    m_lastSwitchPosition[0] = ((GetXR5().m_activeEVAPort == XR5Vanguard::ACTIVE_EVA_PORT::DOCKING_PORT) ? POSITION::LEFT : POSITION::RIGHT);
 
     // now let the superclass method run
     return HorizontalCenteringRockerSwitchArea::Redraw2D(event, surf);
@@ -292,18 +292,18 @@ bool ActiveEVAPortSwitchArea::Redraw2D(const int event, const SURFHANDLE surf)
 void ActiveEVAPortSwitchArea::ProcessSwitchEvent(SWITCHES switches, POSITION position)
 {
     // ignore switches NA (button-up events)
-    if (switches == NA)
+    if (switches == SWITCHES::NA)
         return;
     
     XR5Vanguard::ACTIVE_EVA_PORT newState;
     switch (position)
     {
-    case LEFT:
-        newState = XR5Vanguard::DOCKING_PORT;
+    case POSITION::LEFT:
+        newState = XR5Vanguard::ACTIVE_EVA_PORT::DOCKING_PORT;
         break;
 
-    case RIGHT:
-        newState = XR5Vanguard::CREW_ELEVATOR;
+    case POSITION::RIGHT:
+        newState = XR5Vanguard::ACTIVE_EVA_PORT::CREW_ELEVATOR;
         break;
 
     default:     // CENTER

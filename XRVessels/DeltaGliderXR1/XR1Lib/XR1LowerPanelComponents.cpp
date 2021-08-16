@@ -44,10 +44,10 @@ Interval2TimerComponent::Interval2TimerComponent(InstrumentPanel &parentPanel, C
 {
     DeltaGliderXR1 &xr1 = GetXR1();
 
-    AddArea(new ElapsedTimerNumberArea (parentPanel, GetAbsCoords(_COORD2(  2,  1)), AID_INTERVAL2_DAYS,        xr1.m_interval2TimerRunning, 4, TimerNumberArea::DAYS,    xr1.m_interval2ElapsedTime));
-    AddArea(new ElapsedTimerNumberArea (parentPanel, GetAbsCoords(_COORD2( 58,  1)), AID_INTERVAL2_HOURS,       xr1.m_interval2TimerRunning, 2, TimerNumberArea::HOURS,   xr1.m_interval2ElapsedTime));
-    AddArea(new ElapsedTimerNumberArea (parentPanel, GetAbsCoords(_COORD2( 77,  1)), AID_INTERVAL2_MINUTES,     xr1.m_interval2TimerRunning, 2, TimerNumberArea::MINUTES, xr1.m_interval2ElapsedTime));
-    AddArea(new ElapsedTimerNumberArea (parentPanel, GetAbsCoords(_COORD2( 96,  1)), AID_INTERVAL2_SECONDS,     xr1.m_interval2TimerRunning, 2, TimerNumberArea::SECONDS, xr1.m_interval2ElapsedTime));
+    AddArea(new ElapsedTimerNumberArea (parentPanel, GetAbsCoords(_COORD2(  2,  1)), AID_INTERVAL2_DAYS,        xr1.m_interval2TimerRunning, 4, TimerNumberArea::TIMEUNITS::DAYS,    xr1.m_interval2ElapsedTime));
+    AddArea(new ElapsedTimerNumberArea (parentPanel, GetAbsCoords(_COORD2( 58,  1)), AID_INTERVAL2_HOURS,       xr1.m_interval2TimerRunning, 2, TimerNumberArea::TIMEUNITS::HOURS,   xr1.m_interval2ElapsedTime));
+    AddArea(new ElapsedTimerNumberArea (parentPanel, GetAbsCoords(_COORD2( 77,  1)), AID_INTERVAL2_MINUTES,     xr1.m_interval2TimerRunning, 2, TimerNumberArea::TIMEUNITS::MINUTES, xr1.m_interval2ElapsedTime));
+    AddArea(new ElapsedTimerNumberArea (parentPanel, GetAbsCoords(_COORD2( 96,  1)), AID_INTERVAL2_SECONDS,     xr1.m_interval2TimerRunning, 2, TimerNumberArea::TIMEUNITS::SECONDS, xr1.m_interval2ElapsedTime));
     AddArea(new IntervalResetButtonArea(parentPanel, GetAbsCoords(_COORD2(125, -1)), AID_INTERVAL2_RESETBUTTON, xr1.m_interval2TimerRunning, xr1.m_interval2ElapsedTime, '2'));
 }
 
@@ -195,10 +195,10 @@ OxygenRemainingPanelComponent::OxygenRemainingPanelComponent(InstrumentPanel &pa
     AddArea(new OxygenRemainingPctNumberArea(parentPanel, GetAbsCoords(_COORD2(  21,  2)), AID_OXYGEN_REM_PCT));
     
     const DeltaGliderXR1 &xr1 = GetXR1();
-    AddArea(new OxygenRemainingTimerNumberArea(parentPanel, GetAbsCoords(_COORD2(  2,  15)), AID_OXYGEN_REM_DAYS,        4, TimerNumberArea::DAYS));
-    AddArea(new OxygenRemainingTimerNumberArea(parentPanel, GetAbsCoords(_COORD2( 59,  15)), AID_OXYGEN_REM_HOURS,       2, TimerNumberArea::HOURS));
-    AddArea(new OxygenRemainingTimerNumberArea(parentPanel, GetAbsCoords(_COORD2( 78,  15)), AID_OXYGEN_REM_MINUTES,     2, TimerNumberArea::MINUTES));
-    AddArea(new OxygenRemainingTimerNumberArea(parentPanel, GetAbsCoords(_COORD2( 97,  15)), AID_OXYGEN_REM_SECONDS,     2, TimerNumberArea::SECONDS));
+    AddArea(new OxygenRemainingTimerNumberArea(parentPanel, GetAbsCoords(_COORD2(  2,  15)), AID_OXYGEN_REM_DAYS,        4, TimerNumberArea::TIMEUNITS::DAYS));
+    AddArea(new OxygenRemainingTimerNumberArea(parentPanel, GetAbsCoords(_COORD2( 59,  15)), AID_OXYGEN_REM_HOURS,       2, TimerNumberArea::TIMEUNITS::HOURS));
+    AddArea(new OxygenRemainingTimerNumberArea(parentPanel, GetAbsCoords(_COORD2( 78,  15)), AID_OXYGEN_REM_MINUTES,     2, TimerNumberArea::TIMEUNITS::MINUTES));
+    AddArea(new OxygenRemainingTimerNumberArea(parentPanel, GetAbsCoords(_COORD2( 97,  15)), AID_OXYGEN_REM_SECONDS,     2, TimerNumberArea::TIMEUNITS::SECONDS));
 
     AddArea(new CrewMembersNumberArea(parentPanel, GetAbsCoords(_COORD2( 85, 28)), AID_CREW_MEMBERS_TEXT));
     AddArea(new CabinO2PctNumberArea (parentPanel, GetAbsCoords(_COORD2( 78, 41)), AID_CABIN_O2_PCT));
@@ -272,11 +272,11 @@ bool SupplyLinePressureNumberArea::UpdateRenderData(RENDERDATA &renderData)
     const double redLevel = m_limit * 0.94;
     const double yellowLevel = m_limit * 0.79;    
     if (pressure >= redLevel)
-        renderData.color = RED;
+        renderData.color = COLOR::RED;
     else if (pressure >= yellowLevel)
-        renderData.color = YELLOW;
+        renderData.color = COLOR::YELLOW;
     else
-        renderData.color = GREEN;
+        renderData.color = COLOR::GREEN;
 
     return redraw;
 }
@@ -294,7 +294,7 @@ VerticalGaugeArea::RENDERDATA SupplyLinePressureGaugeArea::GetRenderData(const S
     double frac = min(m_pressure / m_limit, 1.0); // gauge movement, 0...1
     int p = 66 - static_cast<int>((frac * 66) + 0.5);   // round to nearest pixel
 
-    return _RENDERDATA(GREEN, p);  
+    return _RENDERDATA(COLOR::GREEN, p);  
 }
 
 //----------------------------------------------------------------------------------
@@ -503,7 +503,7 @@ bool LoxNumberArea::UpdateRenderData(RENDERDATA &renderData)
     }
 
     // always render in BLUE 
-    renderData.color = BLUE;
+    renderData.color = COLOR::BLUE;
 
     return redraw;
 }
@@ -544,7 +544,7 @@ bool OxygenRemainingPctNumberArea::UpdateRenderData(RENDERDATA &renderData)
     }
 
     // render in blue unless oxygen depleted
-    renderData.color = ((pctRemaining <= 0.0) ? RED : BLUE);
+    renderData.color = ((pctRemaining <= 0.0) ? COLOR::RED : COLOR::BLUE);
 
     return redraw;
 }
@@ -552,7 +552,7 @@ bool OxygenRemainingPctNumberArea::UpdateRenderData(RENDERDATA &renderData)
 //-------------------------------------------------------------------------
 
 OxygenRemainingTimerNumberArea::OxygenRemainingTimerNumberArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const int sizeInChars, TIMEUNITS timeUnits) :
-    TimerNumberArea(parentPanel, panelCoordinates, areaID, sizeInChars, timeUnits, BLUE)
+    TimerNumberArea(parentPanel, panelCoordinates, areaID, sizeInChars, timeUnits, COLOR::BLUE)
 {
 }
 
@@ -596,7 +596,7 @@ bool CrewMembersNumberArea::UpdateRenderData(RENDERDATA &renderData)
     }
 
     // render in BLUE
-    renderData.color = BLUE;
+    renderData.color = COLOR::BLUE;
 
     return redraw;
 }
@@ -638,7 +638,7 @@ bool CabinO2PctNumberArea::UpdateRenderData(RENDERDATA &renderData)
 
     // render in blue if o2Level OK, or red if crew is incapacitated or dead
     // NOTE: do not invoke IsCrewIncapacitatedOrNoPilotOnBoard here, since that also checks whether all the crew are outside the ship
-    renderData.color = (((GetXR1().m_crewState == INCAPACITATED) || (GetXR1().m_crewState == DEAD)) ? RED : BLUE);
+    renderData.color = (((GetXR1().m_crewState == CrewState::INCAPACITATED) || (GetXR1().m_crewState == CrewState::DEAD)) ? COLOR::RED : COLOR::BLUE);
 
     return redraw;
 }
@@ -683,11 +683,11 @@ bool CoolantNumberArea::UpdateRenderData(RENDERDATA &renderData)
 
         // render color is based on temperature
         if (coolantTemp > CRITICAL_COOLANT_TEMP)
-            renderData.color = RED;
+            renderData.color = COLOR::RED;
         else if (coolantTemp > WARN_COOLANT_TEMP)
-            renderData.color = YELLOW;
+            renderData.color = COLOR::YELLOW;
         else    // temperature normal
-            renderData.color = GREEN;
+            renderData.color = COLOR::GREEN;
     }
 
     return redraw;
@@ -708,5 +708,5 @@ bool ExternalCoolingSwitchArea::ProcessSwitchEvent(bool switchIsOn)
 
 bool ExternalCoolingSwitchArea::isOn()
 {
-    return (GetXR1().externalcooling_status == DOOR_OPEN);
+    return (GetXR1().externalcooling_status == DoorStatus::DOOR_OPEN);
 }

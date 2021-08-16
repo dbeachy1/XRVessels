@@ -72,14 +72,14 @@ ElevatorToggleSwitchArea::ElevatorToggleSwitchArea(InstrumentPanel &parentPanel,
 bool ElevatorToggleSwitchArea::isOn()
 {
     // if switch is down ("on"), door is either opening or opened
-    return ((GetXR5().crewElevator_status == DOOR_OPENING) || (GetXR5().crewElevator_status == DOOR_OPEN));
+    return ((GetXR5().crewElevator_status == DoorStatus::DOOR_OPENING) || (GetXR5().crewElevator_status == DoorStatus::DOOR_OPEN));
 }
 
 
 // only invoked when switch is CHANGING state
 bool ElevatorToggleSwitchArea::ProcessSwitchEvent(bool switchIsOn)
 {
-    GetXR5().ActivateElevator(switchIsOn ? DOOR_OPENING : DOOR_CLOSING);
+    GetXR5().ActivateElevator(switchIsOn ? DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
     
     return true;
 }

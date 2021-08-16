@@ -543,13 +543,13 @@ double XRPayloadBay::GetPropellantMaxMass(const PROP_TYPE propType) const
     for (int i=0; i < GetSlotCount(); i++)
     {
         const XRPayloadBaySlot *pSlot = GetSlot(i+1);  // will never be null
-        if (propType == PT_Main)
+        if (propType == PROP_TYPE::PT_Main)
             retVal += pSlot->GetMainFuelMaxMass();
-        else if (propType == PT_SCRAM)
+        else if (propType == PROP_TYPE::PT_SCRAM)
             retVal += pSlot->GetSCRAMFuelMaxMass();
-        else if (propType == PT_LOX)
+        else if (propType == PROP_TYPE::PT_LOX)
             retVal += pSlot->GetLOXMaxMass();
-        else if (propType == PT_NONE) 
+        else if (propType == PROP_TYPE::PT_NONE)
         { 
             // e.g., RCS: a resource that has no corresponding bay tank, so fall through with zero
         }  
@@ -569,11 +569,11 @@ double XRPayloadBay::GetPropellantMass(const PROP_TYPE propType) const
     for (int i=0; i < GetSlotCount(); i++)
     {
         const XRPayloadBaySlot *pSlot = GetSlot(i+1);  // will never be null
-        if (propType == PT_Main)
+        if (propType == PROP_TYPE::PT_Main)
             retVal += pSlot->GetMainFuelMass();
-        else if (propType == PT_SCRAM)
+        else if (propType == PROP_TYPE::PT_SCRAM)
             retVal += pSlot->GetSCRAMFuelMass();
-        else if (propType == PT_LOX)
+        else if (propType == PROP_TYPE::PT_LOX)
             retVal += pSlot->GetLOXMass();
         // else invalid enum! (should never happen), so fall through with zero
     }
@@ -604,19 +604,19 @@ const XRPayloadBay::SlotsDrainedFilled &XRPayloadBay::AdjustPropellantMass(const
         double prevSlotQty = 0;  // set below
         double maxSlotQty = 0;   // ditto
 
-        if (propType == PT_Main)
+        if (propType == PROP_TYPE::PT_Main)
         {
             maxSlotQty = pSlot->GetMainFuelMaxMass();
             prevSlotQty = pSlot->GetMainFuelMass();
             qtyDrained = pSlot->AdjustMainFuelMass(deltaRemaining);
         }
-        else if (propType == PT_SCRAM)
+        else if (propType == PROP_TYPE::PT_SCRAM)
         {
             maxSlotQty = pSlot->GetSCRAMFuelMaxMass();
             prevSlotQty = pSlot->GetSCRAMFuelMass();
             qtyDrained = pSlot->AdjustSCRAMFuelMass(deltaRemaining);
         }
-        else if (propType == PT_LOX)
+        else if (propType == PROP_TYPE::PT_LOX)
         {
             maxSlotQty = pSlot->GetLOXMaxMass();
             prevSlotQty = pSlot->GetLOXMass();

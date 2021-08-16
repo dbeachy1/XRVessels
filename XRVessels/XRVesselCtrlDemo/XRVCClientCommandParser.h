@@ -94,7 +94,7 @@ protected:
 
     struct EnumBoolNodeData : public BaseNodeData
     {
-        EnumBoolNodeData(XRVCClient &client) : BaseNodeData(client) { }
+        EnumBoolNodeData(XRVCClient &client) : BaseNodeData(client), enumID(-1) { }
         int enumID; 
         bool (XRVCClient::*method)(const int id, const bool on, CString &csOut) const;  // callback method that performs the XR command
 

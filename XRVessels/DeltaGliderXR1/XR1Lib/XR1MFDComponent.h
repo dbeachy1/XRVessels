@@ -75,7 +75,7 @@ protected:
 class MFDMainButtonsArea : public XR1Area
 {
 public:
-    enum BUTTON_SIDE { LEFT, RIGHT };   // left side or right side MFD button row
+    enum class BUTTON_SIDE { LEFT, RIGHT };   // left side or right side MFD button row
     MFDMainButtonsArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const int mfdID, const BUTTON_SIDE buttonSide, const int meshTextureID = VCPANEL_TEXTURE_NONE);
     virtual ~MFDMainButtonsArea();
     virtual void Activate();
@@ -98,7 +98,7 @@ protected:
 class VCMFDBottomButtonArea : public XR1Area
 {
 public:
-    enum BUTTON_FUNC { PWR, SEL, MNU };
+    enum class BUTTON_FUNC { PWR, SEL, MNU };
     VCMFDBottomButtonArea(InstrumentPanel &parentPanel, const int areaID, const int mfdID, const BUTTON_FUNC buttonFunc);
     virtual void Activate();
     virtual bool ProcessVCMouseEvent(const int event, const VECTOR3 &coords);

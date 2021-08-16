@@ -39,7 +39,7 @@ class DeltaGliderXR1;
 // Secondary HUD fields
 //----------------------------------------------------------------------------------
 
-enum Units
+enum class Units
 {
     u_NONE = 0,   // not set
     u_met,    //      ("metric")   : km/meters/kg, etc.
@@ -53,7 +53,7 @@ enum Units
     u_END     // marks the END of an array
 };
 
-enum FieldID 
+enum class FieldID
 {
     f_NONE = 0, // not set
     Alt,        //       met/imp         Altitude
@@ -143,7 +143,7 @@ public:
     struct Cell
     {
         // inline constructor 
-        Cell() : pField(nullptr), units(u_NONE)
+        Cell() : pField(nullptr), units(Units::u_NONE)
         {
             *valueStr = 0;
         }

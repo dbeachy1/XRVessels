@@ -163,10 +163,10 @@ ScramFlowGagueArea::ScramFlowGagueArea(InstrumentPanel &parentPanel, const COORD
 VerticalGaugeArea::RENDERDATA ScramFlowGagueArea::GetRenderData(const SIDE side)
 {
     // show ACTUAL fuel flow here vs. EFFECTIVE flow
-    const double actualDMF = GetXR1().ramjet->DMF(side) / GetXR1().GetXR1Config()->GetScramISPMultiplier();
+    const double actualDMF = GetXR1().ramjet->DMF(static_cast<unsigned int>(side)) / GetXR1().GetXR1Config()->GetScramISPMultiplier();
     int p = 66 - min(66, static_cast<int>(actualDMF / SCRAM_FLOW_GAUGE_MAX * 67.0));
 
-    return _RENDERDATA(GREEN, p);  
+    return _RENDERDATA(COLOR::GREEN, p);
 }
 
 //----------------------------------------------------------------------------------
@@ -179,10 +179,10 @@ ScramTSFCGaugeArea::ScramTSFCGaugeArea(InstrumentPanel &parentPanel, const COORD
 VerticalGaugeArea::RENDERDATA ScramTSFCGaugeArea::GetRenderData(const SIDE side)
 {
     // NOTE: must use UNSIGNED int here because TSFC can become very large, tripping the MSB
-    int p = 66 - min(66, (unsigned int)(GetXR1().ramjet->TSFC(side)*(1e3 * 66.0 / SCRAM_TSFC_GAUGE_MAX)));
+    int p = 66 - min(66, static_cast<unsigned int>(GetXR1().ramjet->TSFC(static_cast<unsigned int>(side))*(1e3 * 66.0 / SCRAM_TSFC_GAUGE_MAX)));
 
     // show in yellow if off-scale 
-    COLOR color = ((p == 0) ? YELLOW : GREEN);
+    COLOR color = ((p == 0) ? COLOR::YELLOW : COLOR::GREEN);
 
     return _RENDERDATA(color, p);  
 }
@@ -202,18 +202,18 @@ VerticalGaugeArea::RENDERDATA MainTSFCGagueArea::GetRenderData(const SIDE side)
     int p = 66 - static_cast<int>((tsfc-m_scaleMin) / (m_scaleMax-m_scaleMin) * 67.0);
 
     // assume in range
-    COLOR color = GREEN;
+    COLOR color = COLOR::GREEN;
     
     // keep in range
     if (p < 0)
     {
         p = 0;
-        color = YELLOW; // off gauge
+        color = COLOR::YELLOW; // off gauge
     }
     else if (p > 66)
     {
         p = 66;
-        color = YELLOW; // off gauge
+        color = COLOR::YELLOW; // off gauge
     }
 
     return _RENDERDATA(color, p);  
@@ -301,7 +301,7 @@ VerticalGaugeArea::RENDERDATA MainFlowGaugeArea::GetRenderData(const SIDE side)
     int p = 66 - static_cast<int>(min(totalFlowRate * 66 / MAIN_FLOW_GAUGE_MAX, 66));
 
     // use a green indicator for main engines or a red indicator for retro engines
-    return _RENDERDATA(isRetro ? RED : GREEN, p);
+    return _RENDERDATA(isRetro ? COLOR::RED : COLOR::GREEN, p);
 }
 
 //----------------------------------------------------------------------------------
@@ -322,7 +322,7 @@ VerticalGaugeArea::RENDERDATA HoverFlowGaugeArea::GetRenderData(const SIDE side)
 
     int p = 66 - static_cast<int>(min(totalFlowRate * gaugeSize / HOVER_FLOW_GAUGE_MAX, gaugeSize));
 
-    return _RENDERDATA(GREEN, p);  
+    return _RENDERDATA(COLOR::GREEN, p);
 }
 
 
@@ -369,13 +369,13 @@ bool DynamicPressureNumberArea::UpdateRenderData(RENDERDATA &renderData)
     // set font color based on pressure levels
     const double maxDynpKpa = DYNP_MAX / 1000;   // in kPa
     if (dynamicPressure >= maxDynpKpa)
-        renderData.color = WHITE;
+        renderData.color = COLOR::WHITE;
     else if (dynamicPressure >= (maxDynpKpa * 0.93333))
-        renderData.color = RED;
+        renderData.color = COLOR::RED;
     else if (dynamicPressure >= (maxDynpKpa * 0.80))
-        renderData.color = YELLOW;
+        renderData.color = COLOR::YELLOW;
     else
-        renderData.color = GREEN;
+        renderData.color = COLOR::GREEN;
 
     return redraw;
 }
@@ -393,7 +393,7 @@ VerticalGaugeArea::RENDERDATA DynamicPressureGaugeArea::GetRenderData(const SIDE
     double frac = min(dynamicPressure / 150, 1.0); // gauge movement, 0...1
     int p = 66 - static_cast<int>((frac * 66) + 0.5);   // round to nearest pixel
 
-    return _RENDERDATA(GREEN, p);  
+    return _RENDERDATA(COLOR::GREEN, p);
 }
 
 //----------------------------------------------------------------------------------
@@ -401,7 +401,7 @@ VerticalGaugeArea::RENDERDATA DynamicPressureGaugeArea::GetRenderData(const SIDE
 // scram horizontal gauge area; one for L and R engines
 // 91 pixels wide because gauge is 85 pixels, plus we need six extra pixels (three per side) for the triangle to stick out over the edges
 ScramDiffuserTempHorizontalGaugeArea::ScramDiffuserTempHorizontalGaugeArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const int meshTextureID) :
-    HorizontalGaugeArea(parentPanel, panelCoordinates, areaID, false, 91, PANEL_REDRAW_ALWAYS, meshTextureID, 0, 0, 0, ((areaID == AID_SCRAMTEMP_LBAR) ? HorizontalGaugeArea::TOP : HorizontalGaugeArea::BOTTOM))
+    HorizontalGaugeArea(parentPanel, panelCoordinates, areaID, false, 91, PANEL_REDRAW_ALWAYS, meshTextureID, 0, 0, 0, ((areaID == AID_SCRAMTEMP_LBAR) ? SIDE::TOP : SIDE::BOTTOM))
 {
 }
 
@@ -427,7 +427,7 @@ HorizontalGaugeArea::RENDERDATA ScramDiffuserTempHorizontalGaugeArea::GetRenderD
 
     // do not round pixels here if close to either edge
 
-    return _RENDERDATA(GREEN, index);
+    return _RENDERDATA(COLOR::GREEN, index);
 }
 
 //-------------------------------------------------------------------------
@@ -480,13 +480,13 @@ bool ScramDiffuserTempNumberArea::UpdateRenderData(RENDERDATA &renderData)
 
     // set font color based on temperature
     if (Td >= MAX_SCRAM_TEMPERATURE)
-        renderData.color = WHITE;
+        renderData.color = COLOR::WHITE;
     else if (Td >= (MAX_SCRAM_TEMPERATURE * 0.97))
-        renderData.color = RED;
+        renderData.color = COLOR::RED;
     else if (Td >= (MAX_SCRAM_TEMPERATURE * 0.94))
-        renderData.color = YELLOW;
+        renderData.color = COLOR::YELLOW;
     else
-        renderData.color = GREEN;
+        renderData.color = COLOR::GREEN;
 
     return redraw;
 }
@@ -551,16 +551,16 @@ VerticalGaugeArea::RENDERDATA SlopeGaugeArea::GetRenderData(const SIDE side)
     // gauge can show 12 degrees: -6 to +6
     double frac = (slope + 6.0) / 12;
     
-    COLOR color = GREEN;    // assume in range
+    COLOR color = COLOR::GREEN;    // assume in range
     if (frac < 0)
     {
         frac = 0;
-        color = YELLOW;     // show off-scale
+        color = COLOR::YELLOW;     // show off-scale
     }
     else if (frac > 1.0)
     {
         frac = 1.0;
-        color = YELLOW;     // show off-scale
+        color = COLOR::YELLOW;     // show off-scale
     }
 
     int p = 66 - static_cast<int>((frac * 66) + 0.5);   // round to nearest pixel
@@ -625,17 +625,17 @@ VerticalGaugeArea::RENDERDATA AOAGaugeArea::GetRenderData(const SIDE side)
 
     // gauge can show 60 degrees: -10 to +50
     double frac = (aoa + 10.0) / 60;
-    COLOR color = GREEN;    // assume gauge in range
+    COLOR color = COLOR::GREEN;    // assume gauge in range
 
     if (frac < 0)
     {
         frac = 0;
-        color = YELLOW;     // show off-scale
+        color = COLOR::YELLOW;     // show off-scale
     }
     else if (frac > 1.0)
     {
         frac = 1.0;
-        color = YELLOW;     // show off-scale
+        color = COLOR::YELLOW;     // show off-scale
     }
 
     int p = 66 - static_cast<int>((frac * 66) + 0.5);   // round to nearest pixel
@@ -772,7 +772,7 @@ bool SlipNumberArea::UpdateRenderData(RENDERDATA &renderData)
     }
 
     // font color is always green
-    renderData.color = GREEN;
+    renderData.color = COLOR::GREEN;
 
     return redraw;
 }
@@ -780,14 +780,14 @@ bool SlipNumberArea::UpdateRenderData(RENDERDATA &renderData)
 //-------------------------------------------------------------------------
 
 APUFuelBarArea::APUFuelBarArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID) :
-    BarArea(parentPanel, panelCoordinates, areaID, 32, 41, VERTICAL)   // 32 wide x 41 high, VERTICAL orientation
+    BarArea(parentPanel, panelCoordinates, areaID, 32, 41, ORIENTATION::VERTICAL)   // 32 wide x 41 high, VERTICAL orientation
 {
 }
 
 BarArea::RENDERDATA APUFuelBarArea::GetRenderData()
 {
     const double remaining = GetXR1().m_apuFuelQty;
-    return _RENDERDATA(GREEN, remaining, remaining, APU_FUEL_CAPACITY);
+    return _RENDERDATA(COLOR::GREEN, remaining, remaining, APU_FUEL_CAPACITY);
 }
 
 //-------------------------------------------------------------------------
@@ -848,7 +848,7 @@ bool APUFuelNumberArea::UpdateRenderData(RENDERDATA &renderData)
 
 APUButton::APUButton(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID) :
     XR1Area(parentPanel, panelCoordinates, areaID),
-    m_lightState(UNPRESSED_DARK)
+    m_lightState(LightState::UNPRESSED_DARK)
 {
 }
 
@@ -867,27 +867,27 @@ bool APUButton::Redraw2D(const int event, const SURFHANDLE surf)
     if (GetXR1().m_mwsTestActive)
     {
         // light is always on for test button
-        if ((lightState == UNPRESSED_DARK) || (lightState == UNPRESSED_BRIGHT))
-            lightState = UNPRESSED_BRIGHT;
+        if ((lightState == LightState::UNPRESSED_DARK) || (lightState == LightState::UNPRESSED_BRIGHT))
+            lightState = LightState::UNPRESSED_BRIGHT;
         else
-            lightState = PRESSED_BRIGHT;
+            lightState = LightState::PRESSED_BRIGHT;
     }
 
     switch (lightState)
     {
-    case UNPRESSED_DARK:
+    case LightState::UNPRESSED_DARK:
         oapiBltPanelAreaBackground(GetAreaID(), surf);
         break;
 
-    case UNPRESSED_BRIGHT:
+    case LightState::UNPRESSED_BRIGHT:
         oapiBlt(surf, m_mainSurface, 0, 0, 80, 0, 40, 29);  
         break;
 
-    case PRESSED_DARK:
+    case LightState::PRESSED_DARK:
         oapiBlt(surf, m_mainSurface, 0, 0, 40, 0, 40, 29);  
         break;
 
-    case PRESSED_BRIGHT:
+    case LightState::PRESSED_BRIGHT:
         oapiBlt(surf, m_mainSurface, 0, 0, 0, 0, 40, 29);
         break;
     }
@@ -915,11 +915,11 @@ void APUButton::clbkPrePostStep(const double simt, const double simdt, const dou
 {
     // set door status (pressed/unpressed)
     const DoorStatus doorStatus = GetXR1().apu_status;
-    bool isPressed = ((doorStatus == DOOR_OPEN) || (doorStatus == DOOR_OPENING));
+    bool isPressed = ((doorStatus == DoorStatus::DOOR_OPEN) || (doorStatus == DoorStatus::DOOR_OPENING));
     bool isLit;   // set below
 
     // if startup or shutdown in progress, blink light rapidly
-    if ((doorStatus == DOOR_OPENING) || (doorStatus == DOOR_CLOSING))
+    if ((doorStatus == DoorStatus::DOOR_OPENING) || (doorStatus == DoorStatus::DOOR_CLOSING))
     {
         isLit = (fmod(simt, 0.5) < 0.25);  // blink twice a second to show startup/shutdown mode
     }
@@ -930,15 +930,15 @@ void APUButton::clbkPrePostStep(const double simt, const double simdt, const dou
     }
     else    // normal operation
     {
-        isLit = (doorStatus == DOOR_OPEN);
+        isLit = (doorStatus == DoorStatus::DOOR_OPEN);
     }
 
     // set the light state
     LightState lightState;
     if (isPressed)
-        lightState = (isLit ? PRESSED_BRIGHT : PRESSED_DARK);
+        lightState = (isLit ? LightState::PRESSED_BRIGHT : LightState::PRESSED_DARK);
     else
-        lightState = (isLit ? UNPRESSED_BRIGHT : UNPRESSED_DARK);
+        lightState = (isLit ? LightState::UNPRESSED_BRIGHT : LightState::UNPRESSED_DARK);
 
     // update member var and trigger a redraw if state has changed
     if (lightState != m_lightState)
@@ -964,10 +964,10 @@ void CenterOfGravityRockerSwitchArea::ProcessSwitchEvent(SWITCHES switches, POSI
         return;
 
     // perform the COG shift
-    if (position != CENTER)   // is switch pressed in either direction?
+    if (position != POSITION::CENTER)   // is switch pressed in either direction?
     {
         // Note: to shift the center of gravity *forward* ("UP" on the switch), we must shift the center of lift *aft*
-        double shift = oapiGetSimStep() * COL_MAX_SHIFT_RATE * (position == UP ? -1.0 : 1.0);  // shift as a fraction of balance for this timestep
+        double shift = oapiGetSimStep() * COL_MAX_SHIFT_RATE * (position == POSITION::UP ? -1.0 : 1.0);  // shift as a fraction of balance for this timestep
 
         // perform the shift, keeping it in range
         GetXR1().ShiftCenterOfLift(shift);
@@ -1096,16 +1096,16 @@ VerticalGaugeArea::RENDERDATA CenterOfGravityGaugeArea::GetRenderData(const SIDE
     // Fraction is: distanceFromMidpoint / totalDistance = 0 < n < 1.0
     double frac = (centerOfGravity + COL_SHIFT_GAUGE_LIMIT) / (COL_SHIFT_GAUGE_LIMIT * 2);
     
-    COLOR color = GREEN;    // assume in range
+    COLOR color = COLOR::GREEN;    // assume in range
     if (frac < 0)
     {
         frac = 0;
-        color = YELLOW;     // show off-scale
+        color = COLOR::YELLOW;     // show off-scale
     }
     else if (frac > 1.0)
     {
         frac = 1.0;
-        color = YELLOW;     // show off-scale
+        color = COLOR::YELLOW;     // show off-scale
     }
 
     int p = 66 - static_cast<int>((frac * 66) + 0.5);   // round to nearest pixel

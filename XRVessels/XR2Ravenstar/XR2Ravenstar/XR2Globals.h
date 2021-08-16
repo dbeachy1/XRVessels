@@ -71,7 +71,7 @@ extern const VECTOR3 &PAYLOAD_SLOT1_DIMENSIONS;
 
 // addtional warning light values
 #define XR2_WARNING_LIGHT_COUNT  1
-enum XR2WarningLight 
+enum class XR2WarningLight 
 { 
     wl2NONE = -1,    // no light
     wl2Bay
@@ -80,4 +80,4 @@ enum XR2WarningLight
 // new damage enum values we need from the XR1's DamageItem enum
 // WARNING: if you add or remove values here, update the D_END global as well!
 #define BayDoors DISubclass1
-
+extern const DamageItem D_END;

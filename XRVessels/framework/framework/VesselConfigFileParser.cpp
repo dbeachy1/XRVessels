@@ -31,7 +31,7 @@
 // pLogFilename = path to optional (but highly recommended) log file; may be null
 VesselConfigFileParser::VesselConfigFileParser(const char *pDefaultFilename, const char *pLogFilename) :
     ConfigFileParser(pDefaultFilename, pLogFilename),
-    TwoDPanelWidth(USE1280)  // default to the smallest panel
+    TwoDPanelWidth(TWO_D_PANEL_WIDTH::USE1280)  // default to the smallest panel
 {
 }
 

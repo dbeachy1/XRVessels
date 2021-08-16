@@ -540,7 +540,7 @@ bool DeltaGliderXR1::ValidateBayStatus(const bool isPayloadRequiredInSlot, const
     char msg[60];
 
     // are the bay doors open?
-    if (bay_status != DOOR_OPEN)
+    if (bay_status != DoorStatus::DOOR_OPEN)
     {
         if (showMessage)
         {

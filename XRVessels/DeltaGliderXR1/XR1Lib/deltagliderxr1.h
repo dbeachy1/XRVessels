@@ -64,8 +64,8 @@ public:
 	virtual ~DeltaGliderXR1();
 
     // gimbal switch definitions
-    enum GIMBAL_SWITCH { LEFT, RIGHT, BOTH };
-    enum DIRECTION { UP_OR_LEFT, DOWN_OR_RIGHT, DIR_NONE };
+    enum class GIMBAL_SWITCH { LEFT, RIGHT, BOTH };
+    enum class DIRECTION { UP_OR_LEFT, DOWN_OR_RIGHT, DIR_NONE };
 
 #ifdef MMU
     UMMUCREWMANAGMENT UMmu;  // Universal MMU
@@ -310,9 +310,9 @@ public:
 	void SetBeacon (bool on);
 	void SetStrobe (bool on);
 
-    bool IsDocked() const        { return ((GetFlightStatus() & 0x2) != 0) && (nose_status == DOOR_OPEN); }  // ignore docking if nosecone not open (we will auto-undock in the next timestep)
+    bool IsDocked() const        { return ((GetFlightStatus() & 0x2) != 0) && (nose_status == DoorStatus::DOOR_OPEN); }  // ignore docking if nosecone not open (we will auto-undock in the next timestep)
     bool IsCrashed() const       { return m_isCrashed; }
-    bool IsCrewIncapacitated() const { return (IsCrashed() || (m_crewState == INCAPACITATED) || (m_crewState == DEAD) || (GetCrewMembersCount() == 0)); }
+    bool IsCrewIncapacitated() const { return (IsCrashed() || (m_crewState == CrewState::INCAPACITATED) || (m_crewState == CrewState::DEAD) || (GetCrewMembersCount() == 0)); }
     bool IsCrewIncapacitatedOrNoPilotOnBoard() const;
     bool IsCrewRankOnBoard(const char *pRank) const;
     bool IsPilotOnBoard() const;  // true if ship is flyable
@@ -320,8 +320,8 @@ public:
     {
         return (m_mainFuelFlowSwitch || 
         m_scramFuelFlowSwitch ||
-        (m_xfeedMode == XF_MAIN) ||
-        (m_xfeedMode == XF_RCS));
+        (m_xfeedMode == XFEED_MODE::XF_MAIN) ||
+        (m_xfeedMode == XFEED_MODE::XF_RCS));
     }
 
     // Note: we check pitch as well in case gear compression is not implemented
@@ -352,15 +352,15 @@ public:
 
     // This enum has values for ALL the XR subclasses; this is necessary to ensure that
     // the base class behaves correctly when using the enum.
-    enum CAMERA_POSITION {CAM_GENERIC, CAM_PANELMAIN, CAM_PANELUP, CAM_PANELDN, CAM_PANELOVERHEAD, CAM_PANELPAYLOAD, 
+    enum class CAMERA_POSITION {CAM_GENERIC, CAM_PANELMAIN, CAM_PANELUP, CAM_PANELDN, CAM_PANELOVERHEAD, CAM_PANELPAYLOAD, 
                           CAM_VCPILOT, CAM_VCCOPILOT, 
                           CAM_VCPSNGR1, CAM_VCPSNGR2, CAM_VCAIRLOCK, CAM_VCPSNGR3, CAM_VCPSNGR4,
                           CAM_VCPSNGR5, CAM_VCPSNGR6, CAM_VCPSNGR7, CAM_VCPSNGR8, 
                           CAM_VCPSNGR9, CAM_VCPSNGR10, CAM_VCPSNGR11, CAM_VCPSNGR12};
     // Note: these methods are not virtual because subclasses should never override them!
-    bool IsCameraGeneric() const { return (campos == CAM_GENERIC); }
-    bool IsCameraVC() const { return (campos >= CAM_VCPILOT); }
-    bool IsCamera2D() const { return ((campos != CAM_GENERIC) && (campos < CAM_VCPILOT)); }
+    bool IsCameraGeneric() const { return (campos == CAMERA_POSITION::CAM_GENERIC); }
+    bool IsCameraVC() const { return (campos >= CAMERA_POSITION::CAM_VCPILOT); }
+    bool IsCamera2D() const { return ((campos != CAMERA_POSITION::CAM_GENERIC) && (campos < CAMERA_POSITION::CAM_VCPILOT)); }
 
     // Additional public data for Area objects to access
     bool m_mwsTestActive;           // TRUE if MWS test button pressed
@@ -952,7 +952,7 @@ public:
     // Inline method to retrieve crew member count
     int GetCrewMembersCount() const
     {
-        if (m_crewState == DEAD)
+        if (m_crewState == CrewState::DEAD)
             return 0;
 
         return GetCrewTotalNumber();
@@ -975,7 +975,7 @@ public:
             // otherwise, show altitude as negative since gear is fully compressed
             altitude = ((GEAR_COMPRESSION_DISTANCE == 0) ? 0 : -GEAR_COMPRESSION_DISTANCE);
         }
-        else if (gear_status != DOOR_CLOSED)
+        else if (gear_status != DoorStatus::DOOR_CLOSED)
             altitude -= GEAR_FULLY_UNCOMPRESSED_DISTANCE;   // adjust for gear down
 
         return altitude;
@@ -988,7 +988,7 @@ public:
         
         if (GroundContact())
             altitude = 0;
-        else if (gear_status != DOOR_CLOSED)
+        else if (gear_status != DoorStatus::DOOR_CLOSED)
             altitude -= GEAR_FULLY_COMPRESSED_DISTANCE;   // adjust for gear down
 
         return altitude;

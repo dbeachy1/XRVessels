@@ -129,7 +129,7 @@ bool XR5MainInstrumentPanel::Activate()
     // activate all our areas, including our components' areas
     ActivateAllAreas();
 
-    GetXR5().campos = GetXR5().CAM_PANELMAIN;
+    GetXR5().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_PANELMAIN;
     return true;
 }
 
@@ -172,7 +172,7 @@ bool XR5PayloadInstrumentPanel::Activate()
     // activate all our areas, including our components' areas
     ActivateAllAreas();
 
-    GetXR5().campos = GetXR5().CAM_PANELPAYLOAD;
+    GetXR5().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_PANELPAYLOAD;
 
     return true;
 }
@@ -254,7 +254,7 @@ bool XR5OverheadInstrumentPanel::Activate()
     // set our MFD to DOCKING mode
     oapiOpenMFD(MFD_DOCKING, MFD_USER1);
 
-    GetXR5().campos = GetXR5().CAM_PANELOVERHEAD;
+    GetXR5().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_PANELOVERHEAD;
     return true;
 }
 
@@ -373,7 +373,7 @@ bool XR5UpperInstrumentPanel::Activate()
     // activate all our areas, including our components' areas
     ActivateAllAreas();
 
-    GetXR5().campos = GetXR5().CAM_PANELUP;
+    GetXR5().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_PANELUP;
     return true;
 }
 
@@ -402,7 +402,7 @@ bool XR5LowerInstrumentPanel::Activate()
     // activate all our areas, including our components' areas
     ActivateAllAreas();
 
-    GetXR5().campos = GetXR5().CAM_PANELDN;
+    GetXR5().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_PANELDN;
     return true;
 }
 
@@ -413,21 +413,21 @@ void XR5LowerInstrumentPanel::AddCommonAreas(const int width)
     const int shift = (width - 1600) / 2;   // calibrated below for 1600 pixels, but the end result is the same
 
     // create our components
-    
     AddComponent(new METTimerComponent      (*this, _COORD2(shift +  588, 108)));
-
+    
     AddComponent(new MainFuelGaugeComponent (*this, _COORD2(shift +  417, 193)));
     AddComponent(new RCSFuelGaugeComponent  (*this, _COORD2(shift +  522, 193)));
     AddComponent(new SCRAMFuelGaugeComponent(*this, _COORD2(shift +  628, 193)));
+        
     AddComponent(new APUFuelGaugeComponent  (*this, _COORD2(shift +  732, 193)));
     AddComponent(new FuelHatchComponent     (*this, _COORD2(shift + 1053, 267)));
     AddComponent(new LoxHatchComponent      (*this, _COORD2(shift + 1120, 267)));
-
+    
     AddComponent(new MainSupplyLineGaugeComponent (*this, _COORD2(shift +  830, 209)));
     AddComponent(new ScramSupplyLineGaugeComponent(*this, _COORD2(shift +  881, 209)));
     AddComponent(new ApuSupplyLineGaugeComponent  (*this, _COORD2(shift +  932, 209)));
     AddComponent(new LoxSupplyLineGaugeComponent  (*this, _COORD2(shift +  983, 209)));
-
+    
     AddComponent(new ShipMassDisplayComponent     (*this, _COORD2(shift + 1043, 200)));
     AddComponent(new LoxGaugeComponent            (*this, _COORD2(shift + 1217, 178)));
     AddComponent(new OxygenRemainingPanelComponent(*this, _COORD2(shift + 1299,  87)));
@@ -473,7 +473,6 @@ void XR5LowerInstrumentPanel::Add1600PlusAreas(const int width)
     AddComponent(new MainHoverPanelComponent(*this, _COORD2(shift +  364, 402)));
     AddComponent(new Interval1TimerComponent(*this, _COORD2(shift +  827,  83)));
     AddComponent(new Interval2TimerComponent(*this, _COORD2(shift +  827, 125)));
-    
 }
 
 //-------------------------------------------------------------------------
@@ -765,7 +764,7 @@ bool XR5Vanguard::clbkLoadGenericCockpit()
     SetCameraOffset(twoDCockpitCoordinates);
     oapiSetDefNavDisplay (1);
     oapiSetDefRCSDisplay (1);
-    campos = CAM_GENERIC;
+    campos = DeltaGliderXR1::CAMERA_POSITION::CAM_GENERIC;
 
     return true;
 }

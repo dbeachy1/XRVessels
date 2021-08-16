@@ -222,8 +222,7 @@ extern const char *ALL_SYSTEMS_NOMINAL_MSG;
 extern HMODULE g_hDLL;
 
 // Global enum; NOT_SET is only used by GearCalloutsPostStep
-// Important: DOOR_CLOSED = 0 here
-enum DoorStatus { NOT_SET = -2, DOOR_FAILED, DOOR_CLOSED, DOOR_OPEN, DOOR_CLOSING, DOOR_OPENING };
+enum class DoorStatus { NOT_SET = -2, DOOR_FAILED, DOOR_CLOSED, DOOR_OPEN, DOOR_CLOSING, DOOR_OPENING };
 
 #ifdef MMU
 // define default mesh (the UMmu mesh)
@@ -234,7 +233,7 @@ enum DoorStatus { NOT_SET = -2, DOOR_FAILED, DOOR_CLOSED, DOOR_OPEN, DOOR_CLOSIN
 
 // warning light values
 #define WARNING_LIGHT_COUNT  21
-enum WarningLight 
+enum class WarningLight
 { 
     wlNONE = -1,    // no light
     wlMain, wlHovr, wlScrm, 
@@ -248,9 +247,9 @@ enum WarningLight
 
 // custom autopilot modes
 // NOTE: airspeed hold may be engaged with ANY other AP mode, so it is not defined here
-enum AUTOPILOT { AP_NOTSET = -1, AP_OFF, AP_ATTITUDEHOLD, AP_DESCENTHOLD };
-enum AUTODESCENT_ADJUST { AD_NONE, AD_LEVEL, AD_ADJUST, AD_AUTOLAND };
-enum AIRSPEEDHOLD_ADJUST { AS_NONE, AS_HOLDCURRENT, AS_RESET, AS_ADJUST };
+enum class AUTOPILOT { AP_NOTSET = -1, AP_OFF, AP_ATTITUDEHOLD, AP_DESCENTHOLD };
+enum class AUTODESCENT_ADJUST { AD_NONE, AD_LEVEL, AD_ADJUST, AD_AUTOLAND };
+enum class AIRSPEEDHOLD_ADJUST { AS_NONE, AS_HOLDCURRENT, AS_RESET, AS_ADJUST };
 
 // autopilot constants
 extern const double MAX_DESCENT_HOLD_RATE;
@@ -345,12 +344,12 @@ extern const int VC_PANEL_ID_BASE;  // ID of first VC panel
 #define ORBITER_VC_NUMBER(panelID) (panelID - VC_PANEL_ID_BASE)
 
 // global enums
-enum AccScale  { EightG, FourG, TwoG, NONE };
-enum TempScale { Kelvin, Fahrenheit, Celsius };
+enum class AccScale  { EightG, FourG, TwoG, NONE };
+enum class TempScale { Kelvin, Fahrenheit, Celsius };
 
 // Note: DamageItem has subclass-usable values defined beginning with "DISubclass"
 // NOTE: these enum values must match the XRDamageItem enum in XRVesselCtrl.h (including vessel subclasses)
-enum DamageItem { LeftWing = 0, RightWing, LeftAileron, RightAileron, LandingGear, 
+enum class DamageItem { LeftWing = 0, RightWing, LeftAileron, RightAileron, LandingGear,
                   Nosecone, RetroDoors, Hatch, Radiator, Airbrake, MainEngineLeft, MainEngineRight,
                   SCRAMEngineLeft, SCRAMEngineRight, HoverEngineFore, HoverEngineAft,
                   RetroEngineLeft, RetroEngineRight, RCS1, RCS2, RCS3, RCS4, 
@@ -359,10 +358,10 @@ enum DamageItem { LeftWing = 0, RightWing, LeftAileron, RightAileron, LandingGea
                   DISubclass6, DISubclass7, DISubclass8, DISubclass9, DISubclass10 };
 extern const DamageItem D_END;   // points to the LAST VALID damage enum for this vessel
 
-enum CrewState { OK, INCAPACITATED, DEAD };
+enum class CrewState { OK, INCAPACITATED, DEAD };
 
 // NOTE: do not change the order of these values
-enum XFEED_MODE { XF_NOT_SET = -1, XF_MAIN, XF_OFF, XF_RCS };
+enum class XFEED_MODE { XF_NOT_SET = -1, XF_MAIN, XF_OFF, XF_RCS };
 
 // Damage status structure; constains status about a single surface
 struct DamageStatus

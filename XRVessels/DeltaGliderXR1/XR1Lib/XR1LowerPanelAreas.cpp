@@ -366,7 +366,7 @@ void XFeedKnobArea::Activate()
 
 bool XFeedKnobArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
-    int mode = GetXR1().m_xfeedMode;
+    const int mode = static_cast<int>(GetXR1().m_xfeedMode);
 
     oapiBlt(surf, m_mainSurface, 0, 0, mode * 40, 0, 40, 44);
 
@@ -381,8 +381,8 @@ bool XFeedKnobArea::ProcessMouseEvent(const int event, const int mx, const int m
 
     bool retVal = false;
     
-    int mode = GetXR1().m_xfeedMode;
-    int newMode = XF_NOT_SET;
+    const int mode = static_cast<int>(GetXR1().m_xfeedMode);
+    int newMode = static_cast<int>(XFEED_MODE::XF_NOT_SET);
     if (event & PANEL_MOUSE_LBDOWN)
     {
         // rotate left if not already @ mode 0
@@ -400,7 +400,7 @@ bool XFeedKnobArea::ProcessMouseEvent(const int event, const int mx, const int m
         }
     }
 
-    if (newMode != XF_NOT_SET)
+    if (newMode != static_cast<int>(XFEED_MODE::XF_NOT_SET))
     {
         GetXR1().SetCrossfeedMode(static_cast<XFEED_MODE>(newMode), NULL);  // will show a message & play sound effect as well
         retVal = true;

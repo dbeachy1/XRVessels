@@ -252,7 +252,7 @@ bool AutopilotButtonsArea::Redraw2D(const int event, const SURFHANDLE surf)
             break;
 
         case 1:
-            isLit = (GetXR1().m_customAutopilotMode == AP_ATTITUDEHOLD);
+            isLit = (GetXR1().m_customAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD);
             break;
 
         case 2:
@@ -272,7 +272,7 @@ bool AutopilotButtonsArea::Redraw2D(const int event, const SURFHANDLE surf)
             break;
 
         case 6:
-            isLit = (GetXR1().m_customAutopilotMode == AP_DESCENTHOLD);
+            isLit = (GetXR1().m_customAutopilotMode == AUTOPILOT::AP_DESCENTHOLD);
             break;
 
         case 7:
@@ -324,7 +324,7 @@ bool AutopilotButtonsArea::ProcessMouseEvent(const int event, const int mx, cons
         else if (x == 3)
         {
             GetXR1().ToggleAttitudeHold();
-            isOn = (GetXR1().m_customAutopilotMode == AP_ATTITUDEHOLD);
+            isOn = (GetXR1().m_customAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD);
         }
     }
     else  // y == 1
@@ -347,7 +347,7 @@ bool AutopilotButtonsArea::ProcessMouseEvent(const int event, const int mx, cons
         else if (x == 3)
         {
             GetXR1().ToggleDescentHold();
-            isOn = (GetXR1().m_customAutopilotMode == AP_DESCENTHOLD);
+            isOn = (GetXR1().m_customAutopilotMode == AUTOPILOT::AP_DESCENTHOLD);
         }
     }
 
@@ -400,7 +400,7 @@ void AutopilotLEDArea::clbkPrePostStep(const double simt, const double simdt, co
     }
 
     // now check whether any CUSTOM autopilot mode is engaged
-    if ((GetXR1().m_customAutopilotMode != AP_OFF) || GetXR1().m_airspeedHoldEngaged)
+    if ((GetXR1().m_customAutopilotMode != AUTOPILOT::AP_OFF) || GetXR1().m_airspeedHoldEngaged)
         m_enabled = true;
 
     // if enabled, set the light to its correct blink state
@@ -623,7 +623,7 @@ bool AFCtrlArea::Redraw2D(const int event, const SURFHANDLE surf)
 
     // NOTE: if current switch value is ON but APU is OFF, don't redraw this switch!  This fixes the
     // brief "jump" that occurs when the pilot tries to enable AFCtrl with the APU already off.
-    if ((GetXR1().apu_status != DOOR_OPEN) && (GetVessel().GetADCtrlMode() != 0))
+    if ((GetXR1().apu_status != DoorStatus::DOOR_OPEN) && (GetVessel().GetADCtrlMode() != 0))
         return false;       // don't paint the "jumping" switch
 
     oapiBlt(surf, m_mainSurface, 0, 0, min(GetVessel().GetADCtrlMode(), 2) * 40, 0, 40, 44);
@@ -637,7 +637,7 @@ bool AFCtrlArea::Redraw3D(const int event, const SURFHANDLE surf)
 
     // NOTE: if current switch value is ON but APU is OFF, don't redraw this switch!  This fixes the
     // brief "jump" that occurs when the pilot tries to enable AFCtrl with the APU already off.
-    if ((GetXR1().apu_status != DOOR_OPEN) && (GetVessel().GetADCtrlMode() != 0))
+    if ((GetXR1().apu_status != DoorStatus::DOOR_OPEN) && (GetVessel().GetADCtrlMode() != 0))
         return false;       // don't paint the "jumping" switch
 
     GetXR1().SetXRAnimation(GetXR1().anim_afdial, min(GetVessel().GetADCtrlMode(), 2) * 0.5);
@@ -859,9 +859,9 @@ void DeployRadiatorButtonArea::clbkPrePostStep(const double simt, const double s
 {
     const DoorStatus ds = GetXR1().radiator_status;
 
-    if (ds == DOOR_OPEN)
+    if (ds == DoorStatus::DOOR_OPEN)
         m_lightState = true;
-    else if ((ds == DOOR_OPENING) || (ds == DOOR_CLOSING))
+    else if ((ds == DoorStatus::DOOR_OPENING) || (ds == DoorStatus::DOOR_CLOSING))
         m_lightState = (fmod(simt, 0.75) < 0.375);  // blink once every 3/4-second
     else  // door closed or FAILED
         m_lightState = false;

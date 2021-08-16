@@ -42,7 +42,7 @@ void XR3Phoenix::clbkLoadStateEx(FILEHANDLE scn, void *vs)
     // Workaround for Orbiter core bug: must init gear parameters here in case gear status not present in the scenario file.
     // This is necessary because Orbiter requires the gear to be DOWN when the scenario first loads if the ship is landed; otherwise, a gruesome crash 
     // occurs due to the "bounce bug".
-    gear_status = DOOR_CLOSED;
+    gear_status = DoorStatus::DOOR_CLOSED;
     gear_proc   = 0.0;
     
     while (oapiReadScenario_nextline (scn, line)) 
@@ -90,6 +90,6 @@ void XR3Phoenix::clbkSaveState (FILEHANDLE scn)
     WriteXRCommonScenarioLines(scn);        // save common data
 
     // XR3-specific data
-    oapiWriteScenario_int(scn, "RCS_DOCKING_MODE", m_rcsDockingMode);
-    oapiWriteScenario_int(scn, "ACTIVE_EVA_PORT",  m_activeEVAPort);
+    oapiWriteScenario_int(scn, "RCS_DOCKING_MODE", static_cast<int>(m_rcsDockingMode));
+    oapiWriteScenario_int(scn, "ACTIVE_EVA_PORT", static_cast<int>(m_activeEVAPort));
 }

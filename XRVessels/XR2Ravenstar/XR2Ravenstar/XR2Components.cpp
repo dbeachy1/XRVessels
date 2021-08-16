@@ -152,7 +152,7 @@ double XR2HullTempsMultiDisplayMode::GetHighestTempFrac()
     double highestTempFrac = 0.0;    // max percentage of any hull temperature to its limit
 
     // if a surface's door is open, its limits will be lower
-#define IS_DOOR_OPEN(status) (status != DOOR_CLOSED)   // includes DOOR_FAILED
+#define IS_DOOR_OPEN(status) (status != DoorStatus::DOOR_CLOSED)   // includes DOOR_FAILED
 #define LIMITK(limitK, doorStatus)  (IS_DOOR_OPEN(doorStatus) ? limits.doorOpen : limitK)
 #define SET_MAX_PCT(tempK, limitK, doorStatus)  { double pct = (tempK / LIMITK(limitK, doorStatus)); if (pct > highestTempFrac) highestTempFrac = pct; }
 
@@ -177,26 +177,26 @@ double XR2HullTempsMultiDisplayMode::GetHighestTempFrac()
 
 
 // determines which door(s) to use for temperature display warning colors
-#define CHECK_AND_RETURN_DOOR(doorStatus) if (doorStatus != DOOR_CLOSED) return doorStatus
+#define CHECK_AND_RETURN_DOOR(doorStatus) if (doorStatus != DoorStatus::DOOR_CLOSED) return doorStatus
 DoorStatus XR2HullTempsMultiDisplayMode::GetNoseDoorStatus()
 {
     CHECK_AND_RETURN_DOOR(GetXR2().nose_status);
     CHECK_AND_RETURN_DOOR(GetXR2().hoverdoor_status);
     CHECK_AND_RETURN_DOOR(GetXR2().gear_status);
 
-    return DOOR_CLOSED;
+    return DoorStatus::DOOR_CLOSED;
 }
  
 DoorStatus XR2HullTempsMultiDisplayMode::GetLeftWingDoorStatus()
 {
     CHECK_AND_RETURN_DOOR(GetXR2().rcover_status);
-    return DOOR_CLOSED;  
+    return DoorStatus::DOOR_CLOSED;
 }
  
 DoorStatus XR2HullTempsMultiDisplayMode::GetRightWingDoorStatus()
 {
     CHECK_AND_RETURN_DOOR(GetXR2().rcover_status);
-    return DOOR_CLOSED;  
+    return DoorStatus::DOOR_CLOSED;
 }
 
 // base class behavior is fine for GetCockpitDoorStatus (only crew hatch to check)
@@ -206,6 +206,6 @@ DoorStatus XR2HullTempsMultiDisplayMode::GetTopHullDoorStatus()
     CHECK_AND_RETURN_DOOR(GetXR2().radiator_status);
     CHECK_AND_RETURN_DOOR(GetXR2().bay_status);
     
-    return DOOR_CLOSED; 
+    return DoorStatus::DOOR_CLOSED;
 }
 

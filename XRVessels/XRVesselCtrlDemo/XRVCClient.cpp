@@ -59,9 +59,9 @@ bool XRVCClient::UpdateEngineState(const XREngineID engineID, XRVCClient::DataTy
     m_pVessel->GetEngineState(engineID, m_xrEngineState);
 
     // write the updated value
-    if (dataType == Double)
+    if (dataType == DataType::Double)
         *static_cast<double *>(pValueToSet) = value.Double;
-    else if (dataType == Bool)
+    else if (dataType == DataType::Bool)
         *static_cast<bool *>(pValueToSet) = value.Bool;
     else  // should never happen!
     {
@@ -96,9 +96,9 @@ bool XRVCClient::UpdateDamageState(DataType dataType, Value &value, void *pValue
     m_pVessel->GetXRSystemStatus(m_xrSystemStatus);
 
     // write the updated value
-    if (dataType == Double)
+    if (dataType == DataType::Double)
         *static_cast<double *>(pValueToSet) = value.Double;
-    else if (dataType == Int)
+    else if (dataType == DataType::Int)
         *static_cast<int *>(pValueToSet) = value.Int;
     else  // should never happen!
     {
@@ -231,7 +231,7 @@ bool XRVCClient::ShiftCenterOfGravity(const double requestedShift, CString &stat
 bool XRVCClient::SetStdAutopilotState(const int autopilotID, const bool state, CString &statusOut) const
 {
     XRAutopilotState newState = m_pVessel->SetStandardAP(static_cast<XRStdAutopilot>(autopilotID), state);
-    const bool success = (newState != XRAPSTATE_NotSupported);
+    const bool success = (newState != XRAutopilotState::XRAPSTATE_NotSupported);
     if (success)
         statusOut = "Successfully set standard autopilot state.";
     else
@@ -250,18 +250,18 @@ bool XRVCClient::SetAttitudeHold(const bool on, const bool *pHoldPitch, const do
     if ((pHoldPitch == nullptr) || (pTargetPitch == nullptr) || (pTargetBank == nullptr))
     {
         // user is only setting on/off, so retrieve existing state 
-        if (m_pVessel->GetAttitudeHoldAP(state) == XRAPSTATE_NotSupported)
+        if (m_pVessel->GetAttitudeHoldAP(state) == XRAutopilotState::XRAPSTATE_NotSupported)
             return false;
     }
     else  // user is setting all parameters
     {
-        state.mode = (*pHoldPitch ? XRAH_HoldPitch : XRAH_HoldAOA);
+        state.mode = (*pHoldPitch ? XRAttitudeHoldMode::XRAH_HoldPitch : XRAttitudeHoldMode::XRAH_HoldAOA);
         state.TargetPitch = *pTargetPitch;
         state.TargetBank = *pTargetBank;
     }
 
     state.on = on;
-    return (m_pVessel->SetAttitudeHoldAP(state) != XRAPSTATE_NotSupported);
+    return (m_pVessel->SetAttitudeHoldAP(state) != XRAutopilotState::XRAPSTATE_NotSupported);
 }
 
 
@@ -275,7 +275,7 @@ bool XRVCClient::SetDescentHold(const bool on, const double *pTargetDescentRate,
     if ((pTargetDescentRate == nullptr) || (pAutoLand == nullptr))
     {
         // user is only setting on/off, so retrieve existing state 
-        if (m_pVessel->GetDescentHoldAP(state) == XRAPSTATE_NotSupported)
+        if (m_pVessel->GetDescentHoldAP(state) == XRAutopilotState::XRAPSTATE_NotSupported)
             return false;
     }
     else  // user is setting all parameters
@@ -285,7 +285,7 @@ bool XRVCClient::SetDescentHold(const bool on, const double *pTargetDescentRate,
     }
 
     state.on = on;
-    return (m_pVessel->SetDescentHoldAP(state) != XRAPSTATE_NotSupported);
+    return (m_pVessel->SetDescentHoldAP(state) != XRAutopilotState::XRAPSTATE_NotSupported);
 }
 
 //-------------------------------------------------------------------------
@@ -298,14 +298,14 @@ bool XRVCClient::SetAirspeedHold(const bool on, const double *pTargetAirspeed) c
     if (pTargetAirspeed == nullptr)
     {
         // user is only setting on/off, so retrieve existing state 
-        if (m_pVessel->GetAirspeedHoldAP(state) == XRAPSTATE_NotSupported)
+        if (m_pVessel->GetAirspeedHoldAP(state) == XRAutopilotState::XRAPSTATE_NotSupported)
             return false;
     }
     else  // user is setting both parameters
         state.TargetAirspeed = *pTargetAirspeed;
 
     state.on = on;
-    return (m_pVessel->SetAirspeedHoldAP(state) != XRAPSTATE_NotSupported);
+    return (m_pVessel->SetAirspeedHoldAP(state) != XRAutopilotState::XRAPSTATE_NotSupported);
 }
 
 
@@ -483,7 +483,7 @@ void XRVCClient::RetrieveDoorsState(CString &csOut) const
 
 // ID = DockingPort, ScramDoors, etc.
 #define WRITE_DOOR_STATE(ID)                              \
-    state = m_pVessel->GetDoorState(XRD_##ID, &doorProc); \
+    state = m_pVessel->GetDoorState(XRDoorID::XRD_##ID, &doorProc); \
     WRITE_LABEL(#ID ":");                                 \
     csValue.Format("%s (%0.3lf)", GetDoorStateString(state), doorProc);  \
     WRITE_STR(csValue);                                    \
@@ -526,7 +526,7 @@ void XRVCClient::RetrieveAutopilotsState(CString &csOut) const
 
 // ID = KillRot, Prograde, etc.
 #define WRITE_STDAP_STATE(ID)                       \
-    state = m_pVessel->GetStandardAP(XRSAP_##ID);   \
+    state = m_pVessel->GetStandardAP(XRStdAutopilot::XRSAP_##ID);   \
     WRITE_LABEL(#ID ":");                           \
     WRITE_STR(GetAPStateString(state));             \
     WRITE_CRLF()
@@ -697,27 +697,27 @@ const char *XRVCClient::GetDoorStateString(const XRDoorState state)
 
     switch (state)
     {
-    case XRDS_Opening:
+    case XRDoorState::XRDS_Opening:
         pRetVal = "Opening";
         break;
         
-    case XRDS_Open:
+    case XRDoorState::XRDS_Open:
         pRetVal = "Open";
         break;
         
-    case XRDS_Closing:
+    case XRDoorState::XRDS_Closing:
         pRetVal = "Closing";
         break;
         
-    case XRDS_Closed:
+    case XRDoorState::XRDS_Closed:
         pRetVal = "Closed";
         break;
         
-    case XRDS_Failed:
+    case XRDoorState::XRDS_Failed:
         pRetVal = "FAILED";
         break;
         
-    case XRDS_DoorNotSupported:
+    case XRDoorState::XRDS_DoorNotSupported:
         pRetVal = "[Not Supported]";
         break;
 
@@ -738,15 +738,15 @@ const char *XRVCClient::GetDamageStateString(const XRDamageState state)
 
     switch (state)
     {
-    case XRDMG_offline:
+    case XRDamageState::XRDMG_offline:
         pRetVal = "OFFLINE";
         break;
         
-    case XRDMG_online:
+    case XRDamageState::XRDMG_online:
         pRetVal = "Online";
         break;
         
-    case XRDMG_NotSupported:
+    case XRDamageState::XRDMG_NotSupported:
         pRetVal = "[N/A]";   
         break;
         
@@ -767,11 +767,11 @@ const char *XRVCClient::GetWarningStateString(const XRWarningState state)
 
     switch (state)
     {
-    case XRW_warningActive:
+    case XRWarningState::XRW_warningActive:
         pRetVal = "ACTIVE";
         break;
         
-    case XRW_warningInactive:
+    case XRWarningState::XRW_warningInactive:
         pRetVal = "Inactive";
         break;
         
@@ -792,15 +792,15 @@ const char *XRVCClient::GetAPStateString(const XRAutopilotState state)
 
     switch (state)
     {
-    case XRAPSTATE_Engaged:
+    case XRAutopilotState::XRAPSTATE_Engaged:
         pRetVal = "ENGAGED";
         break;
         
-    case XRAPSTATE_Disengaged:
+    case XRAutopilotState::XRAPSTATE_Disengaged:
         pRetVal = "Disengaged";
         break;
 
-    case XRAPSTATE_NotSupported:
+    case XRAutopilotState::XRAPSTATE_NotSupported:
         pRetVal = "[Not Supported]";
         break;
 
@@ -821,11 +821,11 @@ const char *XRVCClient::GetAttitudeHoldMode(const XRAttitudeHoldMode state)
 
     switch (state)
     {
-    case XRAH_HoldPitch:
+    case XRAttitudeHoldMode::XRAH_HoldPitch:
         pRetVal = "HoldPitch";
         break;
         
-    case XRAH_HoldAOA:
+    case XRAttitudeHoldMode::XRAH_HoldAOA:
         pRetVal = "HoldAOA";
         break;
 

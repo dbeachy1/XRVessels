@@ -48,7 +48,7 @@ DeployPayloadArea::DeployPayloadArea(InstrumentPanel &parentPanel, const COORD2 
                                      const int idbDeployPayloadOrbit, const int idbDeployPayloadLanded) :
     XR1Area(parentPanel, panelCoordinates, areaID),
     m_hSurfaceForOrbit(nullptr), m_hSurfaceForLanded(nullptr), m_hFont(0),
-    m_mouseHoldTargetSimt(-1), m_lastAction(ACT_NONE), m_repeatCount(0),
+    m_mouseHoldTargetSimt(-1), m_lastAction(RATE_ACTION::ACT_NONE), m_repeatCount(0),
     m_repeatSpeed(0.0625),   // seconds between clicks if mouse held down: 16 clicks per second
     m_idbDeployPayloadOrbit(idbDeployPayloadOrbit), m_idbDeployPayloadLanded(idbDeployPayloadLanded)
 {
@@ -258,7 +258,7 @@ bool DeployPayloadArea::ProcessMouseEvent(const int event, const int mx, const i
 
         // check rate buttons
         bool showMessage = false;
-        RATE_ACTION action = ACT_NONE;
+        RATE_ACTION action = RATE_ACTION::ACT_NONE;
         if (event & (PANEL_MOUSE_LBDOWN | PANEL_MOUSE_LBPRESSED))
         {
             const double simt = GetAbsoluteSimTime();
@@ -290,42 +290,42 @@ bool DeployPayloadArea::ProcessMouseEvent(const int event, const int mx, const i
             {
                 if (doButtonClick)
                 {
-                    m_lastAction = action = DECRATE1;
+                    m_lastAction = action = RATE_ACTION::DECRATE1;
                 }
             }
             else if (c.InBounds(m_rateUp1ArrowCoord, 7, 6))
             {
                 if (doButtonClick)
                 {
-                    m_lastAction = action = INCRATE1;
+                    m_lastAction = action = RATE_ACTION::INCRATE1;
                 }
             }
             else if (c.InBounds(m_rateDown5ArrowCoord, 7, 6))
             {
                 if (doButtonClick)
                 {
-                    m_lastAction = action = DECRATE5;
+                    m_lastAction = action = RATE_ACTION::DECRATE5;
                 }
             }
             else if (c.InBounds(m_rateUp5ArrowCoord, 7, 6))
             {
                 if (doButtonClick)
                 {
-                    m_lastAction = action = INCRATE5;
+                    m_lastAction = action = RATE_ACTION::INCRATE5;
                 }
             }
             else if (c.InBounds(m_rateDown25ArrowCoord, 7, 6))
             {
                 if (doButtonClick)
                 {
-                    m_lastAction = action = DECRATE25;
+                    m_lastAction = action = RATE_ACTION::DECRATE25;
                 }
             }
             else if (c.InBounds(m_rateUp25ArrowCoord, 7, 6))
             {
                 if (doButtonClick)
                 {
-                    m_lastAction = action = INCRATE25;
+                    m_lastAction = action = RATE_ACTION::INCRATE25;
                 }
             }
             else
@@ -349,34 +349,34 @@ bool DeployPayloadArea::ProcessMouseEvent(const int event, const int mx, const i
                 m_repeatCount = 0;   // reset
             }
 
-            m_lastAction = ACT_NONE;  // reset
+            m_lastAction = RATE_ACTION::ACT_NONE;  // reset
         }
 
-        if (action != ACT_NONE)
+        if (action != RATE_ACTION::ACT_NONE)
         {
             switch (action)
             {
-            case INCRATE1:
+            case RATE_ACTION::INCRATE1:
                 GetXR1().AdjustPayloadDeployDeltaV(+0.1, showMessage);
                 return true;
 
-            case DECRATE1:
+            case RATE_ACTION::DECRATE1:
                 GetXR1().AdjustPayloadDeployDeltaV(-0.1, showMessage);
                 return true;
 
-            case INCRATE5:
+            case RATE_ACTION::INCRATE5:
                 GetXR1().AdjustPayloadDeployDeltaV(+0.5, showMessage);
                 return true;
 
-            case DECRATE5:
+            case RATE_ACTION::DECRATE5:
                 GetXR1().AdjustPayloadDeployDeltaV(-0.5, showMessage);
                 return true;
 
-            case INCRATE25:
+            case RATE_ACTION::INCRATE25:
                 GetXR1().AdjustPayloadDeployDeltaV(+2.5, showMessage);
                 return true;
 
-            case DECRATE25:
+            case RATE_ACTION::DECRATE25:
                 GetXR1().AdjustPayloadDeployDeltaV(-2.5, showMessage);
                 return true;
 

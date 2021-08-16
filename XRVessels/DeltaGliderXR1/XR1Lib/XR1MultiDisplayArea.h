@@ -72,7 +72,7 @@ public:
     bool TurnOn();     // turn screen on and enable last active mode
     void TurnOff();    // turn screen off
     
-    enum DIRECTION { UP, DOWN };
+    enum class DIRECTION { UP, DOWN };
     int SwitchActiveMode(DIRECTION dir);
 
     // Allow our MultiDisplayMode objects to create surfaces for our vessel.
@@ -107,7 +107,7 @@ public:
     SURFHANDLE CreateSurface(const int resourceID) const { return m_pParentMDA->CreateSurface(resourceID); }
     void DestroySurface(SURFHANDLE *pSurfHandle) { m_pParentMDA->DestroySurface(pSurfHandle); }
     const COORD2 &GetScreenSize() const { return m_pParentMDA->GetScreenSize(); }
-    COLORREF GetTempCREF(double tempK, double limitK, int doorStatus) const { return m_pParentMDA->GetTempCREF(tempK, limitK, doorStatus); }
+    COLORREF GetTempCREF(double tempK, double limitK, DoorStatus doorStatus) const { return m_pParentMDA->GetTempCREF(tempK, limitK, doorStatus); }
     COLORREF GetValueCREF(double value, double warningLimit, double criticalLimit) const { return m_pParentMDA->GetValueCREF(value, warningLimit, criticalLimit); }
 
     void SetParent(MultiDisplayArea *pParentMDA) { m_pParentMDA = pParentMDA; }
@@ -147,7 +147,7 @@ public:
 protected:
     virtual double GetHighestTempFrac();
     
-    // if DOOR_OPEN, temperature values will be displayed in yellow or red correctly since that door is open
+    // if DoorStatus::DOOR_OPEN, temperature values will be displayed in yellow or red correctly since that door is open
     virtual DoorStatus GetNoseDoorStatus();
     virtual DoorStatus GetLeftWingDoorStatus();
     virtual DoorStatus GetRightWingDoorStatus();
@@ -208,7 +208,7 @@ public:
     virtual bool ProcessMouseEvent(const int event, const int mx, const int my);
 
 protected:
-    enum AXIS_ACTION { ACT_NONE, INCPITCH_SMALL, DECPITCH_SMALL, INCPITCH_LARGE, DECPITCH_LARGE, INCBANK, DECBANK };
+    enum class AXIS_ACTION { ACT_NONE, INCPITCH_SMALL, DECPITCH_SMALL, INCPITCH_LARGE, DECPITCH_LARGE, INCBANK, DECBANK };
 
     SURFHANDLE m_backgroundSurface;   // main screen background
     COORD2 m_engageButtonCoord;
@@ -254,7 +254,7 @@ public:
     virtual bool ProcessMouseEvent(const int event, const int mx, const int my);
 
 protected:
-    enum RATE_ACTION { ACT_NONE, INCRATE1, DECRATE1, INCRATE5, DECRATE5, INCRATE25, DECRATE25 };
+    enum class RATE_ACTION { ACT_NONE, INCRATE1, DECRATE1, INCRATE5, DECRATE5, INCRATE25, DECRATE25 };
 
     SURFHANDLE m_backgroundSurface;   // main screen background
     COORD2 m_engageButtonCoord;
@@ -292,7 +292,7 @@ public:
     virtual bool ProcessMouseEvent(const int event, const int mx, const int my);
 
 protected:
-    enum RATE_ACTION { ACT_NONE, INCRATEP1, DECRATEP1, INCRATE1, DECRATE1, INCRATE5, DECRATE5, INCRATE25, DECRATE25 };
+    enum class RATE_ACTION { ACT_NONE, INCRATEP1, DECRATEP1, INCRATE1, DECRATE1, INCRATE5, DECRATE5, INCRATE25, DECRATE25 };
 
     SURFHANDLE m_backgroundSurface;   // main screen background
     COORD2 m_engageButtonCoord;
@@ -358,7 +358,7 @@ protected:
         void (DeltaGliderXR1::*m_pDoorHandler)(DoorStatus);  
 
         // convenience methods
-        bool IsNotClosed() const { return (m_doorStatus != DOOR_CLOSED); }
+        bool IsNotClosed() const { return (m_doorStatus != DoorStatus::DOOR_CLOSED); }
     };
 
     void PlayStatusCallout(const int openDoorCount);

@@ -102,14 +102,14 @@ LadderToggleSwitchArea::LadderToggleSwitchArea(InstrumentPanel &parentPanel, con
 bool LadderToggleSwitchArea::isOn()
 {
     // if switch is down ("on"), door is either opening or opened
-    return ((GetXR1().ladder_status == DOOR_OPENING) || (GetXR1().ladder_status == DOOR_OPEN));
+    return ((GetXR1().ladder_status == DoorStatus::DOOR_OPENING) || (GetXR1().ladder_status == DoorStatus::DOOR_OPEN));
 }
 
 
 // only invoked when switch is CHANGING state
 bool LadderToggleSwitchArea::ProcessSwitchEvent(bool switchIsOn)
 {
-    GetXR1().ActivateLadder(switchIsOn ? DOOR_OPENING : DOOR_CLOSING);
+    GetXR1().ActivateLadder(switchIsOn ? DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
     
     return true;
 }
@@ -124,14 +124,14 @@ NoseConeToggleSwitchArea::NoseConeToggleSwitchArea(InstrumentPanel &parentPanel,
 bool NoseConeToggleSwitchArea::isOn()
 {
     // if switch is down ("on"), door is either opening or opened
-    return ((GetXR1().nose_status == DOOR_OPENING) || (GetXR1().nose_status == DOOR_OPEN));
+    return ((GetXR1().nose_status == DoorStatus::DOOR_OPENING) || (GetXR1().nose_status == DoorStatus::DOOR_OPEN));
 }
 
 
 // only invoked when switch is CHANGING state
 bool NoseConeToggleSwitchArea::ProcessSwitchEvent(bool switchIsOn)
 {
-    GetXR1().ActivateNoseCone(switchIsOn ? DOOR_OPENING : DOOR_CLOSING);
+    GetXR1().ActivateNoseCone(switchIsOn ? DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
     
     return true;
 }
@@ -146,14 +146,14 @@ OuterDoorToggleSwitchArea::OuterDoorToggleSwitchArea(InstrumentPanel &parentPane
 bool OuterDoorToggleSwitchArea::isOn()
 {
     // if switch is down ("on"), door is either opening or opened
-    return ((GetXR1().olock_status == DOOR_OPENING) || (GetXR1().olock_status == DOOR_OPEN));
+    return ((GetXR1().olock_status == DoorStatus::DOOR_OPENING) || (GetXR1().olock_status == DoorStatus::DOOR_OPEN));
 }
 
 
 // only invoked when switch is CHANGING state
 bool OuterDoorToggleSwitchArea::ProcessSwitchEvent(bool switchIsOn)
 {
-    GetXR1().ActivateOuterAirlock(switchIsOn ? DOOR_OPENING : DOOR_CLOSING);
+    GetXR1().ActivateOuterAirlock(switchIsOn ? DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
     
     return true;
 }
@@ -168,14 +168,14 @@ InnerDoorToggleSwitchArea::InnerDoorToggleSwitchArea(InstrumentPanel &parentPane
 bool InnerDoorToggleSwitchArea::isOn()
 {
     // if switch is down ("on"), door is either opening or opened
-    return ((GetXR1().ilock_status == DOOR_OPENING) || (GetXR1().ilock_status == DOOR_OPEN));
+    return ((GetXR1().ilock_status == DoorStatus::DOOR_OPENING) || (GetXR1().ilock_status == DoorStatus::DOOR_OPEN));
 }
 
 
 // only invoked when switch is CHANGING state
 bool InnerDoorToggleSwitchArea::ProcessSwitchEvent(bool switchIsOn)
 {
-    GetXR1().ActivateInnerAirlock(switchIsOn ? DOOR_OPENING : DOOR_CLOSING);
+    GetXR1().ActivateInnerAirlock(switchIsOn ? DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
     
     return true;
 }
@@ -190,14 +190,14 @@ ChamberToggleSwitchArea::ChamberToggleSwitchArea(InstrumentPanel &parentPanel, c
 bool ChamberToggleSwitchArea::isOn()
 {
     // if switch is down ("on"), door is either opening or opened; meaning, chamber is either VACUUM or DECOMPRESSING
-    return ((GetXR1().chamber_status == DOOR_OPENING) || (GetXR1().chamber_status == DOOR_OPEN));
+    return ((GetXR1().chamber_status == DoorStatus::DOOR_OPENING) || (GetXR1().chamber_status == DoorStatus::DOOR_OPEN));
 }
 
 
 // only invoked when switch is CHANGING state
 bool ChamberToggleSwitchArea::ProcessSwitchEvent(bool switchIsOn)
 {
-    GetXR1().ActivateChamber(switchIsOn ? DOOR_OPENING : DOOR_CLOSING, false);  // do not force
+    GetXR1().ActivateChamber(switchIsOn ? DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING, false);  // do not force
     
     return true;
 }
@@ -212,14 +212,14 @@ HatchToggleSwitchArea::HatchToggleSwitchArea(InstrumentPanel &parentPanel, const
 bool HatchToggleSwitchArea::isOn()
 {
     // if switch is down ("on"), door is either opening or opened
-    return ((GetXR1().hatch_status == DOOR_OPENING) || (GetXR1().hatch_status == DOOR_OPEN));
+    return ((GetXR1().hatch_status == DoorStatus::DOOR_OPENING) || (GetXR1().hatch_status == DoorStatus::DOOR_OPEN));
 }
 
 
 // only invoked when switch is CHANGING state
 bool HatchToggleSwitchArea::ProcessSwitchEvent(bool switchIsOn)
 {
-    GetXR1().ActivateHatch(switchIsOn ? DOOR_OPENING : DOOR_CLOSING);
+    GetXR1().ActivateHatch(switchIsOn ? DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
     
     return true;
 }
@@ -234,14 +234,14 @@ RadiatorToggleSwitchArea::RadiatorToggleSwitchArea(InstrumentPanel &parentPanel,
 bool RadiatorToggleSwitchArea::isOn()
 {
     // if switch is down ("on"), door is either opening or opened
-    return ((GetXR1().radiator_status == DOOR_OPENING) || (GetXR1().radiator_status == DOOR_OPEN));
+    return ((GetXR1().radiator_status == DoorStatus::DOOR_OPENING) || (GetXR1().radiator_status == DoorStatus::DOOR_OPEN));
 }
 
 
 // only invoked when switch is CHANGING state
 bool RadiatorToggleSwitchArea::ProcessSwitchEvent(bool switchIsOn)
 {
-    GetXR1().ActivateRadiator(switchIsOn ? DOOR_OPENING : DOOR_CLOSING);
+    GetXR1().ActivateRadiator(switchIsOn ? DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
     
     return true;
 }
@@ -256,14 +256,14 @@ RetroDoorToggleSwitchArea::RetroDoorToggleSwitchArea(InstrumentPanel &parentPane
 bool RetroDoorToggleSwitchArea::isOn()
 {
     // if switch is down ("on"), door is either opening or opened
-    return ((GetXR1().rcover_status == DOOR_OPENING) || (GetXR1().rcover_status == DOOR_OPEN));
+    return ((GetXR1().rcover_status == DoorStatus::DOOR_OPENING) || (GetXR1().rcover_status == DoorStatus::DOOR_OPEN));
 }
 
 
 // only invoked when switch is CHANGING state
 bool RetroDoorToggleSwitchArea::ProcessSwitchEvent(bool switchIsOn)
 {
-    GetXR1().ActivateRCover(switchIsOn ? DOOR_OPENING : DOOR_CLOSING);
+    GetXR1().ActivateRCover(switchIsOn ? DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
     
     return true;
 }
@@ -278,14 +278,14 @@ GearToggleSwitchArea::GearToggleSwitchArea(InstrumentPanel &parentPanel, const C
 bool GearToggleSwitchArea::isOn()
 {
     // if switch is down ("on"), door is either opening or opened
-    return ((GetXR1().gear_status == DOOR_OPENING) || (GetXR1().gear_status == DOOR_OPEN));
+    return ((GetXR1().gear_status == DoorStatus::DOOR_OPENING) || (GetXR1().gear_status == DoorStatus::DOOR_OPEN));
 }
 
 
 // only invoked when switch is CHANGING state
 bool GearToggleSwitchArea::ProcessSwitchEvent(bool switchIsOn)
 {
-    GetXR1().ActivateLandingGear(switchIsOn ? DOOR_OPENING : DOOR_CLOSING);
+    GetXR1().ActivateLandingGear(switchIsOn ? DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
     
     return true;
 }
@@ -300,14 +300,14 @@ AirbrakeToggleSwitchArea::AirbrakeToggleSwitchArea(InstrumentPanel &parentPanel,
 bool AirbrakeToggleSwitchArea::isOn()
 {
     // if switch is down ("on"), door is either opening or opened
-    return ((GetXR1().brake_status == DOOR_OPENING) || (GetXR1().brake_status == DOOR_OPEN));
+    return ((GetXR1().brake_status == DoorStatus::DOOR_OPENING) || (GetXR1().brake_status == DoorStatus::DOOR_OPEN));
 }
 
 
 // only invoked when switch is CHANGING state
 bool AirbrakeToggleSwitchArea::ProcessSwitchEvent(bool switchIsOn)
 {
-    GetXR1().ActivateAirbrake(switchIsOn ? DOOR_OPENING : DOOR_CLOSING);
+    GetXR1().ActivateAirbrake(switchIsOn ? DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
     
     return true;
 }
@@ -436,14 +436,14 @@ HoverDoorToggleSwitchArea::HoverDoorToggleSwitchArea(InstrumentPanel &parentPane
 bool HoverDoorToggleSwitchArea::isOn()
 {
     // if switch is down ("on"), door is either opening or opened
-    return ((GetXR1().hoverdoor_status == DOOR_OPENING) || (GetXR1().hoverdoor_status == DOOR_OPEN));
+    return ((GetXR1().hoverdoor_status == DoorStatus::DOOR_OPENING) || (GetXR1().hoverdoor_status == DoorStatus::DOOR_OPEN));
 }
 
 
 // only invoked when switch is CHANGING state
 bool HoverDoorToggleSwitchArea::ProcessSwitchEvent(bool switchIsOn)
 {
-    GetXR1().ActivateHoverDoors(switchIsOn ? DOOR_OPENING : DOOR_CLOSING);
+    GetXR1().ActivateHoverDoors(switchIsOn ? DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
     
     return true;
 }
@@ -458,14 +458,14 @@ ScramDoorToggleSwitchArea::ScramDoorToggleSwitchArea(InstrumentPanel &parentPane
 bool ScramDoorToggleSwitchArea::isOn()
 {
     // if switch is down ("on"), door is either opening or opened
-    return ((GetXR1().scramdoor_status == DOOR_OPENING) || (GetXR1().scramdoor_status == DOOR_OPEN));
+    return ((GetXR1().scramdoor_status == DoorStatus::DOOR_OPENING) || (GetXR1().scramdoor_status == DoorStatus::DOOR_OPEN));
 }
 
 
 // only invoked when switch is CHANGING state
 bool ScramDoorToggleSwitchArea::ProcessSwitchEvent(bool switchIsOn)
 {
-    GetXR1().ActivateScramDoors(switchIsOn ? DOOR_OPENING : DOOR_CLOSING);
+    GetXR1().ActivateScramDoors(switchIsOn ? DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
     
     return true;
 }
@@ -738,14 +738,14 @@ BayDoorsToggleSwitchArea::BayDoorsToggleSwitchArea(InstrumentPanel &parentPanel,
 bool BayDoorsToggleSwitchArea::isOn()
 {
     // if switch is down ("on"), door is either opening or opened
-    return ((GetXR1().bay_status == DOOR_OPENING) || (GetXR1().bay_status == DOOR_OPEN));
+    return ((GetXR1().bay_status == DoorStatus::DOOR_OPENING) || (GetXR1().bay_status == DoorStatus::DOOR_OPEN));
 }
 
 
 // only invoked when switch is CHANGING state
 bool BayDoorsToggleSwitchArea::ProcessSwitchEvent(bool switchIsOn)
 {
-    GetXR1().ActivateBayDoors(switchIsOn ? DOOR_OPENING : DOOR_CLOSING);
+    GetXR1().ActivateBayDoors(switchIsOn ? DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
     
     return true;
 }

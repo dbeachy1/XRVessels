@@ -147,7 +147,7 @@ int MultiDisplayArea::SwitchActiveMode(DIRECTION dir)
     }
 
     // now figure out the new mode, wrapping around if necessary
-    if (dir == UP)
+    if (dir == DIRECTION::UP)
     {
         if (closestMatchUp == MAXLONG)
             newMode = lowestMode;   // wrap around
@@ -277,12 +277,12 @@ bool MultiDisplayArea::ProcessMouseEvent(const int event, const int mx, const in
         {
             if (mouseOverNextButton)
             {
-                SwitchActiveMode(UP);
+                SwitchActiveMode(DIRECTION::UP);
                 GetXR1().PlaySound(GetXR1()._MDMButtonUp, DeltaGliderXR1::ST_Other);
             }
             else if (mouseOverPrevButton)
             {
-                SwitchActiveMode(DOWN);
+                SwitchActiveMode(DIRECTION::DOWN);
                 GetXR1().PlaySound(GetXR1()._MDMButtonDown, DeltaGliderXR1::ST_Other);
             }
         }
@@ -401,9 +401,9 @@ bool HullTempsMultiDisplayMode::Redraw2D(const int event, const SURFHANDLE surf)
     SetTextColor(hDC, CREF(LIGHT_BLUE));  // use CREF macro to convert to Windows' Blue, Green, Red COLORREF
     SetTextAlign(hDC, TA_LEFT);
     char *pScale;
-    if (GetXR1().m_activeTempScale == Kelvin)
+    if (GetXR1().m_activeTempScale == TempScale::Kelvin)
         pScale = "°K";
-    else if (GetXR1().m_activeTempScale == Celsius)
+    else if (GetXR1().m_activeTempScale == TempScale::Celsius)
         pScale = "°C";
     else
         pScale = "°F";
@@ -625,7 +625,7 @@ double HullTempsMultiDisplayMode::GetHighestTempFrac()
     double highestTempFrac = 0.0;    // max percentage of any hull temperature to its limit
 
     // if a surface's door is open, its limits will be lower
-#define IS_DOOR_OPEN(status) (status != DOOR_CLOSED)   // includes DOOR_FAILED
+#define IS_DOOR_OPEN(status) (status != DoorStatus::DOOR_CLOSED)   // includes DOOR_FAILED
 #define LIMITK(limitK, doorStatus)  (IS_DOOR_OPEN(doorStatus) ? limits.doorOpen : limitK)
 #define SET_MAX_PCT(tempK, limitK, doorStatus)  { double pct = (tempK / LIMITK(limitK, doorStatus)); if (pct > highestTempFrac) highestTempFrac = pct; }
 
@@ -656,11 +656,11 @@ void HullTempsMultiDisplayMode::GetCoolantTemperatureStr(double tempC, char *pSt
 
     switch(GetXR1().m_activeTempScale)
     {
-    case Kelvin:
+    case TempScale::Kelvin:
         tempConverted = m_pParentMDA->CelsiusToKelvin(tempC);
         break;
 
-    case Fahrenheit:
+    case TempScale::Fahrenheit:
         tempConverted = m_pParentMDA->CelsiusToFahrenheit(tempC);
         break;
         
@@ -692,11 +692,11 @@ void HullTempsMultiDisplayMode::GetTemperatureStr(double tempK, char *pStrOut)
 
     switch(GetXR1().m_activeTempScale)
     {
-    case Kelvin:
+    case TempScale::Kelvin:
         tempConverted = tempK;
         break;
 
-    case Fahrenheit:
+    case TempScale::Fahrenheit:
         tempConverted = m_pParentMDA->KelvinToFahrenheit(tempK);
         break;
         
@@ -730,12 +730,12 @@ bool HullTempsMultiDisplayMode::ProcessMouseEvent(const int event, const int mx,
         // check K/F/C button
         if (c.InBounds(m_kfcButtonCoord, 7, 7))
         {
-            if (GetXR1().m_activeTempScale == Celsius)
-                GetXR1().m_activeTempScale = Fahrenheit;
-            else if (GetXR1().m_activeTempScale == Fahrenheit)
-                GetXR1().m_activeTempScale = Kelvin;
+            if (GetXR1().m_activeTempScale == TempScale::Celsius)
+                GetXR1().m_activeTempScale = TempScale::Fahrenheit;
+            else if (GetXR1().m_activeTempScale == TempScale::Fahrenheit)
+                GetXR1().m_activeTempScale = TempScale::Kelvin;
             else    // it's Kelvin
-                GetXR1().m_activeTempScale = Celsius;
+                GetXR1().m_activeTempScale = TempScale::Celsius;
 
             GetXR1().PlaySound(GetXR1()._MDMButtonUp, DeltaGliderXR1::ST_Other);
             processed = true;
@@ -792,11 +792,11 @@ bool SystemsStatusMultiDisplayMode::Redraw2D(const int event, const SURFHANDLE s
     int statusX = 136;  // "OK", "OFFLINE", "32%", etc.
 
     static const int linesPerScreen = 7; 
-    DamageItem start = (DamageItem)(LeftWing + (m_screenIndex * linesPerScreen));
+    DamageItem start = static_cast<DamageItem>(static_cast<int>(DamageItem::LeftWing) + (m_screenIndex * linesPerScreen));
     char temp[64];
     for (int i=0; i < linesPerScreen; i++)
     {
-        DamageItem damageItem = (DamageItem)(start + i);
+        DamageItem damageItem = static_cast<DamageItem>(static_cast<int>(start) + i);
         if (damageItem > D_END)
             break;  // no more items
 
@@ -841,7 +841,7 @@ bool SystemsStatusMultiDisplayMode::Redraw2D(const int event, const SURFHANDLE s
 
 AttitudeHoldMultiDisplayMode::AttitudeHoldMultiDisplayMode(int modeNumber) :
     MultiDisplayMode(modeNumber), 
-    m_backgroundSurface(0), m_mouseHoldTargetSimt(-1), m_lastAction(ACT_NONE), m_repeatCount(0)
+    m_backgroundSurface(0), m_mouseHoldTargetSimt(-1), m_lastAction(AXIS_ACTION::ACT_NONE), m_repeatCount(0)
 {
     m_engageButtonCoord.x = 6;
     m_engageButtonCoord.y = 42;
@@ -853,7 +853,7 @@ AttitudeHoldMultiDisplayMode::AttitudeHoldMultiDisplayMode(int modeNumber) :
     m_pitchUpArrowSmallCoord.y  = 41;
 
     m_pitchUpArrowLargeCoord.x = 149;
-    m_pitchUpArrowLargeCoord.y  = 41;
+    m_pitchUpArrowLargeCoord.y = 41;
     
     m_pitchDownArrowSmallCoord.x = 166;
     m_pitchDownArrowSmallCoord.y = 50;
@@ -921,7 +921,7 @@ bool AttitudeHoldMultiDisplayMode::Redraw2D(const int event, const SURFHANDLE su
     // render autopilot status
     const char *pStatus;        // set below
     COLORREF statusColor;
-    const bool engaged = (GetXR1().m_customAutopilotMode == AP_ATTITUDEHOLD);
+    const bool engaged = (GetXR1().m_customAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD);
     if (engaged && (GetXR1().m_customAutopilotSuspended))
     {
         pStatus = "SUSPENDED";
@@ -1045,7 +1045,7 @@ bool AttitudeHoldMultiDisplayMode::ProcessMouseEvent(const int event, const int 
     }
 
     // check axis buttons
-    AXIS_ACTION action = ACT_NONE;
+    AXIS_ACTION action = AXIS_ACTION::ACT_NONE;
     if (event & (PANEL_MOUSE_LBDOWN | PANEL_MOUSE_LBPRESSED))
     {
         const double simt = GetAbsoluteSimTime();
@@ -1077,7 +1077,7 @@ bool AttitudeHoldMultiDisplayMode::ProcessMouseEvent(const int event, const int 
             if (doButtonClick)
             {
                 // use PILOT controls (reverse up/down arrows)
-                m_lastAction = action = DECPITCH_SMALL;
+                m_lastAction = action = AXIS_ACTION::DECPITCH_SMALL;
             }
         }
         else if (c.InBounds(m_pitchDownArrowSmallCoord, 6, 7))
@@ -1085,7 +1085,7 @@ bool AttitudeHoldMultiDisplayMode::ProcessMouseEvent(const int event, const int 
             if (doButtonClick)
             {
                 // use PILOT controls (reverse up/down arrows)
-                m_lastAction = action = INCPITCH_SMALL;
+                m_lastAction = action = AXIS_ACTION::INCPITCH_SMALL;
             }
         }
         else if (c.InBounds(m_pitchUpArrowLargeCoord, 6, 7))
@@ -1093,7 +1093,7 @@ bool AttitudeHoldMultiDisplayMode::ProcessMouseEvent(const int event, const int 
             if (doButtonClick)
             {
                 // use PILOT controls (reverse up/down arrows)
-                m_lastAction = action = DECPITCH_LARGE;
+                m_lastAction = action = AXIS_ACTION::DECPITCH_LARGE;
             }
         }
         else if (c.InBounds(m_pitchDownArrowLargeCoord, 6, 7))
@@ -1101,21 +1101,21 @@ bool AttitudeHoldMultiDisplayMode::ProcessMouseEvent(const int event, const int 
             if (doButtonClick)
             {
                 // use PILOT controls (reverse up/down arrows)
-                m_lastAction = action = INCPITCH_LARGE;
+                m_lastAction = action = AXIS_ACTION::INCPITCH_LARGE;
             }
         }
         else if (c.InBounds(m_bankLeftArrowCoord, 6, 7))
         {
             if (doButtonClick)
             {
-                m_lastAction = action = INCBANK;
+                m_lastAction = action = AXIS_ACTION::INCBANK;
             }
         }
         else if (c.InBounds(m_bankRightArrowCoord, 6, 7))
         {
             if (doButtonClick)
             {
-                m_lastAction = action = DECBANK;
+                m_lastAction = action = AXIS_ACTION::DECBANK;
             }
         }
         else
@@ -1140,48 +1140,48 @@ bool AttitudeHoldMultiDisplayMode::ProcessMouseEvent(const int event, const int 
             m_repeatCount = 0;  // reset
         }
         
-        m_lastAction = ACT_NONE;  // reset
+        m_lastAction = AXIS_ACTION::ACT_NONE;  // reset
     }
 
-    if (action != ACT_NONE)
+    if (action != AXIS_ACTION::ACT_NONE)
     {
         const bool invertPitchArrows = GetXR1().GetXR1Config()->InvertAttitudeHoldPitchArrows;
         switch (action)
         {
-        case INCPITCH_SMALL:
+        case AXIS_ACTION::INCPITCH_SMALL:
             if (invertPitchArrows) goto decpitch_small;
 incpitch_small:
             GetXR1().IncrementAttitudeHoldPitch(playSound, changeAxis, AP_PITCH_DELTA_SMALL);
             processed = true;
             break;
 
-        case DECPITCH_SMALL:
+        case AXIS_ACTION::DECPITCH_SMALL:
             if (invertPitchArrows) goto incpitch_small;
 decpitch_small:
             GetXR1().DecrementAttitudeHoldPitch(playSound, changeAxis, AP_PITCH_DELTA_SMALL);
             processed = true;
             break;
 
-        case INCPITCH_LARGE:
+        case AXIS_ACTION::INCPITCH_LARGE:
             if (invertPitchArrows) goto decpitch_large;
 incpitch_large:
             GetXR1().IncrementAttitudeHoldPitch(playSound, changeAxis, AP_PITCH_DELTA_LARGE);
             processed = true;
             break;
 
-        case DECPITCH_LARGE:
+        case AXIS_ACTION::DECPITCH_LARGE:
             if (invertPitchArrows) goto incpitch_large;
 decpitch_large:
             GetXR1().DecrementAttitudeHoldPitch(playSound, changeAxis, AP_PITCH_DELTA_LARGE);
             processed = true;
             break;
 
-        case INCBANK:
+        case AXIS_ACTION::INCBANK:
             GetXR1().IncrementAttitudeHoldBank(playSound, changeAxis);
             processed = true;
             break;
 
-        case DECBANK:
+        case AXIS_ACTION::DECBANK:
             GetXR1().DecrementAttitudeHoldBank(playSound, changeAxis);
             processed = true;
             break;
@@ -1200,7 +1200,7 @@ decpitch_large:
 // Constructor
 DescentHoldMultiDisplayMode::DescentHoldMultiDisplayMode(int modeNumber) :
     MultiDisplayMode(modeNumber), 
-    m_backgroundSurface(0), m_mouseHoldTargetSimt(-1), m_lastAction(ACT_NONE), m_repeatCount(0)
+    m_backgroundSurface(0), m_mouseHoldTargetSimt(-1), m_lastAction(RATE_ACTION::ACT_NONE), m_repeatCount(0)
 {
     m_engageButtonCoord.x = 6;
     m_engageButtonCoord.y = 42;
@@ -1268,7 +1268,7 @@ bool DescentHoldMultiDisplayMode::Redraw2D(const int event, const SURFHANDLE sur
     // render autopilot status
     const char *pStatus;        // set below
     COLORREF statusColor;
-    const bool engaged = (GetXR1().m_customAutopilotMode == AP_DESCENTHOLD);
+    const bool engaged = (GetXR1().m_customAutopilotMode == AUTOPILOT::AP_DESCENTHOLD);
     if (engaged && (GetXR1().m_customAutopilotSuspended))
     {
         pStatus = "SUSPENDED";
@@ -1391,14 +1391,14 @@ bool DescentHoldMultiDisplayMode::ProcessMouseEvent(const int event, const int m
         }
         else if (c.InBounds(m_hoverButtonCoord, 7, 7))    // HOVER button
         {
-            GetXR1().SetAutoDescentRate(true, AD_LEVEL, 0);    // switch to HOVER mode
+            GetXR1().SetAutoDescentRate(true, AUTODESCENT_ADJUST::AD_LEVEL, 0);    // switch to HOVER mode
             processed = true;
         }
         else if (c.InBounds(m_autoLandButtonCoord, 7, 7))    // AUTO-LAND button
         {
             // only enabled if descent hold autopilot is currently ENGAGED 
-            if (GetXR1().m_customAutopilotMode == AP_DESCENTHOLD)
-                GetXR1().SetAutoDescentRate(true, AD_AUTOLAND, 0);
+            if (GetXR1().m_customAutopilotMode == AUTOPILOT::AP_DESCENTHOLD)
+                GetXR1().SetAutoDescentRate(true, AUTODESCENT_ADJUST::AD_AUTOLAND, 0);
             else
             {
                 // cannot enable auto-descent; autopilot not engaged
@@ -1411,7 +1411,7 @@ bool DescentHoldMultiDisplayMode::ProcessMouseEvent(const int event, const int m
     }
 
     // check rate buttons
-    RATE_ACTION action = ACT_NONE;
+    RATE_ACTION action = RATE_ACTION::ACT_NONE;
     if (event & (PANEL_MOUSE_LBDOWN | PANEL_MOUSE_LBPRESSED))
     {
         const double simt = GetAbsoluteSimTime();
@@ -1447,7 +1447,7 @@ bool DescentHoldMultiDisplayMode::ProcessMouseEvent(const int event, const int m
             {
                 if (invertRateArrows) goto incrate1;
 decrate1:
-                m_lastAction = action = DECRATE1;
+                m_lastAction = action = RATE_ACTION::DECRATE1;
             }
         }
         else if (c.InBounds(m_rateDown1ArrowCoord, 6, 7))
@@ -1456,7 +1456,7 @@ decrate1:
             {
                 if (invertRateArrows) goto decrate1;
 incrate1:
-                m_lastAction = action = INCRATE1;
+                m_lastAction = action = RATE_ACTION::INCRATE1;
             }
         }
         else if (c.InBounds(m_rateUp5ArrowCoord, 6, 7))
@@ -1465,7 +1465,7 @@ incrate1:
             {
                 if (invertRateArrows) goto incrate5;
 decrate5:
-                m_lastAction = action = DECRATE5;
+                m_lastAction = action = RATE_ACTION::DECRATE5;
             }
         }
         else if (c.InBounds(m_rateDown5ArrowCoord, 6, 7))
@@ -1474,7 +1474,7 @@ decrate5:
             {
                 if (invertRateArrows) goto decrate5;
 incrate5:
-                m_lastAction = action = INCRATE5;
+                m_lastAction = action = RATE_ACTION::INCRATE5;
             }
         }
         else if (c.InBounds(m_rateUp25ArrowCoord, 6, 7))
@@ -1483,7 +1483,7 @@ incrate5:
             {
                 if (invertRateArrows) goto incrate25; 
 decrate25:
-                m_lastAction = action = DECRATE25;
+                m_lastAction = action = RATE_ACTION::DECRATE25;
             }
         }
         else if (c.InBounds(m_rateDown25ArrowCoord, 6, 7))
@@ -1492,7 +1492,7 @@ decrate25:
             {
                 if (invertRateArrows) goto decrate25;
 incrate25:
-                m_lastAction = action = INCRATE25;
+                m_lastAction = action = RATE_ACTION::INCRATE25;
             }
         }
         else
@@ -1516,40 +1516,40 @@ incrate25:
             m_repeatCount = 0;  // reset
         }
         
-        m_lastAction = ACT_NONE;  // reset
+        m_lastAction = RATE_ACTION::ACT_NONE;  // reset
     }
 
-    if (action != ACT_NONE)
+    if (action != RATE_ACTION::ACT_NONE)
     {
         switch (action)
         {
-        case INCRATE1:
-            GetXR1().SetAutoDescentRate(playSound, AD_ADJUST, ADRATE_SMALL);
+        case RATE_ACTION::INCRATE1:
+            GetXR1().SetAutoDescentRate(playSound, AUTODESCENT_ADJUST::AD_ADJUST, ADRATE_SMALL);
             processed = true;
             break;
 
-        case DECRATE1:
-            GetXR1().SetAutoDescentRate(playSound, AD_ADJUST, -ADRATE_SMALL);
+        case RATE_ACTION::DECRATE1:
+            GetXR1().SetAutoDescentRate(playSound, AUTODESCENT_ADJUST::AD_ADJUST, -ADRATE_SMALL);
             processed = true;
             break;
 
-        case INCRATE5:
-            GetXR1().SetAutoDescentRate(playSound, AD_ADJUST, ADRATE_MED);
+        case RATE_ACTION::INCRATE5:
+            GetXR1().SetAutoDescentRate(playSound, AUTODESCENT_ADJUST::AD_ADJUST, ADRATE_MED);
             processed = true;
             break;
 
-        case DECRATE5:
-            GetXR1().SetAutoDescentRate(playSound, AD_ADJUST, -ADRATE_MED);
+        case RATE_ACTION::DECRATE5:
+            GetXR1().SetAutoDescentRate(playSound, AUTODESCENT_ADJUST::AD_ADJUST, -ADRATE_MED);
             processed = true;
             break;
 
-        case INCRATE25:
-            GetXR1().SetAutoDescentRate(playSound, AD_ADJUST, ADRATE_LARGE);
+        case RATE_ACTION::INCRATE25:
+            GetXR1().SetAutoDescentRate(playSound, AUTODESCENT_ADJUST::AD_ADJUST, ADRATE_LARGE);
             processed = true;
             break;
 
-        case DECRATE25:
-            GetXR1().SetAutoDescentRate(playSound, AD_ADJUST, -ADRATE_LARGE);
+        case RATE_ACTION::DECRATE25:
+            GetXR1().SetAutoDescentRate(playSound, AUTODESCENT_ADJUST::AD_ADJUST, -ADRATE_LARGE);
             processed = true;
             break;
 
@@ -1568,8 +1568,8 @@ incrate25:
 
 // Constructor
 AirspeedHoldMultiDisplayMode::AirspeedHoldMultiDisplayMode(int modeNumber) :
-    MultiDisplayMode(modeNumber), 
-    m_backgroundSurface(0), m_mouseHoldTargetSimt(-1), m_lastAction(ACT_NONE), m_repeatCount(0)
+    MultiDisplayMode(modeNumber), m_statusFont(0), m_numberFont(0), m_buttonFont(0),
+    m_backgroundSurface(0), m_mouseHoldTargetSimt(-1), m_lastAction(RATE_ACTION::ACT_NONE), m_repeatCount(0)
 {
     m_engageButtonCoord.x = 6;
     m_engageButtonCoord.y = 42;
@@ -1767,18 +1767,18 @@ bool AirspeedHoldMultiDisplayMode::ProcessMouseEvent(const int event, const int 
         }
         else if (c.InBounds(m_holdCurrentButtonCoord, 7, 7))   // HOLD CURRENT button
         {
-            GetXR1().SetAirspeedHold(true, AS_HOLDCURRENT, 0);
+            GetXR1().SetAirspeedHold(true, AIRSPEEDHOLD_ADJUST::AS_HOLDCURRENT, 0);
             processed = true;
         }
         else if (c.InBounds(m_resetButtonCoord, 7, 7))   // RESET button
         {
-            GetXR1().SetAirspeedHold(true, AS_RESET, 0);
+            GetXR1().SetAirspeedHold(true, AIRSPEEDHOLD_ADJUST::AS_RESET, 0);
             processed = true;
         }
     }
 
     // check rate buttons
-    RATE_ACTION action = ACT_NONE;
+    RATE_ACTION action = RATE_ACTION::ACT_NONE;
     if (event & (PANEL_MOUSE_LBDOWN | PANEL_MOUSE_LBPRESSED))
     {
         const double simt = GetAbsoluteSimTime();
@@ -1809,56 +1809,56 @@ bool AirspeedHoldMultiDisplayMode::ProcessMouseEvent(const int event, const int 
         {
             if (doButtonClick)
             {
-                m_lastAction = action = INCRATEP1;
+                m_lastAction = action = RATE_ACTION::INCRATEP1;
             }
         }
         else if (c.InBounds(m_rateDownP1ArrowCoord, 6, 7))
         {
             if (doButtonClick)
             {
-                m_lastAction = action = DECRATEP1;
+                m_lastAction = action = RATE_ACTION::DECRATEP1;
             }
         }
         else if (c.InBounds(m_rateUp1ArrowCoord, 6, 7))
         {
             if (doButtonClick)
             {
-                m_lastAction = action = INCRATE1;
+                m_lastAction = action = RATE_ACTION::INCRATE1;
             }
         }
         else if (c.InBounds(m_rateDown1ArrowCoord, 6, 7))
         {
             if (doButtonClick)
             {
-                m_lastAction = action = DECRATE1;
+                m_lastAction = action = RATE_ACTION::DECRATE1;
             }
         }
         else if (c.InBounds(m_rateUp5ArrowCoord, 6, 7))
         {
             if (doButtonClick)
             {
-                m_lastAction = action = INCRATE5;
+                m_lastAction = action = RATE_ACTION::INCRATE5;
             }
         }
         else if (c.InBounds(m_rateDown5ArrowCoord, 6, 7))
         {
             if (doButtonClick)
             {
-                m_lastAction = action = DECRATE5;
+                m_lastAction = action = RATE_ACTION::DECRATE5;
             }
         }
         else if (c.InBounds(m_rateUp25ArrowCoord, 6, 7))
         {
             if (doButtonClick)
             {
-                m_lastAction = action = INCRATE25;
+                m_lastAction = action = RATE_ACTION::INCRATE25;
             }
         }
         else if (c.InBounds(m_rateDown25ArrowCoord, 6, 7))
         {
             if (doButtonClick)
             {
-                m_lastAction = action = DECRATE25;
+                m_lastAction = action = RATE_ACTION::DECRATE25;
             }
         }
         else
@@ -1882,50 +1882,50 @@ bool AirspeedHoldMultiDisplayMode::ProcessMouseEvent(const int event, const int 
             m_repeatCount = 0;  // reset
         }
         
-        m_lastAction = ACT_NONE;  // reset
+        m_lastAction = RATE_ACTION::ACT_NONE;  // reset
     }
 
-    if (action != ACT_NONE)
+    if (action != RATE_ACTION::ACT_NONE)
     {
         switch (action)
         {
-        case INCRATEP1:
-            GetXR1().SetAirspeedHold(playSound, AS_ADJUST, ASRATE_TINY);
+        case RATE_ACTION::INCRATEP1:
+            GetXR1().SetAirspeedHold(playSound, AIRSPEEDHOLD_ADJUST::AS_ADJUST, ASRATE_TINY);
             processed = true;
             break;
 
-        case DECRATEP1:
-            GetXR1().SetAirspeedHold(playSound, AS_ADJUST, -ASRATE_TINY);
+        case RATE_ACTION::DECRATEP1:
+            GetXR1().SetAirspeedHold(playSound, AIRSPEEDHOLD_ADJUST::AS_ADJUST, -ASRATE_TINY);
             processed = true;
             break;
 
-        case INCRATE1:
-            GetXR1().SetAirspeedHold(playSound, AS_ADJUST, ASRATE_SMALL);
+        case RATE_ACTION::INCRATE1:
+            GetXR1().SetAirspeedHold(playSound, AIRSPEEDHOLD_ADJUST::AS_ADJUST, ASRATE_SMALL);
             processed = true;
             break;
 
-        case DECRATE1:
-            GetXR1().SetAirspeedHold(playSound, AS_ADJUST, -ASRATE_SMALL);
+        case RATE_ACTION::DECRATE1:
+            GetXR1().SetAirspeedHold(playSound, AIRSPEEDHOLD_ADJUST::AS_ADJUST, -ASRATE_SMALL);
             processed = true;
             break;
 
-        case INCRATE5:
-            GetXR1().SetAirspeedHold(playSound, AS_ADJUST, ASRATE_MED);
+        case RATE_ACTION::INCRATE5:
+            GetXR1().SetAirspeedHold(playSound, AIRSPEEDHOLD_ADJUST::AS_ADJUST, ASRATE_MED);
             processed = true;
             break;
 
-        case DECRATE5:
-            GetXR1().SetAirspeedHold(playSound, AS_ADJUST, -ASRATE_MED);
+        case RATE_ACTION::DECRATE5:
+            GetXR1().SetAirspeedHold(playSound, AIRSPEEDHOLD_ADJUST::AS_ADJUST, -ASRATE_MED);
             processed = true;
             break;
 
-        case INCRATE25:
-            GetXR1().SetAirspeedHold(playSound, AS_ADJUST, ASRATE_LARGE);
+        case RATE_ACTION::INCRATE25:
+            GetXR1().SetAirspeedHold(playSound, AIRSPEEDHOLD_ADJUST::AS_ADJUST, ASRATE_LARGE);
             processed = true;
             break;
 
-        case DECRATE25:
-            GetXR1().SetAirspeedHold(playSound, AS_ADJUST, -ASRATE_LARGE);
+        case RATE_ACTION::DECRATE25:
+            GetXR1().SetAirspeedHold(playSound, AIRSPEEDHOLD_ADJUST::AS_ADJUST, -ASRATE_LARGE);
             processed = true;
             break;
 
@@ -2051,25 +2051,25 @@ bool ReentryCheckMultiDisplayMode::Redraw2D(const int event, const SURFHANDLE su
         bool renderStatus = true;  // assume NOT in blink "off" state
         switch (pDI->m_doorStatus)
         {
-        case DOOR_OPEN:
+        case DoorStatus::DOOR_OPEN:
             textColor = CREF(BRIGHT_RED);
             pStatus = pDI->m_pOpen;     // "Open", etc.
             openDoorCount++;
             break;
 
-        case DOOR_CLOSED:
+        case DoorStatus::DOOR_CLOSED:
             textColor = CREF(BRIGHT_GREEN);
             pStatus = pDI->m_pClosed;   // "Closed", etc.
             break;
 
-        case DOOR_FAILED:
+        case DoorStatus::DOOR_FAILED:
             textColor = CREF(BRIGHT_RED);
             pStatus = "FAILED";
             openDoorCount++;
             break;
 
-        case DOOR_OPENING:
-        case DOOR_CLOSING:
+        case DoorStatus::DOOR_OPENING:
+        case DoorStatus::DOOR_CLOSING:
             textColor = CREF(BRIGHT_YELLOW);
             pStatus = "In Transit";
             const double simt = GetAbsoluteSimTime();
@@ -2150,14 +2150,14 @@ bool ReentryCheckMultiDisplayMode::ProcessMouseEvent(const int event, const int 
             {
                 // invoke the door's handler to close the door if possible
                 const DoorStatus ds = pDI->m_doorStatus;
-                if (ds == DOOR_CLOSED)
+                if (ds == DoorStatus::DOOR_CLOSED)
                 {
                     GetXR1().PlaySound(GetXR1().Error1, DeltaGliderXR1::ST_Other, ERROR1_VOL);      // already closed
                 }
                 else    // either OPEN or FAILED
                 {
                     // NOTE: this will display any applicable error message if the door cannot begin closing
-                    (GetXR1().*pDI->m_pDoorHandler)(DOOR_CLOSING); 
+                    (GetXR1().*pDI->m_pDoorHandler)(DoorStatus::DOOR_CLOSING);
                     
                     GetXR1().PlaySound(GetXR1()._MDMButtonUp, DeltaGliderXR1::ST_Other);
                 }
@@ -2171,14 +2171,14 @@ bool ReentryCheckMultiDisplayMode::ProcessMouseEvent(const int event, const int 
 }
 
 // determines which door(s) to use for temperature display warning colors
-#define CHECK_AND_RETURN_DOOR(doorStatus) if (doorStatus != DOOR_CLOSED) return doorStatus
+#define CHECK_AND_RETURN_DOOR(doorStatus) if (doorStatus != DoorStatus::DOOR_CLOSED) return doorStatus
 DoorStatus HullTempsMultiDisplayMode::GetNoseDoorStatus()
 {
     CHECK_AND_RETURN_DOOR(GetXR1().nose_status);    
     CHECK_AND_RETURN_DOOR(GetXR1().hoverdoor_status);
     CHECK_AND_RETURN_DOOR(GetXR1().gear_status);
 
-    return DOOR_CLOSED;  // no open doors for this surface
+    return DoorStatus::DOOR_CLOSED;  // no open doors for this surface
 }
  
 DoorStatus HullTempsMultiDisplayMode::GetLeftWingDoorStatus()

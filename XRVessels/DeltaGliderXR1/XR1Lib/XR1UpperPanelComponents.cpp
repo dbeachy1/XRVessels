@@ -41,10 +41,10 @@ METTimerComponent::METTimerComponent(InstrumentPanel &parentPanel, COORD2 topLef
 {
     DeltaGliderXR1 &xr1 = static_cast<DeltaGliderXR1 &>(GetVessel());
 
-    AddArea(new MJDTimerNumberArea(parentPanel, GetAbsCoords(_COORD2(  2,  1)), AID_MET_DAYS,    xr1.m_metTimerRunning, 4, TimerNumberArea::DAYS,    xr1.m_metMJDStartingTime));
-    AddArea(new MJDTimerNumberArea(parentPanel, GetAbsCoords(_COORD2( 58,  1)), AID_MET_HOURS,   xr1.m_metTimerRunning, 2, TimerNumberArea::HOURS,   xr1.m_metMJDStartingTime));
-    AddArea(new MJDTimerNumberArea(parentPanel, GetAbsCoords(_COORD2( 77,  1)), AID_MET_MINUTES, xr1.m_metTimerRunning, 2, TimerNumberArea::MINUTES, xr1.m_metMJDStartingTime));
-    AddArea(new MJDTimerNumberArea(parentPanel, GetAbsCoords(_COORD2( 96,  1)), AID_MET_SECONDS, xr1.m_metTimerRunning, 2, TimerNumberArea::SECONDS, xr1.m_metMJDStartingTime));
+    AddArea(new MJDTimerNumberArea(parentPanel, GetAbsCoords(_COORD2(  2,  1)), AID_MET_DAYS,    xr1.m_metTimerRunning, 4, TimerNumberArea::TIMEUNITS::DAYS,    xr1.m_metMJDStartingTime));
+    AddArea(new MJDTimerNumberArea(parentPanel, GetAbsCoords(_COORD2( 58,  1)), AID_MET_HOURS,   xr1.m_metTimerRunning, 2, TimerNumberArea::TIMEUNITS::HOURS,   xr1.m_metMJDStartingTime));
+    AddArea(new MJDTimerNumberArea(parentPanel, GetAbsCoords(_COORD2( 77,  1)), AID_MET_MINUTES, xr1.m_metTimerRunning, 2, TimerNumberArea::TIMEUNITS::MINUTES, xr1.m_metMJDStartingTime));
+    AddArea(new MJDTimerNumberArea(parentPanel, GetAbsCoords(_COORD2( 96,  1)), AID_MET_SECONDS, xr1.m_metTimerRunning, 2, TimerNumberArea::TIMEUNITS::SECONDS, xr1.m_metMJDStartingTime));
     AddArea(new METResetButtonArea(parentPanel, GetAbsCoords(_COORD2(125, -1)), AID_MET_RESETBUTTON));
 }   
 
@@ -54,10 +54,10 @@ Interval1TimerComponent::Interval1TimerComponent(InstrumentPanel &parentPanel, C
 {
     DeltaGliderXR1 &xr1 = static_cast<DeltaGliderXR1 &>(GetVessel());
 
-    AddArea(new ElapsedTimerNumberArea (parentPanel, GetAbsCoords(_COORD2(  2,  1)), AID_INTERVAL1_DAYS,        xr1.m_interval1TimerRunning, 4, TimerNumberArea::DAYS,    xr1.m_interval1ElapsedTime));
-    AddArea(new ElapsedTimerNumberArea (parentPanel, GetAbsCoords(_COORD2( 58,  1)), AID_INTERVAL1_HOURS,       xr1.m_interval1TimerRunning, 2, TimerNumberArea::HOURS,   xr1.m_interval1ElapsedTime));
-    AddArea(new ElapsedTimerNumberArea (parentPanel, GetAbsCoords(_COORD2( 77,  1)), AID_INTERVAL1_MINUTES,     xr1.m_interval1TimerRunning, 2, TimerNumberArea::MINUTES, xr1.m_interval1ElapsedTime));
-    AddArea(new ElapsedTimerNumberArea (parentPanel, GetAbsCoords(_COORD2( 96,  1)), AID_INTERVAL1_SECONDS,     xr1.m_interval1TimerRunning, 2, TimerNumberArea::SECONDS, xr1.m_interval1ElapsedTime));
+    AddArea(new ElapsedTimerNumberArea (parentPanel, GetAbsCoords(_COORD2(  2,  1)), AID_INTERVAL1_DAYS,        xr1.m_interval1TimerRunning, 4, TimerNumberArea::TIMEUNITS::DAYS,    xr1.m_interval1ElapsedTime));
+    AddArea(new ElapsedTimerNumberArea (parentPanel, GetAbsCoords(_COORD2( 58,  1)), AID_INTERVAL1_HOURS,       xr1.m_interval1TimerRunning, 2, TimerNumberArea::TIMEUNITS::HOURS,   xr1.m_interval1ElapsedTime));
+    AddArea(new ElapsedTimerNumberArea (parentPanel, GetAbsCoords(_COORD2( 77,  1)), AID_INTERVAL1_MINUTES,     xr1.m_interval1TimerRunning, 2, TimerNumberArea::TIMEUNITS::MINUTES, xr1.m_interval1ElapsedTime));
+    AddArea(new ElapsedTimerNumberArea (parentPanel, GetAbsCoords(_COORD2( 96,  1)), AID_INTERVAL1_SECONDS,     xr1.m_interval1TimerRunning, 2, TimerNumberArea::TIMEUNITS::SECONDS, xr1.m_interval1ElapsedTime));
     AddArea(new IntervalResetButtonArea(parentPanel, GetAbsCoords(_COORD2(125, -1)), AID_INTERVAL1_RESETBUTTON, xr1.m_interval1TimerRunning, xr1.m_interval1ElapsedTime, '1'));
 }   
 

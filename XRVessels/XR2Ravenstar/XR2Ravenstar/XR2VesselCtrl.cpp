@@ -39,12 +39,12 @@ bool XR2Ravenstar::SetDoorState(XRDoorID id, XRDoorState state)
 
     switch (id)
     {
-    case XRD_PayloadBayDoors:
+    case XRDoorID::XRD_PayloadBayDoors:
         ActivateBayDoors(ToDoorStatus(state));
         break;
 
     // airlock ladder is not supported by the XR2
-    case XRD_Ladder:
+    case XRDoorID::XRD_Ladder:
         return false;   // door not supported
 
     default:
@@ -64,14 +64,14 @@ XRDoorState XR2Ravenstar::GetDoorState(XRDoorID id, double *pProc) const
 
     switch (id)
     {
-    case XRD_PayloadBayDoors:
+    case XRDoorID::XRD_PayloadBayDoors:
         retVal = ToXRDoorState(bay_status);
         SET_IF_NOT_NULL(pProc, bay_proc);
         break;
 
     // airlock ladder is not supported by the XR2
-    case XRD_Ladder:
-        retVal = XRDS_DoorNotSupported;
+    case XRDoorID::XRD_Ladder:
+        retVal = XRDoorState::XRDS_DoorNotSupported;
         SET_IF_NOT_NULL(pProc, -1);
         break;
 
@@ -91,12 +91,12 @@ bool XR2Ravenstar::SetXRSystemStatus(const XRSystemStatusWrite &status)
     DeltaGliderXR1::SetXRSystemStatus(status);
 
     // handle custom fields
-    const double bayDoorState = ((status.PayloadBayDoors == XRDMG_online) ? 1.0 : 0.0);
-    SetDamageStatus(BayDoors, bayDoorState);
+    const double bayDoorState = ((status.PayloadBayDoors == XRDamageState::XRDMG_online) ? 1.0 : 0.0);
+    SetDamageStatus(DamageItem::BayDoors, bayDoorState);
 
     // check the user attempting to set any unsupported fields
     bool retVal = true;
-    retVal &= !(status.CrewElevator != XRDMG_NotSupported);
+    retVal &= !(status.CrewElevator != XRDamageState::XRDMG_NotSupported);
 
     return retVal;
 }
@@ -107,7 +107,5 @@ void XR2Ravenstar::GetXRSystemStatus(XRSystemStatusRead &status)
     // Invoke the superclass to fill in the base values; this must be invoked *before* we populate our custom values.
     DeltaGliderXR1::GetXRSystemStatus(status);
 
-    status.PayloadBayDoors = ((GetDamageStatus(BayDoors).fracIntegrity == 1.0) ? XRDMG_online : XRDMG_offline);
+    status.PayloadBayDoors = ((GetDamageStatus(DamageItem::BayDoors).fracIntegrity == 1.0) ? XRDamageState::XRDMG_online : XRDamageState::XRDMG_offline);
 }
-
-

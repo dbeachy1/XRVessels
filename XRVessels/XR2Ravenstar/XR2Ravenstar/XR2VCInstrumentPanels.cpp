@@ -105,23 +105,23 @@ XR2VCInstrumentPanel::XR2VCInstrumentPanel(XR2Ravenstar &vessel, int panelID) :
     AddArea(new HudColorButtonArea          (*this, _COORD2(-1, -1), AID_HUDCOLOR));
 
     // add toggle switches (panelCoordinates are ignored for these)
-    ADD_TOGGLE_SWITCH(AID_GEARDOWN,    &XR2Ravenstar::ActivateLandingGear,  DOOR_OPENING);
-    ADD_TOGGLE_SWITCH(AID_GEARUP,      &XR2Ravenstar::ActivateLandingGear,  DOOR_CLOSING);
-    ADD_TOGGLE_SWITCH(AID_NCONEOPEN,   &XR2Ravenstar::ActivateNoseCone,     DOOR_OPENING);
-    ADD_TOGGLE_SWITCH(AID_NCONECLOSE,  &XR2Ravenstar::ActivateNoseCone,     DOOR_CLOSING);
-    ADD_TOGGLE_SWITCH(AID_OLOCKOPEN,   &XR2Ravenstar::ActivateOuterAirlock, DOOR_OPENING);
-    ADD_TOGGLE_SWITCH(AID_OLOCKCLOSE,  &XR2Ravenstar::ActivateOuterAirlock, DOOR_CLOSING);
-    ADD_TOGGLE_SWITCH(AID_ILOCKOPEN,   &XR2Ravenstar::ActivateInnerAirlock, DOOR_OPENING);
-    ADD_TOGGLE_SWITCH(AID_ILOCKCLOSE,  &XR2Ravenstar::ActivateInnerAirlock, DOOR_CLOSING);
+    ADD_TOGGLE_SWITCH(AID_GEARDOWN,    &XR2Ravenstar::ActivateLandingGear,  DoorStatus::DOOR_OPENING);
+    ADD_TOGGLE_SWITCH(AID_GEARUP,      &XR2Ravenstar::ActivateLandingGear,  DoorStatus::DOOR_CLOSING);
+    ADD_TOGGLE_SWITCH(AID_NCONEOPEN,   &XR2Ravenstar::ActivateNoseCone,     DoorStatus::DOOR_OPENING);
+    ADD_TOGGLE_SWITCH(AID_NCONECLOSE,  &XR2Ravenstar::ActivateNoseCone,     DoorStatus::DOOR_CLOSING);
+    ADD_TOGGLE_SWITCH(AID_OLOCKOPEN,   &XR2Ravenstar::ActivateOuterAirlock, DoorStatus::DOOR_OPENING);
+    ADD_TOGGLE_SWITCH(AID_OLOCKCLOSE,  &XR2Ravenstar::ActivateOuterAirlock, DoorStatus::DOOR_CLOSING);
+    ADD_TOGGLE_SWITCH(AID_ILOCKOPEN,   &XR2Ravenstar::ActivateInnerAirlock, DoorStatus::DOOR_OPENING);
+    ADD_TOGGLE_SWITCH(AID_ILOCKCLOSE,  &XR2Ravenstar::ActivateInnerAirlock, DoorStatus::DOOR_CLOSING);
     // TODO: ADD VC SWITCH FOR AIRLOCK PRESSURIZE / DEPRESSUREIZE
-    ADD_TOGGLE_SWITCH(AID_RCOVEROPEN,  &XR2Ravenstar::ActivateRCover,       DOOR_OPENING);
-    ADD_TOGGLE_SWITCH(AID_RCOVERCLOSE, &XR2Ravenstar::ActivateRCover,       DOOR_CLOSING);
-    ADD_TOGGLE_SWITCH(AID_RADIATOREX,  &XR2Ravenstar::ActivateRadiator,     DOOR_OPENING);
-    ADD_TOGGLE_SWITCH(AID_RADIATORIN,  &XR2Ravenstar::ActivateRadiator,     DOOR_CLOSING);
-    ADD_TOGGLE_SWITCH(AID_HATCHOPEN,   &XR2Ravenstar::ActivateHatch,        DOOR_OPENING);
-    ADD_TOGGLE_SWITCH(AID_HATCHCLOSE,  &XR2Ravenstar::ActivateHatch,        DOOR_CLOSING);
-    ADD_TOGGLE_SWITCH(AID_LADDEREX,    &XR2Ravenstar::ActivateLadder,       DOOR_OPENING);
-    ADD_TOGGLE_SWITCH(AID_LADDERIN,    &XR2Ravenstar::ActivateLadder,       DOOR_CLOSING);
+    ADD_TOGGLE_SWITCH(AID_RCOVEROPEN,  &XR2Ravenstar::ActivateRCover,       DoorStatus::DOOR_OPENING);
+    ADD_TOGGLE_SWITCH(AID_RCOVERCLOSE, &XR2Ravenstar::ActivateRCover,       DoorStatus::DOOR_CLOSING);
+    ADD_TOGGLE_SWITCH(AID_RADIATOREX,  &XR2Ravenstar::ActivateRadiator,     DoorStatus::DOOR_OPENING);
+    ADD_TOGGLE_SWITCH(AID_RADIATORIN,  &XR2Ravenstar::ActivateRadiator,     DoorStatus::DOOR_CLOSING);
+    ADD_TOGGLE_SWITCH(AID_HATCHOPEN,   &XR2Ravenstar::ActivateHatch,        DoorStatus::DOOR_OPENING);
+    ADD_TOGGLE_SWITCH(AID_HATCHCLOSE,  &XR2Ravenstar::ActivateHatch,        DoorStatus::DOOR_CLOSING);
+    ADD_TOGGLE_SWITCH(AID_LADDEREX,    &XR2Ravenstar::ActivateLadder,       DoorStatus::DOOR_OPENING);
+    ADD_TOGGLE_SWITCH(AID_LADDERIN,    &XR2Ravenstar::ActivateLadder,       DoorStatus::DOOR_CLOSING);
     */
 }
 
@@ -251,7 +251,7 @@ bool XR2VCPilotInstrumentPanel::Activate()
     oapiVCSetNeighbours(-1, ORBITER_VC_NUMBER(PANELVC_COPILOT), -1, ORBITER_VC_NUMBER(PANELVC_PSNGR2));
 
     // set current camera position flag
-    GetXR2().campos = GetXR2().CAM_VCPILOT;
+    GetXR2().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCPILOT;
 
     // invoke the superclass to activate all VC areas
     return XR2VCInstrumentPanel::Activate();
@@ -277,7 +277,7 @@ bool XR2VCCopilotInstrumentPanel::Activate()
     oapiVCSetNeighbours(ORBITER_VC_NUMBER(PANELVC_PILOT), -1, -1, ORBITER_VC_NUMBER(PANELVC_PSNGR3));
 
     // set current camera position flag
-    GetXR2().campos = GetXR2().CAM_VCCOPILOT;
+    GetXR2().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCCOPILOT;
 
     // invoke the superclass to activate all VC areas
     return XR2VCInstrumentPanel::Activate();
@@ -304,7 +304,7 @@ bool XR2VCPassenger1InstrumentPanel::Activate()
     oapiVCSetNeighbours(-1, ORBITER_VC_NUMBER(PANELVC_PSNGR2), ORBITER_VC_NUMBER(PANELVC_PILOT), ORBITER_VC_NUMBER(PANELVC_PSNGR5));
 
     // set current camera position flag
-    GetXR2().campos = GetXR2().CAM_VCPSNGR1;
+    GetXR2().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCPSNGR1;
 
     // invoke the superclass to activate all VC areas
     return XR2VCInstrumentPanel::Activate();
@@ -320,7 +320,7 @@ bool XR2VCPassenger2InstrumentPanel::Activate()
     oapiVCSetNeighbours(ORBITER_VC_NUMBER(PANELVC_PSNGR1), ORBITER_VC_NUMBER(PANELVC_AIRLOCK), ORBITER_VC_NUMBER(PANELVC_PILOT), ORBITER_VC_NUMBER(PANELVC_PSNGR6));
 
     // set current camera position flag
-    GetXR2().campos = GetXR2().CAM_VCPSNGR2;
+    GetXR2().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCPSNGR2;
 
     // invoke the superclass to activate all VC areas
     return XR2VCInstrumentPanel::Activate();
@@ -337,7 +337,7 @@ bool XR2VCAirlockInstrumentPanel::Activate()
     oapiVCSetNeighbours(ORBITER_VC_NUMBER(PANELVC_PSNGR2), ORBITER_VC_NUMBER(PANELVC_PSNGR3), ORBITER_VC_NUMBER(PANELVC_PILOT), -1);
 
     // set current camera position flag
-    GetXR2().campos = GetXR2().CAM_VCAIRLOCK;
+    GetXR2().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCAIRLOCK;
 
     // invoke the superclass to activate all VC areas
     return XR2VCInstrumentPanel::Activate();
@@ -353,7 +353,7 @@ bool XR2VCPassenger3InstrumentPanel::Activate()
     oapiVCSetNeighbours(ORBITER_VC_NUMBER(PANELVC_AIRLOCK), ORBITER_VC_NUMBER(PANELVC_PSNGR4), ORBITER_VC_NUMBER(PANELVC_COPILOT), ORBITER_VC_NUMBER(PANELVC_PSNGR7));
 
     // set current camera position flag
-    GetXR2().campos = GetXR2().CAM_VCPSNGR3;
+    GetXR2().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCPSNGR3;
 
     // invoke the superclass to activate all VC areas
     return XR2VCInstrumentPanel::Activate();
@@ -370,7 +370,7 @@ bool XR2VCPassenger4InstrumentPanel::Activate()
     oapiVCSetNeighbours(ORBITER_VC_NUMBER(PANELVC_PSNGR3), -1, ORBITER_VC_NUMBER(PANELVC_COPILOT), ORBITER_VC_NUMBER(PANELVC_PSNGR8));
 
     // set current camera position flag
-    GetXR2().campos = GetXR2().CAM_VCPSNGR4;
+    GetXR2().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCPSNGR4;
 
     // invoke the superclass to activate all VC areas
     return XR2VCInstrumentPanel::Activate();
@@ -386,7 +386,7 @@ bool XR2VCPassenger5InstrumentPanel::Activate()
     oapiVCSetNeighbours(-1, ORBITER_VC_NUMBER(PANELVC_PSNGR6), ORBITER_VC_NUMBER(PANELVC_PSNGR1), ORBITER_VC_NUMBER(PANELVC_PSNGR9));
 
     // set current camera position flag
-    GetXR2().campos = GetXR2().CAM_VCPSNGR5;
+    GetXR2().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCPSNGR5;
 
     // invoke the superclass to activate all VC areas
     return XR2VCInstrumentPanel::Activate();
@@ -402,7 +402,7 @@ bool XR2VCPassenger6InstrumentPanel::Activate()
     oapiVCSetNeighbours(ORBITER_VC_NUMBER(PANELVC_PSNGR5), ORBITER_VC_NUMBER(PANELVC_PSNGR7), ORBITER_VC_NUMBER(PANELVC_PSNGR2), ORBITER_VC_NUMBER(PANELVC_PSNGR10));
 
     // set current camera position flag
-    GetXR2().campos = GetXR2().CAM_VCPSNGR6;
+    GetXR2().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCPSNGR6;
 
     // invoke the superclass to activate all VC areas
     return XR2VCInstrumentPanel::Activate();
@@ -418,7 +418,7 @@ bool XR2VCPassenger7InstrumentPanel::Activate()
     oapiVCSetNeighbours(ORBITER_VC_NUMBER(PANELVC_PSNGR6), ORBITER_VC_NUMBER(PANELVC_PSNGR8), ORBITER_VC_NUMBER(PANELVC_PSNGR3), ORBITER_VC_NUMBER(PANELVC_PSNGR11));
 
     // set current camera position flag
-    GetXR2().campos = GetXR2().CAM_VCPSNGR7;
+    GetXR2().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCPSNGR7;
 
     // invoke the superclass to activate all VC areas
     return XR2VCInstrumentPanel::Activate();
@@ -435,7 +435,7 @@ bool XR2VCPassenger8InstrumentPanel::Activate()
     oapiVCSetNeighbours(ORBITER_VC_NUMBER(PANELVC_PSNGR7), -1, ORBITER_VC_NUMBER(PANELVC_PSNGR4), ORBITER_VC_NUMBER(PANELVC_PSNGR12));
 
     // set current camera position flag
-    GetXR2().campos = GetXR2().CAM_VCPSNGR8;
+    GetXR2().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCPSNGR8;
 
     // invoke the superclass to activate all VC areas
     return XR2VCInstrumentPanel::Activate();
@@ -451,7 +451,7 @@ bool XR2VCPassenger9InstrumentPanel::Activate()
     oapiVCSetNeighbours(-1, ORBITER_VC_NUMBER(PANELVC_PSNGR10), ORBITER_VC_NUMBER(PANELVC_PSNGR5), -1);
 
     // set current camera position flag
-    GetXR2().campos = GetXR2().CAM_VCPSNGR9;
+    GetXR2().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCPSNGR9;
 
     // invoke the superclass to activate all VC areas
     return XR2VCInstrumentPanel::Activate();
@@ -467,7 +467,7 @@ bool XR2VCPassenger10InstrumentPanel::Activate()
     oapiVCSetNeighbours(ORBITER_VC_NUMBER(PANELVC_PSNGR9), ORBITER_VC_NUMBER(PANELVC_PSNGR11), ORBITER_VC_NUMBER(PANELVC_PSNGR6), -1);
 
     // set current camera position flag
-    GetXR2().campos = GetXR2().CAM_VCPSNGR10;
+    GetXR2().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCPSNGR10;
 
     // invoke the superclass to activate all VC areas
     return XR2VCInstrumentPanel::Activate();
@@ -483,7 +483,7 @@ bool XR2VCPassenger11InstrumentPanel::Activate()
     oapiVCSetNeighbours(ORBITER_VC_NUMBER(PANELVC_PSNGR10), ORBITER_VC_NUMBER(PANELVC_PSNGR12), ORBITER_VC_NUMBER(PANELVC_PSNGR7), -1);
 
     // set current camera position flag
-    GetXR2().campos = GetXR2().CAM_VCPSNGR11;
+    GetXR2().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCPSNGR11;
 
     // invoke the superclass to activate all VC areas
     return XR2VCInstrumentPanel::Activate();
@@ -500,7 +500,7 @@ bool XR2VCPassenger12InstrumentPanel::Activate()
     oapiVCSetNeighbours(ORBITER_VC_NUMBER(PANELVC_PSNGR11), -1, ORBITER_VC_NUMBER(PANELVC_PSNGR8), -1);
 
     // set current camera position flag
-    GetXR2().campos = GetXR2().CAM_VCPSNGR8;
+    GetXR2().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCPSNGR8;
 
     // invoke the superclass to activate all VC areas
     return XR2VCInstrumentPanel::Activate();

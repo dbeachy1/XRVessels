@@ -56,9 +56,9 @@ bool DeltaGliderXR1::SetEngineState(XREngineID id, const XREngineStateWrite &sta
     int idx = 1;        // engine index; defaults to RIGHT / AFT
     switch (id)
     {
-    case XRE_RetroLeft:
+    case XREngineID::XRE_RetroLeft:
         idx = 0;
-    case XRE_RetroRight:
+    case XREngineID::XRE_RetroRight:
         {
             // check for unsupported options
             if ((s.GimbalX != 0) || (s.GimbalY != 0) || (s.Balance != 0) || 
@@ -78,9 +78,9 @@ bool DeltaGliderXR1::SetEngineState(XREngineID id, const XREngineStateWrite &sta
             break;
         }
 
-    case XRE_MainLeft:
+    case XREngineID::XRE_MainLeft:
         idx = 0;
-    case XRE_MainRight:
+    case XREngineID::XRE_MainRight:
         {
             // custom balance is not supported
             if ((s.Balance != 0.0) || s.CenteringModeBalance)
@@ -107,9 +107,9 @@ bool DeltaGliderXR1::SetEngineState(XREngineID id, const XREngineStateWrite &sta
             break;
         }
 
-    case XRE_HoverFore:
+    case XREngineID::XRE_HoverFore:
         idx = 0;
-    case XRE_HoverAft:
+    case XREngineID::XRE_HoverAft:
         {
             // gimbaling/auto/divergent not supported
             if ((s.GimbalX != 0) || (s.GimbalY != 0) || s.CenteringModeX || s.CenteringModeY || s.AutoMode || s.DivergentMode)
@@ -132,8 +132,8 @@ bool DeltaGliderXR1::SetEngineState(XREngineID id, const XREngineStateWrite &sta
             {
                 m_hoverBalance = s.Balance * MAX_HOVER_IMBALANCE;     // set in XR1
                 const int hoverThrustIdx   = GetXR1Config()->HoverEngineThrust;
-                const double maxThrustFore = MAX_HOVER_THRUST[hoverThrustIdx] * GetDamageStatus(HoverEngineFore).fracIntegrity;
-                const double maxThrustAft  = MAX_HOVER_THRUST[hoverThrustIdx] * GetDamageStatus(HoverEngineAft).fracIntegrity;
+                const double maxThrustFore = MAX_HOVER_THRUST[hoverThrustIdx] * GetDamageStatus(DamageItem::HoverEngineFore).fracIntegrity;
+                const double maxThrustAft  = MAX_HOVER_THRUST[hoverThrustIdx] * GetDamageStatus(DamageItem::HoverEngineAft).fracIntegrity;
                 SetThrusterMax0(th_hover[0], maxThrustFore * (1.0 + m_hoverBalance));
                 SetThrusterMax0(th_hover[1], maxThrustAft *  (1.0 - m_hoverBalance));
             }
@@ -141,9 +141,9 @@ bool DeltaGliderXR1::SetEngineState(XREngineID id, const XREngineStateWrite &sta
             break;
         }
 
-    case XRE_ScramLeft:
+    case XREngineID::XRE_ScramLeft:
         idx = 0;
-    case XRE_ScramRight:
+    case XREngineID::XRE_ScramRight:
         {
             // check for unsupported options
             if ((s.Balance != 0.0) || (s.GimbalX != 0) || (s.Balance != 0) || 
@@ -185,9 +185,9 @@ bool DeltaGliderXR1::GetEngineState(XREngineID id, XREngineStateRead &state) con
     int idx = 1;        // engine index; defaults to RIGHT / AFT
     switch (id)
     {
-    case XRE_RetroLeft:
+    case XREngineID::XRE_RetroLeft:
         idx = 0;
-    case XRE_RetroRight:
+    case XREngineID::XRE_RetroRight:
         {
             const THRUSTER_HANDLE th = th_retro[idx];
             const double thrusterLevel = state.ThrottleLevel = GetThrusterLevel(th);
@@ -212,9 +212,9 @@ bool DeltaGliderXR1::GetEngineState(XREngineID id, XREngineStateRead &state) con
             break;
         }
 
-    case XRE_MainLeft:
+    case XREngineID::XRE_MainLeft:
         idx = 0;
-    case XRE_MainRight:
+    case XREngineID::XRE_MainRight:
         {
             const THRUSTER_HANDLE th = th_main[idx];
             const double thrusterLevel = state.ThrottleLevel = GetThrusterLevel(th);
@@ -242,9 +242,9 @@ bool DeltaGliderXR1::GetEngineState(XREngineID id, XREngineStateRead &state) con
             break;
         }
 
-    case XRE_HoverFore:
+    case XREngineID::XRE_HoverFore:
         idx = 0;
-    case XRE_HoverAft:
+    case XREngineID::XRE_HoverAft:
         {
             const THRUSTER_HANDLE th = th_hover[idx];
             const double thrusterLevel = state.ThrottleLevel = GetThrusterLevel(th);
@@ -269,9 +269,9 @@ bool DeltaGliderXR1::GetEngineState(XREngineID id, XREngineStateRead &state) con
             break;
         }
 
-    case XRE_ScramLeft:
+    case XREngineID::XRE_ScramLeft:
         idx = 0;
-    case XRE_ScramRight:
+    case XREngineID::XRE_ScramRight:
         {
             const THRUSTER_HANDLE th = th_scram[idx];
             const double thrusterLevel = state.ThrottleLevel = GetThrusterLevel(th);
@@ -315,7 +315,7 @@ bool DeltaGliderXR1::GetEngineState(XREngineID id, XREngineStateRead &state) con
 bool DeltaGliderXR1::SetDoorState(XRDoorID id, XRDoorState state)            
 {
     // NOTE: you cannot fail a door via SetDoorState: must use SetXRSystemStatus instead
-    if (state == XRDS_Failed)
+    if (state == XRDoorState::XRDS_Failed)
         return false;   // invalid state
 
     bool retVal = true;
@@ -323,55 +323,55 @@ bool DeltaGliderXR1::SetDoorState(XRDoorID id, XRDoorState state)
     // Note: each of these calls updates each door's proc as well ('percent open' state)
     switch (id)
     {
-    case XRD_DockingPort: 
+    case XRDoorID::XRD_DockingPort:
         ActivateNoseCone(ToDoorStatus(state));
         break;
 
-    case XRD_ScramDoors:
+    case XRDoorID::XRD_ScramDoors:
         ActivateScramDoors(ToDoorStatus(state));
         break;
 
-    case XRD_HoverDoors:
+    case XRDoorID::XRD_HoverDoors:
         ActivateHoverDoors(ToDoorStatus(state));
         break;
 
-    case XRD_Ladder:
+    case XRDoorID::XRD_Ladder:
         ActivateLadder(ToDoorStatus(state));
         break;  
 
-    case XRD_Gear:
+    case XRDoorID::XRD_Gear:
         ActivateLandingGear(ToDoorStatus(state));
         break;
 
-    case XRD_RetroDoors:
+    case XRDoorID::XRD_RetroDoors:
         ActivateRCover(ToDoorStatus(state));
         break;
 
-    case XRD_OuterAirlock:
+    case XRDoorID::XRD_OuterAirlock:
         ActivateOuterAirlock(ToDoorStatus(state));
         break;
 
-    case XRD_InnerAirlock:
+    case XRDoorID::XRD_InnerAirlock:
         ActivateInnerAirlock(ToDoorStatus(state));
         break;  
 
-    case XRD_AirlockChamber:
+    case XRDoorID::XRD_AirlockChamber:
         ActivateChamber(ToDoorStatus(state), false);
         break;
 
-    case XRD_CrewHatch:
+    case XRDoorID::XRD_CrewHatch:
         ActivateHatch(ToDoorStatus(state));
         break;
 
-    case XRD_Radiator:
+    case XRDoorID::XRD_Radiator:
         ActivateRadiator(ToDoorStatus(state));
         break;
 
-    case XRD_Speedbrake:
+    case XRDoorID::XRD_Speedbrake:
         ActivateAirbrake(ToDoorStatus(state));
         break;
 
-    case XRD_APU:
+    case XRDoorID::XRD_APU:
         ActivateAPU(ToDoorStatus(state));
         break;
 
@@ -393,73 +393,73 @@ XRDoorState DeltaGliderXR1::GetDoorState(XRDoorID id, double *pProc)  const
 
     switch (id)
     {
-    case XRD_DockingPort: 
+    case XRDoorID::XRD_DockingPort:
         retVal = ToXRDoorState(nose_status);
         SET_IF_NOT_NULL(pProc, nose_proc);
         break;
 
-    case XRD_ScramDoors:
+    case XRDoorID::XRD_ScramDoors:
         retVal = ToXRDoorState(scramdoor_status);
         SET_IF_NOT_NULL(pProc, scramdoor_proc);
         break;
 
-    case XRD_HoverDoors:
+    case XRDoorID::XRD_HoverDoors:
         retVal = ToXRDoorState(hoverdoor_status);
         SET_IF_NOT_NULL(pProc, hoverdoor_proc);
         break;
 
-    case XRD_Ladder:
+    case XRDoorID::XRD_Ladder:
         retVal = ToXRDoorState(ladder_status);
         SET_IF_NOT_NULL(pProc, ladder_proc);
         break;  
 
-    case XRD_Gear:
+    case XRDoorID::XRD_Gear:
         retVal = ToXRDoorState(gear_status);
         SET_IF_NOT_NULL(pProc, gear_proc);
         break;
 
-    case XRD_RetroDoors:
+    case XRDoorID::XRD_RetroDoors:
         retVal = ToXRDoorState(rcover_status);
         SET_IF_NOT_NULL(pProc, rcover_proc);
         break;
 
-    case XRD_OuterAirlock:
+    case XRDoorID::XRD_OuterAirlock:
         retVal = ToXRDoorState(olock_status);
         SET_IF_NOT_NULL(pProc, olock_proc);
         break;
 
-    case XRD_InnerAirlock:
+    case XRDoorID::XRD_InnerAirlock:
         retVal = ToXRDoorState(ilock_status);
         SET_IF_NOT_NULL(pProc, ilock_proc);
         break;  
 
-    case XRD_AirlockChamber:
+    case XRDoorID::XRD_AirlockChamber:
         retVal = ToXRDoorState(chamber_status);
         SET_IF_NOT_NULL(pProc, chamber_proc);
         break;
 
-    case XRD_CrewHatch:
+    case XRDoorID::XRD_CrewHatch:
         retVal = ToXRDoorState(hatch_status);
         SET_IF_NOT_NULL(pProc, hatch_proc);
         break;
 
-    case XRD_Radiator:
+    case XRDoorID::XRD_Radiator:
         retVal = ToXRDoorState(radiator_status);
         SET_IF_NOT_NULL(pProc, radiator_proc);
         break;
 
-    case XRD_Speedbrake:
+    case XRDoorID::XRD_Speedbrake:
         retVal = ToXRDoorState(brake_status);
         SET_IF_NOT_NULL(pProc, brake_proc);
         break;
 
-    case XRD_APU:
+    case XRDoorID::XRD_APU:
         retVal = ToXRDoorState(apu_status);
         SET_IF_NOT_NULL(pProc, -1);  // no proc for this, so proc state always == -1
         break;
 
     default:
-        retVal = XRDS_DoorNotSupported;
+        retVal = XRDoorState::XRDS_DoorNotSupported;
         SET_IF_NOT_NULL(pProc, -1);
         break;
     }
@@ -484,55 +484,55 @@ bool DeltaGliderXR1::SetXRSystemStatus(const XRSystemStatusWrite &status)
 
     // Now apply the new status one item at a time
 #define SET_DMG_INT(statusField, XREnum)  { double val = status.##statusField; LIMITS(val, 0, 1.0); SetDamageStatus(XREnum, val); }
-#define SET_DMG_ENUM(statusField, XREnum)                \
-     {                                                   \
-        double val;                                      \
-        XRDamageState state = status.##statusField;      \
-        if (state == XRDMG_online) val = 1.0;            \
-        else val = 0.0;  /* unsupported or offline */    \
-        SetDamageStatus(XREnum, val);                    \
+#define SET_DMG_ENUM(statusField, XREnum)                       \
+     {                                                          \
+        double val;                                             \
+        XRDamageState state = status.##statusField;             \
+        if (state == XRDamageState::XRDMG_online) val = 1.0;    \
+        else val = 0.0;  /* unsupported or offline */           \
+        SetDamageStatus(XREnum, val);                           \
     }
 
     //          status.##field               DamageItem
-    SET_DMG_INT(LeftWing,                    LeftWing);
-    SET_DMG_INT(RightWing,                   RightWing);
-    SET_DMG_INT(LeftMainEngine,              MainEngineLeft);
-    SET_DMG_INT(RightMainEngine,             MainEngineRight);
-    SET_DMG_INT(LeftSCRAMEngine,             SCRAMEngineLeft);
-    SET_DMG_INT(RightSCRAMEngine,            SCRAMEngineRight);
-    SET_DMG_INT(ForeHoverEngine,             HoverEngineFore);   // these are *logical* engines
-    SET_DMG_INT(AftHoverEngine,              HoverEngineAft);
-    SET_DMG_INT(LeftRetroEngine,             RetroEngineLeft);
-    SET_DMG_INT(RightRetroEngine,            RetroEngineRight);
-    SET_DMG_INT(ForwardLowerRCS,             RCS1);
-    SET_DMG_INT(AftUpperRCS,                 RCS2);
-    SET_DMG_INT(ForwardUpperRCS,             RCS3);
-    SET_DMG_INT(AftLowerRCS,                 RCS4);
-    SET_DMG_INT(ForwardStarboardRCS,         RCS5);
-    SET_DMG_INT(AftPortRCS,                  RCS6);
-    SET_DMG_INT(ForwardPortRCS,              RCS7);
-    SET_DMG_INT(AftStarboardRCS,             RCS8);
-    SET_DMG_INT(OutboardUpperPortRCS,        RCS9);
-    SET_DMG_INT(OutboardLowerStarboardRCS,   RCS10);
-    SET_DMG_INT(OutboardUpperStarboardRCS,   RCS11);
-    SET_DMG_INT(OutboardLowerPortRCS,        RCS12);
-    SET_DMG_INT(AftRCS,                      RCS13);
-    SET_DMG_INT(ForwardRCS,                  RCS14);
+    SET_DMG_INT(LeftWing,                    DamageItem::LeftWing);
+    SET_DMG_INT(RightWing,                   DamageItem::RightWing);
+    SET_DMG_INT(LeftMainEngine,              DamageItem::MainEngineLeft);
+    SET_DMG_INT(RightMainEngine,             DamageItem::MainEngineRight);
+    SET_DMG_INT(LeftSCRAMEngine,             DamageItem::SCRAMEngineLeft);
+    SET_DMG_INT(RightSCRAMEngine,            DamageItem::SCRAMEngineRight);
+    SET_DMG_INT(ForeHoverEngine,             DamageItem::HoverEngineFore);   // these are *logical* engines
+    SET_DMG_INT(AftHoverEngine,              DamageItem::HoverEngineAft);
+    SET_DMG_INT(LeftRetroEngine,             DamageItem::RetroEngineLeft);
+    SET_DMG_INT(RightRetroEngine,            DamageItem::RetroEngineRight);
+    SET_DMG_INT(ForwardLowerRCS,             DamageItem::RCS1);
+    SET_DMG_INT(AftUpperRCS,                 DamageItem::RCS2);
+    SET_DMG_INT(ForwardUpperRCS,             DamageItem::RCS3);
+    SET_DMG_INT(AftLowerRCS,                 DamageItem::RCS4);
+    SET_DMG_INT(ForwardStarboardRCS,         DamageItem::RCS5);
+    SET_DMG_INT(AftPortRCS,                  DamageItem::RCS6);
+    SET_DMG_INT(ForwardPortRCS,              DamageItem::RCS7);
+    SET_DMG_INT(AftStarboardRCS,             DamageItem::RCS8);
+    SET_DMG_INT(OutboardUpperPortRCS,        DamageItem::RCS9);
+    SET_DMG_INT(OutboardLowerStarboardRCS,   DamageItem::RCS10);
+    SET_DMG_INT(OutboardUpperStarboardRCS,   DamageItem::RCS11);
+    SET_DMG_INT(OutboardLowerPortRCS,        DamageItem::RCS12);
+    SET_DMG_INT(AftRCS,                      DamageItem::RCS13);
+    SET_DMG_INT(ForwardRCS,                  DamageItem::RCS14);
 
     //          status.##field  DamageItem
-    SET_DMG_ENUM(LeftAileron,   LeftAileron);
-    SET_DMG_ENUM(RightAileron,  RightAileron);
-    SET_DMG_ENUM(LandingGear,   LandingGear);
-    SET_DMG_ENUM(DockingPort,   Nosecone);
-    SET_DMG_ENUM(RetroDoors,    RetroDoors);
-    SET_DMG_ENUM(TopHatch,      Hatch);
-    SET_DMG_ENUM(Radiator,      Radiator);
-    SET_DMG_ENUM(Speedbrake,    Airbrake);
+    SET_DMG_ENUM(LeftAileron,   DamageItem::LeftAileron);
+    SET_DMG_ENUM(RightAileron,  DamageItem::RightAileron);
+    SET_DMG_ENUM(LandingGear,   DamageItem::LandingGear);
+    SET_DMG_ENUM(DockingPort,   DamageItem::Nosecone);
+    SET_DMG_ENUM(RetroDoors,    DamageItem::RetroDoors);
+    SET_DMG_ENUM(TopHatch,      DamageItem::Hatch);
+    SET_DMG_ENUM(Radiator,      DamageItem::Radiator);
+    SET_DMG_ENUM(Speedbrake,    DamageItem::Airbrake);
 
     // check whether the user is attempting to set any unsupported fields
     bool retVal = true;
-    retVal &= !(status.PayloadBayDoors != XRDMG_NotSupported);
-    retVal &= !(status.CrewElevator    != XRDMG_NotSupported);
+    retVal &= !(status.PayloadBayDoors != XRDamageState::XRDMG_NotSupported);
+    retVal &= !(status.CrewElevator    != XRDamageState::XRDMG_NotSupported);
 
     return retVal;  // all fields set successfully
 }
@@ -540,52 +540,52 @@ bool DeltaGliderXR1::SetXRSystemStatus(const XRSystemStatusWrite &status)
 // Read the status of the XR vessel
 void DeltaGliderXR1::GetXRSystemStatus(XRSystemStatusRead &status) const
 {
-    status.LeftWing                     = GetDamageStatus(LeftWing).fracIntegrity;
-    status.RightWing                    = GetDamageStatus(RightWing).fracIntegrity;
-    status.LeftMainEngine               = GetDamageStatus(MainEngineLeft).fracIntegrity;
-    status.RightMainEngine              = GetDamageStatus(MainEngineRight).fracIntegrity;
-    status.LeftSCRAMEngine              = GetDamageStatus(SCRAMEngineLeft).fracIntegrity;
-    status.RightSCRAMEngine             = GetDamageStatus(SCRAMEngineRight).fracIntegrity;
-    status.ForeHoverEngine              = GetDamageStatus(HoverEngineFore).fracIntegrity;   // these are *logical* engines
-    status.AftHoverEngine               = GetDamageStatus(HoverEngineAft).fracIntegrity;
-    status.LeftRetroEngine              = GetDamageStatus(RetroEngineLeft).fracIntegrity;
-    status.RightRetroEngine             = GetDamageStatus(RetroEngineRight).fracIntegrity;
-    status.ForwardLowerRCS              = GetDamageStatus(RCS1).fracIntegrity;
-    status.AftUpperRCS                  = GetDamageStatus(RCS2).fracIntegrity;
-    status.ForwardUpperRCS              = GetDamageStatus(RCS3).fracIntegrity;
-    status.AftLowerRCS                  = GetDamageStatus(RCS4).fracIntegrity;
-    status.ForwardStarboardRCS          = GetDamageStatus(RCS5).fracIntegrity;
-    status.AftPortRCS                   = GetDamageStatus(RCS6).fracIntegrity;
-    status.ForwardPortRCS               = GetDamageStatus(RCS7).fracIntegrity;
-    status.AftStarboardRCS              = GetDamageStatus(RCS8).fracIntegrity;
-    status.OutboardUpperPortRCS         = GetDamageStatus(RCS9).fracIntegrity;
-    status.OutboardLowerStarboardRCS    = GetDamageStatus(RCS10).fracIntegrity;
-    status.OutboardUpperStarboardRCS    = GetDamageStatus(RCS11).fracIntegrity;
-    status.OutboardLowerPortRCS         = GetDamageStatus(RCS12).fracIntegrity;
-    status.AftRCS                       = GetDamageStatus(RCS13).fracIntegrity;
-    status.ForwardRCS                   = GetDamageStatus(RCS14).fracIntegrity;
+    status.LeftWing                     = GetDamageStatus(DamageItem::LeftWing).fracIntegrity;
+    status.RightWing                    = GetDamageStatus(DamageItem::RightWing).fracIntegrity;
+    status.LeftMainEngine               = GetDamageStatus(DamageItem::MainEngineLeft).fracIntegrity;
+    status.RightMainEngine              = GetDamageStatus(DamageItem::MainEngineRight).fracIntegrity;
+    status.LeftSCRAMEngine              = GetDamageStatus(DamageItem::SCRAMEngineLeft).fracIntegrity;
+    status.RightSCRAMEngine             = GetDamageStatus(DamageItem::SCRAMEngineRight).fracIntegrity;
+    status.ForeHoverEngine              = GetDamageStatus(DamageItem::HoverEngineFore).fracIntegrity;   // these are *logical* engines
+    status.AftHoverEngine               = GetDamageStatus(DamageItem::HoverEngineAft).fracIntegrity;
+    status.LeftRetroEngine              = GetDamageStatus(DamageItem::RetroEngineLeft).fracIntegrity;
+    status.RightRetroEngine             = GetDamageStatus(DamageItem::RetroEngineRight).fracIntegrity;
+    status.ForwardLowerRCS              = GetDamageStatus(DamageItem::RCS1).fracIntegrity;
+    status.AftUpperRCS                  = GetDamageStatus(DamageItem::RCS2).fracIntegrity;
+    status.ForwardUpperRCS              = GetDamageStatus(DamageItem::RCS3).fracIntegrity;
+    status.AftLowerRCS                  = GetDamageStatus(DamageItem::RCS4).fracIntegrity;
+    status.ForwardStarboardRCS          = GetDamageStatus(DamageItem::RCS5).fracIntegrity;
+    status.AftPortRCS                   = GetDamageStatus(DamageItem::RCS6).fracIntegrity;
+    status.ForwardPortRCS               = GetDamageStatus(DamageItem::RCS7).fracIntegrity;
+    status.AftStarboardRCS              = GetDamageStatus(DamageItem::RCS8).fracIntegrity;
+    status.OutboardUpperPortRCS         = GetDamageStatus(DamageItem::RCS9).fracIntegrity;
+    status.OutboardLowerStarboardRCS    = GetDamageStatus(DamageItem::RCS10).fracIntegrity;
+    status.OutboardUpperStarboardRCS    = GetDamageStatus(DamageItem::RCS11).fracIntegrity;
+    status.OutboardLowerPortRCS         = GetDamageStatus(DamageItem::RCS12).fracIntegrity;
+    status.AftRCS                       = GetDamageStatus(DamageItem::RCS13).fracIntegrity;
+    status.ForwardRCS                   = GetDamageStatus(DamageItem::RCS14).fracIntegrity;
     
     // boolean
-    status.LeftAileron                  = ((GetDamageStatus(LeftAileron).fracIntegrity == 1.0) ? XRDMG_online : XRDMG_offline);   // includes left elevator if a separate elevator surface is present
-    status.RightAileron                 = ((GetDamageStatus(RightAileron).fracIntegrity == 1.0) ? XRDMG_online : XRDMG_offline);  // includes right elevator if a separate elevator surface is present
-    status.LandingGear                  = ((GetDamageStatus(LandingGear).fracIntegrity == 1.0) ? XRDMG_online : XRDMG_offline);     
-    status.DockingPort                  = ((GetDamageStatus(Nosecone).fracIntegrity == 1.0) ? XRDMG_online : XRDMG_offline);      // "nosecone" on some ships
-    status.RetroDoors                   = ((GetDamageStatus(RetroDoors).fracIntegrity == 1.0) ? XRDMG_online : XRDMG_offline);      
-    status.TopHatch                     = ((GetDamageStatus(Hatch).fracIntegrity == 1.0) ? XRDMG_online : XRDMG_offline);         // "crew hatch" on some ships        
-    status.Radiator                     = ((GetDamageStatus(Radiator).fracIntegrity == 1.0) ? XRDMG_online : XRDMG_offline);        
-    status.Speedbrake                   = ((GetDamageStatus(Airbrake).fracIntegrity == 1.0) ? XRDMG_online : XRDMG_offline);      // "airbrake" on some ships
-    status.PayloadBayDoors              = XRDMG_NotSupported;   // not supported
-    status.CrewElevator                 = XRDMG_NotSupported;   // not supported
+    status.LeftAileron                  = ((GetDamageStatus(DamageItem::LeftAileron).fracIntegrity == 1.0) ? XRDamageState::XRDMG_online : XRDamageState::XRDMG_offline);   // includes left elevator if a separate elevator surface is present
+    status.RightAileron                 = ((GetDamageStatus(DamageItem::RightAileron).fracIntegrity == 1.0) ? XRDamageState::XRDMG_online : XRDamageState::XRDMG_offline);  // includes right elevator if a separate elevator surface is present
+    status.LandingGear                  = ((GetDamageStatus(DamageItem::LandingGear).fracIntegrity == 1.0) ? XRDamageState::XRDMG_online : XRDamageState::XRDMG_offline);
+    status.DockingPort                  = ((GetDamageStatus(DamageItem::Nosecone).fracIntegrity == 1.0) ? XRDamageState::XRDMG_online : XRDamageState::XRDMG_offline);      // "nosecone" on some ships
+    status.RetroDoors                   = ((GetDamageStatus(DamageItem::RetroDoors).fracIntegrity == 1.0) ? XRDamageState::XRDMG_online : XRDamageState::XRDMG_offline);
+    status.TopHatch                     = ((GetDamageStatus(DamageItem::Hatch).fracIntegrity == 1.0) ? XRDamageState::XRDMG_online : XRDamageState::XRDMG_offline);         // "crew hatch" on some ships        
+    status.Radiator                     = ((GetDamageStatus(DamageItem::Radiator).fracIntegrity == 1.0) ? XRDamageState::XRDMG_online : XRDamageState::XRDMG_offline);
+    status.Speedbrake                   = ((GetDamageStatus(DamageItem::Airbrake).fracIntegrity == 1.0) ? XRDamageState::XRDMG_online : XRDamageState::XRDMG_offline);      // "airbrake" on some ships
+    status.PayloadBayDoors              = XRDamageState::XRDMG_NotSupported;   // not supported
+    status.CrewElevator                 = XRDamageState::XRDMG_NotSupported;   // not supported
 
     // The warning states below are not persisted in the scenario file; they are constantly recalculated dynamically.
-    status.HullTemperatureWarning   = (m_warningLights[wlHtmp] ? XRW_warningActive : XRW_warningInactive);
-    status.MainFuelWarning          = (m_warningLights[wlMfuel] ? XRW_warningActive : XRW_warningInactive);
-    status.RCSFuelWarning           = (m_warningLights[wlRfuel] ? XRW_warningActive : XRW_warningInactive);
-    status.APUFuelWarning           = (m_apuWarning ? XRW_warningActive : XRW_warningInactive);
-    status.LOXWarning               = (m_warningLights[wlLox] ? XRW_warningActive : XRW_warningInactive);
-    status.DynamicPressureWarning   = (m_warningLights[wlDynp] ? XRW_warningActive : XRW_warningInactive);
-    status.CoolantWarning           = (m_warningLights[wlCool] ? XRW_warningActive : XRW_warningInactive);
-    status.MasterWarning            = (IsWarningPresent() ? XRW_warningActive : XRW_warningInactive);     // warning active if *any* other warning active
+    status.HullTemperatureWarning   = (m_warningLights[static_cast<int>(WarningLight::wlHtmp)] ? XRWarningState::XRW_warningActive : XRWarningState::XRW_warningInactive);
+    status.MainFuelWarning          = (m_warningLights[static_cast<int>(WarningLight::wlMfuel)] ? XRWarningState::XRW_warningActive : XRWarningState::XRW_warningInactive);
+    status.RCSFuelWarning           = (m_warningLights[static_cast<int>(WarningLight::wlRfuel)] ? XRWarningState::XRW_warningActive : XRWarningState::XRW_warningInactive);
+    status.APUFuelWarning           = (m_apuWarning ? XRWarningState::XRW_warningActive : XRWarningState::XRW_warningInactive);
+    status.LOXWarning               = (m_warningLights[static_cast<int>(WarningLight::wlLox)] ? XRWarningState::XRW_warningActive : XRWarningState::XRW_warningInactive);
+    status.DynamicPressureWarning   = (m_warningLights[static_cast<int>(WarningLight::wlDynp)] ? XRWarningState::XRW_warningActive : XRWarningState::XRW_warningInactive);
+    status.CoolantWarning           = (m_warningLights[static_cast<int>(WarningLight::wlCool)] ? XRWarningState::XRW_warningActive : XRWarningState::XRW_warningInactive);
+    status.MasterWarning            = (IsWarningPresent() ? XRWarningState::XRW_warningActive : XRWarningState::XRW_warningInactive);     // warning active if *any* other warning active
     status.MWSLightState            = m_MWSLit;     // updated as the MWS light blinks: true = lit, false = not lit
 
     // API 2.1 fields
@@ -632,19 +632,19 @@ XRAutopilotState DeltaGliderXR1::SetStandardAP(XRStdAutopilot id, bool on)  // r
 {
     int navMode = GetNavmodeForXRStdAutopilot(id);
     if (navMode == -1)
-        return XRAPSTATE_NotSupported;
+        return XRAutopilotState::XRAPSTATE_NotSupported;
 
     // Note: no need to kill any custom autopilots here; clbkNavMode will handle that
     XRAutopilotState retVal;
     if (on)
     {
         ActivateNavmode(navMode);
-        retVal = XRAPSTATE_Engaged;
+        retVal = XRAutopilotState::XRAPSTATE_Engaged;
     }
     else
     {
         DeactivateNavmode(navMode);
-        retVal = XRAPSTATE_Disengaged;
+        retVal = XRAutopilotState::XRAPSTATE_Disengaged;
     }   
 
     return retVal;
@@ -655,11 +655,11 @@ XRAutopilotState DeltaGliderXR1::GetStandardAP(XRStdAutopilot id)
 {
     int navMode = GetNavmodeForXRStdAutopilot(id);
     if (navMode == -1)
-        return XRAPSTATE_NotSupported;
+        return XRAutopilotState::XRAPSTATE_NotSupported;
 
     bool apOn = GetNavmodeState(navMode);
 
-    return (apOn ? XRAPSTATE_Engaged : XRAPSTATE_Disengaged);
+    return (apOn ? XRAutopilotState::XRAPSTATE_Engaged : XRAutopilotState::XRAPSTATE_Disengaged);
 }
 
 // Extended Autopilot methods
@@ -668,25 +668,25 @@ XRAutopilotState DeltaGliderXR1::SetAttitudeHoldAP(const XRAttitudeHoldState &st
     XRAutopilotState retVal;
 
     // set AP parameters
-    m_holdAOA       = (state.mode == XRAH_HoldPitch ? false : true);
+    m_holdAOA       = (state.mode == XRAttitudeHoldMode::XRAH_HoldPitch ? false : true);
     m_setPitchOrAOA = state.TargetPitch;
     m_setBank       = state.TargetBank;
 
     if (state.on == false)
     {
         // only modify the custom autopilot mode if this mode is already engaged
-        if (m_customAutopilotMode == AP_ATTITUDEHOLD)
-            SetCustomAutopilotMode(AP_OFF, true, false);
+        if (m_customAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD)
+            SetCustomAutopilotMode(AUTOPILOT::AP_OFF, true, false);
 
-        retVal = XRAPSTATE_Disengaged;
+        retVal = XRAutopilotState::XRAPSTATE_Disengaged;
     }
     else  // set autopilot to ON
     {
         // if autopilot not already engaged, turn it on
-        if (m_customAutopilotMode != AP_ATTITUDEHOLD)
+        if (m_customAutopilotMode != AUTOPILOT::AP_ATTITUDEHOLD)
             ToggleAttitudeHold();  // use 'toggle' here because we don't have an explicit 'ActivateAttitudeHold' method
 
-        retVal = XRAPSTATE_Engaged;
+        retVal = XRAutopilotState::XRAPSTATE_Engaged;
     }
 
     return retVal;
@@ -694,12 +694,12 @@ XRAutopilotState DeltaGliderXR1::SetAttitudeHoldAP(const XRAttitudeHoldState &st
 
 XRAutopilotState DeltaGliderXR1::GetAttitudeHoldAP(XRAttitudeHoldState &state)  const
 {
-    state.on          = (m_customAutopilotMode == AP_ATTITUDEHOLD);
-    state.mode        = (m_holdAOA ? XRAH_HoldAOA : XRAH_HoldPitch);
+    state.on          = (m_customAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD);
+    state.mode        = (m_holdAOA ? XRAttitudeHoldMode::XRAH_HoldAOA : XRAttitudeHoldMode::XRAH_HoldPitch);
     state.TargetPitch = m_setPitchOrAOA;
     state.TargetBank  = m_setBank;
 
-    return (state.on ? XRAPSTATE_Engaged : XRAPSTATE_Disengaged);
+    return (state.on ? XRAutopilotState::XRAPSTATE_Engaged : XRAutopilotState::XRAPSTATE_Disengaged);
 }
 
 XRAutopilotState DeltaGliderXR1::SetDescentHoldAP(const XRDescentHoldState &state)    // returns the new state of the autopilot, or XRAPSTATE_NotSupported if autopilot not supported
@@ -708,10 +708,10 @@ XRAutopilotState DeltaGliderXR1::SetDescentHoldAP(const XRDescentHoldState &stat
     if (state.on == false)
     {
         // only modify the custom autopilot mode if this mode is already engaged
-        if (m_customAutopilotMode == AP_DESCENTHOLD)
-            SetCustomAutopilotMode(AP_OFF, true, false);
+        if (m_customAutopilotMode == AUTOPILOT::AP_DESCENTHOLD)
+            SetCustomAutopilotMode(AUTOPILOT::AP_OFF, true, false);
 
-        retVal = XRAPSTATE_Disengaged;
+        retVal = XRAutopilotState::XRAPSTATE_Disengaged;
     }
     else  // set autopilot to ON
     {
@@ -720,10 +720,10 @@ XRAutopilotState DeltaGliderXR1::SetDescentHoldAP(const XRDescentHoldState &stat
         m_autoLand       = state.AutoLandMode;
 
         // if autopilot not already engaged, turn it on
-        if (m_customAutopilotMode != AP_DESCENTHOLD)
+        if (m_customAutopilotMode != AUTOPILOT::AP_DESCENTHOLD)
             ToggleDescentHold();  // use 'toggle' here because we don't have an explicit 'Activate...' method
 
-        retVal = XRAPSTATE_Engaged;
+        retVal = XRAutopilotState::XRAPSTATE_Engaged;
     }
 
     return retVal;
@@ -731,11 +731,11 @@ XRAutopilotState DeltaGliderXR1::SetDescentHoldAP(const XRDescentHoldState &stat
 
 XRAutopilotState DeltaGliderXR1::GetDescentHoldAP(XRDescentHoldState &state) const
 {
-    state.on                = (m_customAutopilotMode == AP_DESCENTHOLD);
+    state.on                = (m_customAutopilotMode == AUTOPILOT::AP_DESCENTHOLD);
     state.TargetDescentRate = m_setDescentRate;
     state.AutoLandMode      = m_autoLand;
 
-    return (state.on ? XRAPSTATE_Engaged : XRAPSTATE_Disengaged);
+    return (state.on ? XRAutopilotState::XRAPSTATE_Engaged : XRAutopilotState::XRAPSTATE_Disengaged);
 }
 
 XRAutopilotState DeltaGliderXR1::SetAirspeedHoldAP(const XRAirspeedHoldState &state)  // returns the new state of the autopilot, or XRAPSTATE_NotSupported if autopilot not supported
@@ -744,14 +744,14 @@ XRAutopilotState DeltaGliderXR1::SetAirspeedHoldAP(const XRAirspeedHoldState &st
     if (state.on == false)
     {
         SetAirspeedHoldMode(false, true);   // turn off
-        retVal = XRAPSTATE_Disengaged;
+        retVal = XRAutopilotState::XRAPSTATE_Disengaged;
     }
     else  // set autopilot to ON
     {
         // set AP parameters
         m_setAirspeed = state.TargetAirspeed;
         SetAirspeedHoldMode(true, true);
-        retVal = XRAPSTATE_Engaged;
+        retVal = XRAutopilotState::XRAPSTATE_Engaged;
     }
 
     return retVal;
@@ -762,7 +762,7 @@ XRAutopilotState DeltaGliderXR1::GetAirspeedHoldAP(XRAirspeedHoldState &state) c
     state.on             = m_airspeedHoldEngaged;
     state.TargetAirspeed = m_setAirspeed;
 
-    return (state.on ? XRAPSTATE_Engaged : XRAPSTATE_Disengaged);
+    return (state.on ? XRAutopilotState::XRAPSTATE_Engaged : XRAutopilotState::XRAPSTATE_Disengaged);
 }
 
 // Exterior lights: true = ON, false = OFF
@@ -770,15 +770,15 @@ bool DeltaGliderXR1::SetExteriorLight(XRLight light, bool state)
 {
     switch (light)
     {
-    case XRL_Nav:
+    case XRLight::XRL_Nav:
         SetNavlight(state);
         break;
 
-    case XRL_Beacon:
+    case XRLight::XRL_Beacon:
         SetBeacon(state);
         break;
 
-    case XRL_Strobe:
+    case XRLight::XRL_Strobe:
         SetStrobe(state);
         break;
 
@@ -795,15 +795,15 @@ bool DeltaGliderXR1::GetExteriorLight(XRLight light) const
 
     switch (light)
     {
-    case XRL_Nav:
+    case XRLight::XRL_Nav:
         retVal = beacon[0].active;  // 0,1,2 are always in sync
         break;
 
-    case XRL_Beacon:
+    case XRLight::XRL_Beacon:
         retVal = beacon[3].active;  // 3,4 are always in sync
         break;
 
-    case XRL_Strobe:
+    case XRLight::XRL_Strobe:
         retVal = beacon[5].active;  // 5,6 are always in sync
         break;
 
@@ -866,24 +866,24 @@ XRDoorState DeltaGliderXR1::ToXRDoorState(DoorStatus status)
     
     switch (status)
     {
-    case DOOR_FAILED:
-        retVal = XRDS_Failed;
+    case DoorStatus::DOOR_FAILED:
+        retVal = XRDoorState::XRDS_Failed;
         break;
 
-    case DOOR_CLOSED:
-        retVal = XRDS_Closed;
+    case DoorStatus::DOOR_CLOSED:
+        retVal = XRDoorState::XRDS_Closed;
         break;
 
-    case DOOR_OPEN:
-        retVal = XRDS_Open;
+    case DoorStatus::DOOR_OPEN:
+        retVal = XRDoorState::XRDS_Open;
         break;
 
-    case DOOR_CLOSING:
-        retVal = XRDS_Closing;
+    case DoorStatus::DOOR_CLOSING:
+        retVal = XRDoorState::XRDS_Closing;
         break;
 
-    case DOOR_OPENING:
-        retVal = XRDS_Opening;
+    case DoorStatus::DOOR_OPENING:
+        retVal = XRDoorState::XRDS_Opening;
         break;
     }
 
@@ -897,24 +897,24 @@ DoorStatus DeltaGliderXR1::ToDoorStatus(XRDoorState state)
 
     switch (state)
     {
-    case XRDS_Failed:
-        retVal = DOOR_FAILED;
+    case XRDoorState::XRDS_Failed:
+        retVal = DoorStatus::DOOR_FAILED;
         break;
 
-    case XRDS_Closed:
-        retVal = DOOR_CLOSED;
+    case XRDoorState::XRDS_Closed:
+        retVal = DoorStatus::DOOR_CLOSED;
         break;
 
-    case XRDS_Open:
-        retVal = DOOR_OPEN;
+    case XRDoorState::XRDS_Open:
+        retVal = DoorStatus::DOOR_OPEN;
         break;
 
-    case XRDS_Closing:
-        retVal = DOOR_CLOSING;
+    case XRDoorState::XRDS_Closing:
+        retVal = DoorStatus::DOOR_CLOSING;
         break;
 
-    case XRDS_Opening:
-        retVal = DOOR_OPENING;
+    case XRDoorState::XRDS_Opening:
+        retVal = DoorStatus::DOOR_OPENING;
         break;
     }
 
@@ -927,23 +927,23 @@ int DeltaGliderXR1::GetNavmodeForXRStdAutopilot(XRStdAutopilot id)
     int retVal; 
     switch (id)
     {
-    case XRSAP_KillRot:
+    case XRStdAutopilot::XRSAP_KillRot:
         retVal = NAVMODE_KILLROT;
         break;
 
-    case XRSAP_Prograde:
+    case XRStdAutopilot::XRSAP_Prograde:
         retVal = NAVMODE_PROGRADE;
         break;
 
-    case XRSAP_Retrograde:
+    case XRStdAutopilot::XRSAP_Retrograde:
         retVal = NAVMODE_RETROGRADE;
         break;
 
-    case XRSAP_Normal:
+    case XRStdAutopilot::XRSAP_Normal:
         retVal = NAVMODE_NORMAL;
         break;
 
-    case XRSAP_AntiNormal:
+    case XRStdAutopilot::XRSAP_AntiNormal:
         retVal = NAVMODE_ANTINORMAL;
         break;
 
@@ -1270,7 +1270,7 @@ bool DeltaGliderXR1::SetCrossFeedMode(XRXFEED_STATE state)
         return false;
 
     // range-check
-    if ((state < XF_MAIN) || (state > XF_RCS))
+    if ((state < XRXFEED_STATE::XRXF_MAIN) || (state > XRXFEED_STATE::XRXF_RCS))
         return false;
 
     // NOTE: XFEED_STATE matches XFEED_MODE exactly -- do not change this!

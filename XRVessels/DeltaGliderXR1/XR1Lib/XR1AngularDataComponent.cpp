@@ -36,19 +36,19 @@ AngularDataComponent::AngularDataComponent(InstrumentPanel &parentPanel, COORD2 
     XR1Component(parentPanel, topLeft, meshTextureID)
 {
     // Velocity
-    AddArea(new RotationalVelocityArea(parentPanel, GetAbsCoords(_COORD2(148, 16)), AID_VPITCH, AngularDataArea::PITCH, meshTextureID));
-    AddArea(new RotationalVelocityArea(parentPanel, GetAbsCoords(_COORD2( 80, 16)), AID_VBANK,  AngularDataArea::BANK,  meshTextureID));
-    AddArea(new RotationalVelocityArea(parentPanel, GetAbsCoords(_COORD2( 14, 16)), AID_VYAW,   AngularDataArea::YAW,   meshTextureID));
+    AddArea(new RotationalVelocityArea(parentPanel, GetAbsCoords(_COORD2(148, 16)), AID_VPITCH, AngularDataArea::Type::PITCH, meshTextureID));
+    AddArea(new RotationalVelocityArea(parentPanel, GetAbsCoords(_COORD2( 80, 16)), AID_VBANK,  AngularDataArea::Type::BANK,  meshTextureID));
+    AddArea(new RotationalVelocityArea(parentPanel, GetAbsCoords(_COORD2( 14, 16)), AID_VYAW,   AngularDataArea::Type::YAW,   meshTextureID));
 
     // Acceleration
-    AddArea(new RotationalAccArea(parentPanel, GetAbsCoords(_COORD2(148, 89)), AID_APITCH, AngularDataArea::PITCH,      meshTextureID));
-    AddArea(new RotationalAccArea(parentPanel, GetAbsCoords(_COORD2( 80, 89)), AID_ABANK,  AngularDataArea::BANK,       meshTextureID));
-    AddArea(new RotationalAccArea(parentPanel, GetAbsCoords(_COORD2( 14, 89)), AID_AYAW,   AngularDataArea::YAW,        meshTextureID));
+    AddArea(new RotationalAccArea(parentPanel, GetAbsCoords(_COORD2(148, 89)), AID_APITCH, AngularDataArea::Type::PITCH,      meshTextureID));
+    AddArea(new RotationalAccArea(parentPanel, GetAbsCoords(_COORD2( 80, 89)), AID_ABANK,  AngularDataArea::Type::BANK,       meshTextureID));
+    AddArea(new RotationalAccArea(parentPanel, GetAbsCoords(_COORD2( 14, 89)), AID_AYAW,   AngularDataArea::Type::YAW,        meshTextureID));
 
     // Torque
-    AddArea(new RotationalTorqueArea(parentPanel, GetAbsCoords(_COORD2(148,162)), AID_MPITCH, AngularDataArea::PITCH,   meshTextureID));
-    AddArea(new RotationalTorqueArea(parentPanel, GetAbsCoords(_COORD2( 80,162)), AID_MBANK,  AngularDataArea::BANK,    meshTextureID));
-    AddArea(new RotationalTorqueArea(parentPanel, GetAbsCoords(_COORD2( 14,162)), AID_MYAW,   AngularDataArea::YAW,     meshTextureID));
+    AddArea(new RotationalTorqueArea(parentPanel, GetAbsCoords(_COORD2(148,162)), AID_MPITCH, AngularDataArea::Type::PITCH,   meshTextureID));
+    AddArea(new RotationalTorqueArea(parentPanel, GetAbsCoords(_COORD2( 80,162)), AID_MBANK,  AngularDataArea::Type::BANK,    meshTextureID));
+    AddArea(new RotationalTorqueArea(parentPanel, GetAbsCoords(_COORD2( 14,162)), AID_MYAW,   AngularDataArea::Type::YAW,     meshTextureID));
 }   
 
 //-------------------------------------------------------------------------
@@ -69,19 +69,19 @@ void AngularDataArea::Activate()
     
     switch (m_type)
     {
-    case PITCH:
+    case Type::PITCH:
         sizeX = 40;
         sizeY = 49;
         surfaceID = IDB_VPITCH;
         break;
 
-    case BANK:
+    case Type::BANK:
         sizeX = 50;
         sizeY = 40;
         surfaceID = IDB_VBANK;
         break;
 
-    case YAW:
+    case Type::YAW:
         sizeX = 50;
         sizeY = 40;
         surfaceID = IDB_VYAW;
@@ -121,7 +121,7 @@ bool RotationalVelocityArea::Redraw2D(const int event, const SURFHANDLE surf)
     VECTOR3 vrot;
     GetVessel().GetAngularVel(vrot);
 
-    v  = (m_type == PITCH ? -vrot.x : m_type == BANK ? -vrot.z : vrot.y);
+    v  = (m_type == Type::PITCH ? -vrot.x : m_type == Type::BANK ? -vrot.z : vrot.y);
     av = fabs(v*DEG);
 
     if      (av <  1.0) idx = 0;
@@ -139,12 +139,12 @@ bool RotationalVelocityArea::Redraw2D(const int event, const SURFHANDLE surf)
     // render the surface
     switch (m_type)
     {
-    case PITCH: 
+    case Type::PITCH:
         oapiBlt(surf, m_mainSurface, 0, 0, idx * 40, 0, 40, 49); 
         break;
 
-    case BANK:  
-    case YAW:   
+    case Type::BANK:
+    case Type::YAW:
         oapiBlt(surf, m_mainSurface, 0, 0, idx * 50, 0, 50, 40); 
         break;
     }
@@ -165,7 +165,7 @@ bool RotationalAccArea::Redraw2D(const int event, const SURFHANDLE surf)
     double a, aa;
     VECTOR3 arot;
     GetVessel().GetAngularAcc(arot);
-    a  = (m_type == PITCH ? -arot.x : m_type == BANK ? -arot.z : arot.y);
+    a  = (m_type == Type::PITCH ? -arot.x : m_type == Type::BANK ? -arot.z : arot.y);
     a *= 2.0;
     aa = fabs(a*DEG);
     
@@ -183,12 +183,12 @@ bool RotationalAccArea::Redraw2D(const int event, const SURFHANDLE surf)
     
     switch (m_type)
     {
-        case PITCH: 
+        case Type::PITCH:
             oapiBlt(surf, m_mainSurface, 0, 0, idx*40, 0, 40, 49); 
             break;
 
-        case BANK:  
-        case YAW:   
+        case Type::BANK:
+        case Type::YAW:
             oapiBlt(surf, m_mainSurface, 0, 0, idx*50, 0, 50, 40); 
             break;
     }
@@ -209,7 +209,7 @@ bool RotationalTorqueArea::Redraw2D(const int event, const SURFHANDLE surf)
     double m, am;
     VECTOR3 amom;
     GetVessel().GetAngularMoment(amom);
-    m  = (m_type == PITCH ? -amom.x : m_type == BANK ? -amom.z : amom.y);
+    m  = (m_type == Type::PITCH ? -amom.x : m_type == Type::BANK ? -amom.z : amom.y);
     m *= 1e-3;
     am = fabs(m);
     
@@ -227,12 +227,12 @@ bool RotationalTorqueArea::Redraw2D(const int event, const SURFHANDLE surf)
 
     switch (m_type) 
     {
-        case PITCH:
+        case Type::PITCH:
             oapiBlt(surf, m_mainSurface, 0, 0, idx*40, 0, 40, 49); 
             break;
 
-        case BANK:
-        case YAW:   
+        case Type::BANK:
+        case Type::YAW:
             oapiBlt(surf, m_mainSurface, 0, 0, idx*50, 0, 50, 40); 
             break;
     }

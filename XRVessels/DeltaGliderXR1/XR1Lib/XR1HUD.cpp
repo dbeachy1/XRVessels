@@ -112,9 +112,9 @@ bool DeltaGliderXR1::clbkDrawHUD (int mode, const HUDPAINTSPEC *hps, oapi::Sketc
         const int doorIndicatorYDelta = (IsCameraVC() ? static_cast<int>(((static_cast<double>(markerSize)) / 1.5)) : m_pHudNormalFontSize);    // space between lines
 
 #define RENDER_HUD_DOOR_TEXT(doorStatus, lineNumber, text)      \
-    if ((doorStatus != DOOR_CLOSED) && (doorStatus != DOOR_FAILED))  \
+    if ((doorStatus != DoorStatus::DOOR_CLOSED) && (doorStatus != DoorStatus::DOOR_FAILED))  \
     {                                                           \
-        if ((doorStatus == DOOR_OPEN) || blinkOn)               \
+        if ((doorStatus == DoorStatus::DOOR_OPEN) || blinkOn)               \
             skp->Text(doorIndicatorX, doorIndicatorYBase + (doorIndicatorYDelta * lineNumber), text, static_cast<int>(strlen(text)));  \
     }
 
@@ -128,7 +128,7 @@ bool DeltaGliderXR1::clbkDrawHUD (int mode, const HUDPAINTSPEC *hps, oapi::Sketc
             RENDER_HUD_DOOR_TEXT(bay_status, 4, "Bay Doors");
 
         // show gear deployment status
-        if (gear_status == DOOR_OPEN || (gear_status >= DOOR_CLOSING && blinkOn))
+        if (gear_status == DoorStatus::DOOR_OPEN || (gear_status >= DoorStatus::DOOR_CLOSING && blinkOn))
         {
             if ((cx >= -d*3) && (cx < hps->W+d*3) && (cy >= d && cy < hps->H+d*5))
             {
@@ -164,7 +164,7 @@ bool DeltaGliderXR1::clbkDrawHUD (int mode, const HUDPAINTSPEC *hps, oapi::Sketc
         }
 
         // draw blinking "AIRBRAKE" on the HUD if airbrake deployed
-        if ((brake_status != DOOR_CLOSED) && (brake_status != DOOR_FAILED) && blinkOn)
+        if ((brake_status != DoorStatus::DOOR_CLOSED) && (brake_status != DoorStatus::DOOR_FAILED) && blinkOn)
         {
             // render AIRBRAKE above and to the right of center
             int x = (IsCameraVC() ? cx : (cx + (markerSize * 2)));
@@ -183,7 +183,7 @@ bool DeltaGliderXR1::clbkDrawHUD (int mode, const HUDPAINTSPEC *hps, oapi::Sketc
 
             char str[64];
             int y = (IsCameraVC() ? (cy + (markerSize * 4)) : (cy - (markerSize * 2)));
-            const bool apuOnline = (apu_status == DOOR_OPEN);
+            const bool apuOnline = (apu_status == DoorStatus::DOOR_OPEN);
             const char *pLeftWheelBrake;
             const char *pRightWheelBrake;
             const char *pNoHydraulicPressure;
@@ -580,11 +580,11 @@ HudIntensitySwitchArea::HudIntensitySwitchArea(InstrumentPanel &parentPanel, con
 // position = current switch position (UP, DOWN, CENTER)
 void HudIntensitySwitchArea::ProcessSwitchEvent(SWITCHES switches, POSITION position)
 {
-    if (position == UP)
+    if (position == POSITION::UP)
     {
         oapiIncHUDIntensity();
     }
-    else if (position == DOWN)
+    else if (position == POSITION::DOWN)
     {
         oapiDecHUDIntensity();
     }
@@ -745,7 +745,7 @@ bool TertiaryHUDButtonArea::ProcessMouseEvent(const int event, const int mx, con
 // hudTurnedOn = reference to hud "on/off" switch value
 PopupHUDArea::PopupHUDArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const int width, const int height) :
     XR1Area(parentPanel, panelCoordinates, areaID),
-    m_pen0(0), m_state(Off), m_startScrollTime(-1), m_startScrollY(-1), m_movement(0), m_hBackgroundBrush(0),
+    m_pen0(0), m_state(OnOffState::Off), m_startScrollTime(-1), m_startScrollY(-1), m_movement(0), m_hBackgroundBrush(0),
     m_width(width), m_height(height), m_colorRef(0), m_bgColorRef(0), m_hlColorRef(0),
     m_topYCoordinate(height),  // HUD is OFF (one pixel off-area)
     m_lastRenderedTopYCoordinate(-1)
@@ -871,9 +871,9 @@ void PopupHUDArea::clbkPrePostStep(const double simt, const double simdt, const 
     if (isOn())
     {
         // transition to the ON state if HUD display is OFF
-        if ((m_state == Off) || (m_state == TurningOff))
+        if ((m_state == OnOffState::Off) || (m_state == OnOffState::TurningOff))
         {
-            m_state = TurningOn;
+            m_state = OnOffState::TurningOn;
             m_startScrollTime = simt;
             m_movement = -1; // scroll UP
             m_startScrollY = m_topYCoordinate;  // remember where we started    
@@ -883,9 +883,9 @@ void PopupHUDArea::clbkPrePostStep(const double simt, const double simdt, const 
     else  // HUD is turned off
     {
         // transition to the OFF state if HUD display is ON
-        if ((m_state == On) || (m_state == TurningOn))
+        if ((m_state == OnOffState::On) || (m_state == OnOffState::TurningOn))
         {
-            m_state = TurningOff;
+            m_state = OnOffState::TurningOff;
             m_startScrollTime = simt;
             m_movement = 1;   // scroll DOWN
             m_startScrollY = m_topYCoordinate;  // remember where we started    
@@ -919,14 +919,14 @@ void PopupHUDArea::clbkPrePostStep(const double simt, const double simdt, const 
             // we reached the top; HUD is now ON
             m_topYCoordinate = 0;
             m_movement = 0;
-            m_state = On;
+            m_state = OnOffState::On;
         }
         else if (m_topYCoordinate > m_height)  // NOTE: we want to scroll one pixel BEYOND the lower edge to we hide the top line entirely
         {
             // we reached the bottom; HUD is now OFF
             m_topYCoordinate = m_height;    // one pixel below visible area; line will not be rendered
             m_movement = 0;
-            m_state = Off;
+            m_state = OnOffState::Off;
         }
     }
 }
@@ -1082,9 +1082,9 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
 
     switch (fieldID)
     {
-    case Alt:
+    case FieldID::Alt:
         value = GetXR1().GetAltitude(ALTMODE_GROUND); // in meters
-        if (units == u_met) // metric
+        if (units == Units::u_met) // metric
         {
             // altitude will never be negative here
             if (value >= 1e7)   // >= 10 million meters (10,000 km)?
@@ -1108,30 +1108,30 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
         }
         break;
 
-    case Vel:
+    case FieldID::Vel:
 		value = GetXR1().GetGroundspeed();
         // velocity will never be negative 
-        if (units == u_met) // metric
+        if (units == Units::u_met) // metric
         {
             sprintf(valueStr, "%.1lf m/s", value);
         }
-        else if (units == u_imp)   // imperial
+        else if (units == Units::u_imp)   // imperial
         {
             value = MpsToMph(value);
             sprintf(valueStr, "%.1lf mph", value);
         }
-        else if (units == u_M)
+        else if (units == Units::u_M)
         {
             value = GetXR1().GetMachNumber();
             sprintf(valueStr, "%.3lf Mach", value);  // cap @ 11 characters here b/c of clipping issue with "mach"
         }
         break;
     
-    case StatP:
-    case DynP:
+    case FieldID::StatP:
+    case FieldID::DynP:
         // in pascals
-        value = ((fieldID == StatP) ? GetXR1().GetAtmPressure() : GetXR1().GetDynPressure());
-        if (units == u_met) // metric
+        value = ((fieldID == FieldID::StatP) ? GetXR1().GetAtmPressure() : GetXR1().GetDynPressure());
+        if (units == Units::u_met) // metric
         {
             sprintf(valueStr, "%.4lf kPa", (value / 1000));
         }
@@ -1142,13 +1142,13 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
         }
         break;
 
-    case OAT:
+    case FieldID::OAT:
         value = GetXR1().GetExternalTemperature();   // Kelvin
-        if (units == u_K)
+        if (units == Units::u_K)
         {
             sprintf(valueStr, "%.4lf °K", value);
         }
-        else if (units == u_C)
+        else if (units == Units::u_C)
         {
             value = KelvinToCelsius(value);
             sprintf(valueStr, "%.4lf °C", value);
@@ -1160,7 +1160,7 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
         }
         break;
 
-    case Hdg:
+    case FieldID::Hdg:
         {
             BOOL stat = oapiGetHeading(GetVessel().GetHandle(), &value);
             if (stat == FALSE)
@@ -1172,12 +1172,12 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
         }
         break;
 
-    case VS:
+    case FieldID::VS:
         {
             VECTOR3 v;
 			GetXR1().GetAirspeedVector(FRAME_HORIZON, v);
             value = (GetXR1().GroundContact() ? 0 : v.y);      // in m/s
-            if (units == u_met) // metric
+            if (units == Units::u_met) // metric
             {
                 sprintf(valueStr, "%+.2lf m/s", value);
             }
@@ -1189,23 +1189,23 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
         }
         break;
      
-    case AccX:
-    case AccY:
-    case AccZ:
+    case FieldID::AccX:
+    case FieldID::AccY:
+    case FieldID::AccZ:
         {
             const VECTOR3 &A = GetXR1().m_acceleration;
-            if (fieldID == AccX)
+            if (fieldID == FieldID::AccX)
                 value = A.x;
-            else if (fieldID == AccY)
+            else if (fieldID == FieldID::AccY)
                 value = A.y;
             else
                 value = A.z;
 
-            if (units == u_met)  // metric
+            if (units == Units::u_met)  // metric
             {
                 sprintf(valueStr, "%.4lf m/s²", value);
             }
-            else if (units == u_imp)    // imperial
+            else if (units == Units::u_imp)    // imperial
             {
                 value = MetersToFeet(value);
                 sprintf(valueStr, "%.4lf fps²", value);
@@ -1218,10 +1218,10 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
         }
         break;
 
-    case Mass:
+    case FieldID::Mass:
         value = GetXR1().GetMass(); // in kg
         const char *pFormatStr;
-        if (units == u_met) // metric
+        if (units == Units::u_met) // metric
         {
             if (value > 999999.9)
                 pFormatStr = "%.1lf kg";
@@ -1247,7 +1247,7 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
         }
         break;
 
-    case Ecc:
+    case FieldID::Ecc:
         {
             ELEMENTS e;
             GetVessel().GetElements(NULL, e, NULL, 0, FRAME_EQU);  // this is only expensive on the first call to it in this frame
@@ -1256,7 +1256,7 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
         }
         break;
 
-    case Inc:
+    case FieldID::Inc:
         {
             ELEMENTS e;
             GetVessel().GetElements(NULL, e, NULL, 0, FRAME_EQU);
@@ -1265,13 +1265,13 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
         }
         break;
 
-    case PeT:
-    case ApT:
+    case FieldID::PeT:
+    case FieldID::ApT:
         {
             ELEMENTS e;
             ORBITPARAM prm;
             GetVessel().GetElements(NULL, e, &prm, 0, FRAME_EQU);
-            value = ((fieldID == PeT) ? prm.PeT : prm.ApT);
+            value = ((fieldID == FieldID::PeT) ? prm.PeT : prm.ApT);
 
             // if value < 0, it means that it is N/A; i.e., we are not orbiting the object
             if (value <= 0)
@@ -1289,16 +1289,16 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
         }
         break;
 
-    case PeR:
-    case ApR:
-    case PeA:
-    case ApA:
+    case FieldID::PeR:
+    case FieldID::ApR:
+    case FieldID::PeA:
+    case FieldID::ApA:
         {
             // These values operate on the primary G body at the moment
             ELEMENTS e;
             ORBITPARAM prm;
             GetVessel().GetElements(NULL, e, &prm, 0, FRAME_EQU);
-            value = (((fieldID == PeR) || (fieldID == PeA)) ? prm.PeD : prm.ApD);  // dist from body center in meters
+            value = (((fieldID == FieldID::PeR) || (fieldID == FieldID::PeA)) ? prm.PeD : prm.ApD);  // dist from body center in meters
             
             // if value <= 0, it means that it is N/A; i.e., we are not orbiting the object
             if (value <= 0)
@@ -1308,7 +1308,7 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
             }
 
             // if we are displaying the ALTITUDE, we need to adjust for that
-            if ((fieldID == PeA) || (fieldID == ApA))
+            if ((fieldID == FieldID::PeA) || (fieldID == FieldID::ApA))
             {
                 const OBJHANDLE gRef = GetVessel().GetGravityRef();  // body we are orbiting
                 double radius = oapiGetSize(gRef);  // radius of primary G body
@@ -1316,7 +1316,7 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
             }
 
             // we have the distance in meters; display it
-            if (units == u_met)     // metric
+            if (units == Units::u_met)     // metric
             {
                 if (fabs(value) >= 1e9)
                     sprintf(valueStr, "%.2lf gm", (value / 1e9));
@@ -1346,18 +1346,18 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
         }
         break;
 
-    case Pitch:
-    case Bank:
-    case Slope:
-    case Slip:
-    case AOA:
-        if (fieldID == Pitch)
+    case FieldID::Pitch:
+    case FieldID::Bank:
+    case FieldID::Slope:
+    case FieldID::Slip:
+    case FieldID::AOA:
+        if (fieldID == FieldID::Pitch)
             value = GetVessel().GetPitch();
-        else if (fieldID == Bank)
+        else if (fieldID == FieldID::Bank)
             value = GetVessel().GetBank();
-        else if (fieldID == Slope)
+        else if (fieldID == FieldID::Slope)
             value = GetXR1().m_slope;
-        else if (fieldID == Slip)
+        else if (fieldID == FieldID::Slip)
             value = GetVessel().GetSlipAngle();
         else
             value = GetVessel().GetAOA();
@@ -1366,8 +1366,8 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
         sprintf(valueStr, "%+.3lf°", value);
         break;
 
-    case Long:
-    case Lat:
+    case FieldID::Long:
+    case FieldID::Lat:
         {
             double longitude, latitude, radius;
             OBJHANDLE hObj = GetVessel().GetEquPos(longitude, latitude, radius);
@@ -1375,57 +1375,57 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
                 sprintf(valueStr, "-----");     // no data available
             else
             {
-                double pos = ((fieldID == Long) ? longitude : latitude) * DEG;
+                double pos = ((fieldID == FieldID::Long) ? longitude : latitude) * DEG;
                 char dir;
                 if (pos < 0)
-                    dir = ((fieldID == Long) ? 'W' : 'S');
+                    dir = ((fieldID == FieldID::Long) ? 'W' : 'S');
                 else
-                    dir = ((fieldID == Long) ? 'E' : 'N');
+                    dir = ((fieldID == FieldID::Long) ? 'E' : 'N');
 
                 sprintf(valueStr, "%.5lf° %c", fabs(pos), dir);
             }
         }
         break;
 
-    case LEng:
-    case REng:
-    case MEng:
-    case FHov:
-    case AHov:
-    case BHov:
-    case LScrm:
-    case RScrm:
-    case BScrm:
-    case rcs_1:
-    case rcs_2:
-    case rcs_3:
-    case rcs_4:
-    case rcs_5:
-    case rcs_6:
-    case rcs_7:
-    case rcs_8:
-    case rcs_9:
-    case rcs_10:
-    case rcs_11:
-    case rcs_12:
-    case rcs_13:
-    case rcs_14:
+    case FieldID::LEng:
+    case FieldID::REng:
+    case FieldID::MEng:
+    case FieldID::FHov:
+    case FieldID::AHov:
+    case FieldID::BHov:
+    case FieldID::LScrm:
+    case FieldID::RScrm:
+    case FieldID::BScrm:
+    case FieldID::rcs_1:
+    case FieldID::rcs_2:
+    case FieldID::rcs_3:
+    case FieldID::rcs_4:
+    case FieldID::rcs_5:
+    case FieldID::rcs_6:
+    case FieldID::rcs_7:
+    case FieldID::rcs_8:
+    case FieldID::rcs_9:
+    case FieldID::rcs_10:
+    case FieldID::rcs_11:
+    case FieldID::rcs_12:
+    case FieldID::rcs_13:
+    case FieldID::rcs_14:
         {
 #define GET_THRUST(handle) (GetXR1().GetThrusterLevel(GetXR1().handle) * GetXR1().GetThrusterMax(GetXR1().handle))
-            if (fieldID == LEng)
+            if (fieldID == FieldID::LEng)
             {
                 // test retro FIRST so we don't show "-0.00.." on the HUD
                 value = -GET_THRUST(th_retro[0]);  // show as negative for retro thrust
                 if (value == 0)
                     value = GET_THRUST(th_main[0]); 
             }
-            else if (fieldID == REng)
+            else if (fieldID == FieldID::REng)
             {
                 value = -GET_THRUST(th_retro[1]);  // retro
                 if (value == 0)
                     value = GET_THRUST(th_main[1]);
             }
-            else if (fieldID == MEng)   //  both main engines
+            else if (fieldID == FieldID::MEng)   //  both main engines
             {
                 value = -GET_THRUST(th_retro[0]);   // retro
                 if (value == 0)
@@ -1437,34 +1437,34 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
 
                 value += e1;
             }
-            else if (fieldID == FHov)
+            else if (fieldID == FieldID::FHov)
                 value = GET_THRUST(th_hover[0]);
-            else if (fieldID == AHov)
+            else if (fieldID == FieldID::AHov)
                 value = GET_THRUST(th_hover[1]);
-            else if (fieldID == BHov)
+            else if (fieldID == FieldID::BHov)
                 value = GET_THRUST(th_hover[0]) + GET_THRUST(th_hover[1]);
-            else if (fieldID == LScrm)
+            else if (fieldID == FieldID::LScrm)
                 value = GetXR1().ramjet->GetMostRecentThrust(0);
-            else if (fieldID == RScrm)
+            else if (fieldID == FieldID::RScrm)
                 value = GetXR1().ramjet->GetMostRecentThrust(1);
-            else if (fieldID == BScrm)
+            else if (fieldID == FieldID::BScrm)
                 value = GetXR1().ramjet->GetMostRecentThrust(0) + GetXR1().ramjet->GetMostRecentThrust(1);
             else    // it's an RCS jet
-                value = GET_THRUST(th_rcs[fieldID - rcs_1]);
+                value = GET_THRUST(th_rcs[static_cast<int>(fieldID) - static_cast<int>(FieldID::rcs_1)]);
 
-            if (units == u_imp)
+            if (units == Units::u_imp)
                 value = NewtonsToPounds(value);
 
             if (value >= 1000)
             {
-                if (units == u_met)
+                if (units == Units::u_met)
                     sprintf(valueStr, "%.3lf kN", value / 1000);
                 else  // imperial
                     sprintf(valueStr, "%.3lf kLb", value / 1000);
             }
             else    // RCS thrust is very small
             {
-                if (units == u_met)
+                if (units == Units::u_met)
                     sprintf(valueStr, "%.3lf N", value);
                 else  // imperial
                     sprintf(valueStr, "%.3lf lb", NewtonsToPounds(value));
@@ -1472,31 +1472,31 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
         }
         break;
 
-    case LDtmp:
-    case LCtmp:
-    case LEtmp:
-    case RDtmp:
-    case RCtmp:
-    case REtmp:
+    case FieldID::LDtmp:
+    case FieldID::LCtmp:
+    case FieldID::LEtmp:
+    case FieldID::RDtmp:
+    case FieldID::RCtmp:
+    case FieldID::REtmp:
         {
-            if (fieldID == LDtmp)
+            if (fieldID == FieldID::LDtmp)
                 value = GetXR1().ramjet->Temp(0, 0);
-            else if (fieldID == LCtmp)
+            else if (fieldID == FieldID::LCtmp)
                 value = GetXR1().ramjet->Temp(0, 1);
-            else if (fieldID == LEtmp)
+            else if (fieldID == FieldID::LEtmp)
                 value = GetXR1().ramjet->Temp(0, 2);
-            else if (fieldID == RDtmp)
+            else if (fieldID == FieldID::RDtmp)
                 value = GetXR1().ramjet->Temp(1, 0);
-            else if (fieldID == RCtmp)
+            else if (fieldID == FieldID::RCtmp)
                 value = GetXR1().ramjet->Temp(1, 1);
-            else if (fieldID == REtmp)
+            else if (fieldID == FieldID::REtmp)
                 value = GetXR1().ramjet->Temp(1, 2);
 
-            if (units == u_K)
+            if (units == Units::u_K)
             {
                 sprintf(valueStr, "%.3lf °K", value);
             }
-            else if (units == u_C)
+            else if (units == Units::u_C)
             {
                 value = KelvinToCelsius(value);
                 sprintf(valueStr, "%.3lf °C", value);

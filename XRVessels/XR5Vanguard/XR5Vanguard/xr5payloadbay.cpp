@@ -115,23 +115,23 @@ XR5PayloadBay::XR5PayloadBay(VESSEL &parentVessel) :
 
             // aft neighbor (-Z)
             if (rowNumber < 3)    // no aft neighbors for the last row
-                pSlot->SetNeighbor(MINUSZ, GetSlot(slotNumber + 5));
+                pSlot->SetNeighbor(NEIGHBOR::MINUSZ, GetSlot(slotNumber + 5));
 
             // forward neighbor (+Z)
             if (rowNumber > 0)  // no forward neighbors for the first row
-                pSlot->SetNeighbor(PLUSZ, GetSlot(slotNumber - 5));
+                pSlot->SetNeighbor(NEIGHBOR::PLUSZ, GetSlot(slotNumber - 5));
 
             // right neighbor (+X)
             if (columnNumber > 1) // no right neighbors for the first (right-most) column
-                pSlot->SetNeighbor(PLUSX, GetSlot(slotNumber - 1));
+                pSlot->SetNeighbor(NEIGHBOR::PLUSX, GetSlot(slotNumber - 1));
 
             // left neighbor (-X)
             if (columnNumber < 5) // no left neighbors for the last (left-most) column
-                pSlot->SetNeighbor(MINUSX, GetSlot(slotNumber + 1));
+                pSlot->SetNeighbor(NEIGHBOR::MINUSX, GetSlot(slotNumber + 1));
 
             // above neighbor (+Y)
             if ((columnNumber >= 2) && (columnNumber <= 4))  // three center columns only; 3 per row on the upper level (compared to 5 on the lower level)
-                pSlot->SetNeighbor(PLUSY, GetSlot(slotNumber + 19 - (rowNumber * 2)));
+                pSlot->SetNeighbor(NEIGHBOR::PLUSY, GetSlot(slotNumber + 19 - (rowNumber * 2)));
 
             // no below neighbor (-Y); we are on the bottom level
         }
@@ -148,26 +148,26 @@ XR5PayloadBay::XR5PayloadBay(VESSEL &parentVessel) :
 
             // aft neighbor (-Z)
             if (rowNumber < 3)    // no aft neighbors for the last row
-                pSlot->SetNeighbor(MINUSZ, GetSlot(slotNumber + 3));
+                pSlot->SetNeighbor(NEIGHBOR::MINUSZ, GetSlot(slotNumber + 3));
 
             // forward neighbor (+Z)
             if (rowNumber > 0)  // no forward neighbors for the first row
-                pSlot->SetNeighbor(PLUSZ, GetSlot(slotNumber - 3));
+                pSlot->SetNeighbor(NEIGHBOR::PLUSZ, GetSlot(slotNumber - 3));
 
             // right neighbor (+X)
             if (columnNumber > 2)
-                pSlot->SetNeighbor(PLUSX, GetSlot(slotNumber - 1));
+                pSlot->SetNeighbor(NEIGHBOR::PLUSX, GetSlot(slotNumber - 1));
 
             // left neighbor (-X)
             if (columnNumber < 4)
-                pSlot->SetNeighbor(MINUSX, GetSlot(slotNumber + 1));
+                pSlot->SetNeighbor(NEIGHBOR::MINUSX, GetSlot(slotNumber + 1));
 
             // above neighbor (+Y)
             if (columnNumber == 3)  // center column only
-                pSlot->SetNeighbor(PLUSY, GetSlot(slotNumber + 11 - (rowNumber * 2)));
+                pSlot->SetNeighbor(NEIGHBOR::PLUSY, GetSlot(slotNumber + 11 - (rowNumber * 2)));
             
             // below neighbor (-Y)
-            pSlot->SetNeighbor(MINUSY, GetSlot(slotNumber - 19 + (rowNumber * 2)));
+            pSlot->SetNeighbor(NEIGHBOR::MINUSY, GetSlot(slotNumber - 19 + (rowNumber * 2)));
         }
     }
 
@@ -180,18 +180,18 @@ XR5PayloadBay::XR5PayloadBay(VESSEL &parentVessel) :
 
         // aft neighbor (-Z)
         if (rowNumber < 3)    // no aft neighbors for the last row
-            pSlot->SetNeighbor(MINUSZ, GetSlot(slotNumber + 1));
+            pSlot->SetNeighbor(NEIGHBOR::MINUSZ, GetSlot(slotNumber + 1));
 
         // forward neighbor (+Z)
         if (rowNumber > 0)  // no forward neighbors for the first row
-            pSlot->SetNeighbor(PLUSZ, GetSlot(slotNumber - 1));
+            pSlot->SetNeighbor(NEIGHBOR::PLUSZ, GetSlot(slotNumber - 1));
 
         // no right for left neighbors on this row
 
         // no above neighbor (+Y); this is the top level
 
         // below neighbor (-Y)
-        pSlot->SetNeighbor(MINUSY, GetSlot(slotNumber - 11 + (rowNumber * 2)));
+        pSlot->SetNeighbor(NEIGHBOR::MINUSY, GetSlot(slotNumber - 11 + (rowNumber * 2)));
     }
 }
 

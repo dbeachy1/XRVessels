@@ -53,11 +53,11 @@ extern const double GEAR_UNCOMPRESSED_YCOORD;
 
 // addtional warning light values
 #define XR3_WARNING_LIGHT_COUNT  2
-enum XR3WarningLight 
+enum class XR3WarningLight 
 { 
-    wl5NONE = -1,    // no light
-    wl5Elev,
-    wl5Bay
+    wl3NONE = -1,    // no light
+    wl3Elev,
+    wl3Bay
 };
 
 // new globals for the XR3

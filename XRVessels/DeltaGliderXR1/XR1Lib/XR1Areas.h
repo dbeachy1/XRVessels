@@ -63,24 +63,22 @@ public:
     DeltaGliderXR1 &GetXR1() const { return static_cast<DeltaGliderXR1 &>(GetVessel()); }
 
     // utility methods
-    COLORREF GetTempCREF(double tempK, double limitK, int doorStatus) const;
+    COLORREF XR1Area::GetTempCREF(const double tempK, double limitK, const DoorStatus doorStatus) const;
     COLORREF GetValueCREF(double value, double warningLimit, double criticalLimit) const;
 
     // static worker methods to convert values
-    static double MetersToFeet(double meters) { return (meters * 3.2808399); }
-    static double MetersToMiles(double meters) { return (meters * 3.2808399); }
-    static double MpsToMph(double mps) { return (mps * 2.23693629); }  // meters per second to MPH
-    static double PaToPsi(double pa) { return (pa * 1.45037738e-4); }  // pascals to PSI
-    static double KelvinToFahrenheit(double k) { return (((k - 273.15) * (9.0/5.0)) + 32); }
-    static double KelvinToCelsius(double k) { return (k - 273.15); }
-    static double CelsiusToKelvin(double c) { return (c + 273.15); }
-    static double CelsiusToFahrenheit(double c) { return ((c * (9.0/5.0)) + 32); }
-    static double MpsToFpm(double mps) { return (mps * 196.850394); }  // meters per second to feet per minute
-    static double Mps2ToG(double mps2) { return (mps2 / G); }  // meters/second^2 to G's (acc)
-    static double KgToPounds(double kg) { return (kg * 2.20462262); } // kilograms to pounds
-    static double NewtonsToPounds(double n) { return n * 0.224808943; } 
-
-protected:
+    static double MetersToFeet(const double meters) { return (meters * 3.2808399); }
+    static double MetersToMiles(const double meters) { return (meters * 3.2808399); }
+    static double MpsToMph(const double mps) { return (mps * 2.23693629); }  // meters per second to MPH
+    static double PaToPsi(const double pa) { return (pa * 1.45037738e-4); }  // pascals to PSI
+    static double KelvinToFahrenheit(const double k) { return (((k - 273.15) * (9.0/5.0)) + 32); }
+    static double KelvinToCelsius(const double k) { return (k - 273.15); }
+    static double CelsiusToKelvin(const double c) { return (c + 273.15); }
+    static double CelsiusToFahrenheit(const double c) { return ((c * (9.0/5.0)) + 32); }
+    static double MpsToFpm(const double mps) { return (mps * 196.850394); }  // meters per second to feet per minute
+    static double Mps2ToG(const double mps2) { return (mps2 / G); }  // meters/second^2 to G's (acc)
+    static double KgToPounds(const double kg) { return (kg * 2.20462262); } // kilograms to pounds
+    static double NewtonsToPounds(const double n) { return n * 0.224808943; }
 };
 
 //----------------------------------------------------------------------------------
@@ -88,9 +86,9 @@ protected:
 class VerticalCenteringRockerSwitchArea : public XR1Area
 {
 public:
-    enum POSITION { UP, DOWN, CENTER };               // switch position
-    enum SWITCHES { LEFT, RIGHT, BOTH, SINGLE, NA };  // which switch(es) moved?   NOTE: do not change the order of these values!
-    VerticalCenteringRockerSwitchArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const int meshTextureID, bool isDual, bool reverseRotation = false, POSITION initialPosition = CENTER);
+    enum class POSITION { UP, DOWN, CENTER };               // switch position
+    enum class SWITCHES { LEFT, RIGHT, BOTH, SINGLE, NA };  // which switch(es) moved?   NOTE: do not change the order of these values!
+    VerticalCenteringRockerSwitchArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const int meshTextureID, bool isDual, bool reverseRotation = false, POSITION initialPosition = POSITION::CENTER);
     void SetXRAnimationHandle(UINT * const pAnimationHandle) { m_pAnimationHandle = pAnimationHandle; }  // VC 3D switch; defaults to NULL
     virtual void Activate();
     virtual bool Redraw2D(const int event, const SURFHANDLE surf);
@@ -101,22 +99,22 @@ public:
 protected:
     DeltaGliderXR1::GIMBAL_SWITCH ToGIMBAL_SWITCH(SWITCHES switches)
     {
-        if (switches == LEFT)
-            return GetXR1().LEFT;
-        else if (switches == RIGHT)
-            return GetXR1().RIGHT;
+        if (switches == SWITCHES::LEFT)
+            return DeltaGliderXR1::GIMBAL_SWITCH::LEFT;
+        else if (switches == SWITCHES::RIGHT)
+            return DeltaGliderXR1::GIMBAL_SWITCH::RIGHT;
         else
-            return GetXR1().BOTH;   // SINGLE or NA should never happen here
+            return DeltaGliderXR1::GIMBAL_SWITCH::BOTH;   // SINGLE or NA should never happen here
     }
 
     DeltaGliderXR1::DIRECTION ToDIRECTION(POSITION position)
     {
-        if (position == UP)
-            return GetXR1().UP_OR_LEFT;
-        else if (position == DOWN) 
-            return GetXR1().DOWN_OR_RIGHT;  
+        if (position == POSITION::UP)
+            return DeltaGliderXR1::DIRECTION::UP_OR_LEFT;
+        else if (position == POSITION::DOWN)
+            return DeltaGliderXR1::DIRECTION::DOWN_OR_RIGHT;
         else 
-            return GetXR1().DIR_NONE;
+            return DeltaGliderXR1::DIRECTION::DIR_NONE;
     }
 
     virtual bool DispatchSwitchEvent(const int event, SWITCHES &switches, POSITION &position);  // common mouse code for 2D and 3D
@@ -130,7 +128,6 @@ protected:
     POSITION m_lastSwitchPosition[2];   // UP, DOWN, CENTER
     bool m_isDual;
     bool m_reverseRotation;       // if true, reverses animation rotation actions
-    int m_deltaX, m_deltaY;
 };
 
 //----------------------------------------------------------------------------------
@@ -138,9 +135,9 @@ protected:
 class HorizontalCenteringRockerSwitchArea : public XR1Area
 {
 public:
-    enum POSITION { LEFT, RIGHT, CENTER };          // switch position
-    enum SWITCHES { TOP, BOTTOM, BOTH, SINGLE, NA };  // which switch(es) moved?   NOTE: do not change the order of these values!
-    HorizontalCenteringRockerSwitchArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const int meshTextureID, bool isDual, bool reverseRotation = false, POSITION initialPosition = CENTER);
+    enum class POSITION { LEFT, RIGHT, CENTER };          // switch position
+    enum class SWITCHES { TOP, BOTTOM, BOTH, SINGLE, NA };  // which switch(es) moved?   NOTE: do not change the order of these values!
+    HorizontalCenteringRockerSwitchArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const int meshTextureID, bool isDual, bool reverseRotation = false, POSITION initialPosition = POSITION::CENTER);
     void SetXRAnimationHandle(UINT * const pAnimationHandle) { m_pAnimationHandle = pAnimationHandle; }  // VC 3D switch; defaults to NULL
     virtual void Activate();
     virtual bool Redraw2D(const int event, const SURFHANDLE surf);
@@ -151,33 +148,33 @@ public:
 protected:
     DeltaGliderXR1::GIMBAL_SWITCH ToGIMBAL_SWITCH(SWITCHES switches)
     {
-        if (switches == TOP)  // top switch is LEFT engine
-            return GetXR1().LEFT;
-        else if (switches == BOTTOM)
-            return GetXR1().RIGHT;
+        if (switches == SWITCHES::TOP)  // top switch is LEFT engine
+            return DeltaGliderXR1::GIMBAL_SWITCH::LEFT;
+        else if (switches == SWITCHES::BOTTOM)
+            return DeltaGliderXR1::GIMBAL_SWITCH::RIGHT;
         else
-            return GetXR1().BOTH;   // SINGLE or NA should never happen here
+            return DeltaGliderXR1::GIMBAL_SWITCH::BOTH;   // SINGLE or NA should never happen here
     }
 
-    DeltaGliderXR1::DIRECTION ToDIRECTION(POSITION position)
+    DeltaGliderXR1::DIRECTION ToDIRECTION(HorizontalCenteringRockerSwitchArea::POSITION position)
     {
-        if (position == LEFT)
-            return GetXR1().UP_OR_LEFT;
-        else if (position == RIGHT)
-            return GetXR1().DOWN_OR_RIGHT;
+        if (position == HorizontalCenteringRockerSwitchArea::POSITION::LEFT)
+            return DeltaGliderXR1::DIRECTION::UP_OR_LEFT;
+        else if (position == HorizontalCenteringRockerSwitchArea::POSITION::RIGHT)
+            return DeltaGliderXR1::DIRECTION::DOWN_OR_RIGHT;
         else 
-            return GetXR1().DIR_NONE;
+            return DeltaGliderXR1::DIRECTION::DIR_NONE;
     }
 
-    virtual bool DispatchSwitchEvent(const int event, SWITCHES &switches, POSITION &position);  // common mouse code for 2D and 3D
+    virtual bool DispatchSwitchEvent(const int event, SWITCHES &switches, HorizontalCenteringRockerSwitchArea::POSITION &position);  // common mouse code for 2D and 3D
 
     // the subclass must hook this to process the switch event
-    virtual void ProcessSwitchEvent(SWITCHES switches, POSITION position) = 0;
+    virtual void ProcessSwitchEvent(SWITCHES switches, HorizontalCenteringRockerSwitchArea::POSITION position) = 0;
 
     // data
     UINT *m_pAnimationHandle;
-    POSITION m_initialPosition;         // switch is set to this on activation
-    POSITION m_lastSwitchPosition[2];   // LEFT, RIGHT, CENTER
+    HorizontalCenteringRockerSwitchArea::POSITION m_initialPosition;         // switch is set to this on activation
+    HorizontalCenteringRockerSwitchArea::POSITION m_lastSwitchPosition[2];   // LEFT, RIGHT, CENTER
     bool m_isDual;
     bool m_reverseRotation;       // if true, reverses animation rotation actions
 };
@@ -188,7 +185,7 @@ protected:
 class IndicatorGaugeArea : public XR1Area
 {
 public:
-    enum COLOR { GREEN, RED, YELLOW, WHITE, NONE };  // color of indicator arrow
+    enum class COLOR { GREEN, RED, YELLOW, WHITE, NONE };  // color of indicator arrow
     IndicatorGaugeArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const bool isDual, 
                                        const int redrawFlag, const int meshTextureID, const int deltaX, const int deltaY, const int gapSize);
 
@@ -216,7 +213,7 @@ protected:
 class VerticalGaugeArea : public IndicatorGaugeArea
 {
 public:
-    enum SIDE { LEFT, RIGHT };        // which gauge to render
+    enum class SIDE { LEFT, RIGHT };        // which gauge to render
 
     // render data passed back from subclass
     struct RENDERDATA 
@@ -224,7 +221,7 @@ public:
         COLOR color; 
         int indexY;
 
-        void Reset() { color = NONE; indexY = -1; }
+        void Reset() { color = COLOR::NONE; indexY = -1; }
         bool operator!=(const RENDERDATA &that) const
         {
              return ((color != that.color) || (indexY != that.indexY));
@@ -246,7 +243,7 @@ public:
     };
 
     VerticalGaugeArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const bool isDual, const int sizeY, 
-                      const int redrawFlag, const int meshTextureID = VCPANEL_TEXTURE_NONE, const int deltaX = 0, const int deltaY = 0, const int gapSize = 1, const SIDE singleSide = LEFT);
+                      const int redrawFlag, const int meshTextureID = VCPANEL_TEXTURE_NONE, const int deltaX = 0, const int deltaY = 0, const int gapSize = 1, const SIDE singleSide = SIDE::LEFT);
     virtual bool Redraw2D(const int event, const SURFHANDLE surf);
 
 protected:
@@ -270,15 +267,15 @@ protected:
 class HorizontalGaugeArea : public IndicatorGaugeArea
 {
 public:
-    enum SIDE { TOP, BOTTOM };         // which gauge to render
+    enum class SIDE { TOP, BOTTOM };         // which gauge to render
 
     // render data passed back from subclass
     struct RENDERDATA 
     { 
-        COLOR color; 
+        IndicatorGaugeArea::COLOR color;
         int indexX;
 
-        void Reset() { color = NONE; indexX = -1; }
+        void Reset() { color = IndicatorGaugeArea::COLOR::NONE; indexX = -1; }
         bool operator!=(const RENDERDATA &that) const
         {
              return ((color != that.color) || (indexX != that.indexX));
@@ -301,7 +298,7 @@ public:
 
     // NOTE: we need six extra pixels in width to accomodate 1/2 of the pointer sticking out over each end of the bar (3 pixels per side)
     HorizontalGaugeArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const bool isDual, const int sizeX, 
-                        const int redrawFlag, const int meshTextureID = 1, const int deltaX = 0, const int deltaY = 0, const int gapSize = 1, const SIDE singleSide = BOTTOM);
+                        const int redrawFlag, const int meshTextureID = 1, const int deltaX = 0, const int deltaY = 0, const int gapSize = 1, const SIDE singleSide = SIDE::BOTTOM);
     virtual bool Redraw2D(const int event, const SURFHANDLE surf);
 
 protected:
@@ -437,16 +434,16 @@ protected:
 class BarArea : public XR1Area
 {
 public:
-    enum COLOR { GREEN, RED, YELLOW, WHITE, NONE };  // color of bar
-    enum ORIENTATION { HORIZONTAL, VERTICAL };  // orientation of bar
-    enum BARPORTION { BRIGHT, DARK };  
+    enum class COLOR { GREEN, RED, YELLOW, WHITE, NONE };  // color of bar
+    enum class ORIENTATION { HORIZONTAL, VERTICAL };  // orientation of bar
+    enum class BARPORTION { BRIGHT, DARK };  
 
     // render data passed back from subclass
     class RENDERDATA
     { 
     public:
         RENDERDATA() :  // only used during initialization
-          m_pBarArea(nullptr), color(NONE), startingDarkValue(0), value(0), maxValue(0) { }
+          m_pBarArea(nullptr), color(COLOR::NONE), startingDarkValue(0), value(0), maxValue(0) { }
 
         // startingDarkValue = value at which a darker bar is rendered; will match maxValue if no dark bar present
         RENDERDATA(BarArea *pBarArea, COLOR color, double startingDarkValue, double value, double maxValue) : 
@@ -460,7 +457,7 @@ public:
 
         // wouldn't really need to reset values here, but it won't hurt
         // NOTE: remember that startingDarkValue must always be <= value
-        void Reset() { color = NONE; value = startingDarkValue = 0; }
+        void Reset() { color = COLOR::NONE; value = startingDarkValue = 0; }
 
         // compute X or Y size (i.e., TOP) of the DARK or BRIGHT portion of the gauge bar (depends on orientation)
         int GetIndex(BARPORTION bp) const 
@@ -472,7 +469,7 @@ public:
 
             _ASSERTE(startingDarkValue <= value);
             _ASSERTE(value <= maxValue);
-            const double workingValue = ((bp == DARK) ? value : startingDarkValue);
+            const double workingValue = ((bp == BARPORTION::DARK) ? value : startingDarkValue);
             double fraction = SAFE_FRACTION(workingValue, maxValue);  // 0...1
             if (fraction > 1.0)
             {
@@ -486,7 +483,7 @@ public:
             }
 
             int barLength;
-            if (m_pBarArea->m_orientation == HORIZONTAL)
+            if (m_pBarArea->m_orientation == ORIENTATION::HORIZONTAL)
                 barLength = static_cast<int>(((m_pBarArea->m_sizeX * fraction) + 0.5));  // round to nearest pixel
             else
                 barLength = static_cast<int>(((m_pBarArea->m_sizeY * fraction) + 0.5));  // round to nearest pixel
@@ -498,16 +495,16 @@ public:
         bool operator!=(const RENDERDATA &that) const
         {
              return ((color != that.color) || 
-                     (GetIndex(DARK) != that.GetIndex(DARK)) ||
-                     (GetIndex(BRIGHT) != that.GetIndex(BRIGHT))
+                     (GetIndex(BARPORTION::DARK) != that.GetIndex(BARPORTION::DARK)) ||
+                     (GetIndex(BARPORTION::BRIGHT) != that.GetIndex(BARPORTION::BRIGHT))
                     );
         }
         
         bool operator==(const RENDERDATA &that) const
         {
              return ((color == that.color) && 
-                     (GetIndex(DARK) == that.GetIndex(DARK)) &&
-                     (GetIndex(BRIGHT) == that.GetIndex(BRIGHT))
+                     (GetIndex(BARPORTION::DARK) == that.GetIndex(BARPORTION::DARK)) &&
+                     (GetIndex(BARPORTION::BRIGHT) == that.GetIndex(BARPORTION::BRIGHT))
                     );
         }
 
@@ -518,7 +515,7 @@ public:
     }; 
     
     // convenience inline
-    inline RENDERDATA _RENDERDATA(COLOR color, double startingDarkValue, double value, double maxValue)
+    inline RENDERDATA _RENDERDATA(const COLOR color, const double startingDarkValue, double value, double maxValue)
     {
         // copy new object by value
         return RENDERDATA(this, color, startingDarkValue, value, maxValue);
@@ -548,16 +545,16 @@ protected:
 class NumberArea : public XR1Area
 {
 public:
-    enum COLOR { GREEN, YELLOW, RED, BLUE, WHITE };
+    enum class COLOR { GREEN, YELLOW, RED, BLUE, WHITE };
 
     // render data updated by the subclass
     class RENDERDATA
     { 
     public:
-        RENDERDATA(int sizeInChars) { pStrToRender = new char[sizeInChars+1]; color = GREEN; }
+        RENDERDATA(int sizeInChars) { pStrToRender = new char[sizeInChars+1]; color = COLOR::GREEN; }
         virtual ~RENDERDATA() { delete pStrToRender; }
         // NOTE: do not set value=-999 here!  The string might not be long enough to render it, resulting in a heap overrun.
-        void Reset() { forceRedraw = true; value=0; color = GREEN; }
+        void Reset() { forceRedraw = true; value=0; color = COLOR::GREEN; }
         double value;
         char *pStrToRender;  // initialized in constructor
         bool forceRedraw;
@@ -621,7 +618,7 @@ protected:
 class AccNumberArea : public NumberArea
 {
 public:
-    enum AXIS { X, Y, Z };
+    enum class AXIS { X, Y, Z };
     AccNumberArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const AXIS axis);
 
 protected:
@@ -634,7 +631,7 @@ protected:
 class AccHorizontalGaugeArea : public HorizontalGaugeArea
 {
 public:
-    enum AXIS { X, Y, Z };
+    enum class AXIS { X, Y, Z };
     // NOTE: we need six extra pixels in width to accomodate 1/2 of the pointer sticking out over each end of the bar (3 pixels per side)
     AccHorizontalGaugeArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const AXIS axis, const bool isDual, const SIDE side, const int meshTextureID = VCPANEL_TEXTURE_NONE);
 
@@ -713,8 +710,8 @@ protected:
 class TimerNumberArea : public NumberArea
 {
 public:
-    enum TIMEUNITS { DAYS, HOURS, MINUTES, SECONDS };
-    TimerNumberArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const int sizeInChars, TIMEUNITS timeUnits, NumberArea::COLOR color = GREEN);
+    enum class TIMEUNITS { DAYS, HOURS, MINUTES, SECONDS };
+    TimerNumberArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const int sizeInChars, TIMEUNITS timeUnits, NumberArea::COLOR color = COLOR::GREEN);
 
 protected:
     virtual bool UpdateRenderData(RENDERDATA &renderData);

@@ -44,7 +44,7 @@ public:
 class AngularDataArea : public XR1Area
 {
 public:
-    enum Type { PITCH, BANK, YAW };
+    enum class Type { PITCH, BANK, YAW };
     AngularDataArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const Type type, const int meshTextureID = VCPANEL_TEXTURE_NONE);
     virtual void Activate();
 

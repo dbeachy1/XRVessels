@@ -44,16 +44,16 @@ bool XR3Phoenix::SetDoorState(XRDoorID id, XRDoorState state)
 
     switch (id)
     {
-    case XRD_CrewElevator: 
+    case XRDoorID::XRD_CrewElevator:
         ActivateElevator(ToDoorStatus(state));
         break;
 
-    case XRD_PayloadBayDoors:
+    case XRDoorID::XRD_PayloadBayDoors:
         ActivateBayDoors(ToDoorStatus(state));
         break;
 
     // airlock ladder is not supported by the XR3
-    case XRD_Ladder:
+    case XRDoorID::XRD_Ladder:
         return false;   // door not supported
 
     default:
@@ -73,19 +73,19 @@ XRDoorState XR3Phoenix::GetDoorState(XRDoorID id, double *pProc) const
 
     switch (id)
     {
-    case XRD_CrewElevator: 
+    case XRDoorID::XRD_CrewElevator:
         retVal = ToXRDoorState(crewElevator_status);
         SET_IF_NOT_NULL(pProc, crewElevator_proc);
         break;
 
-    case XRD_PayloadBayDoors:
+    case XRDoorID::XRD_PayloadBayDoors:
         retVal = ToXRDoorState(bay_status);
         SET_IF_NOT_NULL(pProc, bay_proc);
         break;
 
     // airlock ladder is not supported by the XR3
-    case XRD_Ladder:
-        retVal = XRDS_DoorNotSupported;
+    case XRDoorID::XRD_Ladder:
+        retVal = XRDoorState::XRDS_DoorNotSupported;
         SET_IF_NOT_NULL(pProc, -1);
         break;
 
@@ -105,11 +105,11 @@ bool XR3Phoenix::SetXRSystemStatus(const XRSystemStatusWrite &status)
     DeltaGliderXR1::SetXRSystemStatus(status);
 
     // handle custom fields
-    const double bayDoorState = ((status.PayloadBayDoors == XRDMG_online) ? 1.0 : 0.0);
-    SetDamageStatus(BayDoors, bayDoorState);
+    const double bayDoorState = ((status.PayloadBayDoors == XRDamageState::XRDMG_online) ? 1.0 : 0.0);
+    SetDamageStatus(DamageItem::BayDoors, bayDoorState);
 
-    const double elevatorState = ((status.CrewElevator == XRDMG_online) ? 1.0 : 0.0);
-    SetDamageStatus(Elevator, elevatorState);
+    const double elevatorState = ((status.CrewElevator == XRDamageState::XRDMG_online) ? 1.0 : 0.0);
+    SetDamageStatus(DamageItem::Elevator, elevatorState);
 
     // check the user attempting to set any unsupported fields
     bool retVal = true;
@@ -124,8 +124,8 @@ void XR3Phoenix::GetXRSystemStatus(XRSystemStatusRead &status) const
     // Invoke the superclass to fill in the base values; this must be invoked *before* we populate our custom values.
     DeltaGliderXR1::GetXRSystemStatus(status);
 
-    status.PayloadBayDoors = ((GetDamageStatus(BayDoors).fracIntegrity == 1.0) ? XRDMG_online : XRDMG_offline);
-    status.CrewElevator    = ((GetDamageStatus(Elevator).fracIntegrity == 1.0) ? XRDMG_online : XRDMG_offline);
+    status.PayloadBayDoors = ((GetDamageStatus(DamageItem::BayDoors).fracIntegrity == 1.0) ? XRDamageState::XRDMG_online : XRDamageState::XRDMG_offline);
+    status.CrewElevator    = ((GetDamageStatus(DamageItem::Elevator).fracIntegrity == 1.0) ? XRDamageState::XRDMG_online : XRDamageState::XRDMG_offline);
 }
 
 // RCS Mode
@@ -141,14 +141,14 @@ bool XR3Phoenix::IsRCSDockingMode() const
 // returns true if crew elevator is the active EVA port, false if the docking port is active
 bool XR3Phoenix::IsElevatorEVAPortActive() const
 {
-    return (m_activeEVAPort == CREW_ELEVATOR);
+    return (m_activeEVAPort == ACTIVE_EVA_PORT::CREW_ELEVATOR);
 }
 
 // true = crew elevator active, false = docking port active
 // returns: true on success, false if crew elevator not supported
 bool XR3Phoenix::SetElevatorEVAPortActive(bool on)
 {
-    ACTIVE_EVA_PORT newState = (on ? CREW_ELEVATOR : DOCKING_PORT);
+    ACTIVE_EVA_PORT newState = (on ? ACTIVE_EVA_PORT::CREW_ELEVATOR : ACTIVE_EVA_PORT::DOCKING_PORT);
     SetActiveEVAPort(newState);
     return true;
 }

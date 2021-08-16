@@ -52,16 +52,16 @@ void XR3AnimationPostStep::clbkPrePostStep(const double simt, const double simdt
 void XR3AnimationPostStep::AnimateBayDoors(const double simt, const double simdt, const double mjd)
 {
     // animate the payload bay doors
-    if (GetXR3().bay_status >= DOOR_CLOSING)  // closing or opening
+    if (GetXR3().bay_status >= DoorStatus::DOOR_CLOSING)  // closing or opening
     {
         double da = simdt * BAY_OPERATING_SPEED;
-        if (GetXR3().bay_status == DOOR_CLOSING)
+        if (GetXR3().bay_status == DoorStatus::DOOR_CLOSING)
         {
             if (GetXR3().bay_proc > 0.0)
                 GetXR3().bay_proc = max(0.0, GetXR3().bay_proc - da);
             else
             {
-                GetXR3().bay_status = DOOR_CLOSED;
+                GetXR3().bay_status = DoorStatus::DOOR_CLOSED;
                 GetVessel().TriggerRedrawArea(AID_BAYDOORSINDICATOR);
             }
         } 
@@ -71,7 +71,7 @@ void XR3AnimationPostStep::AnimateBayDoors(const double simt, const double simdt
                 GetXR3().bay_proc = min (1.0, GetXR3().bay_proc + da);
             else
             {
-                GetXR3().bay_status = DOOR_OPEN;
+                GetXR3().bay_status = DoorStatus::DOOR_OPEN;
                 GetVessel().TriggerRedrawArea(AID_BAYDOORSINDICATOR);
             }
         }
@@ -82,16 +82,16 @@ void XR3AnimationPostStep::AnimateBayDoors(const double simt, const double simdt
 void XR3AnimationPostStep::AnimateElevator(const double simt, const double simdt, const double mjd)
 {
     // animate the elevator
-    if (GetXR3().crewElevator_status >= DOOR_CLOSING)  // closing or opening
+    if (GetXR3().crewElevator_status >= DoorStatus::DOOR_CLOSING)  // closing or opening
     {
         double da = simdt * ELEVATOR_OPERATING_SPEED;
-        if (GetXR3().crewElevator_status == DOOR_CLOSING)
+        if (GetXR3().crewElevator_status == DoorStatus::DOOR_CLOSING)
         {
             if (GetXR3().crewElevator_proc > 0.0)
                 GetXR3().crewElevator_proc = max(0.0, GetXR3().crewElevator_proc - da);
             else
             {
-                GetXR3().crewElevator_status = DOOR_CLOSED;
+                GetXR3().crewElevator_status = DoorStatus::DOOR_CLOSED;
                 GetVessel().TriggerRedrawArea(AID_ELEVATORINDICATOR);
             }
         } 
@@ -101,7 +101,7 @@ void XR3AnimationPostStep::AnimateElevator(const double simt, const double simdt
                 GetXR3().crewElevator_proc = min (1.0, GetXR3().crewElevator_proc + da);
             else
             {
-                GetXR3().crewElevator_status = DOOR_OPEN;
+                GetXR3().crewElevator_status = DoorStatus::DOOR_OPEN;
                 GetVessel().TriggerRedrawArea(AID_ELEVATORINDICATOR);
             }
         }
@@ -117,7 +117,7 @@ XR3DoorSoundsPostStep::XR3DoorSoundsPostStep(XR3Phoenix &vessel) :
 // set transition state processing to FALSE so we don't play an initial thump when a scenario loads
 #define INIT_DOORSOUND(idx, doorStatus, xr1SoundID, label)      \
     m_XR3doorSounds[idx].pDoorStatus = &(GetXR3().doorStatus);  \
-    m_XR3doorSounds[idx].prevDoorStatus = NOT_SET;              \
+    m_XR3doorSounds[idx].prevDoorStatus = DoorStatus::NOT_SET;  \
     m_XR3doorSounds[idx].soundID = GetXR1().xr1SoundID;         \
     m_XR3doorSounds[idx].processAPUTransitionState = false;     \
     m_XR3doorSounds[idx].pLabel = label

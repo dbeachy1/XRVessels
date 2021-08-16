@@ -38,7 +38,7 @@ const char *VESSELNAME = "XR5Vanguard";
 
 // VERSION ID
 // {XXX} UPDATE THIS FOR THE CURRENT BUILD VERSION; DO NOT REMOVE THIS {XXX} COMMENT
-const char *VERSION = "Version 2.0 RC1 [" ARCH_TYPE  "], Build Date : " __DATE__;
+const char *VERSION = "Version 2.0 Beta-1 [" ARCH_TYPE  "], Build Date : " __DATE__;
 
 // file is always written to the Orbiter directory
 const char *XR_LOG_FILE = "XR5Vanguard.log";
@@ -473,7 +473,7 @@ const double RETRO_DOOR_LIMIT       = 41e3;
 const double DOOR_DYNAMIC_PRESSURE_WARNING_THRESHOLD = 0.75; // issue "door open" warning for pressure
 
 // defines the LAST VALID damage item for this vessel
-const DamageItem D_END = Elevator;
+const DamageItem D_END = DamageItem::Elevator;
 
 // Max. allowed dynamic pressure [Pa]
 const double DYNP_MAX = 150e3;  // 150 kPa

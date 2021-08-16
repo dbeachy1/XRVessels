@@ -37,12 +37,12 @@ void XR3Phoenix::PerformCrashDamage()
     DeltaGliderXR1::PerformCrashDamage();  // handle all the common systems
 
     // set our custom systems to *crashed*
-    bay_status          = DOOR_FAILED;
-    crewElevator_status = DOOR_FAILED;
+    bay_status          = DoorStatus::DOOR_FAILED;
+    crewElevator_status = DoorStatus::DOOR_FAILED;
 
     // blink our new warning lights
-    m_XR3WarningLights[wl5Elev] = true;
-    m_XR3WarningLights[wl5Bay] = true;
+    m_XR3WarningLights[static_cast<int>(XR3WarningLight::wl3Elev)] = true;
+    m_XR3WarningLights[static_cast<int>(XR3WarningLight::wl3Bay)] = true;
 }
 
 //
@@ -78,7 +78,7 @@ bool XR3Phoenix::CheckHullHeatingDamage()
     // NOTE: since the retro doors are not on the wings for this ship, mark the retro doors as CLOSED for the default wing checks in the base class method.
     // This is a bit of a hack, but it's safe and still cleaner than duplicating the wing damange check code.
     const DoorStatus orgRcoverStatus = rcover_status;
-    rcover_status = DOOR_CLOSED;            // disable door-open damage checks for the wings
+    rcover_status = DoorStatus::DOOR_CLOSED;            // disable door-open damage checks for the wings
     bool newdamage = DeltaGliderXR1::CheckHullHeatingDamage();  // check common systems; includes payload bay doors open check
     rcover_status = orgRcoverStatus;        // restore
 
@@ -149,14 +149,14 @@ const DamageStatus &XR3Phoenix::GetDamageStatus(DamageItem item) const
     // check for our custom damage items first
     switch (item)
     {
-    case BayDoors:
-        frac = ((bay_status == DOOR_FAILED) ? 0 : 1);
+    case DamageItem::BayDoors:
+        frac = ((bay_status == DoorStatus::DOOR_FAILED) ? 0 : 1);
         pLabel = "Bay Doors";
         pShortLabel = "BDor";
         break;
 
-    case Elevator:
-        frac = ((crewElevator_status == DOOR_FAILED) ? 0 : 1);
+    case DamageItem::Elevator:
+        frac = ((crewElevator_status == DoorStatus::DOOR_FAILED) ? 0 : 1);
         pLabel = "Elevator";
         pShortLabel = "Elev";
         break;
@@ -182,22 +182,22 @@ const DamageStatus &XR3Phoenix::GetDamageStatus(DamageItem item) const
 void XR3Phoenix::SetDamageStatus(DamageItem item, double fracIntegrity)
 {
 // NOTE: because some warning lights can have multiple causes (e.g., left and right engines), we never CLEAR a warning flag here
-#define SET_WARNING_LIGHT(wlIdx)  m_XR3WarningLights[wlIdx] |= (fracIntegrity < 1.0)
+#define SET_WARNING_LIGHT(wlIdx)  m_XR3WarningLights[static_cast<int>(XR3WarningLight::wlIdx)] |= (fracIntegrity < 1.0)
 
     // check for our custom damage items first
     switch (item)
     {   
-    case BayDoors:
+    case DamageItem::BayDoors:
         UpdateDoorDamage(bay_status, bay_proc, fracIntegrity);
-        SET_WARNING_LIGHT(wl5Bay);
+        SET_WARNING_LIGHT(wl3Bay);
         break;
 
-    case Elevator:
+    case DamageItem::Elevator:
         UpdateDoorDamage(crewElevator_status, crewElevator_proc, fracIntegrity);
         if (fracIntegrity < 1.0)
-            crewElevator_status = DOOR_FAILED;
+            crewElevator_status = DoorStatus::DOOR_FAILED;
 
-        SET_WARNING_LIGHT(wl5Elev);
+        SET_WARNING_LIGHT(wl3Elev);
         break;
 
     default:
@@ -224,7 +224,7 @@ bool XR3Phoenix::CheckDoorFailure(DoorStatus *doorStatus)
     // check for our new doors first
 
     // do not re-check or warn if door already failed
-    bool doorOpen = ((*doorStatus != DOOR_CLOSED) && (*doorStatus != DOOR_FAILED));
+    bool doorOpen = ((*doorStatus != DoorStatus::DOOR_CLOSED) && (*doorStatus != DoorStatus::DOOR_FAILED));
     const double dt = oapiGetSimStep();
 
     if (doorOpen)
@@ -239,18 +239,18 @@ bool XR3Phoenix::CheckDoorFailure(DoorStatus *doorStatus)
             if (IS_DOOR_FAILURE(m_noseconeTemp, ELEVATOR_LIMIT))
             {
                 ShowWarning("Warning Elevator Failure.wav", DeltaGliderXR1::ST_WarningCallout, "Elevator FAILED due to excessive&heat and/or dynamic pressure!", true); // force this
-                *doorStatus = DOOR_FAILED;
-                m_XR3WarningLights[wl5Elev] = true;
+                *doorStatus = DoorStatus::DOOR_FAILED;
+                m_XR3WarningLights[static_cast<int>(XR3WarningLight::wl3Elev)] = true;
                 FailDoor(crewElevator_proc, anim_crewElevator);
                 retVal = true;   // new damage
             }
             else if (IS_DOOR_WARNING(m_noseconeTemp, ELEVATOR_LIMIT))
             {
                 ShowWarning("Warning Elevator Deployed.wav", DeltaGliderXR1::ST_WarningCallout, "Elevator is deployed:&retract it or reduce speed!");
-                m_XR3WarningLights[wl5Elev] = true;
+                m_XR3WarningLights[static_cast<int>(XR3WarningLight::wl3Elev)] = true;
             }
             else if (IS_DOOR_FAILED() == false) 
-                m_XR3WarningLights[wl5Elev] = false;   // reset light
+                m_XR3WarningLights[static_cast<int>(XR3WarningLight::wl3Elev)] = false;   // reset light
         }
         else if (doorStatus == &bay_status)
         {
@@ -258,17 +258,17 @@ bool XR3Phoenix::CheckDoorFailure(DoorStatus *doorStatus)
             if (IS_DOOR_FAILURE(m_topHullTemp, BAY_LIMIT))
             {
                 ShowWarning("Warning Bay Door Failure.wav", DeltaGliderXR1::ST_WarningCallout, "Bay doors FAILED due to excessive&heat and/or dynamic pressure!", true); // force this
-                *doorStatus = DOOR_FAILED;
-                m_XR3WarningLights[wl5Bay] = true;
+                *doorStatus = DoorStatus::DOOR_FAILED;
+                m_XR3WarningLights[static_cast<int>(XR3WarningLight::wl3Bay)] = true;
                 retVal = true;   // new damage
             }
             else if (IS_DOOR_WARNING(m_topHullTemp, BAY_LIMIT))
             {
                 ShowWarning("Warning Bay Doors Open.wav", DeltaGliderXR1::ST_WarningCallout, "Bay doors are open:&close them or reduce speed!");
-                m_XR3WarningLights[wl5Bay] = true;
+                m_XR3WarningLights[static_cast<int>(XR3WarningLight::wl3Bay)] = true;
             }
             else if (IS_DOOR_FAILED() == false) 
-                m_XR3WarningLights[wl5Bay] = false;   // reset light
+                m_XR3WarningLights[static_cast<int>(XR3WarningLight::wl3Bay)] = false;   // reset light
         }
         else    // one of the unmodified doors
             retVal = DeltaGliderXR1::CheckDoorFailure(doorStatus);    // let our superclass handle it
@@ -280,9 +280,9 @@ bool XR3Phoenix::CheckDoorFailure(DoorStatus *doorStatus)
             // only need to handle NEW doors here
             // door is closed; reset the warning light
             if (doorStatus == &crewElevator_status)
-                m_XR3WarningLights[wl5Elev] = false;  
+                m_XR3WarningLights[static_cast<int>(XR3WarningLight::wl3Elev)] = false;
             else if (doorStatus == &bay_status)
-                m_XR3WarningLights[wl5Bay] = false;  
+                m_XR3WarningLights[static_cast<int>(XR3WarningLight::wl3Bay)] = false;
             else
             {
                 // notify our superclass
@@ -319,6 +319,6 @@ void XR3Phoenix::SetDamageVisuals()
         SetMeshGroupVisible(exmesh, ElevatorGrp[i], !aileronfail[i*2]);  
     }
     
-    if (hatch_status == DOOR_FAILED)
+    if (hatch_status == DoorStatus::DOOR_FAILED)
         SetXRAnimation(anim_hatch, 0.2);  // show partially deployed
 }

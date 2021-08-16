@@ -427,7 +427,7 @@ void DeltaGliderXR1::WriteXRCommonScenarioLines(FILEHANDLE scn)
     oapiWriteScenario_string(scn, "LOX_QTY", cbuf);   // fraction of LOX remaining
 
     oapiWriteScenario_float(scn, "CABIN_O2_LEVEL", m_cabinO2Level);   // O2 level in cabin
-    oapiWriteScenario_int(scn, "CREW_STATE", m_crewState);
+    oapiWriteScenario_int(scn, "CREW_STATE", static_cast<int>(m_crewState));
     oapiWriteScenario_int(scn, "INTERNAL_SYSTEMS_FAILURE", m_internalSystemsFailure);
 
     sprintf(cbuf, "%d %d %d", m_cogShiftAutoModeActive, m_cogShiftCenterModeActive, m_cogForceRecenter);
@@ -439,7 +439,7 @@ void DeltaGliderXR1::WriteXRCommonScenarioLines(FILEHANDLE scn)
     // for damage modeling: loop through each system and write status (0...1)
     // Write each surface so the user can manually disable one if he wants to
     // loop through all surfaces
-    for (int i=0; i <= D_END; i++)      // Note: D_END is vessel-specific and is defined as a global
+    for (int i=0; i <= static_cast<int>(D_END); i++)      // Note: D_END is vessel-specific and is defined as a global
     {
         DamageStatus ds = GetDamageStatus((DamageItem)i);
         char name[32];
@@ -473,8 +473,8 @@ void DeltaGliderXR1::WriteXRCommonScenarioLines(FILEHANDLE scn)
     oapiWriteScenario_int(scn, "INTERVAL2_RUNNING", m_interval2TimerRunning);
 
     oapiWriteScenario_int(scn, "ACTIVE_MDM", m_activeMultiDisplayMode);
-    oapiWriteScenario_int(scn, "TEMP_SCALE", m_activeTempScale);
-    oapiWriteScenario_int(scn, "CUSTOM_AUTOPILOT_MODE", m_customAutopilotMode);
+    oapiWriteScenario_int(scn, "TEMP_SCALE", static_cast<int>(m_activeTempScale));
+    oapiWriteScenario_int(scn, "CUSTOM_AUTOPILOT_MODE", static_cast<int>(m_customAutopilotMode));
     oapiWriteScenario_int(scn, "AIRSPEED_HOLD_ENGAGED", m_airspeedHoldEngaged);
 
     // scram gimbaling
@@ -554,8 +554,8 @@ void DeltaGliderXR1::WriteXRCommonScenarioLines(FILEHANDLE scn)
     sprintf (cbuf, "%d %0.4f", hoverdoor_status, hoverdoor_proc);
     oapiWriteScenario_string (scn, "HOVER_DOORS", cbuf);
 
-    oapiWriteScenario_int(scn, "APU_STATUS", apu_status);  // no proc for this
-    oapiWriteScenario_int(scn, "EXTCOOLING_STATUS", externalcooling_status);  // no proc for this
+    oapiWriteScenario_int(scn, "APU_STATUS", static_cast<int>(apu_status));  // no proc for this
+    oapiWriteScenario_int(scn, "EXTCOOLING_STATUS", static_cast<int>(externalcooling_status));  // no proc for this
 
     double trim = GetControlSurfaceLevel (AIRCTRL_ELEVATORTRIM);
     oapiWriteScenario_float (scn, "TRIM", trim);

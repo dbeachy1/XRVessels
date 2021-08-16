@@ -163,16 +163,16 @@ void HLiftCoeff (VESSEL *v, double beta, double M, double Re, void *context, dou
 XR3Phoenix::XR3Phoenix(OBJHANDLE hObj, int fmodel, XR3ConfigFileParser *pConfigFileParser) : 
     DeltaGliderXR1(hObj, fmodel, pConfigFileParser),
     m_rcsDockingMode(false), m_rcsDockingModeAtKillrotStart(false),
-    m_hiddenElevatorTrimState(0), m_activeEVAPort(DOCKING_PORT)
+    m_hiddenElevatorTrimState(0), m_activeEVAPort(ACTIVE_EVA_PORT::DOCKING_PORT)
 {
     // init new XR3 warning lights
     for (int i=0; i < XR3_WARNING_LIGHT_COUNT; i++)
         m_XR3WarningLights[i] = false;  // not lit
 
     // init new doors
-    crewElevator_status = DOOR_CLOSED;
+    crewElevator_status = DoorStatus::DOOR_CLOSED;
     crewElevator_proc   = 0.0;
-    bay_status          = DOOR_CLOSED;
+    bay_status          = DoorStatus::DOOR_CLOSED;
     bay_proc            = 0.0;
 
     // XR3TODO: define VC font
@@ -844,7 +844,7 @@ bool XR3Phoenix::clbkPlaybackEvent (double simt, double event_t, const char *eve
     // XR3TODO: convert crewElevator_proc and associated code into ladder to the ground
     if (!_stricmp (event_type, "ELEVATOR"))
     {
-        ActivateElevator (!_stricmp (event, "CLOSE") ? DOOR_CLOSING : DOOR_OPENING);
+        ActivateElevator (!_stricmp (event, "CLOSE") ? DoorStatus::DOOR_CLOSING : DoorStatus::DOOR_OPENING);
         return true;
     } 
 
@@ -868,9 +868,9 @@ void XR3Phoenix::clbkPostCreation()
 
     DefineMmuAirlock();    // update UMmu airlock data based on current active EVA port
 
-    EnableRetroThrusters(rcover_status == DOOR_OPEN);
-    EnableHoverEngines(hoverdoor_status == DOOR_OPEN);
-    EnableScramEngines(scramdoor_status == DOOR_OPEN);
+    EnableRetroThrusters(rcover_status == DoorStatus::DOOR_OPEN);
+    EnableHoverEngines(hoverdoor_status == DoorStatus::DOOR_OPEN);
+    EnableScramEngines(scramdoor_status == DoorStatus::DOOR_OPEN);
 
     // set initial animation states
     SetXRAnimation(anim_gear,         gear_proc);
@@ -1021,90 +1021,90 @@ INT_PTR CALLBACK XR3Ctrl_DlgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lP
             return TRUE;
 
         case IDC_GEAR_UP:
-            dg->ActivateLandingGear (DOOR_CLOSING);
+            dg->ActivateLandingGear(DoorStatus::DOOR_CLOSING);
             return 0;
         case IDC_GEAR_DOWN:
-            dg->ActivateLandingGear (DOOR_OPENING);
+            dg->ActivateLandingGear(DoorStatus::DOOR_OPENING);
             return 0;
 
         case IDC_RETRO_CLOSE:
-            dg->ActivateRCover (DOOR_CLOSING);
+            dg->ActivateRCover(DoorStatus::DOOR_CLOSING);
             return 0;
         case IDC_RETRO_OPEN:
-            dg->ActivateRCover (DOOR_OPENING);
+            dg->ActivateRCover(DoorStatus::DOOR_OPENING);
             return 0;
 
         case IDC_BAY_CLOSE:
-            dg->ActivateBayDoors(DOOR_CLOSING);
+            dg->ActivateBayDoors(DoorStatus::DOOR_CLOSING);
             return 0;
         case IDC_BAY_OPEN:
-            dg->ActivateBayDoors (DOOR_OPENING);
+            dg->ActivateBayDoors(DoorStatus::DOOR_OPENING);
             return 0;
 
         case IDC_OLOCK_CLOSE:
-            dg->ActivateOuterAirlock (DOOR_CLOSING);
+            dg->ActivateOuterAirlock(DoorStatus::DOOR_CLOSING);
             return 0;
         case IDC_OLOCK_OPEN:
-            dg->ActivateOuterAirlock (DOOR_OPENING);
+            dg->ActivateOuterAirlock(DoorStatus::DOOR_OPENING);
             return 0;
 
         case IDC_ILOCK_CLOSE:
-            dg->ActivateInnerAirlock (DOOR_CLOSING);
+            dg->ActivateInnerAirlock(DoorStatus::DOOR_CLOSING);
             return 0;
         case IDC_ILOCK_OPEN:
-            dg->ActivateInnerAirlock (DOOR_OPENING);
+            dg->ActivateInnerAirlock(DoorStatus::DOOR_OPENING);
             return 0;
 
         case IDC_HOVER_CLOSE:
-            dg->ActivateHoverDoors(DOOR_CLOSING);
+            dg->ActivateHoverDoors(DoorStatus::DOOR_CLOSING);
             return 0;
         case IDC_HOVER_OPEN:
-            dg->ActivateHoverDoors (DOOR_OPENING);
+            dg->ActivateHoverDoors(DoorStatus::DOOR_OPENING);
             return 0;
 
         case IDC_DOCKING_STOW:
-            dg->ActivateNoseCone (DOOR_CLOSING);
+            dg->ActivateNoseCone(DoorStatus::DOOR_CLOSING);
             return 0;
         case IDC_DOCKING_DEPLOY:
-            dg->ActivateNoseCone (DOOR_OPENING);
+            dg->ActivateNoseCone(DoorStatus::DOOR_OPENING);
             return 0;
 
         case IDC_ELEVATOR_STOW:
-            dg->ActivateElevator(DOOR_CLOSING);
+            dg->ActivateElevator(DoorStatus::DOOR_CLOSING);
             return 0;
         case IDC_ELEVATOR_DEPLOY:
-            dg->ActivateElevator (DOOR_OPENING);
+            dg->ActivateElevator(DoorStatus::DOOR_OPENING);
             return 0;
 
         case IDC_SCRAM_CLOSE:
-            dg->ActivateScramDoors(DOOR_CLOSING);
+            dg->ActivateScramDoors(DoorStatus::DOOR_CLOSING);
             return 0;
         case IDC_SCRAM_OPEN:
-            dg->ActivateScramDoors (DOOR_OPENING);
+            dg->ActivateScramDoors(DoorStatus::DOOR_OPENING);
             return 0;
 
         case IDC_HATCH_CLOSE:
-            dg->ActivateHatch (DOOR_CLOSING);
+            dg->ActivateHatch(DoorStatus::DOOR_CLOSING);
             return 0;
         case IDC_HATCH_OPEN:
-            dg->ActivateHatch (DOOR_OPENING);
+            dg->ActivateHatch(DoorStatus::DOOR_OPENING);
             return 0;
 
         case IDC_RADIATOR_STOW:
-            dg->ActivateRadiator (DOOR_CLOSING);
+            dg->ActivateRadiator(DoorStatus::DOOR_CLOSING);
             return 0;
         case IDC_RADIATOR_DEPLOY:
-            dg->ActivateRadiator (DOOR_OPENING);
+            dg->ActivateRadiator(DoorStatus::DOOR_OPENING);
             return 0;
 
         case IDC_NAVLIGHT:
-            dg->SetNavlight (SendDlgItemMessage (hWnd, IDC_NAVLIGHT, BM_GETCHECK, 0, 0) == BST_CHECKED);
+            dg->SetNavlight (SendDlgItemMessage(hWnd, IDC_NAVLIGHT, BM_GETCHECK, 0, 0) == BST_CHECKED);
             return 0;
         case IDC_BEACONLIGHT:
-            dg->SetBeacon (SendDlgItemMessage (hWnd, IDC_BEACONLIGHT, BM_GETCHECK, 0, 0) == BST_CHECKED);
+            dg->SetBeacon (SendDlgItemMessage(hWnd, IDC_BEACONLIGHT, BM_GETCHECK, 0, 0) == BST_CHECKED);
             return 0;
         case IDC_STROBELIGHT:
-            dg->SetStrobe (SendDlgItemMessage (hWnd, IDC_STROBELIGHT, BM_GETCHECK, 0, 0) == BST_CHECKED);
+            dg->SetStrobe (SendDlgItemMessage(hWnd, IDC_STROBELIGHT, BM_GETCHECK, 0, 0) == BST_CHECKED);
             return 0;
         }
         break;
@@ -1124,55 +1124,55 @@ void XR3Phoenix::UpdateCtrlDialog(XR3Phoenix *dg, HWND hWnd)
 
     int op;
     
-    op = dg->gear_status & 1;
+    op = static_cast<int>(dg->gear_status) & 1;
     SendDlgItemMessage (hWnd, IDC_GEAR_DOWN, BM_SETCHECK, bstatus[op], 0);
     SendDlgItemMessage (hWnd, IDC_GEAR_UP, BM_SETCHECK, bstatus[1-op], 0);
     
-    op = dg->rcover_status & 1;
+    op = static_cast<int>(dg->rcover_status) & 1;
     SendDlgItemMessage (hWnd, IDC_RETRO_OPEN, BM_SETCHECK, bstatus[op], 0);
     SendDlgItemMessage (hWnd, IDC_RETRO_CLOSE, BM_SETCHECK, bstatus[1-op], 0);
     
-    op = dg->bay_status & 1;
+    op = static_cast<int>(dg->bay_status) & 1;
     SendDlgItemMessage (hWnd, IDC_BAY_OPEN, BM_SETCHECK, bstatus[op], 0);
     SendDlgItemMessage (hWnd, IDC_BAY_CLOSE, BM_SETCHECK, bstatus[1-op], 0);
 
-    op = dg->olock_status & 1;
+    op = static_cast<int>(dg->olock_status) & 1;
     SendDlgItemMessage (hWnd, IDC_OLOCK_OPEN, BM_SETCHECK, bstatus[op], 0);
     SendDlgItemMessage (hWnd, IDC_OLOCK_CLOSE, BM_SETCHECK, bstatus[1-op], 0);
     
-    op = dg->ilock_status & 1;
+    op = static_cast<int>(dg->ilock_status) & 1;
     SendDlgItemMessage (hWnd, IDC_ILOCK_OPEN, BM_SETCHECK, bstatus[op], 0);
     SendDlgItemMessage (hWnd, IDC_ILOCK_CLOSE, BM_SETCHECK, bstatus[1-op], 0);
 
-    op = dg->hoverdoor_status & 1;
+    op = static_cast<int>(dg->hoverdoor_status) & 1;
     SendDlgItemMessage (hWnd, IDC_HOVER_OPEN, BM_SETCHECK, bstatus[op], 0);
     SendDlgItemMessage (hWnd, IDC_HOVER_CLOSE, BM_SETCHECK, bstatus[1-op], 0);
 
-    op = dg->nose_status & 1;
+    op = static_cast<int>(dg->nose_status) & 1;
     SendDlgItemMessage (hWnd, IDC_DOCKING_DEPLOY, BM_SETCHECK, bstatus[op], 0);
     SendDlgItemMessage (hWnd, IDC_DOCKING_STOW, BM_SETCHECK, bstatus[1-op], 0);
     
-    op = dg->crewElevator_status & 1;
+    op = static_cast<int>(dg->crewElevator_status) & 1;
     SendDlgItemMessage (hWnd, IDC_ELEVATOR_DEPLOY, BM_SETCHECK, bstatus[op], 0);
     SendDlgItemMessage (hWnd, IDC_ELEVATOR_STOW, BM_SETCHECK, bstatus[1-op], 0);
     
-    op = dg->scramdoor_status & 1;
+    op = static_cast<int>(dg->scramdoor_status) & 1;
     SendDlgItemMessage (hWnd, IDC_SCRAM_OPEN, BM_SETCHECK, bstatus[op], 0);
     SendDlgItemMessage (hWnd, IDC_SCRAM_CLOSE, BM_SETCHECK, bstatus[1-op], 0);
 
-    op = dg->hatch_status & 1;
+    op = static_cast<int>(dg->hatch_status) & 1;
     SendDlgItemMessage (hWnd, IDC_HATCH_OPEN, BM_SETCHECK, bstatus[op], 0);
     SendDlgItemMessage (hWnd, IDC_HATCH_CLOSE, BM_SETCHECK, bstatus[1-op], 0);
     
-    op = dg->radiator_status & 1;
+    op = static_cast<int>(dg->radiator_status) & 1;
     SendDlgItemMessage (hWnd, IDC_RADIATOR_DEPLOY, BM_SETCHECK, bstatus[op], 0);
     SendDlgItemMessage (hWnd, IDC_RADIATOR_STOW, BM_SETCHECK, bstatus[1-op], 0);
     
-    op = dg->beacon[0].active ? 1:0;
+    op = static_cast<int>(dg->beacon[0].active) ? 1:0;
     SendDlgItemMessage (hWnd, IDC_NAVLIGHT, BM_SETCHECK, bstatus[op], 0);
-    op = dg->beacon[3].active ? 1:0;
+    op = static_cast<int>(dg->beacon[3].active) ? 1:0;
     SendDlgItemMessage (hWnd, IDC_BEACONLIGHT, BM_SETCHECK, bstatus[op], 0);
-    op = dg->beacon[5].active ? 1:0;
+    op = static_cast<int>(dg->beacon[5].active) ? 1:0;
     SendDlgItemMessage (hWnd, IDC_STROBELIGHT, BM_SETCHECK, bstatus[op], 0);
 }
 
@@ -1196,7 +1196,7 @@ bool XR3Phoenix::SetRCSDockingMode(bool dockingMode)
         }
 
         // check for any custom autopilot except for Airspeed Hold
-        autopilotEngaged |= (m_customAutopilotMode != AP_OFF);
+        autopilotEngaged |= (m_customAutopilotMode != AUTOPILOT::AP_OFF);
 
         if (autopilotEngaged)
         {
@@ -1320,7 +1320,7 @@ void XR3Phoenix::ConfigureRCSJets(bool dockingMode)
     for (int i=0; i < 14; i++)
     {
         // get integrity fraction
-        int damageIntegrityIndex = static_cast<int>(RCS1) + i;    // 0 <= i <= 13
+        int damageIntegrityIndex = static_cast<int>(DamageItem::RCS1) + i;    // 0 <= i <= 13
         DamageStatus ds = GetDamageStatus((DamageItem)damageIntegrityIndex);
         SetThrusterMax0(th_rcs[i], (GetRCSThrustMax(i) * rcsThrusterPowerFrac * ds.fracIntegrity));  
     }
@@ -1332,7 +1332,7 @@ void XR3Phoenix::ConfigureRCSJets(bool dockingMode)
 // hook this so we can disable docking mode automatically
 void XR3Phoenix::SetCustomAutopilotMode(AUTOPILOT mode, bool playSound, bool force)
 {
-    if (mode != AP_OFF)
+    if (mode != AUTOPILOT::AP_OFF)
         ConfigureRCSJets(false);    // revert to normal mode
 
     DeltaGliderXR1::SetCustomAutopilotMode(mode, playSound, force); // do the work
@@ -1422,16 +1422,16 @@ void XR3Phoenix::SetGearParameters(double state)
 }
 
 // handle instant jumps to open or closed here
-#define CHECK_DOOR_JUMP(proc, anim) if (action == DOOR_OPEN) proc = 1.0;            \
-                                    else if (action == DOOR_CLOSED) proc = 0.0;     \
+#define CHECK_DOOR_JUMP(proc, anim) if (action == DoorStatus::DOOR_OPEN) proc = 1.0;            \
+                                    else if (action == DoorStatus::DOOR_CLOSED) proc = 0.0;     \
                                     SetXRAnimation(anim, proc)
 
 // activate the bay doors (must override base class because of our radiator check)
 void XR3Phoenix::ActivateBayDoors(DoorStatus action)
 {
     // cannot deploy or retract bay doors if the radiator is in motion
-    // NOTE: allow for DOOR_FAILED here so that a radiator failure does not lock the bay doors
-    if ((radiator_status == DOOR_OPENING) || (radiator_status == DOOR_CLOSING))
+    // NOTE: allow for DoorStatus::DOOR_FAILED here so that a radiator failure does not lock the bay doors
+    if ((radiator_status == DoorStatus::DOOR_OPENING) || (radiator_status == DoorStatus::DOOR_CLOSING))
     {
         PlayErrorBeep();
         ShowWarning("Warning Radiator in Motion Bay Doors Are Locked.wav", DeltaGliderXR1::ST_WarningCallout, "Cannot open/close bay doors while&radiator is in motion.");
@@ -1446,7 +1446,7 @@ void XR3Phoenix::ActivateBayDoors(DoorStatus action)
 void XR3Phoenix::ActivateElevator(DoorStatus action)
 {
     // check for failure
-    if (crewElevator_status == DOOR_FAILED)
+    if (crewElevator_status == DoorStatus::DOOR_FAILED)
     {
         PlayErrorBeep();
         ShowWarning("Warning Elevator Failure.wav", DeltaGliderXR1::ST_WarningCallout, "Elevator inoperative due to excessive&heat and/or dynamic pressure.");
@@ -1464,7 +1464,7 @@ void XR3Phoenix::ActivateElevator(DoorStatus action)
         return;  // cannot move
     }
 
-    bool close = (action == DOOR_CLOSING) || (action == DOOR_CLOSED);
+    bool close = (action == DoorStatus::DOOR_CLOSING) || (action == DoorStatus::DOOR_CLOSED);
     crewElevator_status = action;
 
     CHECK_DOOR_JUMP(crewElevator_proc, anim_crewElevator);
@@ -1478,15 +1478,15 @@ void XR3Phoenix::ActivateElevator(DoorStatus action)
 // invoked from key handler
 void XR3Phoenix::ToggleElevator()
 {
-    ActivateElevator(crewElevator_status == DOOR_CLOSED || crewElevator_status == DOOR_CLOSING ?
-            DOOR_OPENING : DOOR_CLOSING);
+    ActivateElevator(crewElevator_status == DoorStatus::DOOR_CLOSED || crewElevator_status == DoorStatus::DOOR_CLOSING ?
+        DoorStatus::DOOR_OPENING : DoorStatus::DOOR_CLOSING);
 }
 
 // Override the base class method so we can perform some additional checks
 void XR3Phoenix::ActivateRadiator(DoorStatus action)
 {
     // check for failure
-    if (radiator_status == DOOR_FAILED)
+    if (radiator_status == DoorStatus::DOOR_FAILED)
     {
         PlayErrorBeep();
         ShowWarning("Warning Radiator Failure.wav", DeltaGliderXR1::ST_WarningCallout, "Radiator inoperative due to excessive&heat and/or dynamic pressure.");
@@ -1497,8 +1497,8 @@ void XR3Phoenix::ActivateRadiator(DoorStatus action)
         return;     // no hydraulic pressure
 
     // cannot deploy or retract radiator if the payload bay doors are in motion
-    // NOTE: allow for DOOR_FAILED here so that a bay door failure does not lock the radiator
-    if ((bay_status == DOOR_OPENING) || (bay_status == DOOR_CLOSING))
+    // NOTE: allow for DoorStatus::DOOR_FAILED here so that a bay door failure does not lock the radiator
+    if ((bay_status == DoorStatus::DOOR_OPENING) || (bay_status == DoorStatus::DOOR_CLOSING))
     {
         PlayErrorBeep();
         ShowWarning("Warning Bay Doors in Motion Radiator is Locked.wav", DeltaGliderXR1::ST_WarningCallout, "Cannot deploy/retract radiator&while bay doors are in motion.");
@@ -1506,14 +1506,14 @@ void XR3Phoenix::ActivateRadiator(DoorStatus action)
     }
 
     // cannot deploy or retract radiator if bay doors are OPEN (they would collide)
-    if (bay_status == DOOR_OPEN)
+    if (bay_status == DoorStatus::DOOR_OPEN)
     {
         PlayErrorBeep();
         ShowWarning("Warning Bay Doors Open Radiator is Locked.wav", DeltaGliderXR1::ST_WarningCallout, "Cannot deploy/retract radiator&while bay doors are open.");
         return;  // cannot move
     }
 
-    bool close = (action == DOOR_CLOSED || action == DOOR_CLOSING);
+    bool close = (action == DoorStatus::DOOR_CLOSED || action == DoorStatus::DOOR_CLOSING);
     radiator_status = action;
 
     CHECK_DOOR_JUMP(radiator_proc, anim_radiator);
@@ -1528,7 +1528,7 @@ void XR3Phoenix::ActivateRadiator(DoorStatus action)
 // prevent landing gear from being raised if the gear is not yet fully uncompressed
 void XR3Phoenix::ActivateLandingGear(DoorStatus action)
 {
-    if (((action == DOOR_OPENING) || (action == DOOR_CLOSING)) && ((m_noseGearProc != 1.0) || (m_rearGearProc != 1.0)))
+    if (((action == DoorStatus::DOOR_OPENING) || (action == DoorStatus::DOOR_CLOSING)) && ((m_noseGearProc != 1.0) || (m_rearGearProc != 1.0)))
     {
         PlayErrorBeep();
         ShowWarning("Gear Locked.wav", DeltaGliderXR1::ST_WarningCallout, "Gear is still in contact with the&ground: cannot raise landing gear.");
@@ -1624,7 +1624,7 @@ void XR3Phoenix::DefineMmuAirlock()
 {
     switch (m_activeEVAPort)
     {
-    case DOCKING_PORT:
+    case ACTIVE_EVA_PORT::DOCKING_PORT:
         {
             const float airlockY = static_cast<float>(DOCKING_PORT_COORD.y);
             const float airlockZ = static_cast<float>(DOCKING_PORT_COORD.z);
@@ -1642,7 +1642,7 @@ void XR3Phoenix::DefineMmuAirlock()
             break;
         }
 
-    case CREW_ELEVATOR:
+    case ACTIVE_EVA_PORT::CREW_ELEVATOR:
         {
             // PRE-1.3 RC2: Port location (deployed): -3.116, -9.092, 6.35 
             // NEW: Port location (deployed):         -3.116 + 0.7, -9.092 - 0.7, 6.35 
@@ -1684,19 +1684,19 @@ void XR3Phoenix::DefineMmuAirlock()
 // returns: true if EVA doors are OK, false if not
 bool XR3Phoenix::CheckEVADoor()
 {
-    if (m_activeEVAPort == DOCKING_PORT)
+    if (m_activeEVAPort == ACTIVE_EVA_PORT::DOCKING_PORT)
         return DeltaGliderXR1::CheckEVADoor();
 
     // else it's the crew elevator
     // NOTE: if the gear has collapsed, cannot EVA via the elevator!  Also note that we cannot use GetGearFullyCompressedAltitude here, since that will be 0
     // even after gear collapse since GroundContact will be true.
-    if ((crewElevator_status == DOOR_FAILED) || (GetAltitude(ALTMODE_GROUND) < (GEAR_FULLY_COMPRESSED_DISTANCE-0.2)))  // leave a 0.2-meter safety cushion
+    if ((crewElevator_status == DoorStatus::DOOR_FAILED) || (GetAltitude(ALTMODE_GROUND) < (GEAR_FULLY_COMPRESSED_DISTANCE-0.2)))  // leave a 0.2-meter safety cushion
     {
         PlayErrorBeep();
         ShowWarning("Warning Elevator Failure.wav", DeltaGliderXR1::ST_WarningCallout, "Crew Elevator is damanged.");
         return false;
     }
-    else if (crewElevator_status != DOOR_OPEN)
+    else if (crewElevator_status != DoorStatus::DOOR_OPEN)
     {
         PlayErrorBeep();
         ShowWarning("Warning Elevator is Closed.wav", DeltaGliderXR1::ST_WarningCallout, "Crew Elevator is stowed.");
@@ -1776,7 +1776,7 @@ double XR3Phoenix::GetRCSThrustMax(const int index) const
     // if holding attitude, adjust RCS max thrust based on payload in the bay
     if (InAtm())
     {
-        if ((m_customAutopilotMode == AP_ATTITUDEHOLD) || (m_customAutopilotMode == AP_DESCENTHOLD))
+        if ((m_customAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD) || (m_customAutopilotMode == AUTOPILOT::AP_DESCENTHOLD))
         {
             const double withPayloadMass = GetEmptyMass();        // includes payload
             const double payloadMass = GetPayloadMass();

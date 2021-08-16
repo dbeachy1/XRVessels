@@ -30,7 +30,7 @@
 
 // 2D panel width flags
 // NOTE: if you add additional widths, be sure to update VESSEL3_EXT::Get2DPanelWidth() as well.
-enum TWO_D_PANEL_WIDTH { AUTODETECT, USE1280, USE1600, USE1920 };
+enum class TWO_D_PANEL_WIDTH { AUTODETECT, USE1280, USE1600, USE1920 };
 
 class VesselConfigFileParser : public ConfigFileParser
 {

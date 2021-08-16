@@ -27,4 +27,4 @@
 
 #pragma once
 
-enum PROP_TYPE { PT_NONE = -1, PT_Main, PT_SCRAM, PT_LOX };
+enum class PROP_TYPE { PT_NONE = -1, PT_Main, PT_SCRAM, PT_LOX };

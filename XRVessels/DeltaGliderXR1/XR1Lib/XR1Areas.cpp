@@ -95,10 +95,10 @@ bool VerticalCenteringRockerSwitchArea::Redraw2D(const int event, const SURFHAND
     if (m_isDual == FALSE)
     {
         // single switch
-        int lastPos = m_lastSwitchPosition[0];
-        if (lastPos == CENTER)
+        const POSITION lastPos = m_lastSwitchPosition[0];
+        if (lastPos == POSITION::CENTER)
             srcX = 0;
-        else if (lastPos == UP)
+        else if (lastPos == POSITION::UP)
             srcX = 16;
         else  // DOWN
             srcX = 32;
@@ -109,10 +109,10 @@ bool VerticalCenteringRockerSwitchArea::Redraw2D(const int event, const SURFHAND
     {
         for (int i=0; i < 2; i++)
         {
-            int lastPos = m_lastSwitchPosition[i];
-            if (lastPos == CENTER)
+            const POSITION lastPos = m_lastSwitchPosition[i];
+            if (lastPos == POSITION::CENTER)
                 srcX = 0;
-            else if (lastPos == UP)
+            else if (lastPos == POSITION::UP)
                 srcX = 16;
             else  // DOWN
                 srcX = 32;
@@ -133,9 +133,9 @@ bool VerticalCenteringRockerSwitchArea::Redraw3D(const int event, const SURFHAND
         for (int i=0; i < (m_isDual ? 2 : 1); i++)
         {
             double animationState;
-            if (m_lastSwitchPosition[i] == CENTER)
+            if (m_lastSwitchPosition[i] == POSITION::CENTER)
                 animationState = 0.5;
-            else if (m_lastSwitchPosition[i] == DOWN)
+            else if (m_lastSwitchPosition[i] == POSITION::DOWN)
                 animationState = 0;
             else        // UP
                 animationState = 1; 
@@ -157,8 +157,8 @@ bool VerticalCenteringRockerSwitchArea::ProcessMouseEvent(const int event, const
     if (GetXR1().IsCrewIncapacitated())
         return false;
 
-    SWITCHES switches = NA;  // which switches moved
-    POSITION position = CENTER;  // up, down, center
+    SWITCHES switches = SWITCHES::NA;  // which switches moved
+    POSITION position = POSITION::CENTER;  // up, down, center
 
     // true if switch is pressed in any direction
     bool isPressed = ((event & (PANEL_MOUSE_LBDOWN | PANEL_MOUSE_LBPRESSED)) != 0);    
@@ -167,30 +167,30 @@ bool VerticalCenteringRockerSwitchArea::ProcessMouseEvent(const int event, const
     {
         if (isPressed)
         {
-            if (my < 22) position = UP;
-            else         position = DOWN;
+            if (my < 22) position = POSITION::UP;
+            else         position = POSITION::DOWN;
         } 
 
-        switches = SINGLE;
+        switches = SWITCHES::SINGLE;
     }
     else  // dual switch
     {
         if (isPressed)
         {
-            if      (mx <  10) switches = LEFT;
-            else if (mx >= 25) switches = RIGHT;
-            else               switches = BOTH;
+            if      (mx <  10) switches = SWITCHES::LEFT;
+            else if (mx >= 25) switches = SWITCHES::RIGHT;
+            else               switches = SWITCHES::BOTH;
 
-            if      (my <  22) position = UP;
-            else               position = DOWN;
+            if      (my <  22) position = POSITION::UP;
+            else               position = POSITION::DOWN;
         } 
     }
 
     // play sound if the mouse was just clicked
-    if ((position != CENTER) && (event & PANEL_MOUSE_LBDOWN))
+    if ((position != POSITION::CENTER) && (event & PANEL_MOUSE_LBDOWN))
     {
         // play a quiet click if this is auto-centering, or a normal click if not auto-centering
-        if (m_initialPosition == CENTER)
+        if (m_initialPosition == POSITION::CENTER)
             GetXR1().PlaySound(GetXR1().SwitchOn, DeltaGliderXR1::ST_Other, QUIET_CLICK);    // light click
         else
             GetXR1().PlaySound(GetXR1().SwitchOn, DeltaGliderXR1::ST_Other);  // normal click
@@ -206,7 +206,7 @@ bool VerticalCenteringRockerSwitchArea::ProcessVCMouseEvent(const int event, con
         return false;
 
     SWITCHES switches;  // which switches moved
-    POSITION position = CENTER;  // up, down, center
+    POSITION position = POSITION::CENTER;  // up, down, center
 
     // true if switch is pressed in any direction
     bool isPressed = ((event & (PANEL_MOUSE_LBDOWN | PANEL_MOUSE_LBPRESSED)) != 0);    
@@ -215,27 +215,27 @@ bool VerticalCenteringRockerSwitchArea::ProcessVCMouseEvent(const int event, con
     {
         if (isPressed)
         {
-            if (coords.y < 0.5) position = UP;
-            else                position = DOWN;
+            if (coords.y < 0.5) position = POSITION::UP;
+            else                position = POSITION::DOWN;
         } 
 
-        switches = SINGLE;
+        switches = SWITCHES::SINGLE;
     }
     else  // dual switch
     {
         if (isPressed)
         {
-            if      (coords.x < 0.25)  switches = LEFT;
-            else if (coords.x >= 0.75) switches = RIGHT;
-            else                       switches = BOTH;
+            if      (coords.x < 0.25)  switches = SWITCHES::LEFT;
+            else if (coords.x >= 0.75) switches = SWITCHES::RIGHT;
+            else                       switches = SWITCHES::BOTH;
 
-            if      (coords.y <  0.5) position = UP;
-            else                      position = DOWN;
+            if      (coords.y <  0.5) position = POSITION::UP;
+            else                      position = POSITION::DOWN;
         } 
     }
 
     // play sound if the mouse was just clicked
-    if ((position != CENTER) && (event & PANEL_MOUSE_LBDOWN))
+    if ((position != POSITION::CENTER) && (event & PANEL_MOUSE_LBDOWN))
         GetXR1().PlaySound(GetXR1().SwitchOn, DeltaGliderXR1::ST_Other, QUIET_CLICK);    // light click
 
     return DispatchSwitchEvent(event, switches, position);
@@ -248,25 +248,25 @@ bool VerticalCenteringRockerSwitchArea::DispatchSwitchEvent(const int event, SWI
     if (event & PANEL_MOUSE_LBUP)
     {
         // no movement, but we still need to repaint the switch texture
-        switches = NA;   
-        position = CENTER;    
+        switches = SWITCHES::NA;
+        position = POSITION::CENTER;
     }
 
     // save "last rendered" state
     switch (switches)
     {
-    case SINGLE:
-    case LEFT:
+    case SWITCHES::SINGLE:
+    case SWITCHES::LEFT:
         m_lastSwitchPosition[0] = position;
         break;
     
-    case RIGHT:
+    case SWITCHES::RIGHT:
         m_lastSwitchPosition[1] = position;
         break;
     
-    case BOTH:
-    case NA:   // on button-up, reset to center if centering mode enabled
-        if (m_initialPosition == CENTER)
+    case SWITCHES::BOTH:
+    case SWITCHES::NA:   // on button-up, reset to center if centering mode enabled
+        if (m_initialPosition == POSITION::CENTER)
             m_lastSwitchPosition[0] = m_lastSwitchPosition[1] = position;
         break;
     }
@@ -323,10 +323,10 @@ bool HorizontalCenteringRockerSwitchArea::Redraw2D(const int event, const SURFHA
     if (m_isDual == FALSE)
     {
         // single switch
-        int lastPos = m_lastSwitchPosition[0];
-        if (lastPos == CENTER)
+        const POSITION lastPos = m_lastSwitchPosition[static_cast<int>(POSITION::LEFT)];
+        if (lastPos == POSITION::CENTER)
             srcY = 0;
-        else if (lastPos == LEFT)
+        else if (lastPos == POSITION::LEFT)
             srcY = 16;
         else  // RIGHT
             srcY = 32;
@@ -337,10 +337,10 @@ bool HorizontalCenteringRockerSwitchArea::Redraw2D(const int event, const SURFHA
     {
         for (int i=0; i < 2; i++)
         {
-            int lastPos = m_lastSwitchPosition[i];
-            if (lastPos == CENTER)
+            const POSITION lastPos = m_lastSwitchPosition[i];
+            if (lastPos == POSITION::CENTER)
                 srcY = 0;
-            else if (lastPos == LEFT)
+            else if (lastPos == POSITION::LEFT)
                 srcY = 16;
             else  // DOWN
                 srcY = 32;
@@ -361,9 +361,9 @@ bool HorizontalCenteringRockerSwitchArea::Redraw3D(const int event, const SURFHA
         for (int i=0; i < (m_isDual ? 2 : 1); i++)
         {
             double animationState;
-            if (m_lastSwitchPosition[i] == CENTER)
+            if (m_lastSwitchPosition[i] == POSITION::CENTER)
                 animationState = 0.5;
-            else if (m_lastSwitchPosition[i] == RIGHT)
+            else if (m_lastSwitchPosition[i] == POSITION::RIGHT)
                 animationState = 0;
             else        // LEFT
                 animationState = 1; 
@@ -385,8 +385,8 @@ bool HorizontalCenteringRockerSwitchArea::ProcessMouseEvent(const int event, con
     if (GetXR1().IsCrewIncapacitatedOrNoPilotOnBoard())
         return false;
 
-    SWITCHES switches = NA;      // which switches moved
-    POSITION position = CENTER;  // LEFT, RIGHT, CENTER
+    SWITCHES switches = SWITCHES::NA;      // which switches moved
+    POSITION position = POSITION::CENTER;  // LEFT, RIGHT, CENTER
 
     // true if switch is pressed in any direction
     bool isPressed = ((event & (PANEL_MOUSE_LBDOWN | PANEL_MOUSE_LBPRESSED)) != 0);    
@@ -394,30 +394,30 @@ bool HorizontalCenteringRockerSwitchArea::ProcessMouseEvent(const int event, con
     {
         if (isPressed)
         {
-            if (mx < 22) position = LEFT;
-            else         position = RIGHT;
+            if (mx < 22) position = POSITION::LEFT;
+            else         position = POSITION::RIGHT;
         } 
 
-        switches = SINGLE;
+        switches = SWITCHES::SINGLE;
     }
     else  // dual switch
     {
         if (isPressed)
         {
-            if      (my <  10) switches = TOP;
-            else if (my >= 25) switches = BOTTOM;
-            else               switches = BOTH;
+            if      (my <  10) switches = SWITCHES::TOP;
+            else if (my >= 25) switches = SWITCHES::BOTTOM;
+            else               switches = SWITCHES::BOTH;
 
-            if      (mx <  22) position = LEFT;
-            else               position = RIGHT;
+            if      (mx <  22) position = POSITION::LEFT;
+            else               position = POSITION::RIGHT;
         } 
     }
 
     // play sound if the mouse was just clicked    
-    if ((position != CENTER) && (event & PANEL_MOUSE_LBDOWN))
+    if ((position != POSITION::CENTER) && (event & PANEL_MOUSE_LBDOWN))
     {
         // play a quiet click if this is auto-centering, or a normal click if not auto-centering
-        if (m_initialPosition == CENTER)
+        if (m_initialPosition == POSITION::CENTER)
             GetXR1().PlaySound(GetXR1().SwitchOn, DeltaGliderXR1::ST_Other, QUIET_CLICK);    // light click
         else
             GetXR1().PlaySound(GetXR1().SwitchOff, DeltaGliderXR1::ST_Other);  // normal click; SwitchOff is slight louder, so let's use that
@@ -433,7 +433,7 @@ bool HorizontalCenteringRockerSwitchArea::ProcessVCMouseEvent(const int event, c
         return false;
 
     SWITCHES switches;  // which switches moved
-    POSITION position = CENTER;  // up, down, center
+    POSITION position = POSITION::CENTER;  // up, down, center
 
     // true if switch is pressed in any direction
     bool isPressed = ((event & (PANEL_MOUSE_LBDOWN | PANEL_MOUSE_LBPRESSED)) != 0);    
@@ -442,27 +442,27 @@ bool HorizontalCenteringRockerSwitchArea::ProcessVCMouseEvent(const int event, c
     {
         if (isPressed)
         {
-            if (coords.x < 0.5) position = LEFT;
-            else                position = RIGHT;
+            if (coords.x < 0.5) position = POSITION::LEFT;
+            else                position = POSITION::RIGHT;
         } 
 
-        switches = SINGLE;
+        switches = SWITCHES::SINGLE;
     }
     else  // dual switch
     {
         if (isPressed)
         {
-            if      (coords.y < 0.25)  switches = TOP;
-            else if (coords.y >= 0.75) switches = BOTTOM;
-            else                       switches = BOTH;
+            if      (coords.y < 0.25)  switches = SWITCHES::TOP;
+            else if (coords.y >= 0.75) switches = SWITCHES::BOTTOM;
+            else                       switches = SWITCHES::BOTH;
 
-            if      (coords.x <  0.5) position = LEFT;
-            else                      position = RIGHT;
+            if      (coords.x <  0.5) position = POSITION::LEFT;
+            else                      position = POSITION::RIGHT;
         } 
     }
 
     // play sound if the mouse was just clicked
-    if ((position != CENTER) && (event & PANEL_MOUSE_LBDOWN))
+    if ((position != POSITION::CENTER) && (event & PANEL_MOUSE_LBDOWN))
         GetXR1().PlaySound(GetXR1().SwitchOn, DeltaGliderXR1::ST_Other, QUIET_CLICK);    // light click
 
     return DispatchSwitchEvent(event, switches, position);
@@ -475,25 +475,25 @@ bool HorizontalCenteringRockerSwitchArea::DispatchSwitchEvent(const int event, S
     if (event & PANEL_MOUSE_LBUP)
     {
         // no movement, but we still need to repaint the switch texture
-        switches = NA;   
-        position = CENTER;    
+        switches = SWITCHES::NA;   
+        position = POSITION::CENTER;
     }
 
     // save "last rendered" state
     switch (switches)
     {
-    case SINGLE:
-    case TOP:
+    case SWITCHES::SINGLE:
+    case SWITCHES::TOP:
         m_lastSwitchPosition[0] = position;
         break;
     
-    case BOTTOM:
+    case SWITCHES::BOTTOM:
         m_lastSwitchPosition[1] = position;
         break;
     
-    case BOTH:
-    case NA:   // on button-up, reset to center if centering mode enabled
-        if (m_initialPosition == CENTER)
+    case SWITCHES::BOTH:
+    case SWITCHES::NA:   // on button-up, reset to center if centering mode enabled
+        if (m_initialPosition == POSITION::CENTER)
             m_lastSwitchPosition[0] = m_lastSwitchPosition[1] = position;
         break;
     }
@@ -558,11 +558,11 @@ SURFHANDLE IndicatorGaugeArea::GetSurfaceForColor(COLOR c)
     SURFHANDLE srcSurface;
     switch (c)
     {
-    case RED:
+    case COLOR::RED:
         srcSurface = m_redIndicatorSurface;
         break;
 
-    case YELLOW:
+    case COLOR::YELLOW:
         srcSurface = m_yellowIndicatorSurface;
         break;
 
@@ -614,7 +614,7 @@ bool VerticalGaugeArea::Redraw2D(const int event, const SURFHANDLE surf)
     for (int i=0; i < gaugeCount; i++)
     {
         // invoke subclass method to obtain color and indexY data for each gauge
-        renderData[i] = GetRenderData((i == 0 ? LEFT : RIGHT));
+        renderData[i] = GetRenderData((i == 0 ? SIDE::LEFT : SIDE::RIGHT));
         if (renderData[i] != m_lastRenderData[i])
         {
             doRender = true;
@@ -635,12 +635,12 @@ bool VerticalGaugeArea::Redraw2D(const int event, const SURFHANDLE surf)
             // repaint the gauge
             for (int i=0; i < gaugeCount; i++)
             {
-                SIDE side = (m_isDual ? ((i == 0) ? LEFT : RIGHT) : m_singleSide);
+                SIDE side = (m_isDual ? ((i == 0) ? SIDE::LEFT : SIDE::RIGHT) : m_singleSide);
 
                 // render the gauge
                 const SURFHANDLE srcSurface = GetSurfaceForColor(renderData[i].color);
-                int tgtX = ((side == LEFT) ? 0 : 6 + m_gapSize);  // if right side, bump right 6+gapSize pixels
-                int srcX = ((side == LEFT) ? 0 : 6);  // if right side, go right 6 pixels for source
+                int tgtX = ((side == SIDE::LEFT) ? 0 : 6 + m_gapSize);  // if right side, bump right 6+gapSize pixels
+                int srcX = ((side == SIDE::LEFT) ? 0 : 6);  // if right side, go right 6 pixels for source
                 //      tgt,  src,        tgtx,            tgty,                            srcx,srcy,w,h, <use predefined color key>
                 oapiBlt(surf, srcSurface, tgtX + m_deltaX, renderData[i].indexY + m_deltaY, srcX, 0, 6, 7, SURF_PREDEF_CK);
 
@@ -653,7 +653,7 @@ bool VerticalGaugeArea::Redraw2D(const int event, const SURFHANDLE surf)
         {
                 // render the gauge
                 const SURFHANDLE srcSurface = GetSurfaceForColor(renderData[0].color);
-                int srcX = ((m_singleSide == LEFT) ? 0 : 6);  // if right side, go right 6 pixels for source
+                int srcX = ((m_singleSide == SIDE::LEFT) ? 0 : 6);  // if right side, go right 6 pixels for source
                 //      tgt,  src,        tgtx,         tgty,                            srcx,srcy,w,h, <use predefined color key>
                 oapiBlt(surf, srcSurface, 0 + m_deltaX, renderData[0].indexY + m_deltaY, srcX, 0, 6, 7, SURF_PREDEF_CK);
 
@@ -707,7 +707,7 @@ bool HorizontalGaugeArea::Redraw2D(const int event, const SURFHANDLE surf)
     for (int i=0; i < gaugeCount; i++)
     {
         // invoke subclass method to obtain color and indexY data for each gauge
-        renderData[i] = GetRenderData((i == 0 ? TOP : BOTTOM));
+        renderData[i] = GetRenderData((i == 0 ? SIDE::TOP : SIDE::BOTTOM));
         if (renderData[i] != m_lastRenderData[i])
         {
             doRender = true;
@@ -728,11 +728,11 @@ bool HorizontalGaugeArea::Redraw2D(const int event, const SURFHANDLE surf)
         {
             for (int i=0; i < gaugeCount; i++)
             {
-                SIDE side = ((i == 0) ? TOP : BOTTOM);
+                SIDE side = ((i == 0) ? SIDE::TOP : SIDE::BOTTOM);
                 
                 const SURFHANDLE srcSurface = GetSurfaceForColor(renderData[i].color);
-                int tgtY = ((side == TOP) ? 0 : 6 + m_gapSize);  // if bottom side, bump down 6+gapSize pixels
-                int srcX = ((side == TOP) ? 0 : 7);  // if bottom side, go down 7 pixels for source
+                int tgtY = ((side == SIDE::TOP) ? 0 : 6 + m_gapSize);  // if bottom side, bump down 6+gapSize pixels
+                int srcX = ((side == SIDE::TOP) ? 0 : 7);  // if bottom side, go down 7 pixels for source
                 //      tgt,  src,        tgtx,                          tgty,          srcx,srcy,w,h, <use predefined color key>
                 oapiBlt(surf, srcSurface, renderData[i].indexX + m_deltaX, tgtY + m_deltaY, srcX, 8, 7, 6, SURF_PREDEF_CK);
 
@@ -744,7 +744,7 @@ bool HorizontalGaugeArea::Redraw2D(const int event, const SURFHANDLE surf)
         {
             // render the gauge
             const SURFHANDLE srcSurface = GetSurfaceForColor(renderData[0].color);
-            int srcX = ((m_singleSide == TOP) ? 0 : 7);  // if bottom side, go down 7 pixels for source
+            int srcX = ((m_singleSide == SIDE::TOP) ? 0 : 7);  // if bottom side, go down 7 pixels for source
             //      tgt,  src,        tgtx,                            tgty,            srcx,srcy,w,h, <use predefined color key>
             oapiBlt(surf, srcSurface, renderData[0].indexX + m_deltaX, 0 + m_deltaY,    srcX, 8, 7, 6, SURF_PREDEF_CK);
 
@@ -1034,7 +1034,7 @@ bool LEDArea::Redraw2D(const int event, const SURFHANDLE surf)
 
 //----------------------------------------------------------------------------------
 
-// doorStatus = ptr to status enum: DOOR_OPEN, DOOR_CLOSED, DOOR_OPENING, DOOR_CLOSING 
+// doorStatus = ptr to status enum: DoorStatus::DOOR_OPEN, DoorStatus::DOOR_CLOSED, DoorStatus::DOOR_OPENING, DoorStatus::DOOR_CLOSING 
 // surfaceIDB = resource ID of source surface
 // pAnimationState = ptr to animation state (0...1).  May be null.
 DoorIndicatorArea::DoorIndicatorArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const int meshTextureID, const DoorStatus *pDoorStatus, const int surfaceIDB, const double *pAnimationState) :
@@ -1066,18 +1066,18 @@ bool DoorIndicatorArea::Redraw2D(const int event, const SURFHANDLE surf)
     int yCoordToPaint = -1;      // Y coordinate of texture to paint; -1 = do not paint
     switch (*m_pDoorStatus)
     {
-    case DOOR_CLOSED: 
+    case DoorStatus::DOOR_CLOSED:
         yCoordToPaint = 4;
         m_isTransitVisible = true;  // reset so "Transit" will always be visible for at least a little bit when you first click the switch
         break;
 
-    case DOOR_OPENING:
-    case DOOR_CLOSING:
+    case DoorStatus::DOOR_OPENING:
+    case DoorStatus::DOOR_CLOSING:
         if (m_isTransitVisible)     // only paint if "Transit" is supposed to be visible
             yCoordToPaint = 13;
         break;
 
-    case DOOR_OPEN:   
+    case DoorStatus::DOOR_OPEN:
         yCoordToPaint = 22;
         m_isTransitVisible = true;  // reset 
         break;
@@ -1126,7 +1126,7 @@ void DoorIndicatorArea::clbkPrePostStep(const double simt, const double simdt, c
         }
     }
 
-    if (*m_pDoorStatus >= DOOR_CLOSING) // in transit?
+    if (*m_pDoorStatus >= DoorStatus::DOOR_CLOSING) // in transit?
     {
         m_transitColor = BRIGHT_YELLOW; 
         const double blinkDelay = 0.75;   // blink once every 3/4-second
@@ -1203,8 +1203,8 @@ bool BarArea::Redraw2D(const int event, const SURFHANDLE surf)
         m_lastRenderData = renderData;  // byte-for-byte copy
 
         // NOTE: 0 <= brightIndex <= darkIndex
-        const int brightIndex = renderData.GetIndex(BRIGHT);  // first part of bar
-        const int darkIndex   = renderData.GetIndex(DARK);    // second part of bar
+        const int brightIndex = renderData.GetIndex(BARPORTION::BRIGHT);  // first part of bar
+        const int darkIndex   = renderData.GetIndex(BARPORTION::DARK);    // second part of bar
 
         // reset background
         oapiBltPanelAreaBackground(GetAreaID(), surf);
@@ -1218,22 +1218,22 @@ bool BarArea::Redraw2D(const int event, const SURFHANDLE surf)
             DWORD darkColor;
             switch (renderData.color)
             {
-            case GREEN:
+            case COLOR::GREEN:
                 color = BRIGHT_GREEN;
                 darkColor = MEDIUM_GREEN;
                 break;
 
-            case RED:
+            case COLOR::RED:
                 color = BRIGHT_RED;
                 darkColor = MEDB_RED;
                 break;
 
-            case YELLOW:
+            case COLOR::YELLOW:
                 color = BRIGHT_YELLOW;
                 darkColor = MEDIUM_YELLOW;
                 break;
 
-            case WHITE:
+            case COLOR::WHITE:
                 color = BRIGHT_WHITE;
                 darkColor = OFF_WHITE192;
                 break;
@@ -1245,7 +1245,7 @@ bool BarArea::Redraw2D(const int event, const SURFHANDLE surf)
 
             // Note: we cannot use '0' for any width or the entire area is painted.
             // Therefore, we use SafeColorFill.
-            if (m_orientation == HORIZONTAL)
+            if (m_orientation == ORIENTATION::HORIZONTAL)
             {
                 // horizontal                  X            Y  width                      height                
                 SafeColorFill(surf, color,     0,           0, brightIndex,               m_sizeY);  // first part  (bright)
@@ -1352,19 +1352,19 @@ bool NumberArea::Redraw2D(const int event, const SURFHANDLE surf)
             SURFHANDLE srcSurface;
             switch (m_pRenderData->color)
             {
-            case RED:
+            case COLOR::RED:
                 srcSurface = m_font2Red;
                 break;
 
-            case YELLOW:
+            case COLOR::YELLOW:
                 srcSurface = m_font2Yellow;
                 break;
 
-            case BLUE:
+            case COLOR::BLUE:
                 srcSurface = m_font2Blue;
                 break;
 
-            case WHITE:
+            case COLOR::WHITE:
                 srcSurface = m_font2White;
                 break;
 
@@ -1486,15 +1486,15 @@ bool AccNumberArea::UpdateRenderData(RENDERDATA &renderData)
     double acc;
     switch (m_axis)
     {
-    case X:
+    case AXIS::X:
         acc = A.x;
         break;
 
-    case Y:
+    case AXIS::Y:
         acc = A.y;
         break;
 
-    case Z:
+    case AXIS::Z:
         acc = A.z;
         break;
     }
@@ -1557,15 +1557,15 @@ HorizontalGaugeArea::RENDERDATA AccHorizontalGaugeArea::GetRenderData(const SIDE
     double acc;
     switch (m_axis)
     {
-    case X:
+    case AXIS::X:
         acc = A.x;
         break;
 
-    case Y:
+    case AXIS::Y:
         acc = A.y;
         break;
 
-    case Z:
+    case AXIS::Z:
         acc = A.z;
         break;
     }
@@ -1582,10 +1582,10 @@ HorizontalGaugeArea::RENDERDATA AccHorizontalGaugeArea::GetRenderData(const SIDE
     if (absFraction > 1.0)
     {
         absFraction = 1.0;     // over-G!  Render in YELLOW.
-        color = YELLOW;
+        color = COLOR::YELLOW;
     }
     else    // in range
-        color = (isNegative ? RED : GREEN);
+        color = (isNegative ? COLOR::RED : COLOR::GREEN);
 
     // compute pixel
     const int maxIndex = 84;    // total width = 85 pixels (index 0-84, inclusive)
@@ -1601,7 +1601,7 @@ HorizontalGaugeArea::RENDERDATA AccHorizontalGaugeArea::GetRenderData(const SIDE
 
 AccScaleArea::AccScaleArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID) :
     XR1Area(parentPanel, panelCoordinates, areaID),
-    m_accScale(NONE)
+    m_accScale(AccScale::NONE)
 {
 }
 
@@ -1612,7 +1612,7 @@ void AccScaleArea::Activate()
     
     oapiRegisterPanelArea(GetAreaID(), GetRectForSize(92, 11), PANEL_REDRAW_ALWAYS, PANEL_MOUSE_IGNORE, PANEL_MAP_NONE);
 
-    m_accScale = NONE;  // force a redraw
+    m_accScale = AccScale::NONE;  // force a redraw
 }
 
 bool AccScaleArea::Redraw2D(const int event, const SURFHANDLE surf)
@@ -1621,11 +1621,11 @@ bool AccScaleArea::Redraw2D(const int event, const SURFHANDLE surf)
 
     // check whether the required ACC scale has changed since last render
     // also, don't render until the poststep has had a chance to run at least once
-    if ((GetXR1().m_accScale != NONE) && (GetXR1().m_accScale != m_accScale))  
+    if ((GetXR1().m_accScale != AccScale::NONE) && (GetXR1().m_accScale != m_accScale))
     {
         // need to redraw it
         // Y coordinate
-        int y = GetXR1().m_accScale * 11;       // 11 pixels high per row
+        int y = static_cast<int>(GetXR1().m_accScale) * 11;       // 11 pixels high per row
 
         // redraw the entire area
         //                          tgX,tgY,srcX,srcY,width,height
@@ -1643,9 +1643,9 @@ bool AccScaleArea::Redraw2D(const int event, const SURFHANDLE surf)
 
 // utility method to retrieve a Windows COLORREF for a given temperature
 // This is used by both the temperature MDM and the pop-up HUD, so it is defined here in the base class.
-COLORREF XR1Area::GetTempCREF(double tempK, double limitK, int doorStatus) const
+COLORREF XR1Area::GetTempCREF(const double tempK, double limitK, const DoorStatus doorStatus) const
 {
-    if (doorStatus != DOOR_CLOSED)
+    if (doorStatus != DoorStatus::DOOR_CLOSED)
         limitK = GetXR1().m_hullTemperatureLimits.doorOpen;  // we have a door open; lower the limit
 
     double warningTemp  = limitK * GetXR1().m_hullTemperatureLimits.warningFrac;
@@ -1842,23 +1842,23 @@ TimerNumberArea::TimerNumberArea(InstrumentPanel &parentPanel, const COORD2 pane
 {
     switch (timeUnits)
     {
-    case DAYS:
+    case TIMEUNITS::DAYS:
         m_unitsInDay = 1;
         m_maxValue = 9999;
         break;
 
-    case HOURS:
+    case TIMEUNITS::HOURS:
         m_unitsInDay = 24;
         m_maxValue = 23;
         break;
 
-    case MINUTES:
-        m_unitsInDay = 24 * 60;
+    case TIMEUNITS::MINUTES:
+        m_unitsInDay = 24.0 * 60;
         m_maxValue = 59;
         break;
 
-    case SECONDS:
-        m_unitsInDay = 24 * 60 * 60;
+    case TIMEUNITS::SECONDS:
+        m_unitsInDay = 24.0 * 60 * 60;
         m_maxValue = 59;
         break;
 
@@ -1892,7 +1892,7 @@ bool TimerNumberArea::RenderTimeValue(RENDERDATA &renderData, double time)
     const bool forceRedraw = renderData.forceRedraw;
 
     int value;
-    if (m_timeUnits == DAYS)
+    if (m_timeUnits == TIMEUNITS::DAYS)
     {
         value = static_cast<int>(time);
     }
@@ -1995,7 +1995,7 @@ double ElapsedTimerNumberArea::GetTime()
 // sizeX, sizeY = size of bar
 // resourceID = texture to use for bar
 LargeBarArea::LargeBarArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, int sizeX, int sizeY, int resourceID, int darkResourceID) :
-    BarArea(parentPanel, panelCoordinates, areaID, sizeX, sizeY, VERTICAL),
+    BarArea(parentPanel, panelCoordinates, areaID, sizeX, sizeY, ORIENTATION::VERTICAL),
     m_resourceID(resourceID), m_darkResourceID(darkResourceID), m_darkSurface(nullptr)
 {
 }
@@ -2035,8 +2035,8 @@ bool LargeBarArea::Redraw2D(const int event, const SURFHANDLE surf)
         m_lastRenderData = renderData;  // byte-for-byte copy
 
         // NOTE: 0 <= brightIndex <= darkIndex
-        const int brightIndex = renderData.GetIndex(BRIGHT);  // first part of bar
-        const int darkIndex   = renderData.GetIndex(DARK);    // second part of bar
+        const int brightIndex = renderData.GetIndex(BARPORTION::BRIGHT);  // first part of bar
+        const int darkIndex   = renderData.GetIndex(BARPORTION::DARK);    // second part of bar
 
         // reset background
         oapiBltPanelAreaBackground(GetAreaID(), surf);
@@ -2106,7 +2106,7 @@ BarArea::RENDERDATA LargeFuelBarArea::GetRenderData()
     totalPropMass -= m_gaugeMinValue;
     startingDarkValue -= m_gaugeMinValue;
 
-    return _RENDERDATA(NONE, startingDarkValue, totalPropMass, maxPropMass);
+    return _RENDERDATA(COLOR::NONE, startingDarkValue, totalPropMass, maxPropMass);
 }
 
 //----------------------------------------------------------------------------------
@@ -2122,7 +2122,7 @@ BarArea::RENDERDATA LargeLOXBarArea::GetRenderData()
     const double totalLoxMass = GetXR1().GetXRLOXMass();   // includes bay qty, if any
     const double startingDarkValue = GetXR1().m_loxQty;    // internal LOX tank quantity
 
-    return _RENDERDATA(NONE, startingDarkValue, totalLoxMass, maxLoxMass);
+    return _RENDERDATA(COLOR::NONE, startingDarkValue, totalLoxMass, maxLoxMass);
 }
 
 //----------------------------------------------------------------------------------
@@ -2275,7 +2275,7 @@ bool SupplyHatchToggleSwitchArea::ProcessSwitchEvent(bool switchIsOn)
     }
 
     // set XR1 state via ref
-    m_doorStatus = (switchIsOn ? DOOR_OPEN : DOOR_CLOSED);
+    m_doorStatus = (switchIsOn ? DoorStatus::DOOR_OPEN : DoorStatus::DOOR_CLOSED);
     
     // update the hatch animation state *if* the vessel currently allows it; this hatch "snaps" open or closed
     if (GetXR1().GetXR1Config()->EnableResupplyHatchAnimationsWhileDocked)
@@ -2297,7 +2297,7 @@ bool SupplyHatchToggleSwitchArea::ProcessSwitchEvent(bool switchIsOn)
 
 bool SupplyHatchToggleSwitchArea::isOn()
 {
-    return (m_doorStatus == DOOR_OPEN);
+    return (m_doorStatus == DoorStatus::DOOR_OPEN);
 }
 
 //----------------------------------------------------------------------------------
@@ -2321,7 +2321,7 @@ void DoorMediumLEDArea::Activate()
 
 bool DoorMediumLEDArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
-    bool isOn = (m_doorStatus == DOOR_OPEN);
+    bool isOn = (m_doorStatus == DoorStatus::DOOR_OPEN);
     bool retVal = false;
 
     // always draw on panel init

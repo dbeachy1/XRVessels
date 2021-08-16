@@ -112,7 +112,7 @@ bool XR1MainInstrumentPanel::Activate()
     // activate all our areas, including our components' areas
     ActivateAllAreas();
 
-    GetXR1().campos = GetXR1().CAM_PANELMAIN;
+    GetXR1().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_PANELMAIN;
     return true;
 }
 
@@ -149,7 +149,7 @@ bool XR1UpperInstrumentPanel::Activate()
     // activate all our areas, including our components' areas
     ActivateAllAreas();
 
-    GetXR1().campos = GetXR1().CAM_PANELUP;
+    GetXR1().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_PANELUP;
     return true;
 }
 
@@ -178,7 +178,7 @@ bool XR1LowerInstrumentPanel::Activate()
     // activate all our areas, including our components' areas
     ActivateAllAreas();
 
-    GetXR1().campos = GetXR1().CAM_PANELDN;
+    GetXR1().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_PANELDN;
     return true;
 }
 
@@ -838,23 +838,23 @@ XR1VCPilotInstrumentPanel::XR1VCPilotInstrumentPanel(DeltaGliderXR1 &vessel, int
 
     // add toggle switches (panelCoordinates are ignored for these)
     // Note: the animation for each of these switches in the VC is handled by a call to 'SetXRAnimation' inside each switch handler, so no VC panel texture is necessary
-    ADD_TOGGLE_SWITCH(AID_GEARDOWN,    &DeltaGliderXR1::ActivateLandingGear,  DOOR_OPENING);
-    ADD_TOGGLE_SWITCH(AID_GEARUP,      &DeltaGliderXR1::ActivateLandingGear,  DOOR_CLOSING);
-    ADD_TOGGLE_SWITCH(AID_NCONEOPEN,   &DeltaGliderXR1::ActivateNoseCone,     DOOR_OPENING);
-    ADD_TOGGLE_SWITCH(AID_NCONECLOSE,  &DeltaGliderXR1::ActivateNoseCone,     DOOR_CLOSING);
-    ADD_TOGGLE_SWITCH(AID_OLOCKOPEN,   &DeltaGliderXR1::ActivateOuterAirlock, DOOR_OPENING);
-    ADD_TOGGLE_SWITCH(AID_OLOCKCLOSE,  &DeltaGliderXR1::ActivateOuterAirlock, DOOR_CLOSING);
-    ADD_TOGGLE_SWITCH(AID_ILOCKOPEN,   &DeltaGliderXR1::ActivateInnerAirlock, DOOR_OPENING);
-    ADD_TOGGLE_SWITCH(AID_ILOCKCLOSE,  &DeltaGliderXR1::ActivateInnerAirlock, DOOR_CLOSING);
+    ADD_TOGGLE_SWITCH(AID_GEARDOWN,    &DeltaGliderXR1::ActivateLandingGear,  DoorStatus::DOOR_OPENING);
+    ADD_TOGGLE_SWITCH(AID_GEARUP,      &DeltaGliderXR1::ActivateLandingGear,  DoorStatus::DOOR_CLOSING);
+    ADD_TOGGLE_SWITCH(AID_NCONEOPEN,   &DeltaGliderXR1::ActivateNoseCone,     DoorStatus::DOOR_OPENING);
+    ADD_TOGGLE_SWITCH(AID_NCONECLOSE,  &DeltaGliderXR1::ActivateNoseCone,     DoorStatus::DOOR_CLOSING);
+    ADD_TOGGLE_SWITCH(AID_OLOCKOPEN,   &DeltaGliderXR1::ActivateOuterAirlock, DoorStatus::DOOR_OPENING);
+    ADD_TOGGLE_SWITCH(AID_OLOCKCLOSE,  &DeltaGliderXR1::ActivateOuterAirlock, DoorStatus::DOOR_CLOSING);
+    ADD_TOGGLE_SWITCH(AID_ILOCKOPEN,   &DeltaGliderXR1::ActivateInnerAirlock, DoorStatus::DOOR_OPENING);
+    ADD_TOGGLE_SWITCH(AID_ILOCKCLOSE,  &DeltaGliderXR1::ActivateInnerAirlock, DoorStatus::DOOR_CLOSING);
     // TODO: ADD VC SWITCH FOR AIRLOCK PRESSURIZE / DEPRESSUREIZE
-    ADD_TOGGLE_SWITCH(AID_RCOVEROPEN,  &DeltaGliderXR1::ActivateRCover,       DOOR_OPENING);
-    ADD_TOGGLE_SWITCH(AID_RCOVERCLOSE, &DeltaGliderXR1::ActivateRCover,       DOOR_CLOSING);
-    ADD_TOGGLE_SWITCH(AID_RADIATOREX,  &DeltaGliderXR1::ActivateRadiator,     DOOR_OPENING);
-    ADD_TOGGLE_SWITCH(AID_RADIATORIN,  &DeltaGliderXR1::ActivateRadiator,     DOOR_CLOSING);
-    ADD_TOGGLE_SWITCH(AID_HATCHOPEN,   &DeltaGliderXR1::ActivateHatch,        DOOR_OPENING);
-    ADD_TOGGLE_SWITCH(AID_HATCHCLOSE,  &DeltaGliderXR1::ActivateHatch,        DOOR_CLOSING);
-    ADD_TOGGLE_SWITCH(AID_LADDEREX,    &DeltaGliderXR1::ActivateLadder,       DOOR_OPENING);
-    ADD_TOGGLE_SWITCH(AID_LADDERIN,    &DeltaGliderXR1::ActivateLadder,       DOOR_CLOSING);
+    ADD_TOGGLE_SWITCH(AID_RCOVEROPEN,  &DeltaGliderXR1::ActivateRCover,       DoorStatus::DOOR_OPENING);
+    ADD_TOGGLE_SWITCH(AID_RCOVERCLOSE, &DeltaGliderXR1::ActivateRCover,       DoorStatus::DOOR_CLOSING);
+    ADD_TOGGLE_SWITCH(AID_RADIATOREX,  &DeltaGliderXR1::ActivateRadiator,     DoorStatus::DOOR_OPENING);
+    ADD_TOGGLE_SWITCH(AID_RADIATORIN,  &DeltaGliderXR1::ActivateRadiator,     DoorStatus::DOOR_CLOSING);
+    ADD_TOGGLE_SWITCH(AID_HATCHOPEN,   &DeltaGliderXR1::ActivateHatch,        DoorStatus::DOOR_OPENING);
+    ADD_TOGGLE_SWITCH(AID_HATCHCLOSE,  &DeltaGliderXR1::ActivateHatch,        DoorStatus::DOOR_CLOSING);
+    ADD_TOGGLE_SWITCH(AID_LADDEREX,    &DeltaGliderXR1::ActivateLadder,       DoorStatus::DOOR_OPENING);
+    ADD_TOGGLE_SWITCH(AID_LADDERIN,    &DeltaGliderXR1::ActivateLadder,       DoorStatus::DOOR_CLOSING);
 }
 
 // Activate and initialize this panel
@@ -962,7 +962,7 @@ bool XR1VCPilotInstrumentPanel::Activate()
     }
 
     // all finished; set current camera position flag
-    GetXR1().campos = GetXR1().CAM_VCPILOT;
+    GetXR1().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCPILOT;
     return true;
 }
 
@@ -989,7 +989,7 @@ bool XR1VCPassenger1InstrumentPanel::Activate()
     GetVessel().SetXRCameraDirection (_V(0,0,1)); // center, facing forward
     GetVessel().SetCameraOffset (_V(-0.7, 1.15, 5.55));
     GetVessel().SetCameraMovement (_V(0.2,-0.05,0.3), -10*RAD, 10*RAD, _V(-0.3,0,0), 80*RAD, 0, _V(0.4,0,0), -90*RAD, 0);
-    GetXR1().campos = GetXR1().CAM_VCPSNGR1;
+    GetXR1().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCPSNGR1;
     oapiVCSetNeighbours (-1, 2, 0, 3);
     
     return true;
@@ -1019,7 +1019,7 @@ bool XR1VCPassenger2InstrumentPanel::Activate()
     GetVessel().SetXRCameraDirection (_V(0,0,1)); // center, facing forward
     GetVessel().SetCameraOffset (_V(0.7, 1.15, 5.55));
     GetVessel().SetCameraMovement (_V(-0.2,-0.05,0.3), 10*RAD, 10*RAD, _V(-0.4,0,0), 90*RAD, 0, _V(0.3,0,0), -80*RAD, 0);
-    GetXR1().campos = GetXR1().CAM_VCPSNGR2;
+    GetXR1().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCPSNGR2;
     oapiVCSetNeighbours (1, -1, 0, 4);
 
     return true;
@@ -1047,7 +1047,7 @@ bool XR1VCPassenger3InstrumentPanel::Activate()
     GetVessel().SetXRCameraDirection (_V(0,0,1)); // center, facing forward
     GetVessel().SetCameraOffset (_V(-0.8, 1.2, 4.4));
     GetVessel().SetCameraMovement (_V(0.4,0,0), 0, 0, _V(-0.3,0,0), 70*RAD, 0, _V(0.4,0,0), -90*RAD, 0);
-    GetXR1().campos = GetXR1().CAM_VCPSNGR3;
+    GetXR1().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCPSNGR3;
     oapiVCSetNeighbours (-1, 4, 1, -1);   
 
     return true;
@@ -1076,8 +1076,8 @@ bool XR1VCPassenger4InstrumentPanel::Activate()
     GetVessel().SetXRCameraDirection (_V(0,0,1)); // center, facing forward
     GetVessel().SetCameraOffset (_V(0.8, 1.2, 4.4));
     GetVessel().SetCameraMovement (_V(-0.4,0,0), 0, 0, _V(-0.4,0,0), 90*RAD, 0, _V(0.3,0,0), -70*RAD, 0);
-    GetXR1().campos = GetXR1().CAM_VCPSNGR4;
-    oapiVCSetNeighbours (3, -1, 2, -1);
+    GetXR1().campos = DeltaGliderXR1::CAMERA_POSITION::CAM_VCPSNGR4;
+    oapiVCSetNeighbours(3, -1, 2, -1);
     
     return true;
 }

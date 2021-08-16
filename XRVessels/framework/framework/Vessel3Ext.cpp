@@ -209,7 +209,7 @@ int VESSEL3_EXT::Get2DPanelWidth()
         m_last2DPanelWidth = 0;    // for assertion check later
         switch (m_pConfig->GetTwoDPanelWidth())
         {
-        case AUTODETECT:
+        case TWO_D_PANEL_WIDTH::AUTODETECT:
             if (m_videoWindowWidth > 0)
             {
                 char msg[256];
@@ -237,17 +237,17 @@ int VESSEL3_EXT::Get2DPanelWidth()
             }
             break;
 
-        case USE1280:
+        case TWO_D_PANEL_WIDTH::USE1280:
             m_last2DPanelWidth = 1280;
             WriteForced2DResolutionLogMessage(m_last2DPanelWidth);
             break;
 
-        case USE1600:
+        case TWO_D_PANEL_WIDTH::USE1600:
             m_last2DPanelWidth = 1600;
             WriteForced2DResolutionLogMessage(m_last2DPanelWidth);
             break;
 
-        case USE1920:
+        case TWO_D_PANEL_WIDTH::USE1920:
             m_last2DPanelWidth = 1920;
             WriteForced2DResolutionLogMessage(m_last2DPanelWidth);
             break;

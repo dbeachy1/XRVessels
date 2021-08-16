@@ -58,7 +58,7 @@ INT_PTR CALLBACK EdPg1Proc (HWND hTab, UINT uMsg, WPARAM wParam, LPARAM lParam)
         DoorStatus orgAPUState = pXR->apu_status;
 
         // hotwire the apu to ON so we can move the doors by "cheating" here
-        pXR->apu_status = DOOR_OPEN;
+        pXR->apu_status = DoorStatus::DOOR_OPEN;
 
         switch (LOWORD (wParam)) 
         {
@@ -71,102 +71,102 @@ INT_PTR CALLBACK EdPg1Proc (HWND hTab, UINT uMsg, WPARAM wParam, LPARAM lParam)
          */
         
         case IDC_GEAR_UP:
-            pXR->ActivateLandingGear (DOOR_CLOSED);
+            pXR->ActivateLandingGear (DoorStatus::DOOR_CLOSED);
             retVal = TRUE;
             break;
         case IDC_GEAR_DOWN:
-            pXR->ActivateLandingGear (DOOR_OPEN);
+            pXR->ActivateLandingGear (DoorStatus::DOOR_OPEN);
             retVal = TRUE;
             break;
 
         case IDC_AIRBRAKE_STOWED:
-            pXR->ActivateAirbrake(DOOR_CLOSED);
+            pXR->ActivateAirbrake(DoorStatus::DOOR_CLOSED);
             retVal = TRUE;
             break;
         case IDC_AIRBRAKE_DEPLOYED:
-            pXR->ActivateAirbrake (DOOR_OPEN);
+            pXR->ActivateAirbrake (DoorStatus::DOOR_OPEN);
             retVal = TRUE;
             break;
 
         case IDC_OLOCK_CLOSE:
-            pXR->ActivateOuterAirlock (DOOR_CLOSED);
+            pXR->ActivateOuterAirlock(DoorStatus::DOOR_CLOSED);
             retVal = TRUE;
             break;
         case IDC_OLOCK_OPEN:
-            pXR->ActivateOuterAirlock (DOOR_OPEN);
+            pXR->ActivateOuterAirlock(DoorStatus::DOOR_OPEN);
             retVal = TRUE;
             break;
 
         case IDC_ILOCK_CLOSE:
-            pXR->ActivateInnerAirlock (DOOR_CLOSED);
+            pXR->ActivateInnerAirlock(DoorStatus::DOOR_CLOSED);
             retVal = TRUE;
             break;
         case IDC_ILOCK_OPEN:
-            pXR->ActivateInnerAirlock (DOOR_OPEN);
+            pXR->ActivateInnerAirlock(DoorStatus::DOOR_OPEN);
             retVal = TRUE;
             break;
 
         case IDC_NCONE_CLOSE:
-            pXR->ActivateOuterAirlock (DOOR_CLOSED);  // NOTE: outer door must be closed as well, BEFORE the nosecone!
-            pXR->ActivateNoseCone (DOOR_CLOSED);
+            pXR->ActivateOuterAirlock(DoorStatus::DOOR_CLOSED);  // NOTE: outer door must be closed as well, BEFORE the nosecone!
+            pXR->ActivateNoseCone(DoorStatus::DOOR_CLOSED);
             retVal = TRUE;
             break;
         case IDC_NCONE_OPEN:
-            pXR->ActivateNoseCone (DOOR_OPEN);
+            pXR->ActivateNoseCone(DoorStatus::DOOR_OPEN);
             retVal = TRUE;
             break;
 
         case IDC_HATCH_CLOSE:
-            pXR->ActivateHatch (DOOR_CLOSED);
+            pXR->ActivateHatch(DoorStatus::DOOR_CLOSED);
             retVal = TRUE;
             break;
         case IDC_HATCH_OPEN:
-            pXR->ActivateHatch (DOOR_OPEN);
+            pXR->ActivateHatch(DoorStatus::DOOR_OPEN);
             retVal = TRUE;
             break;
 
         case IDC_RADIATOR_RETRACT:
-            pXR->ActivateRadiator (DOOR_CLOSED);
+            pXR->ActivateRadiator(DoorStatus::DOOR_CLOSED);
             retVal = TRUE;
             break;
         case IDC_RADIATOR_EXTEND:
-            pXR->ActivateRadiator (DOOR_OPEN);
+            pXR->ActivateRadiator(DoorStatus::DOOR_OPEN);
             retVal = TRUE;
             break;
 
         case IDC_SCRAM_CLOSED:
-            pXR->ActivateScramDoors(DOOR_CLOSED);
+            pXR->ActivateScramDoors(DoorStatus::DOOR_CLOSED);
             retVal = TRUE;
             break;
         case IDC_SCRAM_OPEN:
-            pXR->ActivateScramDoors (DOOR_OPEN);
+            pXR->ActivateScramDoors(DoorStatus::DOOR_OPEN);
             retVal = TRUE;
             break;
 
         case IDC_HOVER_CLOSED:
-            pXR->ActivateHoverDoors(DOOR_CLOSED);
+            pXR->ActivateHoverDoors(DoorStatus::DOOR_CLOSED);
             retVal = TRUE;
             break;
         case IDC_HOVER_OPEN:
-            pXR->ActivateHoverDoors (DOOR_OPEN);
+            pXR->ActivateHoverDoors(DoorStatus::DOOR_OPEN);
             retVal = TRUE;
             break;
 
         case IDC_BAY_CLOSED:
-            pXR->ActivateBayDoors(DOOR_CLOSED);
+            pXR->ActivateBayDoors(DoorStatus::DOOR_CLOSED);
             retVal = TRUE;
             break;
         case IDC_BAY_OPEN:
-            pXR->ActivateBayDoors (DOOR_OPEN);
+            pXR->ActivateBayDoors(DoorStatus::DOOR_OPEN);
             retVal = TRUE;
             break;
 
         case IDC_RETRO_CLOSE:
-            pXR->ActivateRCover (DOOR_CLOSED);
+            pXR->ActivateRCover(DoorStatus::DOOR_CLOSED);
             retVal = TRUE;
             break;
         case IDC_RETRO_OPEN:
-            pXR->ActivateRCover (DOOR_OPEN);
+            pXR->ActivateRCover(DoorStatus::DOOR_OPEN);
             retVal = TRUE;
             break;
         }
@@ -179,9 +179,6 @@ INT_PTR CALLBACK EdPg1Proc (HWND hTab, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
     return retVal;
 }
-
-
-
 
 // --------------------------------------------------------------
 // Add vessel-specific pages into scenario editor

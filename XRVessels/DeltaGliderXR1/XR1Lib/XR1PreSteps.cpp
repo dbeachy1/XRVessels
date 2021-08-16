@@ -38,7 +38,7 @@
 
 AttitudeHoldPreStep::AttitudeHoldPreStep(DeltaGliderXR1 &vessel) : 
     XR1PrePostStep(vessel), 
-    m_prevCustomAutopilotMode(AP_NOTSET), m_performedAPUWarningCallout(false), m_apuRanOnceWhileAPActive(false), 
+    m_prevCustomAutopilotMode(AUTOPILOT::AP_NOTSET), m_performedAPUWarningCallout(false), m_apuRanOnceWhileAPActive(false), 
     m_forceOnlineCallout(false)
 {
     ResetLearningData();
@@ -51,14 +51,14 @@ void AttitudeHoldPreStep::clbkPrePostStep(const double simt, const double simdt,
         return;     // nothing to do
 
     const AUTOPILOT customAutopilotMode = GetXR1().m_customAutopilotMode;
-    const bool descentHoldActive = (customAutopilotMode == AP_DESCENTHOLD);
+    const bool descentHoldActive = (customAutopilotMode == AUTOPILOT::AP_DESCENTHOLD);
 
     // special check: if descent hold active BUT our previous autopilot mode as Attitude Hold, must reset the attitude hold autopilot data here
-    if (descentHoldActive && (m_prevCustomAutopilotMode == AP_ATTITUDEHOLD))
+    if (descentHoldActive && (m_prevCustomAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD))
         ResetAutopilot();
 
     // if ATTITUDE HOLD or DESCENT HOLD engaged, ensure that AUTO MODE is set *and* update max RCS thrust levels once per second to adjust for payload mass changes.
-    if ((customAutopilotMode == AP_ATTITUDEHOLD) || (descentHoldActive))
+    if ((customAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD) || (descentHoldActive))
     {
         if (GetXR1().m_cogShiftAutoModeActive == false)
         {
@@ -70,7 +70,7 @@ void AttitudeHoldPreStep::clbkPrePostStep(const double simt, const double simdt,
     }
 
     // check whether the ATTITUDE HOLD or DESCENT HOLD autopilot is engaged AND that we have already set the previous state correctly
-    if (((customAutopilotMode == AP_ATTITUDEHOLD) || descentHoldActive) && (m_prevCustomAutopilotMode != AP_NOTSET))
+    if (((customAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD) || descentHoldActive) && (m_prevCustomAutopilotMode != AUTOPILOT::AP_NOTSET))
     {
         // zero major control surfaces if configured to do so in the pref file
         if (GetXR1().GetXR1Config()->EnableManualFlightControlsForAttitudeHold == false)
@@ -172,7 +172,7 @@ void AttitudeHoldPreStep::clbkPrePostStep(const double simt, const double simdt,
         }
 
         // ignore return value here; bank targets should never request COL changes
-        FireThrusterGroups(targetBank, currentBank, angularVelocity.z, ttBankRight, ttBankLeft, simdt, 20.0, false, isInverted, ROLL);  // never invert angular velocity target for roll
+        FireThrusterGroups(targetBank, currentBank, angularVelocity.z, ttBankRight, ttBankLeft, simdt, 20.0, false, isInverted, AXIS::ROLL);  // never invert angular velocity target for roll
 
         // never CLEAR this flag here; once the initial bank is complete, this flag remains set until the autopilot is disengaged 
         // (UNLESS the AP has to snap across +90 or -90 on the bank setting: see LimitAttitudeHoldPitchAndBank method in XRVessel.cpp 
@@ -206,13 +206,13 @@ void AttitudeHoldPreStep::clbkPrePostStep(const double simt, const double simdt,
                 {
                     // we are outside the maximum allowable pitch range trying to hold AOA!  Execute PITCH hold instead at the pitch limit.
                     // Note: always invert thruster rotation vs. angular velocity since we're holding since we're holding PITCH here
-                    requestedColShift = FireThrusterGroups(newPitchTarget, currentPitch, angularVelocity.x, ttPitchUp, ttPitchDown, simdt, 20.0, true, isInverted, PITCH);
+                    requestedColShift = FireThrusterGroups(newPitchTarget, currentPitch, angularVelocity.x, ttPitchUp, ttPitchDown, simdt, 20.0, true, isInverted, AXIS::PITCH);
                 }
                 else    // pitch is still OK; let's keep tracking AOA hold
                 {
                     // holding AOA
                     // NOTE: must *not* reverse thruster direction if ship is INVERTED since AoA then goes UP when pitch goes DOWN
-                    requestedColShift = FireThrusterGroups(targetAOA, currentAOA, angularVelocity.x, ttPitchUp, ttPitchDown, simdt, 20.0, !isInverted, isInverted, PITCH);  
+                    requestedColShift = FireThrusterGroups(targetAOA, currentAOA, angularVelocity.x, ttPitchUp, ttPitchDown, simdt, 20.0, !isInverted, isInverted, AXIS::PITCH);
                 }
             }
             else  // holding PITCH
@@ -220,7 +220,7 @@ void AttitudeHoldPreStep::clbkPrePostStep(const double simt, const double simdt,
                 const double targetPitch = (descentHoldActive ? 0 : GetXR1().m_setPitchOrAOA);  // in degrees
                 const double currentPitch = GetVessel().GetPitch() * DEG;   // in degrees
                 // Note: always invert thruster rotation vs. angular velocity since we're holding since we're holding PITCH here
-                requestedColShift = FireThrusterGroups(targetPitch, currentPitch, angularVelocity.x, ttPitchUp, ttPitchDown, simdt, 20.0, true, isInverted, PITCH); 
+                requestedColShift = FireThrusterGroups(targetPitch, currentPitch, angularVelocity.x, ttPitchUp, ttPitchDown, simdt, 20.0, true, isInverted, AXIS::PITCH);
             }
 
             // reduce COG shift by time acc to maintain stability in atmosphereic flight under time acceleration
@@ -238,7 +238,7 @@ void AttitudeHoldPreStep::clbkPrePostStep(const double simt, const double simdt,
                     // However, don't play a message here until at least 4 seconds after the simulation started; this will prevent us from
                     // stepping on the "All Systems Nominal" callout at startup.
                     // Also, don't perform this check if the APU is starting up.
-                    if ((m_performedAPUWarningCallout == false) && (simt >= 4.0) && (GetXR1().apu_status != DOOR_OPENING))
+                    if ((m_performedAPUWarningCallout == false) && (simt >= 4.0) && (GetXR1().apu_status != DoorStatus::DOOR_OPENING))
                     {
                         // NOTE: we will also hit this block if the APU fuel runs out with the autopilot running.
                         // Auto-start the APU is enabled in the config file AND if we have not already auto-started it before while the AP was active.
@@ -258,7 +258,7 @@ void AttitudeHoldPreStep::clbkPrePostStep(const double simt, const double simdt,
                                 // APU fuel OK -- fire it up
                                 // NOTE: this callout must be short (< APU startup time) so we don't step on the upcoming "COG shift online" callout.
                                 GetXR1().ShowInfo("APU Autostart.wav", DeltaGliderXR1::ST_InformationCallout, "APU autostart initiated.");
-                                GetXR1().ActivateAPU(DOOR_OPENING);
+                                GetXR1().ActivateAPU(DoorStatus::DOOR_OPENING);
                                 GetXR1().PlayDoorSound(GetXR1().apu_status);  // beep
                                 m_forceOnlineCallout = true;    // notify the pilot when system online
 
@@ -351,7 +351,7 @@ void AttitudeHoldPreStep::clbkPrePostStep(const double simt, const double simdt,
     }
     else    // neither ATTITUDE HOLD nor DESCENT HOLD engaged -- kill the thrusters and reset the center of lift if the pilot just turned off the autopilot
     {
-        if ((m_prevCustomAutopilotMode == AP_ATTITUDEHOLD) || (m_prevCustomAutopilotMode == AP_DESCENTHOLD))
+        if ((m_prevCustomAutopilotMode == AUTOPILOT::AP_ATTITUDEHOLD) || (m_prevCustomAutopilotMode == AUTOPILOT::AP_DESCENTHOLD))
             ResetAutopilot();
     }
 
@@ -405,10 +405,10 @@ double AttitudeHoldPreStep::FireThrusterGroups(const double targetValue, const d
     const double targetDeadZone = 0.01;      // in degrees (very tight hold)
     const double angVelDeadZone = 0.01;      // in degrees/second
 
-    const bool descentHoldActive = (GetXR1().m_customAutopilotMode == AP_DESCENTHOLD);
+    const bool descentHoldActive = (GetXR1().m_customAutopilotMode == AUTOPILOT::AP_DESCENTHOLD);
 
     // handle inverted attitude hold 
-    if (isShipInverted && (axis != ROLL))
+    if (isShipInverted && (axis != AXIS::ROLL))
     {
         swap(thgPositive, thgNegative);      // swap the thrusters
         angularVelocity = -angularVelocity;  // target angular velocity is reversed b/c the ship is upside-down & the thrusters are reversed now
@@ -484,10 +484,10 @@ double AttitudeHoldPreStep::FireThrusterGroups(const double targetValue, const d
         const bool activeLearningThrustDirection = (currentValue >= 0);  // only do learning mode for UP pitch
 
         // holding pitch in ATM applies to descent hold as well
-        bool holdingPitchInAtm = (GetXR1().InAtm() && (axis == PITCH));  // needed by COL adjustment code later; unlike the test below, this works for both positive and negative pitch
+        bool holdingPitchInAtm = (GetXR1().InAtm() && (axis == AXIS::PITCH));  // needed by COL adjustment code later; unlike the test below, this works for both positive and negative pitch
 
         // do NOT apply learning mode if in AUTO DESCENT mode
-        if ((descentHoldActive == false) && GetXR1().InAtm() && activeLearningThrustDirection && (axis == PITCH))  // only apply learning thrust in an atmosphere for positive pitch
+        if ((descentHoldActive == false) && GetXR1().InAtm() && activeLearningThrustDirection && (axis == AXIS::PITCH))  // only apply learning thrust in an atmosphere for positive pitch
         {
             // direction in which learning thrust is being applied; this will push AGAINST the air trying to rotate the ship
             if (thLevel < 1.0)
@@ -535,7 +535,7 @@ double AttitudeHoldPreStep::FireThrusterGroups(const double targetValue, const d
         if (angularVelocity > (targetAngVel + angVelDeadZone))
         {
             GetVessel().SetThrusterGroupLevel(thgNegative, thLevel);
-            if (axis == PITCH)
+            if (axis == AXIS::PITCH)
                 negativePitchJetsFired = true;   // remember this
         }
         else
@@ -544,7 +544,7 @@ double AttitudeHoldPreStep::FireThrusterGroups(const double targetValue, const d
         if (angularVelocity < (targetAngVel - angVelDeadZone))
         {
             GetVessel().SetThrusterGroupLevel(thgPositive, thLevel);
-            if (axis == PITCH)
+            if (axis == AXIS::PITCH)
                 positivePitchJetsFired = true;   // remember this
         }
         else
@@ -694,7 +694,7 @@ void AttitudeHoldPreStep::KillRotation(const double angularVelocity, const THGRO
 // NOTE: requires AttitudeHoldPreStep as well to hold ship level during descent
 DescentHoldPreStep::DescentHoldPreStep(DeltaGliderXR1 &vessel) : 
     XR1PrePostStep(vessel), 
-    m_prevCustomAutopilotMode(AP_NOTSET)
+    m_prevCustomAutopilotMode(AUTOPILOT::AP_NOTSET)
 {
 }
 
@@ -722,10 +722,10 @@ void DescentHoldPreStep::clbkPrePostStep(const double simt, const double simdt, 
     const double altitude = GetXR1().GetGearFullyCompressedAltitude();   // don't terminate thrusters until we gear is fully compressed
 
     // if we just engaged DESCENT HOLD, initialize our latchedTargetDescentRate in case we engage auto-land under 20m altitude
-    if ((customAutopilotMode == AP_DESCENTHOLD) && (m_prevCustomAutopilotMode == AP_NOTSET))
+    if ((customAutopilotMode == AUTOPILOT::AP_DESCENTHOLD) && (m_prevCustomAutopilotMode == AUTOPILOT::AP_NOTSET))
         GetXR1().m_latchedAutoTouchdownMinDescentRate = -3;  // in case we are not set later before auto-land engages
     // check whether the DESCENT HOLD autopilot is engaged AND that we have already set the previous state correctly
-    else if ((customAutopilotMode == AP_DESCENTHOLD) && (m_prevCustomAutopilotMode != AP_NOTSET))
+    else if ((customAutopilotMode == AUTOPILOT::AP_DESCENTHOLD) && (m_prevCustomAutopilotMode != AUTOPILOT::AP_NOTSET))
     {
         // NOTE: 'suspend autpilot' checks are handled by the Attitude Hold autopilot code, since that is also enabled when we are enabled
 
@@ -734,7 +734,7 @@ void DescentHoldPreStep::clbkPrePostStep(const double simt, const double simdt, 
         {
             GetXR1().PlaySound(GetXR1().HoverDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);
             GetXR1().ShowWarning(NULL, DeltaGliderXR1::ST_None, "WARNING: Hover Doors are closed.");  // NOTE: "descent hold disengaged" will be displayed by SetCustomAutopilot
-            GetXR1().SetCustomAutopilotMode(AP_OFF, false);  // do not play sounds for this
+            GetXR1().SetCustomAutopilotMode(AUTOPILOT::AP_OFF, false);  // do not play sounds for this
         }
 
         const double timeAcc = oapiGetTimeAcceleration();
@@ -749,7 +749,7 @@ void DescentHoldPreStep::clbkPrePostStep(const double simt, const double simdt, 
         // if we just touched down, switch off the autopilot
         if ((altitude <= 0) && ((GetXR1().m_setDescentRate < 0) || GetXR1().m_autoLand))
         {
-            GetXR1().SetCustomAutopilotMode(AP_OFF, false);
+            GetXR1().SetCustomAutopilotMode(AUTOPILOT::AP_OFF, false);
             goto exit;    // nothing more to do this timestep
         }
 
@@ -913,7 +913,7 @@ void DescentHoldPreStep::clbkPrePostStep(const double simt, const double simdt, 
     }
     else    // DESCENT HOLD not engaged -- kill the thrusters if the pilot just turned off the autopilot
     {
-        if (m_prevCustomAutopilotMode == AP_DESCENTHOLD)
+        if (m_prevCustomAutopilotMode == AUTOPILOT::AP_DESCENTHOLD)
         {
             // kill the hover engines if we just touched down
             if (altitude < 0.5)
@@ -937,7 +937,7 @@ exit:
 // NOTE: requires AttitudeHoldPreStep as well to hold ship level during descent
 AirspeedHoldPreStep::AirspeedHoldPreStep(DeltaGliderXR1 &vessel) : 
     XR1PrePostStep(vessel), 
-    m_prevAirspeedHold(PAH_NOTSET)
+    m_prevAirspeedHold(PREV_AIRSPEED_HOLD::PAH_NOTSET)
 {
 }
 
@@ -993,7 +993,7 @@ void AirspeedHoldPreStep::clbkPrePostStep(const double simt, const double simdt,
     GetXR1().m_maxMainAcc = (maxMainThrust + negEffectiveShipWeight) / mass;  // weight (including drag) is NEGATIVE
 
     // check whether the AIRSPEED HOLD autopilot is engaged AND that we have already set the previous state correctly
-    if ((GetXR1().m_airspeedHoldEngaged) && (m_prevAirspeedHold != PAH_NOTSET))
+    if ((GetXR1().m_airspeedHoldEngaged) && (m_prevAirspeedHold != PREV_AIRSPEED_HOLD::PAH_NOTSET))
     {
         // suspend autpilot if time acc is too high
         const double timeAcc = oapiGetTimeAcceleration();
@@ -1087,7 +1087,7 @@ void AirspeedHoldPreStep::clbkPrePostStep(const double simt, const double simdt,
         
         if  (retroThLevel > 0)     // let's use the retros to reach (lower) target velocity
         {
-            if (GetXR1().rcover_status != DOOR_OPEN)
+            if (GetXR1().rcover_status != DoorStatus::DOOR_OPEN)
             {
                 // cannot fire retros because doors as closed!
                 GetXR1().ShowWarning("WARNING retro doors are closed.wav", DeltaGliderXR1::ST_WarningCallout, "AIRSPEED HOLD WARNING:&Open the retro doors!");
@@ -1111,7 +1111,7 @@ void AirspeedHoldPreStep::clbkPrePostStep(const double simt, const double simdt,
     }
 
     // remember the airspeed hold status for the next timestep
-    m_prevAirspeedHold = (GetXR1().m_airspeedHoldEngaged ? PAH_ON : PAH_OFF);
+    m_prevAirspeedHold = (GetXR1().m_airspeedHoldEngaged ? PREV_AIRSPEED_HOLD::PAH_ON : PREV_AIRSPEED_HOLD::PAH_OFF);
 }
 
 //---------------------------------------------------------------------------
@@ -1126,7 +1126,7 @@ void MmuPreStep::clbkPrePostStep(const double simt, const double simdt, const do
 #ifdef MMU
     // set the airlock status so the MMU knows about it; NOTE: only check the OUTER door here because we are likely opening to vacuum!
     // No need to check for a full ship here, since UMmu handles that for us.
-    bool airlockOpen = (*GetXR1().m_pActiveAirlockDoorStatus == DOOR_OPEN);
+    bool airlockOpen = (*GetXR1().m_pActiveAirlockDoorStatus == DoorStatus::DOOR_OPEN);
     GetXR1().UMmu.SetAirlockDoorState(airlockOpen);
 
     // NOTE: MMU crew member will only reenter the ship if airlockOpen == true, so no need to check it here
@@ -1262,7 +1262,7 @@ void TakeoffAndLandingCalloutsAndCrashPreStep::clbkPrePostStep(const double simt
                 goto exit;
             }
 
-            if (GetXR1().gear_status == DOOR_FAILED)
+            if (GetXR1().gear_status == DoorStatus::DOOR_FAILED)
             {
                 GetXR1().DoGearCollapse("Belly landing due to&failed landing gear!", touchdownVerticalSpeed, false);  // do not move the landing gear animation
                 // Jump to "reset for ground mode" code, since the ship is not crashed -- otherwise, the next timestep through
@@ -1272,7 +1272,7 @@ void TakeoffAndLandingCalloutsAndCrashPreStep::clbkPrePostStep(const double simt
 
             // NOTE: must check gear DOOR status because we partially raise it when a crash occurs
             // check if gear is down
-            if (GetXR1().gear_status != DOOR_OPEN)
+            if (GetXR1().gear_status != DoorStatus::DOOR_OPEN)
             {
                 // do gear collapse here since momemtum was below the full crash threshold
                 GetXR1().DoGearCollapse("Landing gear not deployed!", touchdownVerticalSpeed, false);   // do not move the landing gear animation
@@ -1355,7 +1355,7 @@ resetForGroundMode:
         if (GetXR1().IsLanded())
         {
             // ready to launch!  Reset everything.
-            if ((GetXR1().m_touchdownTime > 0) && (GetXR1().gear_status == DOOR_OPEN))  // did we just land and gear still intact?
+            if ((GetXR1().m_touchdownTime > 0) && (GetXR1().gear_status == DoorStatus::DOOR_OPEN))  // did we just land and gear still intact?
             {
                 GetXR1().ShowInfo("Wheel Stop.wav", DeltaGliderXR1::ST_InformationCallout, "Wheel Stop.");
             }
@@ -1366,7 +1366,7 @@ resetForGroundMode:
         else if (GetXR1().m_takeoffTime == 0)  // we're taking off or landing!  Let's check the speed.
         {
             // New for XRSound version: play tires rolling sound
-            if (GetXR1().gear_status == DOOR_OPEN)
+            if (GetXR1().gear_status == DoorStatus::DOOR_OPEN)
             {
                 // max volume reached at 100 knots
                 const double level = groundspeed / KNOTS_TO_MPS(100);
@@ -1452,39 +1452,39 @@ exit:
 
 GearCalloutsPreStep::GearCalloutsPreStep(DeltaGliderXR1 &vessel) : 
     XR1PrePostStep(vessel),
-    m_previousGearStatus(-1)
+    m_previousGearStatus(DoorStatus::NOT_SET)
 {
 }
 
 void GearCalloutsPreStep::clbkPrePostStep(const double simt, const double simdt, const double mjd)
 {
-    if (GetXR1().IsCrewIncapacitatedOrNoPilotOnBoard() || (GetXR1().gear_status == DOOR_FAILED))
+    if (GetXR1().IsCrewIncapacitatedOrNoPilotOnBoard() || (GetXR1().gear_status == DoorStatus::DOOR_FAILED))
         return;     // no callouts if crashed or gear failed
 
-    int gearStatus = GetXR1().gear_status;
+    DoorStatus gearStatus = GetXR1().gear_status;
 
     // reset APU idle timer if the gear is in motion
-    if ((gearStatus == DOOR_OPENING) || (gearStatus == DOOR_CLOSING))
+    if ((gearStatus == DoorStatus::DOOR_OPENING) || (gearStatus == DoorStatus::DOOR_CLOSING))
         GetXR1().MarkAPUActive();  // reset the APU idle warning callout time
 
     // skip the first frame through here so we can initialize the previous gear status properly
-    if (m_previousGearStatus >= 0)
+    if (m_previousGearStatus >= DoorStatus::DOOR_CLOSED)
     {
         if (gearStatus != m_previousGearStatus)
         {
             // gear changed state
-            if ((gearStatus == DOOR_OPEN) || (gearStatus == DOOR_CLOSED) || (gearStatus == DOOR_FAILED))
+            if ((gearStatus == DoorStatus::DOOR_OPEN) || (gearStatus == DoorStatus::DOOR_CLOSED) || (gearStatus == DoorStatus::DOOR_FAILED))
             {
                 GetXR1().StopSound(GetXR1().GearWhine);
-                 if (gearStatus != DOOR_FAILED)
+                 if (gearStatus != DoorStatus::DOOR_FAILED)
                  {
-                     const bool isGearUp = (gearStatus == DOOR_CLOSED);
+                     const bool isGearUp = (gearStatus == DoorStatus::DOOR_CLOSED);
                      GetXR1().PlayGearLockedSound(isGearUp);  // gear is up if door closed
                      GetXR1().PlaySound(GetXR1().GearLockedThump, DeltaGliderXR1::ST_Other);
                      GetXR1().ShowInfo(NULL, DeltaGliderXR1::ST_None, (isGearUp ? "Gear doors closed and locked." : "Gear down and locked."));
                  }
             }
-            else if (gearStatus == DOOR_OPENING)
+            else if (gearStatus == DoorStatus::DOOR_OPENING)
             {
                 GetXR1().PlaySound(GetXR1().GearDown, DeltaGliderXR1::ST_InformationCallout);
                 GetXR1().PlaySound(GetXR1().GearWhine, DeltaGliderXR1::ST_Other, GEAR_WHINE_VOL);
@@ -1612,7 +1612,7 @@ void AltitudeCalloutsPreStep::clbkPrePostStep(const double simt, const double si
 
     // if descending at > 0.25 m/s/s below 275 meters, warn pilot if gear is fully up; do NOT warn him if gear is in motion OR if the ship 
     // is below standard "wheels-down" altitude.
-    if ((altitude < GetXR1().m_preStepPreviousGearFullyUncompressedAltitude) && (altitude < 275) && (GetXR1().gear_status != DOOR_OPEN) && 
+    if ((altitude < GetXR1().m_preStepPreviousGearFullyUncompressedAltitude) && (altitude < 275) && (GetXR1().gear_status != DoorStatus::DOOR_OPEN) &&
         (currentDescentRate <= -0.25) && (GetXR1().GetGearFullyCompressedAltitude() > 0))
     {
         GetXR1().ShowWarning("Warning Gear is Up.wav", DeltaGliderXR1::ST_WarningCallout, "ALERT: Landing gear is up!");
@@ -1687,11 +1687,11 @@ void DockingCalloutsPreStep::clbkPrePostStep(const double simt, const double sim
 
     // enable/disable the default XRSound docking thump + sounds: this is necessary so we don't hear the docking
     // sound at all (we are going to *undock* the ship just below.
-    const bool bDockingThumpEnabled = (GetXR1().nose_status == DOOR_OPEN);
+    const bool bDockingThumpEnabled = (GetXR1().nose_status == DoorStatus::DOOR_OPEN);
     GetXR1().XRSoundOnOff(XRSound::Docking, bDockingThumpEnabled);
 
     // if the ship is marked as DOCKED by Orbiter but the nose is not open, UNDOCK IT
-    if ((GetXR1().GetFlightStatus() & 0x2) && (GetXR1().nose_status != DOOR_OPEN)) 
+    if ((GetXR1().GetFlightStatus() & 0x2) && (GetXR1().nose_status != DoorStatus::DOOR_OPEN))
         GetXR1().Undock(0);     // undock port #0 (our only port)
 
     // check if docked 
@@ -1764,7 +1764,7 @@ void DockingCalloutsPreStep::clbkPrePostStep(const double simt, const double sim
         }
     
         // if within 100 meters and closing at >= 0.02 meter-per-second, warn pilot if nosecone is closed; do NOT warn him if nosecone is OPEN or OPENING
-        if ((distance < 100) && (closingRate >= 0.02) && ((GetXR1().nose_status != DOOR_OPEN) && (GetXR1().nose_status != DOOR_OPENING)))
+        if ((distance < 100) && (closingRate >= 0.02) && ((GetXR1().nose_status != DoorStatus::DOOR_OPEN) && (GetXR1().nose_status != DoorStatus::DOOR_OPENING)))
         {
             char msg[128];
             sprintf(msg, "ALERT: %s is closed!", NOSECONE_LABEL);
@@ -1959,7 +1959,7 @@ void NosewheelSteeringPreStep::clbkPrePostStep(const double simt, const double s
     bool bSteeringEnabled = false;
 
     // gear must be operational and DOWN AND LOCKED for steering to be active
-    if (GetXR1().gear_status == DOOR_OPEN)
+    if (GetXR1().gear_status == DoorStatus::DOOR_OPEN)
     {
         // check for ground contact and APU power
         if (GetVessel().GroundContact() && GetXR1().CheckHydraulicPressure(false, false))   // do not play a message or beep here: this is invoked each timestep
@@ -2107,7 +2107,7 @@ void ParkingBrakePreStep::clbkPrePostStep(const double simt, const double simdt,
 		
 		// engage the parking brakes if ship is at wheel-stop AND no thrust is applied AND (if the parking brakes are not already engagged) the APU is online
 		// Note: the parking brakes do not require APU power once they are set.
-		if (GetXR1().IsLanded() && ((GetXR1().apu_status == DOOR_OPEN) || GetXR1().m_parkingBrakesEngaged) &&
+		if (GetXR1().IsLanded() && ((GetXR1().apu_status == DoorStatus::DOOR_OPEN) || GetXR1().m_parkingBrakesEngaged) &&
 			!GetXR1().MainThrustApplied() && 
 			!GetXR1().HoverThrustApplied() &&
 			!GetXR1().RetroThrustApplied() &&

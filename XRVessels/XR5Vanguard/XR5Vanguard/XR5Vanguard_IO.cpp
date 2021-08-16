@@ -42,7 +42,7 @@ void XR5Vanguard::clbkLoadStateEx(FILEHANDLE scn, void *vs)
     // Workaround for Orbiter core bug: must init gear parameters here in case gear status not present in the scenario file.
     // This is necessary because Orbiter requires the gear to be DOWN when the scenario first loads if the ship is landed; otherwise, a gruesome crash 
     // occurs due to the "bounce bug".
-    gear_status = DOOR_CLOSED;
+    gear_status = DoorStatus::DOOR_CLOSED;
     gear_proc   = 0.0;
     
     while (oapiReadScenario_nextline (scn, line)) 
@@ -96,7 +96,7 @@ void XR5Vanguard::clbkSaveState (FILEHANDLE scn)
     // XR5-specific data
 	char cbuf[256];
     oapiWriteScenario_int(scn, "RCS_DOCKING_MODE", m_rcsDockingMode);
-    oapiWriteScenario_int(scn, "ACTIVE_EVA_PORT",  m_activeEVAPort);
+    oapiWriteScenario_int(scn, "ACTIVE_EVA_PORT", static_cast<int>(m_activeEVAPort));
 	sprintf(cbuf, "%d %0.4f", crewElevator_status, crewElevator_proc);
 	oapiWriteScenario_string(scn, "CREW_ELEVATOR", cbuf);
 }

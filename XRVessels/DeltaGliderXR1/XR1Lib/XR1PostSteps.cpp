@@ -37,7 +37,7 @@
 // This is relatively expensive, so it is only performed once per frame for efficiency.
 ComputeAccPostStep::ComputeAccPostStep(DeltaGliderXR1 &vessel) : 
     XR1PrePostStep(vessel),
-    m_gaugeScaleExpiration(-1), m_peakAccOnCurrentGaugeScale(0), m_activeGaugeScale(NONE)
+    m_gaugeScaleExpiration(-1), m_peakAccOnCurrentGaugeScale(0), m_activeGaugeScale(AccScale::NONE)
 {
     // init to zero
     VECTOR3 &A = GetXR1().m_acceleration;
@@ -80,17 +80,17 @@ void ComputeAccPostStep::clbkPrePostStep(const double simt, const double simdt, 
         AccScale as;
         if (m_peakAccOnCurrentGaugeScale <= 2.1)   // 5% cushion
         {
-            as = TwoG;
+            as = AccScale::TwoG;
             GetXR1().m_maxGaugeAcc = 2.0;
         }
         else if (m_peakAccOnCurrentGaugeScale <= 4.2)
         {
-            as = FourG;
+            as = AccScale::FourG;
             GetXR1().m_maxGaugeAcc = 4.0;
         }
         else
         {
-            as = EightG;
+            as = AccScale::EightG;
             GetXR1().m_maxGaugeAcc = 8.0;
         }
 
@@ -183,7 +183,7 @@ void ShowWarningPostStep::clbkPrePostStep(const double simt, const double simdt,
     if ((simt > 1.0) && (m_performedStartupCheck == false))
     {
         m_performedStartupCheck = true;
-        if (GetXR1().m_crewState == DEAD)
+        if (GetXR1().m_crewState == CrewState::DEAD)
         {
             // no audio
             GetXR1().ShowWarning(NULL, DeltaGliderXR1::ST_None, "CREW IS DEAD!");
@@ -605,12 +605,12 @@ reset:
 
 DoorSoundsPostStep::DoorSoundsPostStep(DeltaGliderXR1 &vessel) : 
     XR1PrePostStep(vessel),
-    m_prevChamberStatus(NOT_SET)
+    m_prevChamberStatus(DoorStatus::NOT_SET)
 {
 // set transition state processing to FALSE so we don't play an initial thump when a scenario loads
 #define INIT_DOORSOUND(idx, doorStatus, xr1SoundID, label)   \
     m_doorSounds[idx].pDoorStatus = &(GetXR1().doorStatus);  \
-    m_doorSounds[idx].prevDoorStatus = NOT_SET;              \
+    m_doorSounds[idx].prevDoorStatus = DoorStatus::NOT_SET;  \
     m_doorSounds[idx].soundID = GetXR1().xr1SoundID;         \
     m_doorSounds[idx].processAPUTransitionState = false;     \
     m_doorSounds[idx].pLabel = label
@@ -640,11 +640,11 @@ void DoorSoundsPostStep::clbkPrePostStep(const double simt, const double simdt, 
     const DeltaGliderXR1::Sound soundID = GetXR1().Chamber;
 
     // skip the first frame through here so we can initialize the previous gear status properly
-    if (m_prevChamberStatus != NOT_SET)
+    if (m_prevChamberStatus != DoorStatus::NOT_SET)
     {
         // no hydraulic pressure required for this
         // check whether this "door" is in motion (i.e, is chamber pressurizing/depressurizing)
-        if ((ds == DOOR_OPENING) || (ds == DOOR_CLOSING))
+        if ((ds == DoorStatus::DOOR_OPENING) || (ds == DoorStatus::DOOR_CLOSING))
         {
             // if door sound is not playing, restart it since the door is moving again
             if (GetXR1().IsPlaying(soundID) == false)
@@ -657,12 +657,12 @@ void DoorSoundsPostStep::clbkPrePostStep(const double simt, const double simdt, 
         if (ds != m_prevChamberStatus)
         {
             // door changed state
-            if ((ds == DOOR_OPENING) || (ds == DOOR_CLOSING))
+            if ((ds == DoorStatus::DOOR_OPENING) || (ds == DoorStatus::DOOR_CLOSING))
             {
                 // no need to stop sound here; PlaySound will reset it
                 // sound is loaded already
                 GetXR1().PlaySound(soundID, DeltaGliderXR1::ST_Other, AIRLOCK_CHAMBER_VOLUME);
-                if (ds == DOOR_OPENING)
+                if (ds == DoorStatus::DOOR_OPENING)
                     GetXR1().ShowInfo("Airlock Depressurizing.wav", DeltaGliderXR1::ST_InformationCallout, "Airlock depressurizing.");
                 else
                     GetXR1().ShowInfo("Airlock Pressurizing.wav", DeltaGliderXR1::ST_InformationCallout, "Airlock pressurizing.");
@@ -670,10 +670,10 @@ void DoorSoundsPostStep::clbkPrePostStep(const double simt, const double simdt, 
             else    // door is either OPENED, CLOSED, or FAILED
             {
                 GetXR1().StopSound(soundID);
-                if (ds != DOOR_FAILED)
+                if (ds != DoorStatus::DOOR_FAILED)
                 {
                     // door finished shutting or opening; let's show a message and play a callout
-                    if (ds == DOOR_OPEN)
+                    if (ds == DoorStatus::DOOR_OPEN)
                         GetXR1().ShowInfo("Airlock Pressure Zero PSI.wav", DeltaGliderXR1::ST_InformationCallout, "Airlock fully depressurized.");
                     else
                         GetXR1().ShowInfo("Airlock Pressure Fourteen Point Seven PSI.wav", DeltaGliderXR1::ST_InformationCallout, "Airlock pressure nominal.");
@@ -693,14 +693,14 @@ void DoorSoundsPostStep::PlayDoorSound(DoorSound &doorSound, const double simt)
     const bool apuOnline = GetXR1().CheckHydraulicPressure(false, false);
 
     // skip the first frame through here so we can initialize the previous door status properly
-    if (doorSound.prevDoorStatus != NOT_SET)
+    if (doorSound.prevDoorStatus != DoorStatus::NOT_SET)
     {
         // handle APU transition states
         if (!apuOnline)
         {
             // No hydraulic pressure!  Check whether this door is in motion.
             // Don't check this more than once.
-            if (((ds == DOOR_OPENING) || (ds == DOOR_CLOSING)) && doorSound.processAPUTransitionState)
+            if (((ds == DoorStatus::DOOR_OPENING) || (ds == DoorStatus::DOOR_CLOSING)) && doorSound.processAPUTransitionState)
             {
                 // play a thump since this door stopped abruptly
                 // this will also kill any hydraulic sound in progress
@@ -712,7 +712,7 @@ void DoorSoundsPostStep::PlayDoorSound(DoorSound &doorSound, const double simt)
         else  // hydraulic pressure OK
         {
             // check whether this door is in motion
-            if ((ds == DOOR_OPENING) || (ds == DOOR_CLOSING))
+            if ((ds == DoorStatus::DOOR_OPENING) || (ds == DoorStatus::DOOR_CLOSING))
             {
                 // door requiring APU is active, so update our timestamp to reflect this
                 GetXR1().MarkAPUActive();  // reset the APU idle warning callout time
@@ -730,7 +730,7 @@ void DoorSoundsPostStep::PlayDoorSound(DoorSound &doorSound, const double simt)
         if (apuOnline && (ds != doorSound.prevDoorStatus))   // APU online AND door just started moving is moving 
         {
             // door changed state
-            if ((ds == DOOR_OPENING) || (ds == DOOR_CLOSING))
+            if ((ds == DoorStatus::DOOR_OPENING) || (ds == DoorStatus::DOOR_CLOSING))
             {
                 // no need to stop sound here; PlaySound will reset it
                 GetXR1().LoadXR1Sound(soundID, "Hydraulics1.wav", XRSound::PlaybackType::InternalOnly);  // audible outside ship as well
@@ -740,7 +740,7 @@ void DoorSoundsPostStep::PlayDoorSound(DoorSound &doorSound, const double simt)
             else    // door is either OPENED, CLOSED, or FAILED
             {
                 GetXR1().StopSound(soundID);
-                if (ds != DOOR_FAILED)
+                if (ds != DoorStatus::DOOR_FAILED)
                 {
                     // door finished shutting or opening
                     GetXR1().LoadXR1Sound(soundID, "Door Opened Thump.wav", XRSound::PlaybackType::InternalOnly);
@@ -754,19 +754,19 @@ void DoorSoundsPostStep::PlayDoorSound(DoorSound &doorSound, const double simt)
 }
 
 // show an info message for a door's change in status
-// NOTE: this does NOT handle DOOR_FAILED events; those are logged manually at the point of failure
+// NOTE: this does NOT handle DoorStatus::DOOR_FAILED events; those are logged manually at the point of failure
 void DoorSoundsPostStep::ShowDoorInfoMsg(DoorSound doorSound)
 {
     const char *pActionStr = nullptr;
     const DoorStatus action = *doorSound.pDoorStatus;
 
-    if (action == DOOR_OPENING)
+    if (action == DoorStatus::DOOR_OPENING)
         pActionStr = "opening";
-    else if (action == DOOR_CLOSING)
+    else if (action == DoorStatus::DOOR_CLOSING)
         pActionStr = "closing";
-    else if (action == DOOR_OPEN)
+    else if (action == DoorStatus::DOOR_OPEN)
         pActionStr = "open";
-    else if (action == DOOR_CLOSED)
+    else if (action == DoorStatus::DOOR_CLOSED)
         pActionStr = "closed";
 
     if (pActionStr != nullptr)
@@ -815,7 +815,7 @@ void UpdateCoolantTempPostStep::clbkPrePostStep(const double simt, const double 
     double heatingModifier = 1.0;   // assume no extra heating occurring
     
     // if APU is running, this generates 5% extra heat
-    if ((GetXR1().apu_status == DOOR_OPEN) || (GetXR1().apu_status == DOOR_OPENING))
+    if ((GetXR1().apu_status == DoorStatus::DOOR_OPEN) || (GetXR1().apu_status == DoorStatus::DOOR_OPENING))
         heatingModifier += 0.05;
 
     // add heat
@@ -826,7 +826,7 @@ void UpdateCoolantTempPostStep::clbkPrePostStep(const double simt, const double 
         coolantTemp = MAX_COOLANT_TEMP;
 
     // remove heat if radiator open
-    if (GetXR1().radiator_status == DOOR_OPEN)
+    if (GetXR1().radiator_status == DoorStatus::DOOR_OPEN)
     {
         // cool at a percentage OR at a minimum rate, whichever is higher
         coolantTemp -= max(COOLANT_COOLING_RATE_FRAC * coolantTemp, COOLANT_COOLING_RATE_MIN) * simdt;
@@ -850,7 +850,7 @@ void UpdateCoolantTempPostStep::clbkPrePostStep(const double simt, const double 
         if (GetXR1().m_internalSystemsFailure)
         {
             GetXR1().m_MWSActive = true;    // keep warning light blinking
-            GetXR1().m_warningLights[wlCool] = true;    // in case we just reloaded the scenario
+            GetXR1().m_warningLights[static_cast<int>(WarningLight::wlCool)] = true;    // in case we just reloaded the scenario
         }
         else    // not failed yet
         {
@@ -870,7 +870,7 @@ void UpdateCoolantTempPostStep::clbkPrePostStep(const double simt, const double 
                 GetXR1().ShowWarning("Warning Systems Failure Oxygen Flow Offline.wav", DeltaGliderXR1::ST_WarningCallout, "WARNING: SYSTEMS FAILURE!&Environmental systems offline;&DEPLOY THE RADIATOR!", true);  // force this
             }
 
-            GetXR1().m_warningLights[wlCool] = true;
+            GetXR1().m_warningLights[static_cast<int>(WarningLight::wlCool)] = true;
 
             // if this just occurred, activate MWS
             if (m_prevCoolantTemp < CRITICAL_COOLANT_TEMP)
@@ -879,7 +879,7 @@ void UpdateCoolantTempPostStep::clbkPrePostStep(const double simt, const double 
     }
     else if (coolantTemp >= WARN_COOLANT_TEMP)
     {
-        GetXR1().m_warningLights[wlCool] = true;
+        GetXR1().m_warningLights[static_cast<int>(WarningLight::wlCool)] = true;
 
         // if this just occurred, display a warning and activate MWS
         if (m_prevCoolantTemp < WARN_COOLANT_TEMP)
@@ -896,7 +896,7 @@ void UpdateCoolantTempPostStep::clbkPrePostStep(const double simt, const double 
     }
     else  // coolant temperature OK
     {
-        GetXR1().m_warningLights[wlCool] = false;
+        GetXR1().m_warningLights[static_cast<int>(WarningLight::wlCool)] = false;
     }
 
     if (coolantTemp < CRITICAL_COOLANT_TEMP)
@@ -934,14 +934,14 @@ AirlockDecompressionPostStep::AirlockDecompressionPostStep(DeltaGliderXR1 &vesse
 	m_airvent.atmsmap = PARTICLESTREAMSPEC::ATM_FLAT;    // mapping from atmospheric params to alpha
 	m_airvent.amin = 0.1;
     m_airvent.amax = 0.1;       //     min and max densities for atms PLIN mapping
-	m_airvent.tex = nullptr;       //     particle texture handle (NULL for default)
+	m_airvent.tex = nullptr;    //     particle texture handle (NULL for default)
 }
 
 void AirlockDecompressionPostStep::clbkPrePostStep(const double simt, const double simdt, const double mjd)
 {
     // check for both airlock doors open and low atmospheric pressure AND we are not docked
     // doors are open if >= 10% ajar
-    const bool doorsOpen = ((GetXR1().olock_status > 0.10) && (GetXR1().ilock_status > 0.10));
+    const bool doorsOpen = ((GetXR1().olock_proc > 0.20) && (GetXR1().olock_proc > 0.20));
     if (doorsOpen && (GetXR1().m_cabinO2Level > 0) && (GetXR1().GetAtmPressure() < 50e3) && (GetXR1().IsDocked() == false))
     {
         // decompression!
@@ -1080,8 +1080,8 @@ void AutoCenteringSimpleButtonAreasPostStep::DoHoverCenter(const double simt, co
 
         // NOTE: must take damage into account here!
         const int hoverThrustIdx = GetXR1().GetXR1Config()->HoverEngineThrust;
-        const double maxThrustFore = MAX_HOVER_THRUST[hoverThrustIdx] * GetXR1().GetDamageStatus(HoverEngineFore).fracIntegrity;
-        const double maxThrustAft  = MAX_HOVER_THRUST[hoverThrustIdx] * GetXR1().GetDamageStatus(HoverEngineAft).fracIntegrity;
+        const double maxThrustFore = MAX_HOVER_THRUST[hoverThrustIdx] * GetXR1().GetDamageStatus(DamageItem::HoverEngineFore).fracIntegrity;
+        const double maxThrustAft  = MAX_HOVER_THRUST[hoverThrustIdx] * GetXR1().GetDamageStatus(DamageItem::HoverEngineAft).fracIntegrity;
         GetVessel().SetThrusterMax0(GetXR1().th_hover[0], maxThrustFore * (1.0 + GetXR1().m_hoverBalance));
         GetVessel().SetThrusterMax0(GetXR1().th_hover[1], maxThrustAft *  (1.0 - GetXR1().m_hoverBalance));
 
@@ -1178,17 +1178,17 @@ void AutoCenteringSimpleButtonAreasPostStep::DoMainPitchCenter(const double simt
 void AutoCenteringSimpleButtonAreasPostStep::DoMainYawCenter(const double simt, const double simdt, const double mjd)
 {
     // loop through and process all three buttons
-    for (int buttonIndex=CENTER; buttonIndex <= AUTO; buttonIndex++)  // CENTER, DIVERGENT, AUTO
+    for (int buttonIndex = static_cast<int>(BUTTON::CENTER); buttonIndex <= static_cast<int>(BUTTON::AUTO); buttonIndex++)  // CENTER, DIVERGENT, AUTO
     {
         bool *pIsLit;
         int areaID;
 
-        if (buttonIndex == CENTER)   
+        if (buttonIndex == static_cast<int>(BUTTON::CENTER))
         {
             pIsLit = &GetXR1().m_mainYawCenteringMode;
             areaID = AID_YGIMBALMAINCENTER;
         }
-        else if (buttonIndex == DIVERGENT) 
+        else if (buttonIndex == static_cast<int>(BUTTON::DIVERGENT))
         {
             pIsLit = &GetXR1().m_mainDivMode;
             areaID = AID_YGIMBALMAINDIV;
@@ -1215,15 +1215,15 @@ void AutoCenteringSimpleButtonAreasPostStep::DoMainYawCenter(const double simt, 
 
             switch (buttonIndex)
             {
-            case CENTER:
+            case static_cast<int>(BUTTON::CENTER):
                 tgtx[0] = tgtx[1] = 0.0;    // set target coordinates to center
                 break;
 
-            case DIVERGENT:  
+            case static_cast<int>(BUTTON::DIVERGENT):
                 tgtx[1] = -(tgtx[0] = MAIN_YGIMBAL_RANGE); // opposite ends
                 break;
 
-            case AUTO: 
+            case static_cast<int>(BUTTON::AUTO):
                 { 
                     // auto-adjusts based on differing engine thrust to keep vector straight ahead
                     double t0 = GetVessel().GetThrusterLevel(GetXR1().th_main[0]);
@@ -1243,7 +1243,7 @@ void AutoCenteringSimpleButtonAreasPostStep::DoMainYawCenter(const double simt, 
                 if (dir.x >= tgtx[i]) dir.x = max(tgtx[i], dir.x - dx);
                 else                  dir.x = min(tgtx[i], dir.x + dx);
 
-                if ((dir.x != tgtx[i]) || (buttonIndex == AUTO))   // AUTO mode never terminates until button pressed
+                if ((dir.x != tgtx[i]) || (buttonIndex == static_cast<int>(BUTTON::AUTO)))   // AUTO mode never terminates until button pressed
                     keep_going = true;    
 
                 GetVessel().SetThrusterDir(GetXR1().th_main[i], dir);

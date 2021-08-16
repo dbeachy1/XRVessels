@@ -41,7 +41,7 @@ public:
     virtual void clbkPrePostStep(const double simt, const double simdt, const double mjd);
 
 protected:
-    enum AXIS { PITCH, ROLL, YAW };
+    enum class AXIS { PITCH, ROLL, YAW };
     // inner class to manage learning autopilot data in an atmosphere
     class LearningData
     {
@@ -92,7 +92,7 @@ protected:
 class AirspeedHoldPreStep : public XR1PrePostStep
 {
 public:
-    enum PREV_AIRSPEED_HOLD { PAH_NOTSET, PAH_OFF, PAH_ON };
+    enum class PREV_AIRSPEED_HOLD { PAH_NOTSET, PAH_OFF, PAH_ON };
     AirspeedHoldPreStep(DeltaGliderXR1 &vessel);
     virtual void clbkPrePostStep(const double simt, const double simdt, const double mjd);
 
@@ -130,7 +130,7 @@ public:
     virtual void clbkPrePostStep(const double simt, const double simdt, const double mjd);
 
 protected:
-    int m_previousGearStatus;
+    DoorStatus m_previousGearStatus;
 };
 
 //---------------------------------------------------------------------------
@@ -276,13 +276,6 @@ class ScramjetSoundPreStep : public XR1PrePostStep
 public:
     ScramjetSoundPreStep(DeltaGliderXR1 &vessel);
     virtual void clbkPrePostStep(const double simt, const double simdt, const double mjd);
-    
-protected:
-    void PlayAmbient();
-    void ResetTimer();
-
-    double m_nextPlayTime;
-    int m_previousAmbientIndex;
 };
 
 //---------------------------------------------------------------------------

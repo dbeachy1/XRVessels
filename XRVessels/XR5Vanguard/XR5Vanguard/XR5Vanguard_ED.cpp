@@ -63,81 +63,81 @@ INT_PTR CALLBACK EdPg1Proc (HWND hTab, UINT uMsg, WPARAM wParam, LPARAM lParam)
             // TODO: add editor help
             return FALSE;
         case IDC_GEAR_UP:
-            GetXR5(hTab)->ActivateLandingGear (DOOR_CLOSED);
+            GetXR5(hTab)->ActivateLandingGear(DoorStatus::DOOR_CLOSED);
             return TRUE;
         case IDC_GEAR_DOWN:
-            GetXR5(hTab)->ActivateLandingGear (DOOR_OPEN);
+            GetXR5(hTab)->ActivateLandingGear(DoorStatus::DOOR_OPEN);
             return TRUE;
 
         case IDC_RETRO_CLOSE:
-            GetXR5(hTab)->ActivateRCover (DOOR_CLOSED);
+            GetXR5(hTab)->ActivateRCover(DoorStatus::DOOR_CLOSED);
             return TRUE;
         case IDC_RETRO_OPEN:
-            GetXR5(hTab)->ActivateRCover (DOOR_OPEN);
+            GetXR5(hTab)->ActivateRCover(DoorStatus::DOOR_OPEN);
             return TRUE;
 
         case IDC_OLOCK_CLOSE:
-            GetXR5(hTab)->ActivateOuterAirlock (DOOR_CLOSED);
+            GetXR5(hTab)->ActivateOuterAirlock(DoorStatus::DOOR_CLOSED);
             return TRUE;
         case IDC_OLOCK_OPEN:
-            GetXR5(hTab)->ActivateOuterAirlock (DOOR_OPEN);
+            GetXR5(hTab)->ActivateOuterAirlock(DoorStatus::DOOR_OPEN);
             return TRUE;
 
         case IDC_ILOCK_CLOSE:
-            GetXR5(hTab)->ActivateInnerAirlock (DOOR_CLOSED);
+            GetXR5(hTab)->ActivateInnerAirlock(DoorStatus::DOOR_CLOSED);
             return TRUE;
         case IDC_ILOCK_OPEN:
-            GetXR5(hTab)->ActivateInnerAirlock (DOOR_OPEN);
+            GetXR5(hTab)->ActivateInnerAirlock(DoorStatus::DOOR_OPEN);
             return TRUE;
 
         case IDC_DOCKING_STOW:
-            GetXR5(hTab)->ActivateOuterAirlock(DOOR_CLOSED);  // NOTE: outer airlock must close, too!
-            GetXR5(hTab)->ActivateNoseCone (DOOR_CLOSED);
+            GetXR5(hTab)->ActivateOuterAirlock(DoorStatus::DOOR_CLOSED);  // NOTE: outer airlock must close, too!
+            GetXR5(hTab)->ActivateNoseCone(DoorStatus::DOOR_CLOSED);
             return TRUE;
         case IDC_DOCKING_DEPLOY:
-            GetXR5(hTab)->ActivateNoseCone (DOOR_OPEN);
+            GetXR5(hTab)->ActivateNoseCone(DoorStatus::DOOR_OPEN);
             return TRUE;
 
         case IDC_ELEVATOR_STOW:
-            GetXR5(hTab)->ActivateElevator (DOOR_CLOSED);
+            GetXR5(hTab)->ActivateElevator(DoorStatus::DOOR_CLOSED);
             return TRUE;
         case IDC_ELEVATOR_DEPLOY:
-            GetXR5(hTab)->ActivateElevator (DOOR_OPEN);
+            GetXR5(hTab)->ActivateElevator(DoorStatus::DOOR_OPEN);
             return TRUE;
 
         case IDC_HATCH_CLOSE:
-            GetXR5(hTab)->ActivateHatch (DOOR_CLOSED);
+            GetXR5(hTab)->ActivateHatch(DoorStatus::DOOR_CLOSED);
             return TRUE;
         case IDC_HATCH_OPEN:
-            GetXR5(hTab)->ActivateHatch (DOOR_OPEN);
+            GetXR5(hTab)->ActivateHatch(DoorStatus::DOOR_OPEN);
             return TRUE;
 
         case IDC_RADIATOR_STOW:
-            GetXR5(hTab)->ActivateRadiator (DOOR_CLOSED);
+            GetXR5(hTab)->ActivateRadiator(DoorStatus::DOOR_CLOSED);
             return TRUE;
         case IDC_RADIATOR_DEPLOY:
-            GetXR5(hTab)->ActivateRadiator (DOOR_OPEN);
+            GetXR5(hTab)->ActivateRadiator(DoorStatus::DOOR_OPEN);
             return TRUE;
 
         case IDC_SCRAM_CLOSE:
-            GetXR5(hTab)->ActivateScramDoors (DOOR_CLOSED);
+            GetXR5(hTab)->ActivateScramDoors(DoorStatus::DOOR_CLOSED);
             return TRUE;
         case IDC_SCRAM_OPEN:
-            GetXR5(hTab)->ActivateScramDoors (DOOR_OPEN);
+            GetXR5(hTab)->ActivateScramDoors(DoorStatus::DOOR_OPEN);
             return TRUE;
 
         case IDC_HOVER_CLOSE:
-            GetXR5(hTab)->ActivateHoverDoors (DOOR_CLOSED);
+            GetXR5(hTab)->ActivateHoverDoors(DoorStatus::DOOR_CLOSED);
             return TRUE;
         case IDC_HOVER_OPEN:
-            GetXR5(hTab)->ActivateHoverDoors (DOOR_OPEN);
+            GetXR5(hTab)->ActivateHoverDoors(DoorStatus::DOOR_OPEN);
             return TRUE;
 
         case IDC_BAY_CLOSE:
-            GetXR5(hTab)->ActivateBayDoors (DOOR_CLOSED);
+            GetXR5(hTab)->ActivateBayDoors(DoorStatus::DOOR_CLOSED);
             return TRUE;
         case IDC_BAY_OPEN:
-            GetXR5(hTab)->ActivateBayDoors (DOOR_OPEN);
+            GetXR5(hTab)->ActivateBayDoors(DoorStatus::DOOR_OPEN);
             return TRUE;
         }
         break;

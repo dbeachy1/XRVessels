@@ -85,7 +85,7 @@ ScramThrottleComponent::ScramThrottleComponent(InstrumentPanel &parentPanel, COO
 //-------------------------------------------------------------------------
 
 MainThrottleArea::MainThrottleArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID) :
-    XR1Area(parentPanel, panelCoordinates, areaID), m_vcCtrl(0), m_vcMode(0), m_vcPY(0)
+    XR1Area(parentPanel, panelCoordinates, areaID), m_vcCtrl(0), m_vcMode(0), m_vcPY(0), m_engsliderpos{0}
 {
 }
 
@@ -579,7 +579,7 @@ VerticalGaugeArea::RENDERDATA HoverBalanceVerticalGaugeArea::GetRenderData(const
 {
     int idx = static_cast<int>(28.4999 * (1.0 - (GetXR1().m_hoverBalance / MAX_HOVER_IMBALANCE)));
 
-    return _RENDERDATA(GREEN, idx);
+    return _RENDERDATA(COLOR::GREEN, idx);
 }
 
 //-------------------------------------------------------------------------
@@ -608,13 +608,13 @@ ScramPitchVerticalGaugeArea::ScramPitchVerticalGaugeArea(InstrumentPanel &parent
 VerticalGaugeArea::RENDERDATA ScramPitchVerticalGaugeArea::GetRenderData(const SIDE side)
 {
     VECTOR3 dir;
-    const int thIndex = ((side == LEFT) ? 0 : 1);
+    const int thIndex = ((side == SIDE::LEFT) ? 0 : 1);
 
     GetVessel().GetThrusterDir(GetXR1().th_scram[thIndex], dir);  
     const double phi = atan2 (dir.y, dir.z);
 
     int idx = static_cast<int>(35*(phi-SCRAM_DEFAULT_DIR+SCRAM_GIMBAL_RANGE)/SCRAM_GIMBAL_RANGE);  // pixel index
-    return _RENDERDATA(GREEN, idx);
+    return _RENDERDATA(COLOR::GREEN, idx);
 }
 
 //----------------------------------------------------------------------------------
@@ -645,12 +645,12 @@ MainPitchVerticalGaugeArea::MainPitchVerticalGaugeArea(InstrumentPanel &parentPa
 VerticalGaugeArea::RENDERDATA MainPitchVerticalGaugeArea::GetRenderData(const SIDE side)
 {
     VECTOR3 dir;
-    const int thIndex = ((side == LEFT) ? 0 : 1);
+    const int thIndex = ((side == SIDE::LEFT) ? 0 : 1);
     GetVessel().GetThrusterDir(GetXR1().th_main[thIndex], dir);
 
     int idx = static_cast<int>(35.4999*(dir.y/MAIN_PGIMBAL_RANGE+1.0));
 
-    return _RENDERDATA(GREEN, idx);
+    return _RENDERDATA(COLOR::GREEN, idx);
 }
 
 //-------------------------------------------------------------------------
@@ -680,12 +680,12 @@ MainYawHorizontalGaugeArea::MainYawHorizontalGaugeArea(InstrumentPanel &parentPa
 HorizontalGaugeArea::RENDERDATA MainYawHorizontalGaugeArea::GetRenderData(const SIDE side)
 {
     VECTOR3 dir;
-    const int thIndex = ((side == TOP) ? 0 : 1);
+    const int thIndex = ((side == SIDE::TOP) ? 0 : 1);
 
     GetVessel().GetThrusterDir(GetXR1().th_main[thIndex], dir);
 
     // get pixel index
     int idx = static_cast<int>(35.4999*(1.0-dir.x/MAIN_YGIMBAL_RANGE));
 
-    return _RENDERDATA(GREEN, idx);
+    return _RENDERDATA(COLOR::GREEN, idx);
 }
