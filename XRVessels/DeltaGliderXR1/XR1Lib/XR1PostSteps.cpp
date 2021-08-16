@@ -544,6 +544,8 @@ SetSlopePostStep::~SetSlopePostStep()
 
 void SetSlopePostStep::clbkPrePostStep(const double simt, const double simdt, const double mjd)
 {
+    const double altitude = GetVessel().GetAltitude(ALTMODE_GROUND);
+
     if (GetXR1().GroundContact())
     {
         m_isNextUpdateTimeValid = false;      // reset
@@ -563,8 +565,7 @@ void SetSlopePostStep::clbkPrePostStep(const double simt, const double simdt, co
     // over time vary, which would make accuracy (and lag) dependent on the framerate.  So we sync at 60 fps instead (see m_refreshRate value).
     if (m_isNextUpdateTimeValid && (simt >= m_nextUpdateTime))
     {
-        double altitude = GetVessel().GetAltitude(ALTMODE_GROUND);
-		double groundspeed = GetVessel().GetGroundspeed();
+		const double groundspeed = GetVessel().GetGroundspeed();
 
         const double timeDeltaSinceLastUpdate = simt - m_lastUpdateTime;
         m_pAltitudeDeltaRollingArray->AddSample(altitude - m_lastUpdateAltitude);       // altitude delta for this timestep
