@@ -358,7 +358,7 @@ bool ScramTempGaugeArea::Redraw2D(const int event, const SURFHANDLE surf)
             // {YYY} resolve this for the XR2
             x0 = (IsVC() ? 20 : 22-j) + i*43;
             y0 = 19+j*46;
-            MoveToEx(hDC, x0, y0, NULL); 
+            MoveToEx(hDC, x0, y0, nullptr); 
             LineTo(hDC, x0+dx, y0-dy);
         }
     }

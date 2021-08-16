@@ -211,7 +211,7 @@ bool MainThrottleArea::ProcessMouseEvent(const int event, const int mx, const in
     if ((GetXR1().m_isRetroEnabled == false) && (lretro != 0.0))
     {
         GetXR1().PlaySound(GetXR1().RetroDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);   // separate sound slot here so it ALWAYS plays (it is important)
-        GetXR1().ShowWarning(NULL, DeltaGliderXR1::ST_None, "Retro Doors are closed.");
+        GetXR1().ShowWarning(nullptr, DeltaGliderXR1::ST_None, "Retro Doors are closed.");
     }
 
     return true;
@@ -258,7 +258,7 @@ bool MainThrottleArea::ProcessVCMouseEvent(const int event, const VECTOR3 &coord
                     if (GetXR1().m_isRetroEnabled == false)  
                     {
                         GetXR1().PlaySound(GetXR1().RetroDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);  // separate sound slot here so it ALWAYS plays (it is important)
-                        GetXR1().ShowWarning(NULL, DeltaGliderXR1::ST_None, "Retro Doors are closed.");
+                        GetXR1().ShowWarning(nullptr, DeltaGliderXR1::ST_None, "Retro Doors are closed.");
                     }
                 }
             }
@@ -338,7 +338,7 @@ bool LargeHoverThrottleArea::ProcessMouseEvent(const int event, const int mx, co
     if (GetXR1().m_isHoverEnabled == false)
     {
         GetXR1().PlaySound(GetXR1().HoverDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);   // separate sound slot here so it ALWAYS plays (it is important)
-        GetXR1().ShowWarning(NULL, DeltaGliderXR1::ST_None, "Hover Doors are closed.");
+        GetXR1().ShowWarning(nullptr, DeltaGliderXR1::ST_None, "Hover Doors are closed.");
     }
 
     return true;
@@ -419,7 +419,7 @@ bool SmallHoverThrottleArea::ProcessMouseEvent(const int event, const int mx, co
     if (GetXR1().m_isHoverEnabled == false)
     {
         GetXR1().PlaySound(GetXR1().HoverDoorsAreClosed);   // separate sound slot here so it ALWAYS plays (it is important)
-        GetXR1().ShowWarning(NULL, DeltaGliderXR1::ST_None, "Hover Doors are closed.");
+        GetXR1().ShowWarning(nullptr, DeltaGliderXR1::ST_None, "Hover Doors are closed.");
     }
 
     return true;
@@ -515,7 +515,7 @@ bool ScramThrottleArea::ProcessMouseEvent(const int event, const int mx, const i
     if (GetXR1().m_isScramEnabled == false)
     {
         GetXR1().PlaySound(GetXR1().ScramDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);   // separate sound slot here so it ALWAYS plays (it is important)
-        GetXR1().ShowWarning(NULL, DeltaGliderXR1::ST_None, "SCRAM Doors are closed.");
+        GetXR1().ShowWarning(nullptr, DeltaGliderXR1::ST_None, "SCRAM Doors are closed.");
     }
 
     return true;

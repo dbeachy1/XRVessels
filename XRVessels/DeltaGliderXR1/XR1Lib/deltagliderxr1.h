@@ -389,7 +389,7 @@ public:
     THRUSTER_HANDLE th_rcs[14];     // RCS jets
   	double scram_intensity[2];
 	double scram_max[2];            // max SCRAM thrust
-    XR1Ramjet *ramjet;              // scramjet module (NULL = none)
+    XR1Ramjet *ramjet;              // scramjet module (nullptr = none)
 	PROPELLANT_HANDLE ph_main, ph_rcs, ph_scram; // propellant resource handles
     double *hatch_venting_lvl;      // used for hatch decompression effects
     PSTREAM_HANDLE *hatch_vent;     // array of exhaust streams for decompression effects
@@ -462,7 +462,7 @@ public:
     // contains temperature limit data
     HullTemperatureLimits m_hullTemperatureLimits;
 
-    // our active Multi-Display Area (MDA) for the current panel; if NULL, it means the MDA is invisible (not rendered)
+    // our active Multi-Display Area (MDA) for the current panel; if nullptr, it means the MDA is invisible (not rendered)
     MultiDisplayArea *m_pMDA;   // NOTE: this object is freed automatically by InstrumentPanel; do not free it twice.  We just *point to an active area* here.
 
     // warning light panel data
@@ -673,7 +673,7 @@ public:
     // Note: '&' character in the message string will generate a newline; tertiary HUD has approximately 38 characters per line.
     virtual void WriteTertiaryHudMessage(const char *pMessage, const bool isWarning);
 
-    // Returns the name of the custom skin loaded for this vessel, if any.  NULL = no custom skin loaded.  
+    // Returns the name of the custom skin loaded for this vessel, if any.  nullptr = no custom skin loaded.  
     // e.g., if "SKIN foobar" is in the scenario file for this XR vessel, GetCustomSkinName() returns a pointer to the string "foobar".
     virtual const char *GetCustomSkinName() const;
 

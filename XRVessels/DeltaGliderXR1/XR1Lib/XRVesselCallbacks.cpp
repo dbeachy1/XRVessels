@@ -400,12 +400,12 @@ void DeltaGliderXR1::clbkSetClassCaps(FILEHANDLE cfg)
     // ********************* aerodynamics ***********************
 
     // NOTE: org values were causing nasty downward pitch in the atmospehere: 
-    hwing = CreateAirfoil3(LIFT_VERTICAL, _V(m_wingBalance, 0, m_centerOfLift), DeltaGliderXR1::VLiftCoeff, NULL, 5, WING_AREA, WING_ASPECT_RATIO);
+    hwing = CreateAirfoil3(LIFT_VERTICAL, _V(m_wingBalance, 0, m_centerOfLift), DeltaGliderXR1::VLiftCoeff, nullptr, 5, WING_AREA, WING_ASPECT_RATIO);
 
     ReinitializeDamageableControlSurfaces();  // create ailerons, elevators, and elevator trim
 
     // vertical stabiliser and body lift and drag components
-    CreateAirfoil3(LIFT_HORIZONTAL, _V(0, 0, -4), DeltaGliderXR1::HLiftCoeff, NULL, 5, 15, 1.5);
+    CreateAirfoil3(LIFT_HORIZONTAL, _V(0, 0, -4), DeltaGliderXR1::HLiftCoeff, nullptr, 5, 15, 1.5);
     CreateControlSurface(AIRCTRL_RUDDER, 0.8, 1.5, _V(0, 0, -7.2), AIRCTRL_AXIS_YPOS, anim_rudder);
 
     // Create a hidden elevator trim to fix the nose-up tendency on liftoff and allow the elevator trim to be truly neutral.
@@ -672,7 +672,7 @@ void DeltaGliderXR1::clbkNavMode(int mode, bool active)
     // set the corresponding label for all modes except killrot
     static const char* pNavModeLabels[] =
     {
-        NULL, NULL, "LEVEL HORIZON", "PROGRADE", "RETROGRADE", "ORBIT-NORMAL",
+        nullptr, nullptr, "LEVEL HORIZON", "PROGRADE", "RETROGRADE", "ORBIT-NORMAL",
         "ORBIT-ANTINORMAL", "HOLD ALTITUDE"
     };
     const char* pLabel = pNavModeLabels[mode];
@@ -681,7 +681,7 @@ void DeltaGliderXR1::clbkNavMode(int mode, bool active)
     {
         char temp[40];
         sprintf(temp, "%s autopilot %s.", pLabel, pAction);
-        ShowInfo(NULL, DeltaGliderXR1::ST_None, temp);
+        ShowInfo(nullptr, DeltaGliderXR1::ST_None, temp);
     }
 }
 
@@ -860,7 +860,7 @@ void DeltaGliderXR1::clbkPostCreationCommonXRCode()
     if ((*GetXR1Config()->GetOverrideFilename() != 0) && (!GetXR1Config()->ParseFailed()))  // any override set && load succeeded?
     {
         sprintf(msg, "Loaded configuration override file&'%s'.", GetXR1Config()->GetOverrideFilename());
-        ShowInfo(NULL, ST_None, msg);
+        ShowInfo(nullptr, ST_None, msg);
     }
 
     // log a tertiary HUD message if any scenario overrides found
@@ -868,7 +868,7 @@ void DeltaGliderXR1::clbkPostCreationCommonXRCode()
     {
         // count the number of '1' bits in the override bitmask
         sprintf(msg, "Loaded %d configuration override(s)&from scenario file.", CountOneBits(m_configOverrideBitmask));
-        ShowInfo(NULL, ST_None, msg);
+        ShowInfo(nullptr, ST_None, msg);
     }
 
     // warn the user if parsing failed
@@ -880,7 +880,7 @@ void DeltaGliderXR1::clbkPostCreationCommonXRCode()
     else if ((GetXR1Config()->GetCheatcodesFoundCount() > 0) && (!GetXR1Config()->CheatcodesEnabled))  // warn the user if at least one cheatcode was set but then disabled by config
     {
         sprintf(msg, "%d cheatcode(s) ignored; cheatcodes are&disabled via the configuration file(s).", GetXR1Config()->GetCheatcodesFoundCount());
-        ShowWarning(NULL, ST_None, msg);
+        ShowWarning(nullptr, ST_None, msg);
     }
 }
 
@@ -995,7 +995,7 @@ bool DeltaGliderXR1::clbkPlaybackEvent(double simt, double event_t, const char* 
             _ASSERTE(false);
             return false;
         }
-        SetCrossfeedMode(mode, NULL);   // no optional message for this
+        SetCrossfeedMode(mode, nullptr);   // no optional message for this
         return true;
     }
     else if (!_stricmp(event_type, "MAINDUMP"))
@@ -1098,7 +1098,7 @@ bool DeltaGliderXR1::clbkLoadPanel(int panelID)
     return VESSEL3_EXT::clbkLoadPanel(panelID);
 }
 
-// mate: NULL = undocking event, otherwise vessel handle @ the docking port
+// mate: nullptr = undocking event, otherwise vessel handle @ the docking port
 void DeltaGliderXR1::clbkDockEvent(int dock, OBJHANDLE mate)
 {
     // WARNING: cannot invoke Undock in this method or it will CTD Orbiter on exit, plus

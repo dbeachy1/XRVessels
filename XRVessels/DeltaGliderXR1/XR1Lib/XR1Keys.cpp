@@ -140,7 +140,7 @@ int DeltaGliderXR1::clbkConsumeDirectKey(char *kstate)
             if (m_isScramEnabled == false)
             {
                 PlaySound(ScramDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);
-                ShowWarning(NULL, DeltaGliderXR1::ST_None, "SCRAM Doors are closed.");
+                ShowWarning(nullptr, DeltaGliderXR1::ST_None, "SCRAM Doors are closed.");
             }
             else    // SCRAM engines enabled
             {
@@ -159,7 +159,7 @@ int DeltaGliderXR1::clbkConsumeDirectKey(char *kstate)
             if (m_isScramEnabled == false)
             {
                 PlaySound(ScramDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);
-                ShowWarning(NULL, DeltaGliderXR1::ST_None, "SCRAM Doors are closed.");
+                ShowWarning(nullptr, DeltaGliderXR1::ST_None, "SCRAM Doors are closed.");
             }
             else    // SCRAM engines enabled
             {
@@ -181,7 +181,7 @@ int DeltaGliderXR1::clbkConsumeDirectKey(char *kstate)
             if (m_isScramEnabled == false)
             {
                 PlaySound(ScramDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);
-                ShowWarning(NULL, DeltaGliderXR1::ST_None, "SCRAM Doors are closed.");
+                ShowWarning(nullptr, DeltaGliderXR1::ST_None, "SCRAM Doors are closed.");
             }
             else    // SCRAM engines enabled
             {
@@ -197,7 +197,7 @@ int DeltaGliderXR1::clbkConsumeDirectKey(char *kstate)
             if (m_isScramEnabled == false)
             {
                 PlaySound(ScramDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);
-                ShowWarning(NULL, DeltaGliderXR1::ST_None, "SCRAM Doors are closed.");
+                ShowWarning(nullptr, DeltaGliderXR1::ST_None, "SCRAM Doors are closed.");
             }
             else    // SCRAM engines enabled
             {
@@ -304,7 +304,7 @@ int DeltaGliderXR1::clbkConsumeDirectKey(char *kstate)
             if (m_isScramEnabled == false)
             {
                 PlaySound(ScramDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);
-                ShowWarning(NULL, DeltaGliderXR1::ST_None, "SCRAM Doors are closed.");
+                ShowWarning(nullptr, DeltaGliderXR1::ST_None, "SCRAM Doors are closed.");
             }
             else    // SCRAM engines enabled
             {
@@ -323,7 +323,7 @@ int DeltaGliderXR1::clbkConsumeDirectKey(char *kstate)
             if (m_isScramEnabled == false)
             {
                 PlaySound(ScramDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);
-                ShowWarning(NULL, DeltaGliderXR1::ST_None, "SCRAM Doors are closed.");
+                ShowWarning(nullptr, DeltaGliderXR1::ST_None, "SCRAM Doors are closed.");
             }
             else    // SCRAM engines enabled
             {
@@ -351,7 +351,7 @@ int DeltaGliderXR1::clbkConsumeDirectKey(char *kstate)
             if (m_isHoverEnabled == false)
             {
                 PlaySound(HoverDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);
-                ShowWarning(NULL, DeltaGliderXR1::ST_None, "Hover Doors are closed.");
+                ShowWarning(nullptr, DeltaGliderXR1::ST_None, "Hover Doors are closed.");
             }
             else    // Hover engines enabled
             {
@@ -367,7 +367,7 @@ int DeltaGliderXR1::clbkConsumeDirectKey(char *kstate)
             if (m_isHoverEnabled == false)
             {
                 PlaySound(HoverDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);
-                ShowWarning(NULL, DeltaGliderXR1::ST_None, "Hover Doors are closed.");
+                ShowWarning(nullptr, DeltaGliderXR1::ST_None, "Hover Doors are closed.");
             }
             else    // Hover engines enabled
             {
@@ -389,7 +389,7 @@ int DeltaGliderXR1::clbkConsumeDirectKey(char *kstate)
         if (m_isHoverEnabled == false)
         {
             PlaySound(HoverDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);
-            ShowWarning(NULL, DeltaGliderXR1::ST_None, "Hover Doors are closed.");
+            ShowWarning(nullptr, DeltaGliderXR1::ST_None, "Hover Doors are closed.");
 
             // reset both keys
             RESETKEY(kstate, OAPI_KEY_NUMPAD0);
@@ -709,7 +709,7 @@ numpad8c_descent:
                 if ((mainThrottleLevel == 0) && (m_isRetroEnabled == false))
                 {
                     PlaySound(RetroDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);
-                    ShowWarning(NULL, DeltaGliderXR1::ST_None, "Retro Doors are closed.");
+                    ShowWarning(nullptr, DeltaGliderXR1::ST_None, "Retro Doors are closed.");
                     return 1;   // swallow this keypress
                 }
                 return 0;       // let the key be processed by Orbiter's default handler
@@ -1019,7 +1019,7 @@ numpad8n_descent:
                     char temp[64];
                     sprintf(temp, "No such display mode: %d", modeNumber);
                     PlayErrorBeep();
-                    ShowWarning(NULL, DeltaGliderXR1::ST_None, temp);
+                    ShowWarning(nullptr, DeltaGliderXR1::ST_None, temp);
                 }
                 else
                     PlaySound(BeepHigh, ST_Other);
@@ -1058,7 +1058,7 @@ numpad8n_descent:
             if (m_isRetroEnabled == false)
             {
                 PlaySound(RetroDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);
-                ShowWarning(NULL, DeltaGliderXR1::ST_None, "Retro Doors are closed.");
+                ShowWarning(nullptr, DeltaGliderXR1::ST_None, "Retro Doors are closed.");
                 return 1;   // swallow this keypress
             }
             return 0;       // let the key be processed by Orbiter's default handler

@@ -450,7 +450,7 @@ void XRVCClientCommandParser::EngineLeafHandler::GetArgumentHelp(const ParserTre
         csOut.Format("INTERNAL ERROR: invalid DataType: %d", dataType); 
 }
 
-// Returns list of valid tokens for the first leaf node parameter, or NULL if none
+// Returns list of valid tokens for the first leaf node parameter, or nullptr if none
 const char **XRVCClientCommandParser::EngineLeafHandler::GetFirstParamAutocompletionTokens(const ParserTreeNode *pTreeNode)
 {
     const EngineNodeData *pNodeData = static_cast<const EngineNodeData *>(pTreeNode->GetNodeData());  // downcast to actual type
@@ -458,7 +458,7 @@ const char **XRVCClientCommandParser::EngineLeafHandler::GetFirstParamAutocomple
 
     const XRVCClient::DataType dataType = pNodeData->dataType;
     const char **pRetVal = nullptr;
-    static const char *s_pOnOff[] = { "on", "off", NULL };
+    static const char *s_pOnOff[] = { "on", "off", nullptr };
     if (dataType == XRVCClient::DataType::Bool)
         pRetVal = s_pOnOff;   // autocompletion options for boolean are "on", "off"
 
@@ -536,7 +536,7 @@ void XRVCClientCommandParser::DamageStateLeafHandler::GetArgumentHelp(const Pars
         csOut.Format("INTERNAL ERROR: invalid DataType: %d", dataType); 
 }
 
-// Returns list of valid tokens for the first leaf node parameter, or NULL if none
+// Returns list of valid tokens for the first leaf node parameter, or nullptr if none
 const char **XRVCClientCommandParser::DamageStateLeafHandler::GetFirstParamAutocompletionTokens(const ParserTreeNode *pTreeNode)
 {
     const DamageStateNodeData *pNodeData = static_cast<const DamageStateNodeData *>(pTreeNode->GetNodeData());  // downcast to actual type
@@ -544,7 +544,7 @@ const char **XRVCClientCommandParser::DamageStateLeafHandler::GetFirstParamAutoc
 
     const XRVCClient::DataType dataType = pNodeData->dataType;
     const char **pRetVal = nullptr;
-    static const char *s_pOnlineOffline[] = { "online", "offline", NULL };
+    static const char *s_pOnlineOffline[] = { "online", "offline", nullptr };
     if (dataType == XRVCClient::DataType::Int)
         pRetVal = s_pOnlineOffline;   // autocompletion options for XRDamageState are "online", "offline"
 

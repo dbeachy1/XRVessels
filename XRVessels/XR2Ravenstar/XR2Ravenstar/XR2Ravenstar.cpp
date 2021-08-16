@@ -710,7 +710,7 @@ void XR2Ravenstar::clbkSetClassCaps (FILEHANDLE cfg)
     // ********************* aerodynamics ***********************
     
     // NOTE: org values were causing nasty downward pitch in the atmospehere: 
-    // hwing = CreateAirfoil3 (LIFT_VERTICAL, _V(0,0,-0.3), VLiftCoeff, NULL, 5, 90, 1.5);
+    // hwing = CreateAirfoil3 (LIFT_VERTICAL, _V(0,0,-0.3), VLiftCoeff, nullptr, 5, 90, 1.5);
 
     XR1Multiplier = 1.34;        // control surface area vs. the XR1  
     
@@ -724,12 +724,12 @@ void XR2Ravenstar::clbkSetClassCaps (FILEHANDLE cfg)
 
     // center of lift matches center of mass
     // NOTE: this airfoil's force attack point will be modified by the SetCenterOfLift PreStep 
-    hwing = CreateAirfoil3 (LIFT_VERTICAL, _V(m_wingBalance, 0, m_centerOfLift), VLiftCoeff, NULL, 5 * XR1Multiplier, WING_AREA, WING_ASPECT_RATIO);  
+    hwing = CreateAirfoil3 (LIFT_VERTICAL, _V(m_wingBalance, 0, m_centerOfLift), VLiftCoeff, nullptr, 5 * XR1Multiplier, WING_AREA, WING_ASPECT_RATIO);  
     
     ReinitializeDamageableControlSurfaces();  // create ailerons, elevators, and elevator trim
 
     // vertical stabiliser and body lift and drag components
-    CreateAirfoil3 (LIFT_HORIZONTAL, _V(0, 0, m_ctrlSurfacesDeltaZ), HLiftCoeff, NULL, 5 * XR1Multiplier, 15 * XR1Multiplier, 1.5);
+    CreateAirfoil3 (LIFT_HORIZONTAL, _V(0, 0, m_ctrlSurfacesDeltaZ), HLiftCoeff, nullptr, 5 * XR1Multiplier, 15 * XR1Multiplier, 1.5);
     CreateControlSurface(AIRCTRL_RUDDER,       0.8 * XR1Multiplier, 1.5, _V(   0,0, m_ctrlSurfacesDeltaZ), AIRCTRL_AXIS_YPOS, anim_rudder);
 
     // Create a hidden elevator trim to fix the nose-up tendency on liftoff and allow the elevator trim to be truly neutral.
@@ -1124,7 +1124,7 @@ bool XR2Ravenstar::clbkPlaybackEvent (double simt, double event_t, const char *e
 void XR2Ravenstar::clbkVisualCreated (VISHANDLE vis, int refcount)
 {
     exmesh = GetDevMesh(vis, 0);
-    // Note: vcmesh should remain NULL here! It is safer that way, since any vcmesh operations
+    // Note: vcmesh should remain nullptr here! It is safer that way, since any vcmesh operations
     // performed by the XR1 base class are XR1-mesh-specific.
 
     heatingmesh = GetDevMesh(vis, 1);  // hull heating mesh; the single group in this mesh is HIDDEN by default
@@ -1189,7 +1189,7 @@ void XR2Ravenstar::clbkVisualDestroyed (VISHANDLE vis, int refcount)
     exmesh = nullptr;
     heatingmesh = nullptr;
 
-    // Note: vcmesh remains NULL at all times with the XR2
+    // Note: vcmesh remains nullptr at all times with the XR2
 }
 
 // ==============================================================

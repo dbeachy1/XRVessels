@@ -34,7 +34,7 @@ public:
     ParserTree() 
     { 
         // build our root node
-        m_rootParserTreeNode = new ParserTreeNode(NULL, -1);
+        m_rootParserTreeNode = new ParserTreeNode(nullptr, -1);
 
         // allocate an autocompletionstate object we will pass to our parser
         m_pAutocompletionState = ParserTreeNode::AllocateNewAutocompletionState();

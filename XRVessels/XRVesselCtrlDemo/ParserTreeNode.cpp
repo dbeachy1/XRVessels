@@ -66,8 +66,8 @@
 ParserTreeNode::ParserTreeNode(const char *pNodeText, const int nodeGroup, const NodeData *pNodeData, LeafHandler *pCallback) :
     m_nodeGroup(nodeGroup), m_pLeafHandler(pCallback), m_pParentNode(nullptr)
 {
-    m_pCSNodeText = ((pNodeText != nullptr) ? new CString(pNodeText) : NULL);   // clone it
-    m_pNodeData = ((pNodeData != nullptr) ? pNodeData->Clone() : NULL);         // deep-clone it
+    m_pCSNodeText = ((pNodeText != nullptr) ? new CString(pNodeText) : nullptr);   // clone it
+    m_pNodeData = ((pNodeData != nullptr) ? pNodeData->Clone() : nullptr);         // deep-clone it
 }
 
 // Destructor
@@ -153,7 +153,7 @@ int ParserTreeNode::AutoComplete(vector<CString> &argv, const int startingIndex,
     
     // By design, only track autocompletion state for the *last* token on the line; otherwise we would 
     // overwrite the command following the one we would autocomplete.
-    AUTOCOMPLETION_STATE *pActiveACState = ((startingIndex == (argv.size()-1)) ? pACState : NULL); 
+    AUTOCOMPLETION_STATE *pActiveACState = ((startingIndex == (argv.size()-1)) ? pACState : nullptr); 
     const int nextArgIndex = startingIndex + 1;
     ParserTreeNode *pMatchingChild = FindChildForToken(csToken, pActiveACState, direction);
     if (pMatchingChild != nullptr)
@@ -174,7 +174,7 @@ int ParserTreeNode::AutoComplete(vector<CString> &argv, const int startingIndex,
         if ((m_pLeafHandler != nullptr) && (nextArgIndex == static_cast<int>(argv.size())))
         {
             // this is leaf node parameter #1, so let's see if there are any autocompletion tokens available for it
-            const char **pFirstParamTokens = m_pLeafHandler->GetFirstParamAutocompletionTokens(this);  // may be NULL
+            const char **pFirstParamTokens = m_pLeafHandler->GetFirstParamAutocompletionTokens(this);  // may be nullptr
             
             // let's try to find a unique match
             const char *pAutocompletedToken = AutocompleteToken(argv[startingIndex], pACState, direction, pFirstParamTokens);
@@ -253,7 +253,7 @@ bool ParserTreeNode::Parse(vector<CString> &argv, const int startingIndex, CStri
         {
             // try to parse the requested token by finding a match with one of our child nodes
             CString &csToken = argv[startingIndex];
-            ParserTreeNode *pMatchingChild = FindChildForToken(csToken, NULL, true);  // must have exact match here (direction is moot)
+            ParserTreeNode *pMatchingChild = FindChildForToken(csToken, nullptr, true);  // must have exact match here (direction is moot)
             if (pMatchingChild != nullptr)
             {
                 // command token is valid
@@ -327,7 +327,7 @@ int ParserTreeNode::GetAvailableArgumentsForCommand(vector<CString> &argv, const
         {
             // try to parse the requested token by finding a match with one of our child nodes
             CString &csToken = argv[startingIndex];
-            pMatchingChild = FindChildForToken(csToken, NULL, true);  // must have exact match here (direction is moot)
+            pMatchingChild = FindChildForToken(csToken, nullptr, true);  // must have exact match here (direction is moot)
         }
 
         const int nextArgIndex = startingIndex + 1;
@@ -401,7 +401,7 @@ void ParserTreeNode::ResetAutocompletionState(AUTOCOMPLETION_STATE *pACState)
 // Examine our child nodes and try to locate a case-insensitive match for the supplied token.
 // acState : tracks autocompletion state between successive autocompletion calls; if null, do not track autocompletion for this token (i.e., this is not the final token on the command line)
 // direction: true = tab direction forward, false = tab direction backward
-// Returns node on a match or NULL if no match found OR if more than one match found.
+// Returns node on a match or nullptr if no match found OR if more than one match found.
 ParserTreeNode *ParserTreeNode::FindChildForToken(const CString &csToken, AUTOCOMPLETION_STATE *pACState, const bool direction) const
 {
     if (csToken.IsEmpty())
@@ -451,7 +451,7 @@ ParserTreeNode *ParserTreeNode::FindChildForToken(const CString &csToken, AUTOCO
         if (pActiveACState == nullptr)   // not stepping through multiple tokens?
         {
             // must have exactly *one* match or we cannot autocomplete this token
-            pRetVal = ((matchingNodeCount == 1) ? matchingNodes.front() : NULL);  
+            pRetVal = ((matchingNodeCount == 1) ? matchingNodes.front() : nullptr);  
         }
         else   // we're stepping through multiple tokens (always on the last token on the line)
         {
@@ -479,8 +479,8 @@ ParserTreeNode *ParserTreeNode::FindChildForToken(const CString &csToken, AUTOCO
 //
 // acState : tracks autocompletion state between successive autocompletion calls; if null, do not track autocompletion for this token (i.e., this is not the final token on the command line)
 // direction: true = tab direction forward, false = tab direction backward
-// pValidTokenValues: may be NULL.  Otherwise, points to a NULL-terminated array of valid token values.
-// Returns autocompleted token on a match or NULL if pValidTokenValues is NULL OR no match found OR if more than one match found.
+// pValidTokenValues: may be nullptr.  Otherwise, points to a nullptr-terminated array of valid token values.
+// Returns autocompleted token on a match or nullptr if pValidTokenValues is nullptr OR no match found OR if more than one match found.
 const char *ParserTreeNode::AutocompleteToken(const CString &csToken, AUTOCOMPLETION_STATE *pACState, const bool direction, const char **pValidTokenValues) const
 {
     if (pValidTokenValues == nullptr)
@@ -533,7 +533,7 @@ const char *ParserTreeNode::AutocompleteToken(const CString &csToken, AUTOCOMPLE
         if (pActiveACState == nullptr)   // not stepping through multiple tokens?
         {
             // must have exactly *one* match or we cannot autocomplete this token
-            pRetVal = ((matchingTokenCount == 1) ? matchingTokens.front() : NULL);  
+            pRetVal = ((matchingTokenCount == 1) ? matchingTokens.front() : nullptr);  
         }
         else   // we're stepping through multiple tokens (always on the last token on the line)
         {

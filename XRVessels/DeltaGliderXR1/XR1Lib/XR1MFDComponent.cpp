@@ -218,7 +218,7 @@ bool MFDMainButtonsArea::Redraw2D(const int event, const SURFHANDLE surf)
     // draw text for each button
     for (int bt = 0; bt < 6; bt++)
     {
-        // ORBITER BUG: for some reason, oapiMFDButtonLabel(0,0) returns NULL immediately after a vessel switch.
+        // ORBITER BUG: for some reason, oapiMFDButtonLabel(0,0) returns nullptr immediately after a vessel switch.
         // Workaround is via the PostStep which follows this method.
         if ((label = oapiMFDButtonLabel(GetMfdID(), bt + ((GetButtonSide() == BUTTON_SIDE::LEFT) ? 0 : 6))) != nullptr)
         {

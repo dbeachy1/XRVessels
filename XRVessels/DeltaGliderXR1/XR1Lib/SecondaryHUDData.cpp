@@ -89,7 +89,7 @@ const SHField SHField::allFields[] =
     { FieldID::RDtmp,    {  Units::u_K, Units::u_F, Units::u_C },       "RDtmp" },
     { FieldID::RCtmp,    {  Units::u_K, Units::u_F, Units::u_C },       "RCtmp" },
     { FieldID::REtmp,    {  Units::u_K, Units::u_F, Units::u_C },       "REtmp" },
-    { FieldID::f_END,    { },                     NULL }     // marks the END of the array
+    { FieldID::f_END,    { },                     nullptr }     // marks the END of the array
 };
 
 // define all valid ParseUnits
@@ -103,7 +103,7 @@ const SHParseUnit SHParseUnit::allParseUnits[] =
     { Units::u_F,   "F" },     // (Fahrenheit) : temperature
     { Units::u_C,   "C" },     // (Celsiuis)   : temperature
     { Units::u_NA,  "-" },     // "N/A"; used for fields where only one unit is valid, such as "degrees" for angles
-    { Units::u_END, NULL},     // marks the END of the array
+    { Units::u_END, nullptr},     // marks the END of the array
 };
 
 // Set a cell via text IDs; use this when parsing values from the config file

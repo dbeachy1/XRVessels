@@ -39,7 +39,7 @@ public:
 
     bool Update();      // update the state data for this vessel; this should be invoked from your vessel's PreStep.  If this returns false, delete this object since it is invalid.
 
-    VESSEL *GetTargetVessel() const { return m_pTargetVessel; } // NULL = "target invalid"; will never be null if IsStateDataValid() == true.
+    VESSEL *GetTargetVessel() const { return m_pTargetVessel; } // nullptr = "target invalid"; will never be null if IsStateDataValid() == true.
     OBJHANDLE GetTargetHandle() const { return m_hTargetHandle; }
     const XRPayloadClassData &GetTargetPCD() const { return *m_targetPCD; }
     double GetDeltaV() const        { return m_deltaV; }        // may by positive or negative

@@ -66,7 +66,7 @@ void SelectPayloadSlotArea::Deactivate()
 {
     Area::Deactivate();  // invoke superclass method
     for (int i=0; i < 3; i++)
-        DestroySurface(m_hSurfaceForLevel + i);  // must pass pointer here because DestroySurface sets it to NULL
+        DestroySurface(m_hSurfaceForLevel + i);  // must pass pointer here because DestroySurface sets it to nullptr
 }
 
 bool SelectPayloadSlotArea::Redraw2D(const int event, const SURFHANDLE surf)
@@ -94,7 +94,7 @@ bool SelectPayloadSlotArea::Redraw2D(const int event, const SURFHANDLE surf)
     if (!GetXR5().m_grappleTargetVesselName != 0)  // anything there?
     {
         // TODO: remove cast when Martin fixes the API
-        OBJHANDLE hTarget = oapiGetVesselByName(const_cast<char *>(GetXR5().m_grappleTargetVesselName));   // will be NULL if vessel no longer in range
+        OBJHANDLE hTarget = oapiGetVesselByName(const_cast<char *>(GetXR5().m_grappleTargetVesselName));   // will be nullptr if vessel no longer in range
         if (hTarget != nullptr)
         {
             VESSEL *pGrappleTargetVessel = oapiGetVesselInterface(hTarget);  // will never be null
@@ -212,7 +212,7 @@ bool SelectPayloadSlotArea::ProcessMouseEvent(const int event, const int mx, con
         int gridY = (s_blockSize.y + 96 - my) / s_blockSize.y;   // must go from BOTTOM edge: y is negative as slot number grows
 
         // determine whether the slot clicked is valid for the active level
-        XRPayloadBaySlot *pSlot = GetXR5().m_pPayloadBay->GetSlotForGrid(GetXR5().m_selectedSlotLevel, gridX, gridY);  // will be NULL if no slot at requested coordinates
+        XRPayloadBaySlot *pSlot = GetXR5().m_pPayloadBay->GetSlotForGrid(GetXR5().m_selectedSlotLevel, gridX, gridY);  // will be nullptr if no slot at requested coordinates
         if (pSlot != nullptr)
         {
             // slot cannot be selected if it is DISABLED

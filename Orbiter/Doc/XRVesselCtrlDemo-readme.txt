@@ -19,9 +19,9 @@
   Web: https://www.alteaaerospace.com
 ===========================================================================
 
-XRVesselCtrlDemo 3.2
+XRVesselCtrlDemo 4.0
 
-Release Date: 11-Aug-2021
+Release Date: 16-Aug-2021
   
   Requirements:
     Orbiter 2016 or newer
@@ -40,7 +40,7 @@ I originally developed this module so I could properly test the XRVesselCtrl 2.0
 WHAT'S NEW
 ----------
 
-XRVesselCtrlDemo 3.2 was compiled using Visual Studio 2019 against OpenOrbiter 2021.
+XRVesselCtrlDemo 4.0 was compiled using Visual Studio 2019 against OpenOrbiter 2021.
 
 Beyond the new XRVesselCtrlDemo test/demo application, the significant changes to the XRVesselCtrl 3.x APIs over version 1.0 and 2.0 are:
 

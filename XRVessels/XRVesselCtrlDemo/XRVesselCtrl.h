@@ -247,9 +247,9 @@ struct XRSystemStatusRead : public XRSystemStatusWrite
 // contains data about an XR payload bay slot
 struct XRPayloadSlotData
 {
-    VESSEL *hCargoModuleVessel; // Orbiter vessel handle of payload module attached in this slot; will be NULL if slot is empty
+    VESSEL *hCargoModuleVessel; // Orbiter vessel handle of payload module attached in this slot; will be nullptr if slot is empty
     XRVesselCtrl *pParentXRVessel;        // Orbiter vessel handle of the XR vessel to which this bay slot belongs
-    ATTACHMENTHANDLE hXRAttachmentHandle; // XR vessel's attachment handle for this bay slot; will never be NULL
+    ATTACHMENTHANDLE hXRAttachmentHandle; // XR vessel's attachment handle for this bay slot; will never be nullptr
     int SlotNumber;             // 1-n
     VECTOR3 localCoordinates;   // XR-vessel-relative coordinates to the center of this payload slot
     bool IsOccupied;            // true if a payload module occupies this slot
@@ -432,7 +432,7 @@ public:
     //=====================================================================
     // Methods added in API version 2.01
     //=====================================================================
-    // Returns a pointer to this vessel's OMMUManagement object; will only be NULL if this vessel does not support MMu.
+    // Returns a pointer to this vessel's OMMUManagement object; will only be nullptr if this vessel does not support MMu.
     virtual OMMUManagement *GetMMuObject() = 0;
 
     //=====================================================================
@@ -444,7 +444,7 @@ public:
     //=====================================================================
     // Methods added in API version 2.2
     //=====================================================================
-    // Returns the name of the custom skin loaded for this vessel, if any.  NULL = no custom skin loaded.  
+    // Returns the name of the custom skin loaded for this vessel, if any.  nullptr = no custom skin loaded.  
     // e.g., if "SKIN foobar" is in the scenario file for this XR vessel, GetCustomSkinName() returns a pointer to the string "foobar".
     virtual const char *GetCustomSkinName() const = 0;
 
@@ -458,7 +458,7 @@ public:
     //   slotNumber: 1 <= n <= GetPayloadBaySlotCount()
     virtual bool IsPayloadBaySlotFree(const int slotNumber) const = 0;
 
-    // Returns details about an XR payload bay slot.  Returns NULL if slotNumber is invalid.
+    // Returns details about an XR payload bay slot.  Returns nullptr if slotNumber is invalid.
     //   slotNumber: 1 <= n <= GetPayloadBaySlotCount()
     //   slotDataOut: will be populated with data for the specified slot if slotNumber is valid.  If slotNumber is invalied, the contents of slotDataOut are not changed.
     // Returns: true if slotDataOut successfully populated (i.e., slotNumber was valid)

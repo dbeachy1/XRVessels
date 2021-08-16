@@ -68,7 +68,7 @@ void DeltaGliderXR1::clbkRenderHUD (int mode, const HUDPAINTSPEC *hps, SURFHANDL
 bool DeltaGliderXR1::clbkDrawHUD (int mode, const HUDPAINTSPEC *hps, oapi::Sketchpad *skp)
 {
     // for non-VC HUDs, save previous font and select new font that matches Orbiter 2010 new look
-    oapi::Font *pOrgHUDFont = ((!IsCameraVC()) ? skp->SetFont(GetNormal2DHUDFont()) : NULL);   
+    oapi::Font *pOrgHUDFont = ((!IsCameraVC()) ? skp->SetFont(GetNormal2DHUDFont()) : nullptr);   
 
     // center of the HUD
     const int cx = hps->CX;
@@ -841,13 +841,13 @@ bool PopupHUDArea::Redraw2D(const int event, const SURFHANDLE surf)
 
             // NOTE: LineTo draws up to, but not INCLUDING, the specified point
             // Also, it appears as though the FIRST POINT under MoveToEx is not drawn, either
-            MoveToEx(hDC, 0, m_height, NULL);                 // bottom-left corner  
+            MoveToEx(hDC, 0, m_height, nullptr);                 // bottom-left corner  
             LineTo(hDC, 0, m_topYCoordinate);           
 
-            MoveToEx(hDC, 0, m_topYCoordinate, NULL);           // top-left corner
+            MoveToEx(hDC, 0, m_topYCoordinate, nullptr);           // top-left corner
             LineTo(hDC, m_width, m_topYCoordinate);     
 
-            MoveToEx(hDC, m_width-1, m_topYCoordinate, NULL);   // top-right corner
+            MoveToEx(hDC, m_width-1, m_topYCoordinate, nullptr);   // top-right corner
             LineTo(hDC, m_width-1, m_height);
 
             SelectObject(hDC, prevPen);  // restore previous pen
@@ -1250,7 +1250,7 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
     case FieldID::Ecc:
         {
             ELEMENTS e;
-            GetVessel().GetElements(NULL, e, NULL, 0, FRAME_EQU);  // this is only expensive on the first call to it in this frame
+            GetVessel().GetElements(nullptr, e, nullptr, 0, FRAME_EQU);  // this is only expensive on the first call to it in this frame
             value = e.e;
             sprintf(valueStr, "%.5lf", value);
         }
@@ -1259,7 +1259,7 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
     case FieldID::Inc:
         {
             ELEMENTS e;
-            GetVessel().GetElements(NULL, e, NULL, 0, FRAME_EQU);
+            GetVessel().GetElements(nullptr, e, nullptr, 0, FRAME_EQU);
             value = e.i * DEG;  // in degrees
             sprintf(valueStr, "%.4lf°", value);  // reduce to 11 chars for slight clipping issue
         }
@@ -1270,7 +1270,7 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
         {
             ELEMENTS e;
             ORBITPARAM prm;
-            GetVessel().GetElements(NULL, e, &prm, 0, FRAME_EQU);
+            GetVessel().GetElements(nullptr, e, &prm, 0, FRAME_EQU);
             value = ((fieldID == FieldID::PeT) ? prm.PeT : prm.ApT);
 
             // if value < 0, it means that it is N/A; i.e., we are not orbiting the object
@@ -1297,7 +1297,7 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell &cell)
             // These values operate on the primary G body at the moment
             ELEMENTS e;
             ORBITPARAM prm;
-            GetVessel().GetElements(NULL, e, &prm, 0, FRAME_EQU);
+            GetVessel().GetElements(nullptr, e, &prm, 0, FRAME_EQU);
             value = (((fieldID == FieldID::PeR) || (fieldID == FieldID::PeA)) ? prm.PeD : prm.ApD);  // dist from body center in meters
             
             // if value <= 0, it means that it is N/A; i.e., we are not orbiting the object

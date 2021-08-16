@@ -158,7 +158,7 @@ const char *DATA_HUD_VALUES[] =
     "NUMPAD_ENTER",  "Airspeed Hold: Hold Current Airspeed",
     "NUMPAD*",       "Airspeed Hold: Reset Rate to 0 m/s",
 
-    NULL, NULL   // null-terminate the array
+    nullptr, nullptr   // null-terminate the array
 };
 
 // ==============================================================
@@ -879,7 +879,7 @@ const double HULL_WIDTH = 29.49;
 const VECTOR3 HULL_TOUCHDOWN_POINTS[] =
 {
 	// TODO: fill these in
-	NULL
+	0
 };
 // TODO: const int HULL_TOUCHDOWN_POINTS_COUNT = sizeof(HULL_TOUCHDOWN_POINTS) / sizeof(VECTOR3);
 const int HULL_TOUCHDOWN_POINTS_COUNT = 3; // TEMP until real touchdown points are defined

@@ -546,17 +546,17 @@ void XR5Vanguard::clbkSetClassCaps (FILEHANDLE cfg)
     // ********************* aerodynamics ***********************
 
     // NOTE: org values were causing nasty downward pitch in the atmospehere: 
-    // hwing = CreateAirfoil3 (LIFT_VERTICAL, _V(0,0,-0.3), VLiftCoeff, NULL, 5, 90, 1.5);
+    // hwing = CreateAirfoil3 (LIFT_VERTICAL, _V(0,0,-0.3), VLiftCoeff, nullptr, 5, 90, 1.5);
     // Note: aspect ratio = total span squared divided by wing area: 76.67^2 / mesh_wing_area
     const double aspectRatio = (54.909154*54.909154) / 479.07;
-    hwing = CreateAirfoil3 (LIFT_VERTICAL, _V(m_wingBalance,0,m_centerOfLift), VLiftCoeff, NULL, 27.68, WING_AREA, aspectRatio);
+    hwing = CreateAirfoil3 (LIFT_VERTICAL, _V(m_wingBalance,0,m_centerOfLift), VLiftCoeff, nullptr, 27.68, WING_AREA, aspectRatio);
     
     // vertical stabiliser and body lift and drag components
     // location: effectively in center of vessel (because there are two), and just over 20 meters back from the center of the vessel
     // Note: aspect ratio = total span squared divided by wing area: 16.31.16.31^2 / mesh_wing_area
     const double verticalStabilWingArea = 96.68;
     const double vertAspectRatio = (16.30805*16.30805) / verticalStabilWingArea;
-    CreateAirfoil3 (LIFT_HORIZONTAL, _V(0,0,-20.12), HLiftCoeff, NULL, 16.797632, verticalStabilWingArea, vertAspectRatio);
+    CreateAirfoil3 (LIFT_HORIZONTAL, _V(0,0,-20.12), HLiftCoeff, nullptr, 16.797632, verticalStabilWingArea, vertAspectRatio);
     
     
     // ref vector is 1 meter behind the vertical stabilizers
@@ -573,16 +573,16 @@ void XR5Vanguard::clbkSetClassCaps (FILEHANDLE cfg)
     // ********************* aerodynamics ***********************
     
     // NOTE: org values were causing nasty downward pitch in the atmospehere: 
-    // hwing = CreateAirfoil3 (LIFT_VERTICAL, _V(0,0,-0.3), VLiftCoeff, NULL, 5, 90, 1.5);
+    // hwing = CreateAirfoil3 (LIFT_VERTICAL, _V(0,0,-0.3), VLiftCoeff, nullptr, 5, 90, 1.5);
     m_ctrlSurfacesDeltaZ = -21.2;       // distance from center of model to center of control surfaces, Z axis
     m_aileronDeltaX      = 31.962114;   // distance from center of ship to center of aileron, X direction
     XR1Multiplier        = 29.94;       // control surface area vs. the XR1  (5.99 = wing area delta w/area 479.07)
 
     // center of lift matches center of mass
     // NOTE: this airfoil's force attack point will be modified by the SetCenterOfLift PreStep 
-    hwing = CreateAirfoil3 (LIFT_VERTICAL, _V(m_wingBalance, 0, m_centerOfLift), VLiftCoeff, NULL, 5 * XR1Multiplier, WING_AREA, WING_ASPECT_RATIO);  
+    hwing = CreateAirfoil3 (LIFT_VERTICAL, _V(m_wingBalance, 0, m_centerOfLift), VLiftCoeff, nullptr, 5 * XR1Multiplier, WING_AREA, WING_ASPECT_RATIO);  
     
-    CreateAirfoil3 (LIFT_HORIZONTAL, _V(0, 0, m_ctrlSurfacesDeltaZ + 3.0), HLiftCoeff, NULL, 16.79, 15 * XR1Multiplier, 1.5);
+    CreateAirfoil3 (LIFT_HORIZONTAL, _V(0, 0, m_ctrlSurfacesDeltaZ + 3.0), HLiftCoeff, nullptr, 16.79, 15 * XR1Multiplier, 1.5);
 
     ReinitializeDamageableControlSurfaces();  // create ailerons, elevators, and elevator trim
 

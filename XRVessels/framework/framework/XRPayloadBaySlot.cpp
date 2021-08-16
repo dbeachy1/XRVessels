@@ -109,7 +109,7 @@ VESSEL *XRPayloadBaySlot::GetChild() const
 
     // see if we have a parent vessel attached to our attachment point
     ATTACHMENTHANDLE hAttachmentHandle = GetAttachmentHandle();  // should never be null!
-    OBJHANDLE hChildVessel = GetParentVessel().GetAttachmentStatus(hAttachmentHandle);  // will be NULL if no child vessel attached
+    OBJHANDLE hChildVessel = GetParentVessel().GetAttachmentStatus(hAttachmentHandle);  // will be nullptr if no child vessel attached
 
     // WARNING: for some reason Orbiter tends to keep vessels alive for at least one frame after they are deleted; i.e., the handle still comes back
     // but it is now invalid!  Therefore, we have to handle that here.

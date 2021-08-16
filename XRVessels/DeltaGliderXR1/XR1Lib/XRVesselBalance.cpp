@@ -222,7 +222,7 @@ bool DeltaGliderXR1::ShiftCenterOfLift(double requestedShift)
         retVal = false;   // maxed out
     }
 
-    EditAirfoil(hwing, 0x01, _V(m_wingBalance, 0, m_centerOfLift), NULL, 0, 0, 0);
+    EditAirfoil(hwing, 0x01, _V(m_wingBalance, 0, m_centerOfLift), nullptr, 0, 0, 0);
     // debug: sprintf(oapiDebugString(), "requestedColShift=%lf, m_centerOfLift=%lf", requestedShift, m_centerOfLift);  
 
     MarkAPUActive();  // reset the APU idle warning callout time

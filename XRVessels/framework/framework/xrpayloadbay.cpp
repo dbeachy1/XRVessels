@@ -61,7 +61,7 @@ void XRPayloadBay::AddSlot(XRPayloadBaySlot *pSlot)
     m_allSlotsMap.insert(Int_XRPayloadBaySlot_Pair(pSlot->GetSlotNumber(), pSlot));  // key = slot #, value=slot data
 }
 
-// Returns slot data for the specified slot number, or NULL if slotNumber is invalid
+// Returns slot data for the specified slot number, or nullptr if slotNumber is invalid
 // Valid slot numbers: 1...n
 XRPayloadBaySlot *XRPayloadBay::GetSlot(int slotNumber) const
 {
@@ -73,7 +73,7 @@ XRPayloadBaySlot *XRPayloadBay::GetSlot(int slotNumber) const
     return pRetVal;
 }
 
-// Returns slot data for the slot specified by a level and its grid coordinates, or NULL if no slot at the requested coordinates
+// Returns slot data for the slot specified by a level and its grid coordinates, or nullptr if no slot at the requested coordinates
 // 0,0 = slot 1 on level 1; i.e., bottom-left of grid looking AFT
 // No range checks are performed via asserts.
 XRPayloadBaySlot *XRPayloadBay::GetSlotForGrid(const int level, const int gridX, const int gridY) const
@@ -119,7 +119,7 @@ bool XRPayloadBay::AttachChild(OBJHANDLE childObjHandle, const int slotNumber)
     }
 
     // retrieve the child vessel and attach it
-    VESSEL *pChildVessel = oapiGetVesselInterface(childObjHandle);  // will never be NULL since we checked the handle already
+    VESSEL *pChildVessel = oapiGetVesselInterface(childObjHandle);  // will never be nullptr since we checked the handle already
     bool retVal = pPrimarySlot->AttachChild(*pChildVessel);
 
     return retVal;

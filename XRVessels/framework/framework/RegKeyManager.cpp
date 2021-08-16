@@ -21,7 +21,7 @@
 
 // Example usage:
 //    RegKeyManager mgr;
-//	  mgr.Initialize(HKEY_CURRENT_USER, ""AlteaAerospace\\XR\\WindowPos", NULL);
+//	  mgr.Initialize(HKEY_CURRENT_USER, ""AlteaAerospace\\XR\\WindowPos", nullptr);
 //    DWORD xOut;
 //    mgr.ReadRegistryDWORD("X", &xOut);
 
@@ -43,7 +43,7 @@ RegKeyManager::~RegKeyManager()
 // Initialize this object; returns true on success.  No error message box is shown; the caller should handle that.
 // hRootKey: root key; e.g., HKEY_CURRENT_USER
 // pSubkeyPath: key from which to read values; e.g., "AlteaAerospace\\Orbiter\\XR\\WindowPos"
-// hOwnerWindow: window that launched us; may be NULL
+// hOwnerWindow: window that launched us; may be nullptr
 //
 // Should only be called once.
 bool RegKeyManager::Initialize(const HKEY hRootKey, const TCHAR *pSubkeyPath, const HWND hOwnerWindow)
@@ -52,7 +52,7 @@ bool RegKeyManager::Initialize(const HKEY hRootKey, const TCHAR *pSubkeyPath, co
     _ASSERTE(!m_bInitialized);
 
     m_hOwnerWindow = hOwnerWindow;
-    m_bInitialized = (RegCreateKeyEx(hRootKey, pSubkeyPath, 0, NULL, 0, KEY_ALL_ACCESS, NULL, &m_hKey, NULL) == ERROR_SUCCESS);
+    m_bInitialized = (RegCreateKeyEx(hRootKey, pSubkeyPath, 0, nullptr, 0, KEY_ALL_ACCESS, nullptr, &m_hKey, nullptr) == ERROR_SUCCESS);
     return m_bInitialized;
 }
 
@@ -65,7 +65,7 @@ bool RegKeyManager::WriteRegistryString(const TCHAR *pValueName, const TCHAR *pV
     _ASSERTE(m_bInitialized);
 
     // length includes the trailing zero byte
-    bool bSuccess = (RegSetValueEx(m_hKey, pValueName, NULL, REG_SZ, reinterpret_cast<const BYTE *>(pValue), static_cast<DWORD>((_tcslen(pValue) + 1) * sizeof(TCHAR))) == ERROR_SUCCESS);
+    bool bSuccess = (RegSetValueEx(m_hKey, pValueName, 0, REG_SZ, reinterpret_cast<const BYTE *>(pValue), static_cast<DWORD>((_tcslen(pValue) + 1) * sizeof(TCHAR))) == ERROR_SUCCESS);
 
 	return bSuccess;
 }
@@ -81,13 +81,13 @@ bool RegKeyManager::ReadRegistryString(const TCHAR *pValueName, CString &valueOu
 	bool bSuccess = false;
 
     // get the size of the value
-    if (RegQueryValueEx(m_hKey, pValueName, NULL, &dwType, NULL, &dwSize) == ERROR_SUCCESS)
+    if (RegQueryValueEx(m_hKey, pValueName, nullptr, &dwType, nullptr, &dwSize) == ERROR_SUCCESS)
     {
         if ((dwType == REG_SZ) && (dwSize > 0))
         {
             // now retrieve the actual value
             BYTE *pBuffer = reinterpret_cast<BYTE *>(valueOut.GetBufferSetLength(dwSize));  // dwSize is in bytes, but we allocate a minimum of n characters anyway in case the string value was stored as a non-Unicode value
-            bSuccess = (RegQueryValueEx(m_hKey, pValueName, NULL, &dwType, pBuffer, &dwSize) == ERROR_SUCCESS);
+            bSuccess = (RegQueryValueEx(m_hKey, pValueName, nullptr, &dwType, pBuffer, &dwSize) == ERROR_SUCCESS);
             valueOut.ReleaseBuffer();
         }
         else
@@ -105,7 +105,7 @@ bool RegKeyManager::WriteRegistryBlob(const TCHAR *pValueName, const DATA_BLOB &
     _ASSERTE(m_bInitialized);
 
     // length includes the trailing zero byte
-    bool bSuccess = (RegSetValueEx(m_hKey, pValueName, NULL, REG_BINARY, blob.pbData, blob.cbData) == ERROR_SUCCESS);
+    bool bSuccess = (RegSetValueEx(m_hKey, pValueName, 0, REG_BINARY, blob.pbData, blob.cbData) == ERROR_SUCCESS);
 
     return bSuccess;
 }
@@ -121,14 +121,14 @@ bool RegKeyManager::ReadRegistryBlob(const TCHAR *pValueName, DATA_BLOB &blobOut
 	bool bSuccess = false;
 
     // get the size of the value
-    if (RegQueryValueEx(m_hKey, pValueName, NULL, &dwType, NULL, &blobOut.cbData) == ERROR_SUCCESS)
+    if (RegQueryValueEx(m_hKey, pValueName, nullptr, &dwType, nullptr, &blobOut.cbData) == ERROR_SUCCESS)
     {
         if ((dwType == REG_BINARY) && (blobOut.cbData > 0))
         {
             // now retrieve the actual value
             // Note: we must use LocalAlloc here since that is what the cryptography functions use when working with DATA_BLOB objects.
             blobOut.pbData = static_cast<BYTE *>(LocalAlloc(LMEM_FIXED, blobOut.cbData));
-            bSuccess = (RegQueryValueEx(m_hKey, pValueName, NULL, &dwType, blobOut.pbData, &blobOut.cbData) == ERROR_SUCCESS);
+            bSuccess = (RegQueryValueEx(m_hKey, pValueName, nullptr, &dwType, blobOut.pbData, &blobOut.cbData) == ERROR_SUCCESS);
         }
         else
         {
@@ -145,7 +145,7 @@ bool RegKeyManager::WriteRegistryDWORD(const TCHAR *pValueName, const DWORD dwVa
     _ASSERTE(m_bInitialized);
 
     // length includes the trailing zero byte
-    bool bSuccess = (RegSetValueEx(m_hKey, pValueName, NULL, REG_DWORD, reinterpret_cast<const BYTE *>(&dwValue), sizeof(DWORD)) == ERROR_SUCCESS);
+    bool bSuccess = (RegSetValueEx(m_hKey, pValueName, 0, REG_DWORD, reinterpret_cast<const BYTE *>(&dwValue), sizeof(DWORD)) == ERROR_SUCCESS);
 
     return bSuccess;
 }
@@ -160,7 +160,7 @@ bool RegKeyManager::ReadRegistryDWORD(const TCHAR *pValueName, DWORD &valueOut) 
     DWORD dwSize = sizeof(DWORD);
 
     BYTE *pBuffer = reinterpret_cast<BYTE *>(&valueOut);  
-    const bool bSuccess = (RegQueryValueEx(m_hKey, pValueName, NULL, &dwType, pBuffer, &dwSize) == ERROR_SUCCESS);
+    const bool bSuccess = (RegQueryValueEx(m_hKey, pValueName, nullptr, &dwType, pBuffer, &dwSize) == ERROR_SUCCESS);
 
     return bSuccess;
 }
@@ -172,7 +172,7 @@ bool RegKeyManager::WriteRegistryQWORD(const TCHAR *pValueName, const ULONGLONG 
     _ASSERTE(m_bInitialized);
 
     // length includes the trailing zero byte
-    bool bSuccess = (RegSetValueEx(m_hKey, pValueName, NULL, REG_QWORD, reinterpret_cast<const BYTE *>(&qwValue), sizeof(ULONGLONG)) == ERROR_SUCCESS);
+    bool bSuccess = (RegSetValueEx(m_hKey, pValueName, 0, REG_QWORD, reinterpret_cast<const BYTE *>(&qwValue), sizeof(ULONGLONG)) == ERROR_SUCCESS);
 
     return bSuccess;
 }
@@ -187,7 +187,7 @@ bool RegKeyManager::ReadRegistryQWORD(const TCHAR *pValueName, ULONGLONG &valueO
     DWORD dwSize = sizeof(ULONGLONG);
 
     BYTE *pBuffer = reinterpret_cast<BYTE *>(&valueOut);  
-    const bool bSuccess = (RegQueryValueEx(m_hKey, pValueName, NULL, &dwType, pBuffer, &dwSize) == ERROR_SUCCESS);
+    const bool bSuccess = (RegQueryValueEx(m_hKey, pValueName, nullptr, &dwType, pBuffer, &dwSize) == ERROR_SUCCESS);
 
     return bSuccess;
 }
@@ -195,7 +195,7 @@ bool RegKeyManager::ReadRegistryQWORD(const TCHAR *pValueName, ULONGLONG &valueO
 // Delete a registry value.  No error messagebox is displayed if the delete fails; the caller should
 // check the return code from this call.
 //
-// pValueName: may be NULL or empty, in which case the default value for this manager's key is deleted
+// pValueName: may be nullptr or empty, in which case the default value for this manager's key is deleted
 // 
 // Returns: error code defined in Winerror.h (ala GetLastError())
 LONG RegKeyManager::DeleteRegistryValue(const TCHAR *pValueName) const

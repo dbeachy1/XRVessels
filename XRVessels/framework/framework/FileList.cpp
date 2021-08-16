@@ -200,7 +200,7 @@ const CString FileList::GetFile(const int index) const
     return m_allFiles[index];
 }
 
-// Returns the first file in our file list with the specified basename (case-insensitive search), or NULL if no file found.
+// Returns the first file in our file list with the specified basename (case-insensitive search), or nullptr if no file found.
 const CString *FileList::FindFileWithBasename(const char *pBasename) const
 {
     _ASSERTE(pBasename);

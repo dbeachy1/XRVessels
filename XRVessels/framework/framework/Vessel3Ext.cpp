@@ -41,7 +41,7 @@ VESSEL3_EXT::VESSEL3_EXT(OBJHANDLE vessel, int fmodel) :
 	m_videoWindowWidth(0), m_videoWindowHeight(0), m_lastVideoWindowWidth(-1), m_last2DPanelWidth(0),
     m_absoluteSimTime(0)
 {
-	m_regKeyManager.Initialize(HKEY_CURRENT_USER, XR_GLOBAL_SETTINGS_REG_KEY, NULL);   // should always succeed
+	m_regKeyManager.Initialize(HKEY_CURRENT_USER, XR_GLOBAL_SETTINGS_REG_KEY, nullptr);   // should always succeed
 }
 
 // destructor
@@ -109,7 +109,7 @@ void VESSEL3_EXT::AddPreStep(PrePostStep *pStep)
     GetPreStepVector().push_back(pStep);  // add to end of vector
 }
 
-// Returns the panel with the requested number (0-n), or NULL if panel number is invalid
+// Returns the panel with the requested number (0-n), or nullptr if panel number is invalid
 // Note that each VC panel has a unique ID alongside the 2D panels
 // vcPanelIDBase = VC_PANEL_ID_BASE from the subclass
 InstrumentPanel *VESSEL3_EXT::GetInstrumentPanel(const int panelNumber)
@@ -342,7 +342,7 @@ bool VESSEL3_EXT::clbkPanelRedrawEvent(int areaID, int event, SURFHANDLE surf)
 // if it appears on multiple panels.
 //
 // This will return the area object for a given panel ID.
-// Returns: requested Area object, or NULL if area not found on the specified panel
+// Returns: requested Area object, or nullptr if area not found on the specified panel
 Area *VESSEL3_EXT::GetArea(const int panelID, const int areaID)
 {
     Area *pArea = nullptr;
@@ -532,7 +532,7 @@ double VESSEL3_EXT::GetDistanceToVessel(const VESSEL &targetVessel) const
     return dist(ourGlobalCoords, targetGlobalCoords);
 }
 
-// Returns the grapple target vessel with the supplied name, or NULL if target name is invalid or no longer exists.
+// Returns the grapple target vessel with the supplied name, or nullptr if target name is invalid or no longer exists.
 // NOTE: clients should test the returned object by invoking pGrappleTarget->IsStateDataValid() to ensure that the
 // object is fully initialized: each object needs at least two frames in order for its state to be valid.
 //
@@ -545,14 +545,14 @@ double VESSEL3_EXT::GetDistanceToVessel(const VESSEL &targetVessel) const
 // NOTE: this method will *always* update the state of pTargetVesselName, such as distance, delta-V, etc. 
 //
 // pTargetVesselName: may not be null, but may be empty
-// Returns: grapple target vessel on success, or NULL if target vessel name not found
+// Returns: grapple target vessel on success, or nullptr if target vessel name not found
 const XRGrappleTargetVessel *VESSEL3_EXT::GetGrappleTargetVessel(const char *pTargetVesselName)
 {
     XRGrappleTargetVessel *pRetVal = nullptr;
 
     // locate the vessel
     // Must cast away constness here until Martin fixes the API
-    const OBJHANDLE hVessel = oapiGetVesselByName(const_cast<char *>(pTargetVesselName));  // will be NULL if vessel does not exist
+    const OBJHANDLE hVessel = oapiGetVesselByName(const_cast<char *>(pTargetVesselName));  // will be nullptr if vessel does not exist
     const string sTargetVesselName(pTargetVesselName);   // temporary copy used for lookups
 
     if (oapiIsVessel(hVessel))    // vessel is still valid?

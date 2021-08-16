@@ -44,7 +44,7 @@ bool DeltaGliderXR1::InitSound()
         // Note: do not blink a warning on the HUD or the debug line here because some users may want to 
         // fly without XRSound loaded.
         GetXR1Config()->WriteLog("WARNING: XRSound not installed or is a different XRSound.dll version from what this XR vessel version was built with: custom sound effects will not play.");
-        ShowWarning(NULL, DeltaGliderXR1::ST_None, "WARNING: XRSound not installed!&Custom sounds will not play.", true);  // warn the user
+        ShowWarning(nullptr, DeltaGliderXR1::ST_None, "WARNING: XRSound not installed!&Custom sounds will not play.", true);  // warn the user
         return false;
     }
 

@@ -76,7 +76,7 @@ public:
     bool UpdateDamageState(DataType dataType, Value &value, void *pValueToSet, CString &statusOut);
 
 protected:
-    XRVesselCtrl *m_pVessel;      // active XR vessel, or NULL for none
+    XRVesselCtrl *m_pVessel;      // active XR vessel, or nullptr for none
 
     // static utility methods to format output; each returns a reference to csOut
     static CString &AppendPaddedInt(CString &csOut, const int val, const int width);

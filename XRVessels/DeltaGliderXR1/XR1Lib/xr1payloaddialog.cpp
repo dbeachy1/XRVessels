@@ -121,11 +121,11 @@ INT_PTR CALLBACK XR1PayloadDialog::Proc(HWND hDlg, UINT uMsg, WPARAM wParam, LPA
             ProcessSelectedPayloadChanged(hDlg, &xr1);   // ditto
 
             // create a timer for 1/20th-second so we can refresh the ship and payload mass values automatically
-            SetTimer(hDlg, TIMERID_REFRESH_MASS, 50, NULL);
+            SetTimer(hDlg, TIMERID_REFRESH_MASS, 50, nullptr);
 
             // Create a time for 1/5th-second so we can refresh the bay contents automatically in case 
             // the user deploys or adds cargo via the ship's controls.
-            SetTimer(hDlg, TIMERID_REFRESH_BAY, 200, NULL);
+            SetTimer(hDlg, TIMERID_REFRESH_BAY, 200, nullptr);
 
             return FALSE;  // we already set the focus 
         }  // case WM_INITDIALOG
@@ -280,7 +280,7 @@ void XR1PayloadDialog::UpdatePayloadFields(HWND hDlg, const char *pClassname)
     // show the bitmap preview, if any (may be null)
     const HBITMAP hBmp = pd.GetThumbnailBitmapHandle();
     HWND hPictureCtrl = ::GetDlgItem(hDlg, IDC_STATIC_THUMBNAIL_BMP);
-    ::SendMessage(hPictureCtrl, STM_SETIMAGE, IMAGE_BITMAP, reinterpret_cast<LPARAM>(hBmp));   // TODO: figure out what a NULL hBmp here does to the image; is it blank?
+    ::SendMessage(hPictureCtrl, STM_SETIMAGE, IMAGE_BITMAP, reinterpret_cast<LPARAM>(hBmp));   // TODO: figure out what a nullptr hBmp here does to the image; is it blank?
 }
 
 // Refresh vessel and payload mass readouts
@@ -378,7 +378,7 @@ bool XR1PayloadDialog::RemovePayloadFromSlot(const int slotNumber, HWND hDlg, HW
 // Rescan the payload bay and update button states based on the state of the payload bay;
 // a slot that is occupied by a neighboring payload will be disabled.  Note that primary
 // slots (slots to which a payload is attached) are *always* enabled, as are empty slots.
-// pXR1: if NULL, look up XR1 via oapiGetDialogContext; WARNING: if WM_INITDIALOG, you must pass in pXR1 because the context is not set up yet!
+// pXR1: if nullptr, look up XR1 via oapiGetDialogContext; WARNING: if WM_INITDIALOG, you must pass in pXR1 because the context is not set up yet!
 // This method will also update the pushed/unpushed state based on whether this slot is a primary slot.  Note that 
 // disabled slots do not need to be pushed or unpushed since it is irrelevant.
 //
@@ -465,7 +465,7 @@ int XR1PayloadDialog::GetSelectedPayloadClassname(const HWND hDlg, char *pOut, c
 }
 
 // invoked whenever the selected payload type changed
-// pXR1: pointer to our parent vessel; may be NULL only if not invoked from WM_INIT.
+// pXR1: pointer to our parent vessel; may be nullptr only if not invoked from WM_INIT.
 void XR1PayloadDialog::ProcessSelectedPayloadChanged(HWND hDlg, DeltaGliderXR1 *pXR1)
 {
     // retrieve the new classname value from the combo box

@@ -64,7 +64,7 @@ void SelectPayloadSlotArea::Activate()
  
 void SelectPayloadSlotArea::Deactivate()
 {
-    DestroySurface(&m_hSurface);  // must pass pointer here because DestroySurface sets it to NULL
+    DestroySurface(&m_hSurface);  // must pass pointer here because DestroySurface sets it to nullptr
     XR1Area::Deactivate();  // invoke superclass method
 }
 
@@ -92,7 +92,7 @@ bool SelectPayloadSlotArea::Redraw2D(const int event, const SURFHANDLE surf)
     if (!GetXR2().m_grappleTargetVesselName != 0)  // anything there?
     {
         // TODO: remove cast when Martin fixes the API
-        OBJHANDLE hTarget = oapiGetVesselByName(const_cast<char *>(GetXR2().m_grappleTargetVesselName));   // will be NULL if vessel no longer in range
+        OBJHANDLE hTarget = oapiGetVesselByName(const_cast<char *>(GetXR2().m_grappleTargetVesselName));   // will be nullptr if vessel no longer in range
         if (hTarget != nullptr)
         {
             VESSEL *pGrappleTargetVessel = oapiGetVesselInterface(hTarget);  // will never be null

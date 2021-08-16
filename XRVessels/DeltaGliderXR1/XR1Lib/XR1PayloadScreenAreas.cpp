@@ -115,8 +115,8 @@ bool DeployPayloadArea::Redraw2D(const int event, const SURFHANDLE surf)
     // get the current selected slot, if any
     XRPayloadBay *pPayloadBay = GetXR1().m_pPayloadBay;
     const int selectedSlotNumber = GetXR1().m_selectedSlot; 
-    const VESSEL *pChildVessel = ((selectedSlotNumber == 0) ? NULL : pPayloadBay->GetChild(GetXR1().m_selectedSlot));
-    const XRPayloadClassData *pChildVesselPCD = ((pChildVessel != nullptr) ? &XRPayloadClassData::GetXRPayloadClassDataForClassname(pChildVessel->GetClassName()) : NULL);
+    const VESSEL *pChildVessel = ((selectedSlotNumber == 0) ? nullptr : pPayloadBay->GetChild(GetXR1().m_selectedSlot));
+    const XRPayloadClassData *pChildVesselPCD = ((pChildVessel != nullptr) ? &XRPayloadClassData::GetXRPayloadClassDataForClassname(pChildVessel->GetClassName()) : nullptr);
 
     // obtain device context and save existing font
     HDC hDC = GetDC(surf);
@@ -434,7 +434,7 @@ bool PayloadThumbnailArea::Redraw2D(const int event, const SURFHANDLE surf)
 
     // get the current selected slot, if any
     XRPayloadBay *pPayloadBay = GetXR1().m_pPayloadBay;
-    const VESSEL *pVesselForThumbnail = ((GetXR1().m_selectedSlot == 0) ? NULL : pPayloadBay->GetChild(GetXR1().m_selectedSlot));
+    const VESSEL *pVesselForThumbnail = ((GetXR1().m_selectedSlot == 0) ? nullptr : pPayloadBay->GetChild(GetXR1().m_selectedSlot));
     
     // if EMPTY selected slot, try the grapple payload target...
     if (pVesselForThumbnail == nullptr)  // no selected slot with a vessel?
@@ -454,7 +454,7 @@ bool PayloadThumbnailArea::Redraw2D(const int event, const SURFHANDLE surf)
 
     // Note: if NO selected slot, pVesselForThumbnail == null and this screen will show "none"
 
-    const XRPayloadClassData *pChildVesselPCD = ((pVesselForThumbnail != nullptr) ? &XRPayloadClassData::GetXRPayloadClassDataForClassname(pVesselForThumbnail->GetClassName()) : NULL);
+    const XRPayloadClassData *pChildVesselPCD = ((pVesselForThumbnail != nullptr) ? &XRPayloadClassData::GetXRPayloadClassDataForClassname(pVesselForThumbnail->GetClassName()) : nullptr);
 
     // render the screen if it has changed since the last render OR if this is the inital render
     if ((pChildVesselPCD != m_pLastRenderedPayloadThumbnailPCD) || (event == PANEL_REDRAW_INIT))
@@ -644,7 +644,7 @@ bool GrapplePayloadArea::Redraw2D(const int event, const SURFHANDLE surf)
     // get the current selected slot, if any
     XRPayloadBay *pPayloadBay = GetXR1().m_pPayloadBay;
     const int selectedSlot = GetXR1().m_selectedSlot;  // 0 = NONE
-    const VESSEL *pChildVessel = ((selectedSlot == 0) ? NULL : pPayloadBay->GetChild(GetXR1().m_selectedSlot));
+    const VESSEL *pChildVessel = ((selectedSlot == 0) ? nullptr : pPayloadBay->GetChild(GetXR1().m_selectedSlot));
 
     if (selectedSlot > 0)
     {

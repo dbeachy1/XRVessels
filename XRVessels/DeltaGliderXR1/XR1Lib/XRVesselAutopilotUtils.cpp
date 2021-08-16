@@ -56,7 +56,7 @@ void DeltaGliderXR1::SetAirspeedHoldMode(bool on, bool playSound)
 
     char temp[60];
     sprintf(temp, "AIRSPEED HOLD autopilot %s.", pAction);
-    ShowInfo(NULL, DeltaGliderXR1::ST_None, temp);
+    ShowInfo(nullptr, DeltaGliderXR1::ST_None, temp);
 
     if (on)     // turning autopilot on?
     {
@@ -68,7 +68,7 @@ void DeltaGliderXR1::SetAirspeedHoldMode(bool on, bool playSound)
             m_setAirspeed = 0;
 
         sprintf(temp, "Hold Airspeed %.1f m/s", m_setAirspeed);
-        ShowInfo(NULL, DeltaGliderXR1::ST_None, temp);
+        ShowInfo(nullptr, DeltaGliderXR1::ST_None, temp);
 
         if (playSound)
             PlaySound(AutopilotOn, ST_Other, AUTOPILOT_VOL);
@@ -134,7 +134,7 @@ void DeltaGliderXR1::SetCustomAutopilotMode(AUTOPILOT mode, bool playSound, bool
     if ((force == false) && (mode == AUTOPILOT::AP_DESCENTHOLD) && (m_isHoverEnabled == false))
     {
         PlaySound(HoverDoorsAreClosed, ST_WarningCallout);
-        ShowWarning(NULL, DeltaGliderXR1::ST_None, "WARNING: Hover Doors are closed;&cannot engage DESCENT HOLD.");
+        ShowWarning(nullptr, DeltaGliderXR1::ST_None, "WARNING: Hover Doors are closed;&cannot engage DESCENT HOLD.");
         SetCustomAutopilotMode(AUTOPILOT::AP_OFF, false, false);   // kill any existing autopilot
         m_autoLand = false;   // reset just in case
         return;     // nothing to do            
@@ -159,7 +159,7 @@ void DeltaGliderXR1::SetCustomAutopilotMode(AUTOPILOT mode, bool playSound, bool
     {
     case AUTOPILOT::AP_ATTITUDEHOLD:
         sprintf(temp, "ATTITUDE HOLD autopilot %s.", pAction);
-        ShowInfo(NULL, DeltaGliderXR1::ST_None, temp);
+        ShowInfo(nullptr, DeltaGliderXR1::ST_None, temp);
 
         if (mode != AUTOPILOT::AP_OFF)     // autopilot on?
         {
@@ -168,7 +168,7 @@ void DeltaGliderXR1::SetCustomAutopilotMode(AUTOPILOT mode, bool playSound, bool
             else
                 sprintf(temp, "Hold Pitch=%+.1f°, Hold Bank=%+.1f°", m_setPitchOrAOA, m_setBank);
 
-            ShowInfo(NULL, DeltaGliderXR1::ST_None, temp);
+            ShowInfo(nullptr, DeltaGliderXR1::ST_None, temp);
             m_initialAHBankCompleted = false;  // defensive coding: reset just in case
         }
         else  // AP off now
@@ -179,7 +179,7 @@ void DeltaGliderXR1::SetCustomAutopilotMode(AUTOPILOT mode, bool playSound, bool
 
     case AUTOPILOT::AP_DESCENTHOLD:
         sprintf(temp, "DESCENT HOLD autopilot %s.", pAction);
-        ShowInfo(NULL, DeltaGliderXR1::ST_None, temp);
+        ShowInfo(nullptr, DeltaGliderXR1::ST_None, temp);
 
         if (mode != AUTOPILOT::AP_OFF)     // turning autopilot on?
         {
@@ -188,7 +188,7 @@ void DeltaGliderXR1::SetCustomAutopilotMode(AUTOPILOT mode, bool playSound, bool
                 m_setDescentRate = 0.1;
 
             sprintf(temp, "Hold Rate=%+f m/s", m_setDescentRate);
-            ShowInfo(NULL, DeltaGliderXR1::ST_None, temp);
+            ShowInfo(nullptr, DeltaGliderXR1::ST_None, temp);
             m_autoLand = false;   // defensive coding: reset just in case
         }
         else    // AP off now
@@ -305,7 +305,7 @@ void DeltaGliderXR1::SetAirspeedHold(bool playSound, const AIRSPEEDHOLD_ADJUST m
     if (playSound)
         PlaySound(sound, ST_Other);
 
-    ShowInfo(NULL, DeltaGliderXR1::ST_None, msg);
+    ShowInfo(nullptr, DeltaGliderXR1::ST_None, msg);
 }
 
 //
@@ -365,7 +365,7 @@ void DeltaGliderXR1::SetAutoDescentRate(bool playSound, const AUTODESCENT_ADJUST
     if (playSound)
         PlaySound(sound, ST_Other);
 
-    ShowInfo(NULL, DeltaGliderXR1::ST_None, msg);
+    ShowInfo(nullptr, DeltaGliderXR1::ST_None, msg);
 }
 
 #define ROUND(value, boundary)   \
@@ -405,10 +405,10 @@ void DeltaGliderXR1::SyncAttitudeHold(bool playSound, bool forcePitchHoldMode)
 
     char msg[50];
     sprintf(msg, "Attitude Hold: %s synced to %+4.1f°", (m_holdAOA ? "AOA" : "Pitch"), m_setPitchOrAOA);
-    ShowInfo(NULL, DeltaGliderXR1::ST_None, msg);
+    ShowInfo(nullptr, DeltaGliderXR1::ST_None, msg);
 
     sprintf(msg, "Attitude Hold: Bank synced to %+4.1f°", m_setBank);
-    ShowInfo(NULL, DeltaGliderXR1::ST_None, msg);
+    ShowInfo(nullptr, DeltaGliderXR1::ST_None, msg);
 }
 
 // 
@@ -431,7 +431,7 @@ void DeltaGliderXR1::ToggleAOAPitchAttitudeHold(bool playSound)
     {
         char msg[50];
         sprintf(msg, "Attitude Hold: Holding %+4.1f° %s", m_setPitchOrAOA, (m_holdAOA ? "AOA" : "PITCH"));
-        ShowInfo(NULL, DeltaGliderXR1::ST_None, msg);
+        ShowInfo(nullptr, DeltaGliderXR1::ST_None, msg);
     }
 }
 
@@ -473,7 +473,7 @@ void DeltaGliderXR1::ResetAttitudeHoldToLevel(bool playSound, bool resetBank, bo
     {
         char msg[50];
         sprintf(msg, "Attitude Hold: %s reset to level.", pAxisMessage);
-        ShowInfo(NULL, DeltaGliderXR1::ST_None, msg);
+        ShowInfo(nullptr, DeltaGliderXR1::ST_None, msg);
     }
 }
 
@@ -557,7 +557,7 @@ void DeltaGliderXR1::LimitAttitudeHoldBank(const bool increment, double& val, co
         if (limitedBank)
         {
             PlaySound(Error1, ST_Other, ERROR1_VOL);
-            ShowWarning(NULL, ST_None, "As a flight safety measure&you must disengage Attitude Hold&before setting an inverted bank level.");
+            ShowWarning(nullptr, ST_None, "As a flight safety measure&you must disengage Attitude Hold&before setting an inverted bank level.");
         }
     }
     else
@@ -594,7 +594,7 @@ void DeltaGliderXR1::IncrementAttitudeHoldPitch(bool playSound, bool changeAxis,
 
         char temp[40];
         sprintf(temp, "Attitude Hold: %s %+4.1f°", (m_holdAOA ? "AOA" : "Pitch"), m_setPitchOrAOA);
-        ShowInfo(NULL, DeltaGliderXR1::ST_None, temp);
+        ShowInfo(nullptr, DeltaGliderXR1::ST_None, temp);
     }
 }
 
@@ -614,7 +614,7 @@ void DeltaGliderXR1::DecrementAttitudeHoldPitch(bool playSound, bool changeAxis,
 
         char temp[40];
         sprintf(temp, "Attitude Hold: %s %+4.1f°", (m_holdAOA ? "AOA" : "Pitch"), m_setPitchOrAOA);
-        ShowInfo(NULL, DeltaGliderXR1::ST_None, temp);
+        ShowInfo(nullptr, DeltaGliderXR1::ST_None, temp);
     }
 }
 
@@ -634,7 +634,7 @@ void DeltaGliderXR1::IncrementAttitudeHoldBank(bool playSound, bool changeAxis)
 
         char temp[40];
         sprintf(temp, "Attitude Hold: Bank %+4.1f°", m_setBank);
-        ShowInfo(NULL, DeltaGliderXR1::ST_None, temp);
+        ShowInfo(nullptr, DeltaGliderXR1::ST_None, temp);
     }
 }
 
@@ -654,6 +654,6 @@ void DeltaGliderXR1::DecrementAttitudeHoldBank(bool playSound, bool changeAxis)
 
         char temp[40];
         sprintf(temp, "Attitude Hold: Bank %+4.1f°", m_setBank);
-        ShowInfo(NULL, DeltaGliderXR1::ST_None, temp);
+        ShowInfo(nullptr, DeltaGliderXR1::ST_None, temp);
     }
 }

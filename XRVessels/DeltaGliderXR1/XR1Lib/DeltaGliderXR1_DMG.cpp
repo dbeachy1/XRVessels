@@ -224,7 +224,7 @@ void DeltaGliderXR1::TestDamage()
             {
                 sprintf(temp, "SCRAM ENGINE #%d DAMAGE&at Mach %.1lf!&Engine Integrity=%.1lf%%", engineIndex, mach, engineInteg*100);
                 // NOTE: audio callout already occurred
-                ShowWarning(NULL, DeltaGliderXR1::ST_None, temp, true);   // force this
+                ShowWarning(nullptr, DeltaGliderXR1::ST_None, temp, true);   // force this
                 newdamage = true;
             }
         }
@@ -310,7 +310,7 @@ bool DeltaGliderXR1::CheckHullHeatingDamage()
         else
         {
             sprintf(temp, "LEFT WING DAMAGE at Mach %.1lf!&Wing Integrity=%.1lf%%", mach, lwingstatus*100);
-            ShowWarning(NULL, DeltaGliderXR1::ST_None, temp, true);   // force this 
+            ShowWarning(nullptr, DeltaGliderXR1::ST_None, temp, true);   // force this 
             newdamage = true;
         }
     }
@@ -331,7 +331,7 @@ bool DeltaGliderXR1::CheckHullHeatingDamage()
         else
         {
             sprintf(temp, "RIGHT WING DAMAGE at Mach %.1lf&Wing Integrity=%.1lf%%", mach, rwingstatus*100);
-            ShowWarning(NULL, DeltaGliderXR1::ST_None, temp, true); // force this
+            ShowWarning(nullptr, DeltaGliderXR1::ST_None, temp, true); // force this
             newdamage = true;
         }
     }
@@ -1004,7 +1004,7 @@ void DeltaGliderXR1::DoCrash(const char *pMsg, double touchdownVerticalSpeed)
 
     // play crash sound separately so it always plays immediately
     PlaySound(Crash, ST_Other);
-    ShowWarning(NULL, DeltaGliderXR1::ST_None, m_crashMessage, true);  // OK force this message because DoCrash() is only called once
+    ShowWarning(nullptr, DeltaGliderXR1::ST_None, m_crashMessage, true);  // OK force this message because DoCrash() is only called once
 
     // set random new wing balance to make ship spiral
     m_damagedWingBalance = (oapiRand() * 6.0) + 3.0;  // was 8.0, but induced excessive spins sometime

@@ -344,7 +344,7 @@ void APUPostStep::UpdateAPUDoorState(const double simt, const double simdt, cons
             GetXR1().PlaySound(GetXR1().APU, DeltaGliderXR1::ST_Other, APU_VOL);
             m_doorTargetSimt = simt + spinupSpindownTime;
             m_poweringUpOrDown = true;
-            GetXR1().ShowInfo(NULL, DeltaGliderXR1::ST_None, "APU powering up.");
+            GetXR1().ShowInfo(nullptr, DeltaGliderXR1::ST_None, "APU powering up.");
         }
         else if (doorStatus == DoorStatus::DOOR_CLOSING)
         {
@@ -352,19 +352,19 @@ void APUPostStep::UpdateAPUDoorState(const double simt, const double simdt, cons
             GetXR1().PlaySound(GetXR1().APU, DeltaGliderXR1::ST_Other, APU_VOL);
             m_doorTargetSimt = simt + spinupSpindownTime;
             m_poweringUpOrDown = true;
-            GetXR1().ShowInfo(NULL, DeltaGliderXR1::ST_None, "APU powering down.");
+            GetXR1().ShowInfo(nullptr, DeltaGliderXR1::ST_None, "APU powering down.");
         }
         else if (doorStatus == DoorStatus::DOOR_OPEN)
         {
             GetXR1().LoadXR1Sound(GetXR1().APU, "APU Run.wav", XRSound::PlaybackType::InternalOnly);
             GetXR1().PlaySound(GetXR1().APU, DeltaGliderXR1::ST_Other, APU_VOL, true);    // LOOP this sound
             if (m_prevDoorStatus != DoorStatus::NOT_SET)    // not the first time through here?
-                GetXR1().ShowInfo(NULL, DeltaGliderXR1::ST_None, "APU online.");
+                GetXR1().ShowInfo(nullptr, DeltaGliderXR1::ST_None, "APU online.");
         }
         else if (doorStatus == DoorStatus::DOOR_CLOSED)
         {
             if (m_prevDoorStatus != DoorStatus::NOT_SET)    // not the first time through here?
-                GetXR1().ShowInfo(NULL, DeltaGliderXR1::ST_None, "APU offline.");
+                GetXR1().ShowInfo(nullptr, DeltaGliderXR1::ST_None, "APU offline.");
         }
     }
 
@@ -1157,7 +1157,7 @@ void ResupplyPostStep::FlowScramFuel(const double simt, const double simdt, cons
     // Note: if the SCRAM tank is hidden, then by definition we have a payload bay, so no need to check if m_pPayloadBay is null here
     if (GetXR1().m_SCRAMTankHidden && (GetXR1().m_pPayloadBay->GetPropellantMaxMass(PROP_TYPE::PT_SCRAM) <= 0))  // < 0 for sanity check
     {
-        GetXR1().ShowWarning(NULL, DeltaGliderXR1::ST_None, "No SCRAM fuel tank in bay.");
+        GetXR1().ShowWarning(nullptr, DeltaGliderXR1::ST_None, "No SCRAM fuel tank in bay.");
         GetXR1().PlayErrorBeep();
         haltFlow = true;
         goto FlowScramFuelExit;
@@ -1553,7 +1553,7 @@ void LOXConsumptionPostStep::clbkPrePostStep(const double simt, const double sim
             if ((o2Level <= CREW_DEATH_O2_LEVEL) && (m_previousO2Level > CREW_DEATH_O2_LEVEL))
             {
                 // no audio for this since no one is awake to hear it
-                GetXR1().ShowWarning(NULL, DeltaGliderXR1::ST_None, "CREW IS DEAD DUE TO HYPOXIA!");
+                GetXR1().ShowWarning(nullptr, DeltaGliderXR1::ST_None, "CREW IS DEAD DUE TO HYPOXIA!");
 
                 // blink this on the HUD was well
                 sprintf(GetXR1().m_crashMessage, "OXYGEN DEPLETED!&CREW IS DEAD DUE TO HYPOXIA!");
@@ -1564,7 +1564,7 @@ void LOXConsumptionPostStep::clbkPrePostStep(const double simt, const double sim
             else if ((o2Level <= CREW_LOC_O2_LEVEL) && (m_previousO2Level > CREW_LOC_O2_LEVEL))
             {
                 // no audio for this since no one is awake to hear it
-                GetXR1().ShowWarning(NULL, DeltaGliderXR1::ST_None, "CREW IS UNCONSCIOUS!");
+                GetXR1().ShowWarning(nullptr, DeltaGliderXR1::ST_None, "CREW IS UNCONSCIOUS!");
 
                 // blink this on the HUD was well
                 sprintf(GetXR1().m_crashMessage, "OXYGEN DEPLETED!&CREW IS UNCONSCIOUS -- DEATH IMMINENT!");
@@ -1587,7 +1587,7 @@ void LOXConsumptionPostStep::clbkPrePostStep(const double simt, const double sim
                     if (strncmp(GetXR1().m_crashMessage, "OXYGEN", 6) == 0)
                         *GetXR1().m_crashMessage = 0;      // reset
 
-                    GetXR1().ShowInfo(NULL, DeltaGliderXR1::ST_None, "O2 levels returning to normal;&Crew has regained consciousness.");
+                    GetXR1().ShowInfo(nullptr, DeltaGliderXR1::ST_None, "O2 levels returning to normal;&Crew has regained consciousness.");
                 }
             }
             else if ((o2Level <= CRITICAL_O2_LEVEL_WARNING) && (m_previousO2Level > CRITICAL_O2_LEVEL_WARNING))  // only play this once

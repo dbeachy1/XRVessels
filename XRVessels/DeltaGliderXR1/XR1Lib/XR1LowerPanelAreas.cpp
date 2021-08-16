@@ -289,7 +289,7 @@ bool ArtificialHorizonArea::Redraw2D(const int event, const SURFHANDLE surf)
         SelectObject (hDC, (bblue ? m_brush2 : m_brush3));
         Polygon (hDC, pt, n);
         SelectObject (hDC, m_pen0);
-        MoveToEx (hDC, pt[0].x, pt[0].y, NULL); LineTo (hDC, pt[1].x, pt[1].y);
+        MoveToEx (hDC, pt[0].x, pt[0].y, nullptr); LineTo (hDC, pt[1].x, pt[1].y);
     }
 
     // bank indicator
@@ -318,7 +318,7 @@ bool ArtificialHorizonArea::Redraw2D(const int event, const SURFHANDLE surf)
     {
         if (iphi)
         {
-            MoveToEx (hDC, size+static_cast<int>(xll), size+static_cast<int>(yll), NULL);
+            MoveToEx (hDC, size+static_cast<int>(xll), size+static_cast<int>(yll), nullptr);
             LineTo   (hDC, size+static_cast<int>(xlr), size+static_cast<int>(ylr));
         }
         xlr -= dsinb, ylr += dcosb;
@@ -402,7 +402,7 @@ bool XFeedKnobArea::ProcessMouseEvent(const int event, const int mx, const int m
 
     if (newMode != static_cast<int>(XFEED_MODE::XF_NOT_SET))
     {
-        GetXR1().SetCrossfeedMode(static_cast<XFEED_MODE>(newMode), NULL);  // will show a message & play sound effect as well
+        GetXR1().SetCrossfeedMode(static_cast<XFEED_MODE>(newMode), nullptr);  // will show a message & play sound effect as well
         retVal = true;
     }
 

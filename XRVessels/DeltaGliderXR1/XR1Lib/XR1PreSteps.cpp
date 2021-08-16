@@ -733,7 +733,7 @@ void DescentHoldPreStep::clbkPrePostStep(const double simt, const double simdt, 
         if (GetXR1().m_isHoverEnabled == false)
         {
             GetXR1().PlaySound(GetXR1().HoverDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);
-            GetXR1().ShowWarning(NULL, DeltaGliderXR1::ST_None, "WARNING: Hover Doors are closed.");  // NOTE: "descent hold disengaged" will be displayed by SetCustomAutopilot
+            GetXR1().ShowWarning(nullptr, DeltaGliderXR1::ST_None, "WARNING: Hover Doors are closed.");  // NOTE: "descent hold disengaged" will be displayed by SetCustomAutopilot
             GetXR1().SetCustomAutopilotMode(AUTOPILOT::AP_OFF, false);  // do not play sounds for this
         }
 
@@ -1308,7 +1308,7 @@ void TakeoffAndLandingCalloutsAndCrashPreStep::clbkPrePostStep(const double simt
             // check for landing gear collapse
             if (momemtum > LANDING_GEAR_MAX_MOMEMTUM)
             {
-                GetXR1().DoGearCollapse(NULL, touchdownVerticalSpeed, true);  // use default message here
+                GetXR1().DoGearCollapse(nullptr, touchdownVerticalSpeed, true);  // use default message here
             }
             else  // we have a good landing (or damage was disabled!)
             {
@@ -1481,7 +1481,7 @@ void GearCalloutsPreStep::clbkPrePostStep(const double simt, const double simdt,
                      const bool isGearUp = (gearStatus == DoorStatus::DOOR_CLOSED);
                      GetXR1().PlayGearLockedSound(isGearUp);  // gear is up if door closed
                      GetXR1().PlaySound(GetXR1().GearLockedThump, DeltaGliderXR1::ST_Other);
-                     GetXR1().ShowInfo(NULL, DeltaGliderXR1::ST_None, (isGearUp ? "Gear doors closed and locked." : "Gear down and locked."));
+                     GetXR1().ShowInfo(nullptr, DeltaGliderXR1::ST_None, (isGearUp ? "Gear doors closed and locked." : "Gear down and locked."));
                  }
             }
             else if (gearStatus == DoorStatus::DOOR_OPENING)

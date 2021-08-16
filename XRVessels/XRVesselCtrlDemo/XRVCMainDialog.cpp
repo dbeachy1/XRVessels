@@ -168,10 +168,10 @@ INT_PTR CALLBACK XRVCMainDialog::MsgProcMain(const HWND hDlg, const UINT uMsg, c
             s_pSingleton->UpdateFromStaticFields();  // sync with state loaded from the scenario
 
             // create a timer for 1/20th-second to refresh the data displays automatically and execute script commands
-            SetTimer(hDlg, TIMERID_20_TICKS_A_SECOND, 50, NULL);
+            SetTimer(hDlg, TIMERID_20_TICKS_A_SECOND, 50, nullptr);
 
             // create a timer for 1/10th-second to refresh the available parameters box automatically
-            SetTimer(hDlg, TIMERID_UDPATE_AVAILABLE_PARAMS, 100, NULL);
+            SetTimer(hDlg, TIMERID_UDPATE_AVAILABLE_PARAMS, 100, nullptr);
 
             // hook into our command window edit line so we can trap keystrokes, saving the address of its existing message loop
             s_pCommandBoxOldMessageProc = reinterpret_cast<void *>(SetWindowLongPtr(GetDlgItem(hDlg, IDC_COMMANDBOX), GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(CommandBoxMsgProc)));
@@ -285,7 +285,7 @@ INT_PTR CALLBACK XRVCMainDialog::MsgProcMain(const HWND hDlg, const UINT uMsg, c
 }
 
 // Static utility method that constructs the combo box entry from the vessel name and class; 
-// returns pointer to static buffer.  Returns NULL if the supplied vessel should be ignored and not placed in the drop-down.
+// returns pointer to static buffer.  Returns nullptr if the supplied vessel should be ignored and not placed in the drop-down.
 const char *XRVCMainDialog::GetComboLineForVessel(const VESSEL *pVessel)
 {
     const char *pClassName = pVessel->GetClassName();
@@ -452,7 +452,7 @@ void XRVCMainDialog::SelectFocusVessel() const
     }
 
     if (!selectedVessel)  
-        SendMessage(GetDlgItem(m_hwndDlg, IDC_COMBO_VESSEL), CB_SETCURSEL, 0, NULL);  // default to first item in the list
+        SendMessage(GetDlgItem(m_hwndDlg, IDC_COMBO_VESSEL), CB_SETCURSEL, 0, 0);  // default to first item in the list
 }
 
 // Switches the vessel focus in Orbiter to the vessel selected in the drop-down
@@ -471,7 +471,7 @@ void XRVCMainDialog::SetFocusToSelectedVessel() const
     }
 }
 
-// Returns the name of the vessel selected in the drop-down, or NULL if no vessel selected.
+// Returns the name of the vessel selected in the drop-down, or nullptr if no vessel selected.
 // this returns a pointer into a static buffer.
 const char *XRVCMainDialog::GetSelectedVesselName() const
 {
@@ -870,7 +870,7 @@ void XRVCMainDialog::ToggleHelp()
     {
         // Note: don't use a standard Windows function like CreateWindow to
 	    // open the dialog box because that wouldn't work in fullscreen mode.
-        m_hwndHelpDlg = oapiOpenDialog(m_hDLL, IDD_HELP, MsgProcHelp, NULL);
+        m_hwndHelpDlg = oapiOpenDialog(m_hDLL, IDD_HELP, MsgProcHelp, nullptr);
     }
 }
 

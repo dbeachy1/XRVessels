@@ -80,7 +80,7 @@ public:
     enum class POSITION { UP, DOWN, CENTER };               // switch position
     enum class SWITCHES { LEFT, RIGHT, BOTH, SINGLE, NA };  // which switch(es) moved?   NOTE: do not change the order of these values!
     VerticalCenteringRockerSwitchArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const int meshTextureID, bool isDual, bool reverseRotation = false, POSITION initialPosition = POSITION::CENTER);
-    void SetXRAnimationHandle(UINT * const pAnimationHandle) { m_pAnimationHandle = pAnimationHandle; }  // VC 3D switch; defaults to NULL
+    void SetXRAnimationHandle(UINT * const pAnimationHandle) { m_pAnimationHandle = pAnimationHandle; }  // VC 3D switch; defaults to nullptr
     virtual void Activate();
     virtual bool Redraw2D(const int event, const SURFHANDLE surf);
     virtual bool Redraw3D(const int event, const SURFHANDLE surf);
@@ -129,7 +129,7 @@ public:
     enum class POSITION { LEFT, RIGHT, CENTER };          // switch position
     enum class SWITCHES { TOP, BOTTOM, BOTH, SINGLE, NA };  // which switch(es) moved?   NOTE: do not change the order of these values!
     HorizontalCenteringRockerSwitchArea(InstrumentPanel &parentPanel, const COORD2 panelCoordinates, const int areaID, const int meshTextureID, bool isDual, bool reverseRotation = false, POSITION initialPosition = POSITION::CENTER);
-    void SetXRAnimationHandle(UINT * const pAnimationHandle) { m_pAnimationHandle = pAnimationHandle; }  // VC 3D switch; defaults to NULL
+    void SetXRAnimationHandle(UINT * const pAnimationHandle) { m_pAnimationHandle = pAnimationHandle; }  // VC 3D switch; defaults to nullptr
     virtual void Activate();
     virtual bool Redraw2D(const int event, const SURFHANDLE surf);
     virtual bool Redraw3D(const int event, const SURFHANDLE surf);
@@ -326,7 +326,7 @@ protected:
     bool *m_pIsLit;         // true if button is lit up (green)
 
 private:
-    bool m_defaultIsLit;    // for subclasses that pass NULL to pIsLit in the constructor
+    bool m_defaultIsLit;    // for subclasses that pass nullptr to pIsLit in the constructor
 };
 
 //----------------------------------------------------------------------------------
@@ -453,7 +453,7 @@ public:
         // compute X or Y size (i.e., TOP) of the DARK or BRIGHT portion of the gauge bar (depends on orientation)
         int GetIndex(BARPORTION bp) const 
         { 
-            // Note: if this is invoked from an operator method, m_pBarArea may be NULL.
+            // Note: if this is invoked from an operator method, m_pBarArea may be nullptr.
             // In that case, we don't have an index to compute, so return -1.
             if (m_pBarArea == nullptr)     // no actual render for this object before?
                 return -1;

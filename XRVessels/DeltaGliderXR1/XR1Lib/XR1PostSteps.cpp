@@ -186,22 +186,22 @@ void ShowWarningPostStep::clbkPrePostStep(const double simt, const double simdt,
         if (GetXR1().m_crewState == CrewState::DEAD)
         {
             // no audio
-            GetXR1().ShowWarning(NULL, DeltaGliderXR1::ST_None, "CREW IS DEAD!");
+            GetXR1().ShowWarning(nullptr, DeltaGliderXR1::ST_None, "CREW IS DEAD!");
         }
         else if (GetXR1().GetCrewMembersCount() == 0)
         {
             // no audio
-            GetXR1().ShowWarning(NULL, DeltaGliderXR1::ST_None, "NO CREW ON BOARD!");
+            GetXR1().ShowWarning(nullptr, DeltaGliderXR1::ST_None, "NO CREW ON BOARD!");
         }
         else if (GetXR1().IsCrewIncapacitated())
         {
             // no audio
-            GetXR1().ShowWarning(NULL, DeltaGliderXR1::ST_None, "CREW IS UNCONSCIOUS!");
+            GetXR1().ShowWarning(nullptr, DeltaGliderXR1::ST_None, "CREW IS UNCONSCIOUS!");
         }
         else if (!GetXR1().IsPilotOnBoard())
         {
             // no audio
-            GetXR1().ShowWarning(NULL, DeltaGliderXR1::ST_None, "NO PILOT ON BOARD!");
+            GetXR1().ShowWarning(nullptr, DeltaGliderXR1::ST_None, "NO PILOT ON BOARD!");
         }
         else if (GetXR1().IsDamagePresent())
         {
@@ -771,7 +771,7 @@ void DoorSoundsPostStep::ShowDoorInfoMsg(DoorSound doorSound)
     {
         char msg[60];
         sprintf(msg, "%s %s.", doorSound.pLabel, pActionStr);
-        GetXR1().ShowInfo(NULL, DeltaGliderXR1::ST_None, msg);
+        GetXR1().ShowInfo(nullptr, DeltaGliderXR1::ST_None, msg);
     }
 }
 
@@ -932,7 +932,7 @@ AirlockDecompressionPostStep::AirlockDecompressionPostStep(DeltaGliderXR1 &vesse
 	m_airvent.atmsmap = PARTICLESTREAMSPEC::ATM_FLAT;    // mapping from atmospheric params to alpha
 	m_airvent.amin = 0.1;
     m_airvent.amax = 0.1;       //     min and max densities for atms PLIN mapping
-	m_airvent.tex = nullptr;    //     particle texture handle (NULL for default)
+	m_airvent.tex = nullptr;    //     particle texture handle (nullptr for default)
 }
 
 void AirlockDecompressionPostStep::clbkPrePostStep(const double simt, const double simdt, const double mjd)

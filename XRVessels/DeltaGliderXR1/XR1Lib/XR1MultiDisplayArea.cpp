@@ -1403,7 +1403,7 @@ bool DescentHoldMultiDisplayMode::ProcessMouseEvent(const int event, const int m
             {
                 // cannot enable auto-descent; autopilot not engaged
                 GetXR1().PlaySound(GetXR1().Error1, DeltaGliderXR1::ST_Other, ERROR1_VOL);
-                GetXR1().ShowWarning(NULL, DeltaGliderXR1::ST_None, "Descent Hold autopilot not engaged.");
+                GetXR1().ShowWarning(nullptr, DeltaGliderXR1::ST_None, "Descent Hold autopilot not engaged.");
             }
 
             processed = true;
@@ -2011,14 +2011,14 @@ void ReentryCheckMultiDisplayMode::PlayStatusCallout(const int openDoorCount)
 		if (bPlaySound)
 			GetXR1().ShowWarning("Warning Reentry Check Failed.wav", DeltaGliderXR1::ST_WarningCallout, msg);
 		else
-			GetXR1().ShowWarning(NULL, DeltaGliderXR1::ST_None, msg);
+			GetXR1().ShowWarning(nullptr, DeltaGliderXR1::ST_None, msg);
     }
     else
     {
 		if (bPlaySound)
 			GetXR1().ShowInfo("Reentry Check All Systems Green.wav", DeltaGliderXR1::ST_InformationCallout, "Reentry Check: all systems green.");
 		else
-			GetXR1().ShowInfo(NULL, DeltaGliderXR1::ST_None, "Reentry Check: all systems green.");
+			GetXR1().ShowInfo(nullptr, DeltaGliderXR1::ST_None, "Reentry Check: all systems green.");
     }
 }
 

@@ -37,8 +37,8 @@ XRVCScriptThread::XRVCScriptThread(const HWND hwndMainDialog) :
     m_hwndMainDialog(hwndMainDialog), m_terminateEST(false)
 { 
     InitializeCriticalSection(&m_criticalSectionST);
-    m_hEventScriptFile =  CreateEvent(NULL, TRUE, FALSE, NULL);  // manual-reset event
-    m_hThread = reinterpret_cast<HANDLE>(_beginthreadex(NULL, 8192, ScriptThread, this, 0, NULL));
+    m_hEventScriptFile =  CreateEvent(nullptr, TRUE, FALSE, nullptr);  // manual-reset event
+    m_hThread = reinterpret_cast<HANDLE>(_beginthreadex(nullptr, 8192, ScriptThread, this, 0, nullptr));
 }
 
 // Destructor

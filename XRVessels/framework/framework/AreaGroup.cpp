@@ -80,7 +80,7 @@ void AreaGroup::DeactivateAllAreas()
 }
 
 // Retrieve an area with the supplied area ID.
-// Returns: Area object if found, or NULL if area with the supplied ID does not exist in this area group
+// Returns: Area object if found, or nullptr if area with the supplied ID does not exist in this area group
 Area *AreaGroup::GetArea(const int areaID)
 {
     Area *retVal = nullptr;    // assume not found

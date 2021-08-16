@@ -615,7 +615,7 @@ invalid_value:
 }
 
 // Add a cheatcode to the pending cheatcode list; this will not be *applied* until later (and then only if cheatcodes are enabled)
-//  ptr2 defaults to NULL
+//  ptr2 defaults to nullptr
 void XR1ConfigFileParser::AddCheatcode(const char *pName, const double value, double *ptr1, double *ptr2)
 {
     Cheatcode *pCheatcode = new Cheatcode(pName, value, ptr1, ptr2);

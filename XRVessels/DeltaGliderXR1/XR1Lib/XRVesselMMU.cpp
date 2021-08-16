@@ -49,7 +49,7 @@ bool DeltaGliderXR1::PerformEVA(const int ummuCrewMemberIndex)
     {
         // should never happen!
         PlayErrorBeep();
-        ShowWarning(NULL, DeltaGliderXR1::ST_None, "INTERNAL Mmu ERROR:&Crew member not on board!");
+        ShowWarning(nullptr, DeltaGliderXR1::ST_None, "INTERNAL Mmu ERROR:&Crew member not on board!");
         return false;
     }
 
@@ -126,7 +126,7 @@ bool DeltaGliderXR1::PerformEVA(const int ummuCrewMemberIndex)
         else    // internal error!  Should never happen!
         {
             PlayErrorBeep();
-            ShowWarning(NULL, DeltaGliderXR1::ST_None, "INTERNAL Mmu ERROR: EVA FAILED");
+            ShowWarning(nullptr, DeltaGliderXR1::ST_None, "INTERNAL Mmu ERROR: EVA FAILED");
         }
     }
 
@@ -347,7 +347,7 @@ void DeltaGliderXR1::DeployTurbopack()
     {
         // should never happen!
         PlayErrorBeep();
-        ShowWarning(NULL, DeltaGliderXR1::ST_None, "Warning: turbopack vessel&creation failed!");
+        ShowWarning(nullptr, DeltaGliderXR1::ST_None, "Warning: turbopack vessel&creation failed!");
         return;
     }
 
@@ -405,7 +405,7 @@ void DeltaGliderXR1::StowAllTurbopacks()
     if (stowedCount == 0)
     {
         PlayErrorBeep();
-        ShowWarning(NULL, DeltaGliderXR1::ST_None, "No turbopacks in range.");
+        ShowWarning(nullptr, DeltaGliderXR1::ST_None, "No turbopacks in range.");
     }
     else
     {

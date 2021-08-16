@@ -246,7 +246,7 @@ EXHAUSTSPEC* DeltaGliderXR1::GetExhaustSpec(const THRUSTER_HANDLE th, const doub
 // XR gateway method for AddExhaust
 unsigned int DeltaGliderXR1::AddXRExhaust(const THRUSTER_HANDLE th, const double lscale, const double wscale, const SURFHANDLE tex)
 {
-    return AddExhaust(GetExhaustSpec(th, lscale, wscale, NULL, NULL, tex));
+    return AddExhaust(GetExhaustSpec(th, lscale, wscale, nullptr, nullptr, tex));
 }
 
 // Overloaded XR gateway method for AddExhaust

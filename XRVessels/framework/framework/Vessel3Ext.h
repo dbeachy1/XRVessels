@@ -86,7 +86,7 @@ public:
 	// Note: returns 0 if Orbiter is full-screen
 	static HWND GetOrbiterRenderWindowHandle()
 	{
-		return ::FindWindow("Orbiter Render Window", NULL);
+		return ::FindWindow("Orbiter Render Window", nullptr);
 	}
 
 	HMODULE GetModuleHandle() { return m_hModule; }

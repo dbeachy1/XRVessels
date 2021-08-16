@@ -34,7 +34,7 @@ void DeltaGliderXR1::SaveOrbiterRenderWindowPosition()
 {
 	// save the Orbiter render coordinates to the registry
 	const HWND hOrbiterWnd = GetOrbiterRenderWindowHandle();
-	if (hOrbiterWnd)    // will only be NULL for full-screen mode
+	if (hOrbiterWnd)    // will only be nullptr for full-screen mode
 	{
 		// Get window coordinates
 		RECT rect;
@@ -61,7 +61,7 @@ void DeltaGliderXR1::RestoreOrbiterRenderWindowPosition()
 
 	// Restore the render window coordinates
 	const HWND hOrbiterWnd = GetOrbiterRenderWindowHandle();
-	if (hOrbiterWnd)    // will only be NULL for full-screen mode
+	if (hOrbiterWnd)    // will only be nullptr for full-screen mode
 	{
 		// See if the restoring Orbiter window coordinates is allowed
 		DWORD dwDisableWindowPosRestore = 0;
@@ -454,7 +454,7 @@ void DeltaGliderXR1::SetTertiaryHUDEnabled(bool on)
 void DeltaGliderXR1::AlteaLogoClicked()
 {
 	// this callout file is camouflaged
-	ShowInfo("ambl.wav", ST_Other, NULL);  // no text message for this; always play it (ST_Other)
+	ShowInfo("ambl.wav", ST_Other, nullptr);  // no text message for this; always play it (ST_Other)
 }
 
 // --------------------------------------------------------------
@@ -536,7 +536,7 @@ void DeltaGliderXR1::PerformUndocking()
 	if (IsDocked() == false)
 	{
 		PlayErrorBeep();
-		ShowWarning(NULL, DeltaGliderXR1::ST_None, "Ship is not docked.");
+		ShowWarning(nullptr, DeltaGliderXR1::ST_None, "Ship is not docked.");
 		return;
 	}
 
@@ -594,7 +594,7 @@ void DeltaGliderXR1::SetStrobe(bool on)
 void DeltaGliderXR1::EnableRetroThrusters(bool state)
 {
 	for (int i = 0; i < 2; i++)
-		SetThrusterResource(th_retro[i], (state ? ph_main : NULL));
+		SetThrusterResource(th_retro[i], (state ? ph_main : nullptr));
 
 	// set flag denoting retro status so we can beep if necessary
 	m_isRetroEnabled = state;
@@ -603,7 +603,7 @@ void DeltaGliderXR1::EnableRetroThrusters(bool state)
 void DeltaGliderXR1::EnableHoverEngines(bool state)
 {
 	for (int i = 0; i < 2; i++)
-		SetThrusterResource(th_hover[i], (state ? ph_main : NULL));
+		SetThrusterResource(th_hover[i], (state ? ph_main : nullptr));
 
 	// set flag denoting hover status so we can beep if necessary
 	m_isHoverEnabled = state;
@@ -612,7 +612,7 @@ void DeltaGliderXR1::EnableHoverEngines(bool state)
 void DeltaGliderXR1::EnableScramEngines(bool state)
 {
 	for (int i = 0; i < 2; i++)
-		SetThrusterResource(th_scram[i], (state ? ph_scram : NULL));
+		SetThrusterResource(th_scram[i], (state ? ph_scram : nullptr));
 
 	// set flag denoting hover status so we can beep if necessary
 	m_isScramEnabled = state;

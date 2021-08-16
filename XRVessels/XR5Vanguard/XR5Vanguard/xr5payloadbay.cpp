@@ -100,8 +100,8 @@ XR5PayloadBay::XR5PayloadBay(VESSEL &parentVessel) :
 
     //----------------------------------------------------------------------------------
     // Wire up each slot's neighbors; each slot has exactly six neighbors.  
-    // A NULL neighbor means the edge of the bay.
-    // By default all neighbors are NULL, so we only have to fill in the adjacent slots.
+    // A nullptr neighbor means the edge of the bay.
+    // By default all neighbors are nullptr, so we only have to fill in the adjacent slots.
     //----------------------------------------------------------------------------------
 
     // Level 1

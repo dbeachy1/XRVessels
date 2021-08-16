@@ -369,7 +369,7 @@ void DeltaGliderXR1::DecompressCabin()
         sprintf(temp, "DECOMPRESSION!");
     }
 
-    ShowWarning(NULL, DeltaGliderXR1::ST_None, temp);
+    ShowWarning(nullptr, DeltaGliderXR1::ST_None, temp);
     strcpy(m_crashMessage, temp);   // show on HUD
     PlaySound(Crash, ST_Other);
     m_cabinO2Level = 0;   // no atm in cabin now
@@ -628,7 +628,7 @@ void DeltaGliderXR1::ActivateAirbrake(DoorStatus action)
         PlayErrorBeep();
         // TODO: if a new speech pack is created, create a "Warning: airbrake failure" callout.
         // no speech callout for this since none was scripted
-        ShowWarning(NULL, ST_None, "Airbrake inoperative due to aileron&failure.");
+        ShowWarning(nullptr, ST_None, "Airbrake inoperative due to aileron&failure.");
         return;  // cannot move
     }
 

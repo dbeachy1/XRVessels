@@ -162,7 +162,7 @@ double DeltaGliderXR1::AdjustBayPropellantMassWithMessages(const PROP_TYPE pt, c
         }
 
         PlaySound(BeepHigh, ST_Other);
-        ShowInfo(NULL, ST_None, msg);
+        ShowInfo(nullptr, ST_None, msg);
     }
     else if (slotsDrainedFilled.drainedList.size() > 0)  // Note: we will *never* have tanks both full and drained in the same timestep!
     {
@@ -177,7 +177,7 @@ double DeltaGliderXR1::AdjustBayPropellantMassWithMessages(const PROP_TYPE pt, c
         }
 
         PlayErrorBeep();   // this is a warning, not a status message
-        ShowWarning(NULL, ST_None, msg);
+        ShowWarning(nullptr, ST_None, msg);
     }
 
     return slotsDrainedFilled.quantityAdjusted;

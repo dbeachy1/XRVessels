@@ -81,7 +81,7 @@ void DeltaGliderXR1::SetFuelDumpState(bool& fuelDumpInProgress, const bool isDum
         fuelDumpInProgress = false;       // fuel dump halted now
         PlaySound(BeepLow, DeltaGliderXR1::ST_Other);
         sprintf(temp, "%s fuel dump halted.", pFuelLabel);
-        ShowInfo(NULL, DeltaGliderXR1::ST_None, temp);
+        ShowInfo(nullptr, DeltaGliderXR1::ST_None, temp);
     }
 
     // Convert the fueldump reference to a string; this is a bit of a hack since it checks pointer addresses instead
@@ -114,7 +114,7 @@ void DeltaGliderXR1::SetLOXDumpState(const bool isDumping)
     {
         m_loxDumpInProgress = false;       // halted now
         PlaySound(BeepLow, DeltaGliderXR1::ST_Other);
-        ShowInfo(NULL, DeltaGliderXR1::ST_None, "LOX dump halted.");
+        ShowInfo(nullptr, DeltaGliderXR1::ST_None, "LOX dump halted.");
     }
 
     // save a replay event
@@ -149,7 +149,7 @@ bool DeltaGliderXR1::RequestExternalCooling(const bool bEnableExternalCooling)
     sprintf(wavFilename, "Hatch %s.wav", pState);
 
     // NOTE: do not attempt to play a "Hatch Closed" callout since our FuelPostStep will play a proper "External Cooling Systems Offline" callout.
-    ShowInfo((bEnableExternalCooling ? wavFilename : NULL), DeltaGliderXR1::ST_InformationCallout, msg);
+    ShowInfo((bEnableExternalCooling ? wavFilename : nullptr), DeltaGliderXR1::ST_InformationCallout, msg);
 
     // show the new state on the panel
     TriggerRedrawArea(AID_EXTERNAL_COOLING_SWITCH);

@@ -46,7 +46,7 @@ const XRPayloadClassData **XRPayloadClassData::s_allXRPayloadEnabledClassData = 
 // Note: clients should invoke Terminate() from the module's ExitModule method so that cached data is freed properly.
 //
 // pClassname = Orbiter vessel class name; i.e., pVessel->GetClassName() : MUST BE A VALID ORBITER VESSEL CLASSNAME!  
-//              If NULL, a dummy PCD will be returned since it won't be an XR Payload vessel anyway.
+//              If nullptr, a dummy PCD will be returned since it won't be an XR Payload vessel anyway.
 //
 // Returns: XRPayloadClassData for this classname; will never be null
 const XRPayloadClassData &XRPayloadClassData::GetXRPayloadClassDataForClassname(const char *pClassname)
@@ -227,7 +227,7 @@ XRPayloadClassData::XRPayloadClassData(const char *pConfigFilespec, const char *
                         if (slotNumber > 0)
                             AddExplicitAttachmentSlot(pVesselClassname, slotNumber);    // slot number is valid
 
-                        pSlotInt = strtok(NULL, " ");   // read next slot value
+                        pSlotInt = strtok(nullptr, " ");   // read next slot value
                     }
                 }
 
@@ -383,7 +383,7 @@ const XRPayloadClassData **XRPayloadClassData::GetAllAvailableXRPayloads()
 }
 
 // Static method that returns a child's attachment handle to be attached to the parent's
-// payload bay, or NULL if no XRCARGO attachment point is defined OR if childVessel is not an XRPayload-enabled vessel.
+// payload bay, or nullptr if no XRCARGO attachment point is defined OR if childVessel is not an XRPayload-enabled vessel.
 ATTACHMENTHANDLE XRPayloadClassData::GetAttachmentHandleForPayloadVessel(const VESSEL &childVessel)
 {
     const XRPayloadClassData &pcd = XRPayloadClassData::GetXRPayloadClassDataForClassname(childVessel.GetClassName());

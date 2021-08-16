@@ -86,7 +86,7 @@ void SetCenterOfLiftPreStep::clbkPrePostStep(const double simt, const double sim
     // update the new center of lift for the wings
     // NOTE: if this function is ever enabled, do not set the airfoil directly!  Invoke ShiftCenterOfLift(delta) instead.
     // OLD: GetXR5().m_centerOfLift = HIGHSPEED_CENTER_OF_LIFT + (deployFrac * movementRange);  // lift is moved FORWARD (+Z axis) as flaps are DEPLOYED
-    // OLD: GetVessel().EditAirfoil(GetXR5().hwing, 0x01, _V(0, 0, GetXR5().m_centerOfLift), NULL, 0, 0, 0);
+    // OLD: GetVessel().EditAirfoil(GetXR5().hwing, 0x01, _V(0, 0, GetXR5().m_centerOfLift), nullptr, 0, 0, 0);
 
     sprintf(oapiDebugString(), "airspeed=%lf, deployFrac=%lf, centerOfLift=%lf", airspeed, deployFrac, GetXR5().m_centerOfLift);
 }

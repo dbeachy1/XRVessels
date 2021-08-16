@@ -721,7 +721,7 @@ void DeltaGliderXR1::AdjustPayloadDeployDeltaV(double adjustment, const bool sho
         char msg[50];
         sprintf(msg, "Deployment delta-V set to %.1f m/s", m_deployDeltaV);
         PlaySound(BeepHigh, ST_Other);
-        ShowInfo(NULL, DeltaGliderXR1::ST_None, msg);
+        ShowInfo(nullptr, DeltaGliderXR1::ST_None, msg);
     }
 }
 
@@ -743,7 +743,7 @@ void DeltaGliderXR1::SetPayloadDeployDeltaV(double deltaV, const bool showMessag
         char msg[50];
         sprintf(msg, "Deployment delta-V set to %.1f m/s", m_deployDeltaV);
         PlaySound(BeepHigh, ST_Other);
-        ShowInfo(NULL, DeltaGliderXR1::ST_None, msg);
+        ShowInfo(nullptr, DeltaGliderXR1::ST_None, msg);
     }
 }
 

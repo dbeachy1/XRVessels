@@ -95,7 +95,7 @@ protected:
     VECTOR3 m_dimensions;       // width (X), height (Y), length (Z)
     VECTOR3 m_slotsOccupied;    // width (X), height (Y), length (Z)
     VECTOR3 m_primarySlotCenterOfMassOffset;  // X,Y,Z
-    HBITMAP m_hThumbnailBitmap; // will be NULL if bitmap is no defined or is invalid
+    HBITMAP m_hThumbnailBitmap; // will be nullptr if bitmap is no defined or is invalid
     HASHMAP_STR_VECINT m_explicitAttachmentSlotsMap;   // key=vessel classname, value=list of ship bay slots to which this object may attach (assuming sufficient room).    
     bool m_isXRPayloadEnabled;  // true if this vessel is enabled for docking in the bay, false otherwise
     bool m_isXRConsumableTank;  // true if this vessel contains XR fuel consumable by the parent ship.

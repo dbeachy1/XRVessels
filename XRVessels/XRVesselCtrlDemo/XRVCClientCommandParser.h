@@ -159,7 +159,7 @@ protected:
         virtual bool Execute(const ParserTreeNode *pTreeNode, vector<CString> &remainingArgv, CString &statusOut);
         virtual void GetArgumentHelp(const ParserTreeNode *pTreeNode, CString &csOut) const  { csOut = "opening  open  closing  closed "; }  
         // Note: 'open' should be listed first so it will not be autocompleted to 'opening'
-        virtual const char **GetFirstParamAutocompletionTokens(const ParserTreeNode *pTreeNode) { static const char *s_pTokens[] =  { "open", "opening", "closing", "closed", NULL }; return s_pTokens; }  
+        virtual const char **GetFirstParamAutocompletionTokens(const ParserTreeNode *pTreeNode) { static const char *s_pTokens[] =  { "open", "opening", "closing", "closed", nullptr }; return s_pTokens; }  
         static XRDoorState ParseDoorState(const char *pArg);
     };
     
@@ -167,7 +167,7 @@ protected:
     {
         virtual bool Execute(const ParserTreeNode *pTreeNode, vector<CString> &remainingArgv, CString &statusOut);
         virtual void GetArgumentHelp(const ParserTreeNode *pTreeNode, CString &csOut) const  { csOut = "on/true  off/false"; }  
-        virtual const char **GetFirstParamAutocompletionTokens(const ParserTreeNode *pTreeNode) { static const char *s_pTokens[] =  { "on", "off", NULL }; return s_pTokens; } 
+        virtual const char **GetFirstParamAutocompletionTokens(const ParserTreeNode *pTreeNode) { static const char *s_pTokens[] =  { "on", "off", nullptr }; return s_pTokens; } 
     };
 
     struct SingleIntLeafHandler : public ParserTreeNode::LeafHandler
@@ -186,28 +186,28 @@ protected:
     {
         virtual bool Execute(const ParserTreeNode *pTreeNode, vector<CString> &remainingArgv, CString &statusOut);
         virtual void GetArgumentHelp(const ParserTreeNode *pTreeNode, CString &csOut) const { csOut = "on/off  [Pitch/AOA  <double>TargetPitch  <double>TargetBank]"; }
-        virtual const char **GetFirstParamAutocompletionTokens(const ParserTreeNode *pTreeNode) { static const char *s_pTokens[] =  { "on", "off", NULL }; return s_pTokens; } 
+        virtual const char **GetFirstParamAutocompletionTokens(const ParserTreeNode *pTreeNode) { static const char *s_pTokens[] =  { "on", "off", nullptr }; return s_pTokens; } 
     };
 
     struct DescentHoldLeafHandler : public ParserTreeNode::LeafHandler
     {
         virtual bool Execute(const ParserTreeNode *pTreeNode, vector<CString> &remainingArgv, CString &statusOut);
         virtual void GetArgumentHelp(const ParserTreeNode *pTreeNode, CString &csOut) const { csOut = "on/off  [<double>TargetDescentRate]  [<bool>AutoLandMode]"; }
-        virtual const char **GetFirstParamAutocompletionTokens(const ParserTreeNode *pTreeNode) { static const char *s_pTokens[] =  { "on", "off", NULL }; return s_pTokens; } 
+        virtual const char **GetFirstParamAutocompletionTokens(const ParserTreeNode *pTreeNode) { static const char *s_pTokens[] =  { "on", "off", nullptr }; return s_pTokens; } 
     };
 
     struct AirspeedHoldLeafHandler : public ParserTreeNode::LeafHandler
     {
         virtual bool Execute(const ParserTreeNode *pTreeNode, vector<CString> &remainingArgv, CString &statusOut);
         virtual void GetArgumentHelp(const ParserTreeNode *pTreeNode, CString &csOut) const { csOut = "on/off  [<double>TargetAirspeed]"; }
-        virtual const char **GetFirstParamAutocompletionTokens(const ParserTreeNode *pTreeNode) { static const char *s_pTokens[] =  { "on", "off", NULL }; return s_pTokens; } 
+        virtual const char **GetFirstParamAutocompletionTokens(const ParserTreeNode *pTreeNode) { static const char *s_pTokens[] =  { "on", "off", nullptr }; return s_pTokens; } 
     };
 
     struct SimpleResetLeafHandler : public ParserTreeNode::LeafHandler
     {
         virtual bool Execute(const ParserTreeNode *pTreeNode, vector<CString> &remainingArgv, CString &statusOut);
         virtual void GetArgumentHelp(const ParserTreeNode *pTreeNode, CString &csOut) const { csOut = "Autopilots | MasterWarning | Damage"; }
-        virtual const char **GetFirstParamAutocompletionTokens(const ParserTreeNode *pTreeNode) { static const char *s_pTokens[] =  { "Autopilots", "MasterWarning", "Damage", NULL }; return s_pTokens; } 
+        virtual const char **GetFirstParamAutocompletionTokens(const ParserTreeNode *pTreeNode) { static const char *s_pTokens[] =  { "Autopilots", "MasterWarning", "Damage", nullptr }; return s_pTokens; } 
     };
 
     struct DamageStateLeafHandler : public ParserTreeNode::LeafHandler

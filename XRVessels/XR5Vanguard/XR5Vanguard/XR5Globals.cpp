@@ -158,7 +158,7 @@ const char *DATA_HUD_VALUES[] =
     "NUMPAD_ENTER",  "Airspeed Hold: Hold Current Airspeed",
     "NUMPAD*",       "Airspeed Hold: Reset Rate to 0 m/s",
 
-    NULL, NULL   // null-terminate the array
+    nullptr, nullptr   // null-terminate the array
 };
 
 // ==============================================================

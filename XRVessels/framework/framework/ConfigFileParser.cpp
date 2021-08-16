@@ -55,7 +55,7 @@ ConfigFileParser::ConfigFileParser(const char *pDefaultFilename, const char *pLo
         {
             char temp[256];
             sprintf(temp, "Error opening log file '%s' for writing; attempting to continue", pLogFilename);
-            MessageBox(NULL, temp, "XR Framework Warning", MB_OK | MB_SETFOREGROUND);
+            MessageBox(nullptr, temp, "XR Framework Warning", MB_OK | MB_SETFOREGROUND);
         }
     }
 }
@@ -72,7 +72,7 @@ ConfigFileParser::~ConfigFileParser()
 // will overwite any previous values.  This allows you to create optional "override" configuration files as well
 // as the normal ("default") file.
 //
-// pFilename: (optional) path\filename to parse.  If missing or NULL, parses the default config filename that was passed to the constructor.
+// pFilename: (optional) path\filename to parse.  If missing or nullptr, parses the default config filename that was passed to the constructor.
 //
 // Returns: true on success, false if file does not exist or I/O error or parse error occurs
 bool ConfigFileParser::ParseFile(const char *pFilename)
@@ -249,7 +249,7 @@ void ConfigFileParser::TrimString(char *pStr)
     }
 
     // pass #2: delete all trailing whitespace
-    // pStr == end of string (on NULL byte)
+    // pStr == end of string (on nullptr byte)
     // iterate in reverse
     for (;;)
     {

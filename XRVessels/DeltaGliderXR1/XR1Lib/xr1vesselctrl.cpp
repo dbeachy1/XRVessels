@@ -69,7 +69,7 @@ bool DeltaGliderXR1::SetEngineState(XREngineID id, const XREngineStateWrite &sta
             if (m_isRetroEnabled == false)
             {
                 PlaySound(RetroDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);
-                ShowWarning(NULL, DeltaGliderXR1::ST_None, "Retro Doors are closed.");
+                ShowWarning(nullptr, DeltaGliderXR1::ST_None, "Retro Doors are closed.");
                 return false;
             }
 
@@ -119,7 +119,7 @@ bool DeltaGliderXR1::SetEngineState(XREngineID id, const XREngineStateWrite &sta
             if (m_isHoverEnabled == false)
             {
                 PlaySound(HoverDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);
-                ShowWarning(NULL, DeltaGliderXR1::ST_None, "Hover Doors are closed.");
+                ShowWarning(nullptr, DeltaGliderXR1::ST_None, "Hover Doors are closed.");
                 return false;
             }
 
@@ -154,7 +154,7 @@ bool DeltaGliderXR1::SetEngineState(XREngineID id, const XREngineStateWrite &sta
             if (m_isScramEnabled == false)
             {
                 PlaySound(ScramDoorsAreClosed, DeltaGliderXR1::ST_WarningCallout);
-                ShowWarning(NULL, DeltaGliderXR1::ST_None, "SCRAM Doors are closed.");
+                ShowWarning(nullptr, DeltaGliderXR1::ST_None, "SCRAM Doors are closed.");
                 return false;
             }
 
@@ -1037,16 +1037,16 @@ int DeltaGliderXR1::GetStatusScreenText(char *pLinesOut, const int maxLinesToRet
 void DeltaGliderXR1::WriteTertiaryHudMessage(const char *pMessage, const bool isWarning)
 {
     if (isWarning)
-        ShowWarning(NULL, ST_None, pMessage, false);
+        ShowWarning(nullptr, ST_None, pMessage, false);
     else   // info message
-        ShowInfo(NULL, ST_None, pMessage);
+        ShowInfo(nullptr, ST_None, pMessage);
 }
 
-// Returns the name of the custom skin loaded for this vessel, if any.  NULL = no custom skin loaded.  
+// Returns the name of the custom skin loaded for this vessel, if any.  nullptr = no custom skin loaded.  
 // e.g., if "SKIN foobar" is in the scenario file for this XR vessel, GetCustomSkinName() returns a pointer to the string "foobar".
 const char *DeltaGliderXR1::GetCustomSkinName() const
 {
-    return (*skinpath ? skinpath : NULL);
+    return (*skinpath ? skinpath : nullptr);
 }
 
 //=========================================================================
@@ -1079,7 +1079,7 @@ bool DeltaGliderXR1::IsPayloadBaySlotFree(const int slotNumber) const
     return bSlotFree;
 }
 
-// Returns details about an XR payload bay slot.  Returns NULL if slotNumber is invalid.
+// Returns details about an XR payload bay slot.  Returns nullptr if slotNumber is invalid.
 // Note: this method cannot be 'const' because we return 'this' as a non-const XRVesselCtrl *
 //   slotNumber: 1 <= n <= GetPayloadBaySlotCount()
 //   slotDataOut: will be populated with data for the specified slot if slotNumber is valid.  If slotNumber is invalied, the contents of slotDataOut are not changed.
@@ -1093,7 +1093,7 @@ bool DeltaGliderXR1::GetPayloadSlotData(const int slotNumber, XRPayloadSlotData 
     _ASSERTE(pSlot);
     
     // populate the XRPayloadSlotData to be returned to the caller
-    slotDataOut.hCargoModuleVessel = pSlot->GetChild();  // may be NULL
+    slotDataOut.hCargoModuleVessel = pSlot->GetChild();  // may be nullptr
     slotDataOut.pParentXRVessel = this;                  // for convenience later in case the caller is tracking multiple payload
     slotDataOut.hXRAttachmentHandle = pSlot->GetAttachmentHandle();
     slotDataOut.SlotNumber = pSlot->GetSlotNumber();
@@ -1274,7 +1274,7 @@ bool DeltaGliderXR1::SetCrossFeedMode(XRXFEED_STATE state)
         return false;
 
     // NOTE: XFEED_STATE matches XFEED_MODE exactly -- do not change this!
-    SetCrossfeedMode(static_cast<XFEED_MODE>(state), NULL);
+    SetCrossfeedMode(static_cast<XFEED_MODE>(state), nullptr);
     return true;
 }
 
