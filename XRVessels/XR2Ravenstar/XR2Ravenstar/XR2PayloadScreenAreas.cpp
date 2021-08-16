@@ -84,7 +84,7 @@ bool SelectPayloadSlotArea::Redraw2D(const int event, const SURFHANDLE surf)
         
     // render the background
     const int selectedSlot = GetXR2().m_selectedSlot;  
-    oapiBlt(surf, m_hSurface, 0, 0, 0, 0, s_screenSize.x, s_screenSize.y);
+    DeltaGliderXR1::SafeBlt(surf, m_hSurface, 0, 0, 0, 0, s_screenSize.x, s_screenSize.y);
 
     // check whether any vessel is targeted for grappling
     const XRPayloadClassData *pGrappleTargetVesselPCD = nullptr;

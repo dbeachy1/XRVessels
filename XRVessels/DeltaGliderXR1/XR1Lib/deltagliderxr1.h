@@ -63,6 +63,18 @@ public:
 	DeltaGliderXR1(OBJHANDLE hObj, int fmodel, XR1ConfigFileParser *pConfigFileParser);
 	virtual ~DeltaGliderXR1();
 
+    //
+    // Global Orbiter API wrapper functions
+    //
+
+    // Safely fill a screen area: if width or height == 0, do NOT render anything
+    // Otherwise, oapiColourFill will render the entire area.
+    static void SafeColorFill(SURFHANDLE tgt, DWORD fillcolor, int tgtx = 0, int tgty = 0, int width = 0, int height = 0);
+
+    // Safely blit a screen area: if width or height == 0, do not render anything.
+    // Otherwise, Orbiter may throw an assertion failure in Orbiter.exe debug builds because the DirectX blit call fails
+    static void SafeBlt(SURFHANDLE tgt, SURFHANDLE src, int tgtx, int tgty, int srcx, int srcy, int width, int height, DWORD ck = SURF_NO_CK);
+
     // gimbal switch definitions
     enum class GIMBAL_SWITCH { LEFT, RIGHT, BOTH };
     enum class DIRECTION { UP_OR_LEFT, DOWN_OR_RIGHT, DIR_NONE };

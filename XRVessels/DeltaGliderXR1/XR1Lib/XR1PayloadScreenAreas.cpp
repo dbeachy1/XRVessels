@@ -110,7 +110,7 @@ bool DeployPayloadArea::Redraw2D(const int event, const SURFHANDLE surf)
         
     // render the background based on whether the ship is landed and STOPPED
     const SURFHANDLE hSurface = (GetXR1().IsLanded() ? m_hSurfaceForLanded : m_hSurfaceForOrbit);
-    oapiBlt(surf, hSurface, 0, 0, 0, 0, s_screenSize.x, s_screenSize.y);
+    DeltaGliderXR1::SafeBlt(surf, hSurface, 0, 0, 0, 0, s_screenSize.x, s_screenSize.y);
 
     // get the current selected slot, if any
     XRPayloadBay *pPayloadBay = GetXR1().m_pPayloadBay;
@@ -470,7 +470,7 @@ bool PayloadThumbnailArea::Redraw2D(const int event, const SURFHANDLE surf)
             }
             else  // thumbnail is OK
             {
-                // WARNING: we cannot use oapiBlt to blit a bitmap here!  We must use the BitBlt Win32 call instead.
+                // WARNING: we cannot use SafeBlt to blit a bitmap here!  We must use the BitBlt Win32 call instead.
                 // obtain device context and save existing object
                 HDC hDC = GetDC(surf);
                 
@@ -485,7 +485,7 @@ bool PayloadThumbnailArea::Redraw2D(const int event, const SURFHANDLE surf)
         }
         else  // Blit the "none" screen
         {
-            oapiBlt(surf, m_hNoneSurface, 0, 0, 0, 0, s_screenSize.x, s_screenSize.y);
+            DeltaGliderXR1::SafeBlt(surf, m_hNoneSurface, 0, 0, 0, 0, s_screenSize.x, s_screenSize.y);
         }
 
         // save the PCD of the last rendered bitmap image; may be null
@@ -550,7 +550,7 @@ bool GrapplePayloadArea::Redraw2D(const int event, const SURFHANDLE surf)
     // old data underneath from the previous render.
         
     // render the background based on whether the ship is landed and STOPPED (background changes)
-    oapiBlt(surf, m_hSurface, 0, 0, 0, 0, s_screenSize.x, s_screenSize.y);
+    DeltaGliderXR1::SafeBlt(surf, m_hSurface, 0, 0, 0, 0, s_screenSize.x, s_screenSize.y);
 
     // get the targeted vessel, if any; may be null!
     const XRGrappleTargetVessel *pGrappleTargetVessel = GetXR1().GetGrappleTargetVessel(GetXR1().m_grappleTargetVesselName);  // pulls cached object w/updated distance, delta-V, etc. (this logic is in the framework classes)

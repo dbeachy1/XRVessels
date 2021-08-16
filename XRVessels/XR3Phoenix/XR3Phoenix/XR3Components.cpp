@@ -120,7 +120,7 @@ bool XR3WarningLightsArea::Redraw2D(const int event, const SURFHANDLE surf)
                 int x = 0;          // column
                 int y = i * 11;     // row 
 
-                oapiBlt(surf, m_mainSurface, x, y, x, y, 26, 11);
+                DeltaGliderXR1::SafeBlt(surf, m_mainSurface, x, y, x, y, 26, 11);
             }
         }
     }
@@ -240,7 +240,7 @@ void DockingPortActiveLEDArea::Activate()
 bool DockingPortActiveLEDArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
     // always render this since it is only drawn by request
-    oapiBlt(surf, m_mainSurface, 0, 0, ((GetXR3().m_activeEVAPort == XR3Phoenix::ACTIVE_EVA_PORT::DOCKING_PORT) ? 18 : 0), 0, 18, 15);
+    DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, ((GetXR3().m_activeEVAPort == XR3Phoenix::ACTIVE_EVA_PORT::DOCKING_PORT) ? 18 : 0), 0, 18, 15);
     return true;
 }
 
@@ -262,7 +262,7 @@ void CrewElevatorActiveLEDArea::Activate()
 bool CrewElevatorActiveLEDArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
     // always render this since it is only drawn by request
-    oapiBlt(surf, m_mainSurface, 0, 0, ((GetXR3().m_activeEVAPort == XR3Phoenix::ACTIVE_EVA_PORT::CREW_ELEVATOR) ? 18 : 0), 0, 18, 15);
+    DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, ((GetXR3().m_activeEVAPort == XR3Phoenix::ACTIVE_EVA_PORT::CREW_ELEVATOR) ? 18 : 0), 0, 18, 15);
     return true;
 }
 

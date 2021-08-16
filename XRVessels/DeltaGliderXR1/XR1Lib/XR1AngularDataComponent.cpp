@@ -140,12 +140,12 @@ bool RotationalVelocityArea::Redraw2D(const int event, const SURFHANDLE surf)
     switch (m_type)
     {
     case Type::PITCH:
-        oapiBlt(surf, m_mainSurface, 0, 0, idx * 40, 0, 40, 49); 
+        DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, idx * 40, 0, 40, 49); 
         break;
 
     case Type::BANK:
     case Type::YAW:
-        oapiBlt(surf, m_mainSurface, 0, 0, idx * 50, 0, 50, 40); 
+        DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, idx * 50, 0, 50, 40); 
         break;
     }
 
@@ -184,12 +184,12 @@ bool RotationalAccArea::Redraw2D(const int event, const SURFHANDLE surf)
     switch (m_type)
     {
         case Type::PITCH:
-            oapiBlt(surf, m_mainSurface, 0, 0, idx*40, 0, 40, 49); 
+            DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, idx*40, 0, 40, 49); 
             break;
 
         case Type::BANK:
         case Type::YAW:
-            oapiBlt(surf, m_mainSurface, 0, 0, idx*50, 0, 50, 40); 
+            DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, idx*50, 0, 50, 40); 
             break;
     }
     return true;
@@ -228,12 +228,12 @@ bool RotationalTorqueArea::Redraw2D(const int event, const SURFHANDLE surf)
     switch (m_type) 
     {
         case Type::PITCH:
-            oapiBlt(surf, m_mainSurface, 0, 0, idx*40, 0, 40, 49); 
+            DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, idx*40, 0, 40, 49); 
             break;
 
         case Type::BANK:
         case Type::YAW:
-            oapiBlt(surf, m_mainSurface, 0, 0, idx*50, 0, 50, 40); 
+            DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, idx*50, 0, 50, 40); 
             break;
     }
     return true;

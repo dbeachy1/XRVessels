@@ -353,7 +353,7 @@ bool HullTempsMultiDisplayMode::Redraw2D(const int event, const SURFHANDLE surf)
 
     // render the background
     const COORD2 &screenSize = GetScreenSize();
-    oapiBlt(surf, m_backgroundSurface, 0, 0, 0, 0, screenSize.x, screenSize.y);
+    DeltaGliderXR1::SafeBlt(surf, m_backgroundSurface, 0, 0, 0, 0, screenSize.x, screenSize.y);
 
     // detect the highest temperature percentage of all surfaces
     double highestTempFrac = GetHighestTempFrac();  // max percentage of any hull temperature to its limit
@@ -366,7 +366,7 @@ bool HullTempsMultiDisplayMode::Redraw2D(const int event, const SURFHANDLE surf)
     int index = static_cast<int>((maxIndex * highestTempFrac) + 0.5);  // round to nearest pixel
     int tgtY = 102 - index;   // center-3 pixels
     //      tgt,  src,                tgtx,tgty,srcx,srcy,w,h, <use predefined color key>
-    oapiBlt(surf, m_indicatorSurface, 8,   tgtY, 0,  0,   6, 7, SURF_PREDEF_CK);
+    DeltaGliderXR1::SafeBlt(surf, m_indicatorSurface, 8,   tgtY, 0,  0,   6, 7, SURF_PREDEF_CK);
 
     // Render the coolant temperature gauge
     // round to nearest pixel
@@ -383,7 +383,7 @@ bool HullTempsMultiDisplayMode::Redraw2D(const int event, const SURFHANDLE surf)
     index = static_cast<int>((maxIndex * frac) + 0.5);
     tgtY = 91 - index;   // center-3 pixels
     //      tgt,  src,                tgtx,tgty,srcx,srcy,w,h, <use predefined color key>
-    oapiBlt(surf, m_indicatorSurface, 165, tgtY, 6,  0,   6, 7, SURF_PREDEF_CK);
+    DeltaGliderXR1::SafeBlt(surf, m_indicatorSurface, 165, tgtY, 6,  0,   6, 7, SURF_PREDEF_CK);
 
     // 
     // Now draw the text
@@ -509,7 +509,7 @@ bool HullTempsMultiDisplayMode::Redraw2D(const int event, const SURFHANDLE surf)
 
     // render the background
     const COORD2 &screenSize = GetScreenSize();
-    oapiBlt(surf, m_backgroundSurface, 0, 0, 0, 0, screenSize.x, screenSize.y);
+    DeltaGliderXR1::SafeBlt(surf, m_backgroundSurface, 0, 0, 0, 0, screenSize.x, screenSize.y);
 
     // detect the highest temperature percentage of all surfaces
     double highestTempFrac = GetHighestTempFrac();  // max percentage of any hull temperature to its limit
@@ -522,7 +522,7 @@ bool HullTempsMultiDisplayMode::Redraw2D(const int event, const SURFHANDLE surf)
     int index = static_cast<int>((maxIndex * highestTempFrac) + 0.5);  // round to nearest pixel
     int tgtY = 102 - index;   // center-3 pixels
     //      tgt,  src,                tgtx,tgty,srcx,srcy,w,h, <use predefined color key>
-    oapiBlt(surf, m_indicatorSurface, 8,   tgtY, 0,  0,   6, 7, SURF_PREDEF_CK);
+    DeltaGliderXR1::SafeBlt(surf, m_indicatorSurface, 8,   tgtY, 0,  0,   6, 7, SURF_PREDEF_CK);
 
     // Render the coolant temperature gauge
     // round to nearest pixel
@@ -539,7 +539,7 @@ bool HullTempsMultiDisplayMode::Redraw2D(const int event, const SURFHANDLE surf)
     index = static_cast<int>((maxIndex * frac) + 0.5);
     tgtY = 91 - index;   // center-3 pixels
     //      tgt,  src,                tgtx,tgty,srcx,srcy,w,h, <use predefined color key>
-    oapiBlt(surf, m_indicatorSurface, 165, tgtY, 6,  0,   6, 7, SURF_PREDEF_CK);
+    DeltaGliderXR1::SafeBlt(surf, m_indicatorSurface, 165, tgtY, 6,  0,   6, 7, SURF_PREDEF_CK);
 
     // obtain sketchpad and save existing font
     oapi::Sketchpad *skp = oapiGetSketchpad(surf);
@@ -777,7 +777,7 @@ bool SystemsStatusMultiDisplayMode::Redraw2D(const int event, const SURFHANDLE s
 {
     // render the background
     const COORD2 &screenSize = GetScreenSize();
-    oapiBlt(surf, m_backgroundSurface, 0, 0, 0, 0, screenSize.x, screenSize.y);
+    DeltaGliderXR1::SafeBlt(surf, m_backgroundSurface, 0, 0, 0, 0, screenSize.x, screenSize.y);
 
     // obtain device context and save existing font
     HDC hDC = m_pParentMDA->GetDC(surf);
@@ -910,7 +910,7 @@ bool AttitudeHoldMultiDisplayMode::Redraw2D(const int event, const SURFHANDLE su
 
     // render the background
     const COORD2 &screenSize = GetScreenSize();
-    oapiBlt(surf, m_backgroundSurface, 0, 0, 0, 0, screenSize.x, screenSize.y);
+    DeltaGliderXR1::SafeBlt(surf, m_backgroundSurface, 0, 0, 0, 0, screenSize.x, screenSize.y);
 
     // obtain device context and save existing font
     HDC hDC = m_pParentMDA->GetDC(surf);
@@ -1257,7 +1257,7 @@ bool DescentHoldMultiDisplayMode::Redraw2D(const int event, const SURFHANDLE sur
         
     // render the background
     const COORD2 &screenSize = GetScreenSize();
-    oapiBlt(surf, m_backgroundSurface, 0, 0, 0, 0, screenSize.x, screenSize.y);
+    DeltaGliderXR1::SafeBlt(surf, m_backgroundSurface, 0, 0, 0, 0, screenSize.x, screenSize.y);
 
     // obtain device context and save existing font
     HDC hDC = m_pParentMDA->GetDC(surf);
@@ -1640,7 +1640,7 @@ bool AirspeedHoldMultiDisplayMode::Redraw2D(const int event, const SURFHANDLE su
         
     // render the background
     const COORD2 &screenSize = GetScreenSize();
-    oapiBlt(surf, m_backgroundSurface, 0, 0, 0, 0, screenSize.x, screenSize.y);
+    DeltaGliderXR1::SafeBlt(surf, m_backgroundSurface, 0, 0, 0, 0, screenSize.x, screenSize.y);
 
     // obtain device context and save existing font
     HDC hDC = m_pParentMDA->GetDC(surf);
@@ -2026,7 +2026,7 @@ bool ReentryCheckMultiDisplayMode::Redraw2D(const int event, const SURFHANDLE su
 {
     // render the background
     const COORD2 &screenSize = GetScreenSize();
-    oapiBlt(surf, m_backgroundSurface, 0, 0, 0, 0, screenSize.x, screenSize.y);
+    DeltaGliderXR1::SafeBlt(surf, m_backgroundSurface, 0, 0, 0, 0, screenSize.x, screenSize.y);
 
     // obtain device context and save existing font
     HDC hDC = m_pParentMDA->GetDC(surf);

@@ -47,7 +47,7 @@ void RCSDockingModeButtonArea::Activate()
 bool RCSDockingModeButtonArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
     // always redraw this since it is only drawn on request
-    oapiBlt(surf, m_mainSurface, 0, 0, GetXR3().m_rcsDockingMode ? 18 : 0, 0, 18, 15);
+    DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, GetXR3().m_rcsDockingMode ? 18 : 0, 0, 18, 15);
     return true;
 }
 

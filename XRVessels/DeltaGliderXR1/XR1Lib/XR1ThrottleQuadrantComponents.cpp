@@ -148,7 +148,7 @@ bool MainThrottleArea::Redraw2D(const int event, const SURFHANDLE surf)
         for (int i = 0; i < 2; i++)
         {
             //       target, source,      targetX, targetY,     srcX, srcY, width, height, (opt., not present) color key
-            oapiBlt (surf, m_mainSurface, i*26, m_engsliderpos[i], 0, 0, 23, 18);
+            DeltaGliderXR1::SafeBlt (surf, m_mainSurface, i*26, m_engsliderpos[i], 0, 0, 23, 18);
         }
     }
 
@@ -301,7 +301,7 @@ bool LargeHoverThrottleArea::Redraw2D(const int event, const SURFHANDLE surf)
     if (pos != m_engsliderpos)
     {
         oapiBltPanelAreaBackground (GetAreaID(), surf);
-        oapiBlt (surf, m_mainSurface, 0, m_engsliderpos = pos, 0, 0, 23, 18);
+        DeltaGliderXR1::SafeBlt (surf, m_mainSurface, 0, m_engsliderpos = pos, 0, 0, 23, 18);
         retVal = true;
     } 
 
@@ -395,7 +395,7 @@ bool SmallHoverThrottleArea::Redraw2D(const int event, const SURFHANDLE surf)
     if (pos != m_engsliderpos)
     {
         oapiBltPanelAreaBackground (GetAreaID(), surf);
-        oapiBlt (surf, m_mainSurface, 0, m_engsliderpos = pos, 0, 0, 23, 18);
+        DeltaGliderXR1::SafeBlt (surf, m_mainSurface, 0, m_engsliderpos = pos, 0, 0, 23, 18);
         retVal = true;
     } 
 
@@ -467,7 +467,7 @@ bool ScramThrottleArea::Redraw2D(const int event, const SURFHANDLE surf)
     {
         oapiBltPanelAreaBackground (AID_ENGINESCRAM, surf);
         for (i = 0; i < 2; i++)
-            oapiBlt(surf, m_mainSurface, i * 26, m_engsliderpos[i], 0, 0, 23, 18);
+            DeltaGliderXR1::SafeBlt(surf, m_mainSurface, i * 26, m_engsliderpos[i], 0, 0, 23, 18);
     }
 
     return redraw;

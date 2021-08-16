@@ -720,7 +720,7 @@ bool SlipGaugeArea::Redraw2D(const int event, const SURFHANDLE surf)
     {
         // render the gauge
         //      tgt,  src,        tgtx,  tgty,srcx,srcy,w,h,<use predefined color key>
-        oapiBlt(surf, srcSurface, index, 0, 0, 9, 9, 9, SURF_PREDEF_CK);
+        DeltaGliderXR1::SafeBlt(surf, srcSurface, index, 0, 0, 9, 9, 9, SURF_PREDEF_CK);
 
         // update last rendered index
         m_lastRenderedIndex = index;
@@ -880,15 +880,15 @@ bool APUButton::Redraw2D(const int event, const SURFHANDLE surf)
         break;
 
     case LightState::UNPRESSED_BRIGHT:
-        oapiBlt(surf, m_mainSurface, 0, 0, 80, 0, 40, 29);  
+        DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, 80, 0, 40, 29);  
         break;
 
     case LightState::PRESSED_DARK:
-        oapiBlt(surf, m_mainSurface, 0, 0, 40, 0, 40, 29);  
+        DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, 40, 0, 40, 29);  
         break;
 
     case LightState::PRESSED_BRIGHT:
-        oapiBlt(surf, m_mainSurface, 0, 0, 0, 0, 40, 29);
+        DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, 0, 0, 40, 29);
         break;
     }
 
@@ -992,7 +992,7 @@ void CenterOfGravityAutoButtonArea::Activate()
 bool CenterOfGravityAutoButtonArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
     // always render this since it is only drawn by request
-    oapiBlt(surf, m_mainSurface, 0, 0, (GetXR1().m_cogShiftAutoModeActive ? 18 : 0), 0, 18, 15);
+    DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, (GetXR1().m_cogShiftAutoModeActive ? 18 : 0), 0, 18, 15);
     return true;
 }
 

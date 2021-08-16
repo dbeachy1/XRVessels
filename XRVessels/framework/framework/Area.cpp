@@ -135,8 +135,8 @@ SURFHANDLE Area::GetMeshTextureHandle(const int meshTextureID) const
     5) Draw GDI stuff
     6) oapiReleaseDC(GDISurface, hDC);
     
-    7) oapiBlt (surf, GDISurface, ...)  // When a GDI surface is blitted no scaling is allowed during the blit.
-    8) oapiBlt (surf, m_mainSurface,... )   // for every m_mainSurface blit
+    7) DeltaGliderXR1::SafeBlt (surf, GDISurface, ...)  // When a GDI surface is blitted no scaling is allowed during the blit.
+    8) DeltaGliderXR1::SafeBlt (surf, m_mainSurface,... )   // for every m_mainSurface blit
 
     Unfortunately, that does not render correctly, so I decided to just port the MDA temperature display
     and the artificial horizon to use the sketchpad API instead.

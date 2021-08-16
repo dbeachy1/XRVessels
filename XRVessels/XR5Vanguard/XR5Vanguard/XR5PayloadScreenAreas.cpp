@@ -86,7 +86,7 @@ bool SelectPayloadSlotArea::Redraw2D(const int event, const SURFHANDLE surf)
     // render the background based on the currently active level
     const int selectedSlot = GetXR5().m_selectedSlot;  
     const int activeLevel = GetXR5().m_selectedSlotLevel;  
-    oapiBlt(surf, m_hSurfaceForLevel[activeLevel-1], 0, 0, 0, 0, s_screenSize.x, s_screenSize.y);
+    DeltaGliderXR1::SafeBlt(surf, m_hSurfaceForLevel[activeLevel-1], 0, 0, 0, 0, s_screenSize.x, s_screenSize.y);
 
     // check whether any vessel is targeted for grappling
     const XRPayloadClassData *pGrappleTargetVesselPCD = nullptr;

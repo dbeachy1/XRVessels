@@ -110,7 +110,7 @@ bool XR2WarningLightsArea::Redraw2D(const int event, const SURFHANDLE surf)
                 int x = 0;          // column
                 int y = i * 11;     // row 
 
-                oapiBlt(surf, m_mainSurface, x, y, x, y, 26, 11);
+                DeltaGliderXR1::SafeBlt(surf, m_mainSurface, x, y, x, y, 26, 11);
             }
         }
     }

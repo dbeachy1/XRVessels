@@ -103,7 +103,7 @@ bool VerticalCenteringRockerSwitchArea::Redraw2D(const int event, const SURFHAND
         else  // DOWN
             srcX = 32;
 
-        oapiBlt(surf, m_mainSurface, 0, 0, srcX, 0, 16, 44);
+        DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, srcX, 0, 16, 44);
     }
     else  // dual switch
     {
@@ -117,7 +117,7 @@ bool VerticalCenteringRockerSwitchArea::Redraw2D(const int event, const SURFHAND
             else  // DOWN
                 srcX = 32;
 
-            oapiBlt (surf, m_mainSurface, i * 19, 0, srcX, 0, 16, 44);
+            DeltaGliderXR1::SafeBlt (surf, m_mainSurface, i * 19, 0, srcX, 0, 16, 44);
         }
     }
 
@@ -331,7 +331,7 @@ bool HorizontalCenteringRockerSwitchArea::Redraw2D(const int event, const SURFHA
         else  // RIGHT
             srcY = 32;
 
-        oapiBlt(surf, m_mainSurface, 0, 0, 0, srcY, 44, 16);
+        DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, 0, srcY, 44, 16);
     }
     else  // dual switch
     {
@@ -345,7 +345,7 @@ bool HorizontalCenteringRockerSwitchArea::Redraw2D(const int event, const SURFHA
             else  // DOWN
                 srcY = 32;
 
-            oapiBlt(surf, m_mainSurface, 0, i * 19, 0, srcY, 44, 16);
+            DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, i * 19, 0, srcY, 44, 16);
         }
     }
 
@@ -642,7 +642,7 @@ bool VerticalGaugeArea::Redraw2D(const int event, const SURFHANDLE surf)
                 int tgtX = ((side == SIDE::LEFT) ? 0 : 6 + m_gapSize);  // if right side, bump right 6+gapSize pixels
                 int srcX = ((side == SIDE::LEFT) ? 0 : 6);  // if right side, go right 6 pixels for source
                 //      tgt,  src,        tgtx,            tgty,                            srcx,srcy,w,h, <use predefined color key>
-                oapiBlt(surf, srcSurface, tgtX + m_deltaX, renderData[i].indexY + m_deltaY, srcX, 0, 6, 7, SURF_PREDEF_CK);
+                DeltaGliderXR1::SafeBlt(surf, srcSurface, tgtX + m_deltaX, renderData[i].indexY + m_deltaY, srcX, 0, 6, 7, SURF_PREDEF_CK);
 
 
                 // update <last updated> render data
@@ -655,7 +655,7 @@ bool VerticalGaugeArea::Redraw2D(const int event, const SURFHANDLE surf)
                 const SURFHANDLE srcSurface = GetSurfaceForColor(renderData[0].color);
                 int srcX = ((m_singleSide == SIDE::LEFT) ? 0 : 6);  // if right side, go right 6 pixels for source
                 //      tgt,  src,        tgtx,         tgty,                            srcx,srcy,w,h, <use predefined color key>
-                oapiBlt(surf, srcSurface, 0 + m_deltaX, renderData[0].indexY + m_deltaY, srcX, 0, 6, 7, SURF_PREDEF_CK);
+                DeltaGliderXR1::SafeBlt(surf, srcSurface, 0 + m_deltaX, renderData[0].indexY + m_deltaY, srcX, 0, 6, 7, SURF_PREDEF_CK);
 
                 // update <last updated> render data
                 m_lastRenderData[0] = renderData[0];   // default byte-for-byte copy here is fine
@@ -734,7 +734,7 @@ bool HorizontalGaugeArea::Redraw2D(const int event, const SURFHANDLE surf)
                 int tgtY = ((side == SIDE::TOP) ? 0 : 6 + m_gapSize);  // if bottom side, bump down 6+gapSize pixels
                 int srcX = ((side == SIDE::TOP) ? 0 : 7);  // if bottom side, go down 7 pixels for source
                 //      tgt,  src,        tgtx,                          tgty,          srcx,srcy,w,h, <use predefined color key>
-                oapiBlt(surf, srcSurface, renderData[i].indexX + m_deltaX, tgtY + m_deltaY, srcX, 8, 7, 6, SURF_PREDEF_CK);
+                DeltaGliderXR1::SafeBlt(surf, srcSurface, renderData[i].indexX + m_deltaX, tgtY + m_deltaY, srcX, 8, 7, 6, SURF_PREDEF_CK);
 
                 // update <last updated> render data
                 m_lastRenderData[i] = renderData[i];   // default byte-for-byte copy here is fine
@@ -746,7 +746,7 @@ bool HorizontalGaugeArea::Redraw2D(const int event, const SURFHANDLE surf)
             const SURFHANDLE srcSurface = GetSurfaceForColor(renderData[0].color);
             int srcX = ((m_singleSide == SIDE::TOP) ? 0 : 7);  // if bottom side, go down 7 pixels for source
             //      tgt,  src,        tgtx,                            tgty,            srcx,srcy,w,h, <use predefined color key>
-            oapiBlt(surf, srcSurface, renderData[0].indexX + m_deltaX, 0 + m_deltaY,    srcX, 8, 7, 6, SURF_PREDEF_CK);
+            DeltaGliderXR1::SafeBlt(surf, srcSurface, renderData[0].indexX + m_deltaX, 0 + m_deltaY,    srcX, 8, 7, 6, SURF_PREDEF_CK);
 
 
             // update <last updated> render data
@@ -799,7 +799,7 @@ bool SimpleButtonArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
     // always re-render this since it is always performed on request
     int srcX = (*m_pIsLit ? 12 : 0);    // texture X coord; 12 = lit, 0 = not lit
-    oapiBlt(surf, m_mainSurface, 0, 0, srcX, 0, 12, 12);
+    DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, srcX, 0, 12, 12);
 
     return true;
 }
@@ -970,7 +970,7 @@ void ToggleSwitchArea::Activate()
 
 bool ToggleSwitchArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
-    oapiBlt(surf, m_mainSurface, 0, 0, (isOn() ? 0 : 25), 0, 25, 38);
+    DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, (isOn() ? 0 : 25), 0, 25, 38);
     
     return true;
 }
@@ -1094,7 +1094,7 @@ bool DoorIndicatorArea::Redraw2D(const int event, const SURFHANDLE surf)
     if (yCoordToPaint >= 0)   // should we repaint the text line?
     {
         //      tgt,  src,           tX, tY,            srcX, srcY,          w,     h
-        oapiBlt(surf, m_mainSurface, 0,  yCoordToPaint, srcX, yCoordToPaint, width, 6); 
+        DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0,  yCoordToPaint, srcX, yCoordToPaint, width, 6); 
     }
 
     // repaint the transit indicator lines IF door is not fully open or closed
@@ -1243,19 +1243,19 @@ bool BarArea::Redraw2D(const int event, const SURFHANDLE surf)
                 break;
             }
 
-            // Note: we cannot use '0' for any width or the entire area is painted.
+            // Note: we cannot use '0' for any width, or the entire area is painted.
             // Therefore, we use SafeColorFill.
             if (m_orientation == ORIENTATION::HORIZONTAL)
             {
-                // horizontal                  X            Y  width                      height                
-                SafeColorFill(surf, color,     0,           0, brightIndex,               m_sizeY);  // first part  (bright)
-                SafeColorFill(surf, darkColor, brightIndex, 0, (darkIndex - brightIndex), m_sizeY);  // second part (dark)
+                // horizontal                                  X            Y  width        height                
+                DeltaGliderXR1::SafeColorFill(surf, color,     0,           0, brightIndex, m_sizeY);  // first part  (bright)
+                DeltaGliderXR1::SafeColorFill(surf, darkColor, brightIndex, 0, (darkIndex - brightIndex), m_sizeY);  // second part (dark)
             }
             else
             {
-                // vertical                    X   Y                         width    height
-                SafeColorFill(surf, color,     0, (m_sizeY - brightIndex),   m_sizeX, brightIndex);                // bottom (first) part: bright
-                SafeColorFill(surf, darkColor, 0, (m_sizeY - darkIndex),     m_sizeX, (darkIndex - brightIndex));  // top (second) part: dark
+                // vertical                                    X   Y                         width    height
+                DeltaGliderXR1::SafeColorFill(surf, color,     0, (m_sizeY - brightIndex),   m_sizeX, brightIndex);                // bottom (first) part: bright
+                DeltaGliderXR1::SafeColorFill(surf, darkColor, 0, (m_sizeY - darkIndex),     m_sizeX, (darkIndex - brightIndex));  // top (second) part: dark
             }
         }
 
@@ -1375,7 +1375,7 @@ bool NumberArea::Redraw2D(const int event, const SURFHANDLE surf)
 
             // render separating spaces as well just in case anything underneath (since the font can vary in width now)
             //                                  srcX,srcY,width,   height
-            oapiBlt (surf, srcSurface, x, 0, srcX, 0, charWidth, 9);
+            DeltaGliderXR1::SafeBlt (surf, srcSurface, x, 0, srcX, 0, charWidth, 9);
             x += charWidth; // set up for next character
         }
     }
@@ -1629,7 +1629,7 @@ bool AccScaleArea::Redraw2D(const int event, const SURFHANDLE surf)
 
         // redraw the entire area
         //                          tgX,tgY,srcX,srcY,width,height
-        oapiBlt(surf, m_mainSurface, 0, 0, 0, y, 92, 11);
+        DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, 0, y, 92, 11);
         //oapiColourFill(surf, BRIGHT_YELLOW);
 
         redraw = true;
@@ -1706,7 +1706,7 @@ void MomentaryButtonArea::Activate()
 bool MomentaryButtonArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
     int srcX = (IsLit() ? 12 : 0);    // texture X coord; 12 = lit, 0 = not lit
-    oapiBlt(surf, m_mainSurface, 0, 0, srcX, 0, 12, 12);
+    DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, srcX, 0, 12, 12);
 
     return true;
 }
@@ -1787,7 +1787,7 @@ void RawButtonArea::Activate()
 bool RawButtonArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
     int srcX = (IsLit() ? 12 : 0);    // texture X coord; 12 = lit, 0 = not lit
-    oapiBlt(surf, m_mainSurface, 0, 0, srcX, 0, 12, 12);
+    DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, srcX, 0, 12, 12);
 
     return true;
 }
@@ -2045,12 +2045,12 @@ bool LargeBarArea::Redraw2D(const int event, const SURFHANDLE surf)
         const int brightYCoord = (m_sizeY - brightIndex);
         const int darkYCoord = (m_sizeY - darkIndex);
         //            texture        tgtX  tgtY       srcX  srcY       width    height
-        oapiBlt(surf, m_mainSurface, 0, brightYCoord, 0, brightYCoord, m_sizeX, brightIndex);                // bottom (first) part: bright
+        DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, brightYCoord, 0, brightYCoord, m_sizeX, brightIndex);                // bottom (first) part: bright
         
         if (m_darkSurface != nullptr)  // any dark surface defined?
         {
             //            texture        tgtX  tgtY       srcX  srcY       width    height
-            oapiBlt(surf, m_darkSurface, 0, darkYCoord,   0, darkYCoord,   m_sizeX, (darkIndex - brightIndex));  // top (second) part: dark
+            DeltaGliderXR1::SafeBlt(surf, m_darkSurface, 0, darkYCoord,   0, darkYCoord,   m_sizeX, (darkIndex - brightIndex));  // top (second) part: dark
         }
         
         // invoke the post-drawing hook in case the subclass wants to overlay something
@@ -2154,7 +2154,7 @@ bool FuelDumpButtonArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
     // always re-render this since it is always performed on request
     int srcX = (m_isLit ? 12 : 0);    // texture X coord; 12 = lit, 0 = not lit
-    oapiBlt(surf, m_mainSurface, 0, 0, srcX, 0, 12, 12);
+    DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, srcX, 0, 12, 12);
 
     return true;
 }
@@ -2328,7 +2328,7 @@ bool DoorMediumLEDArea::Redraw2D(const int event, const SURFHANDLE surf)
     if ((event == PANEL_REDRAW_INIT) || (isOn != m_isOn))
     {
         int srcX = (isOn ? 29 : 0);
-        oapiBlt(surf, m_mainSurface, 0, 0, srcX, 0, 29, 21);    
+        DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, srcX, 0, 29, 21);    
         m_isOn = isOn;
         retVal = true;
     }

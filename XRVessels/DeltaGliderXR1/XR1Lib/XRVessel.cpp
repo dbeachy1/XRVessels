@@ -46,6 +46,26 @@
 #include "XR1ConfigFileParser.h"
 
 // ==============================================================
+// Global Orbiter API wrapper functions
+// ==============================================================
+
+// Safely fill a screen area: if width or height == 0, do not render anything
+// Otherwise, oapiColourFill will (by design) render the entire area.
+void DeltaGliderXR1::SafeColorFill(SURFHANDLE tgt, DWORD fillcolor, int tgtx, int tgty, int width, int height)
+{
+    if ((width > 0) && (height > 0))
+        oapiColourFill(tgt, fillcolor, tgtx, tgty, width, height);
+}
+
+// Safely blit a screen area: if width or height == 0, do not render anything.
+// Otherwise, Orbiter may throw an assertion failure in Orbiter.exe debug builds because the DirectX blit call fails
+void DeltaGliderXR1::SafeBlt(SURFHANDLE tgt, SURFHANDLE src, int tgtx, int tgty, int srcx, int srcy, int width, int height, DWORD ck)
+{
+    if ((width > 0) && (height > 0))
+        oapiBlt(tgt, src, tgtx, tgty, srcx, srcy, width, height, ck);
+}
+
+// ==============================================================
 // Message callback function for control dialog box
 // ==============================================================
 
@@ -3380,7 +3400,7 @@ void DeltaGliderXR1::clbkSetClassCaps (FILEHANDLE cfg)
     insignia_tex = oapiCreateTextureSurface (256, 256);
     SURFHANDLE hTex = oapiGetTextureHandle (exmesh_tpl, 5);
     if (hTex) 
-        oapiBlt (insignia_tex, hTex, 0, 0, 0, 0, 256, 256);
+        DeltaGliderXR1::SafeBlt (insignia_tex, hTex, 0, 0, 0, 0, 256, 256);
     */
 
 #ifdef MMU

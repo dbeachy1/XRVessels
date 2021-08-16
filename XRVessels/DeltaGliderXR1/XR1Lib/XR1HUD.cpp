@@ -671,7 +671,7 @@ bool SecondaryHUDModeButtonsArea::Redraw2D(const int event, const SURFHANDLE sur
 {
     int mode = GetXR1().m_secondaryHUDMode;
     if (mode > 0)
-        oapiBlt(surf, m_mainSurface, (mode * 29) + 6, 0, 7, 0, 7, 7);
+        DeltaGliderXR1::SafeBlt(surf, m_mainSurface, (mode * 29) + 6, 0, 7, 0, 7, 7);
 
     return true;
 }
@@ -716,7 +716,7 @@ void TertiaryHUDButtonArea::Activate()
 bool TertiaryHUDButtonArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
     int srcX = (GetXR1().m_tertiaryHUDOn ? 12 : 0);
-    oapiBlt(surf, m_mainSurface, 0, 0, srcX, 0, 12, 12);
+    DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, srcX, 0, 12, 12);
     
     return true;
 }

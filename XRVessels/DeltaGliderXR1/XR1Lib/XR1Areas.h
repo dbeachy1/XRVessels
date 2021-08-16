@@ -44,15 +44,6 @@ class DeltaGliderXR1;
 #define XR1_VCPANEL_TEXTURE_CENTER  1
 #define XR1_VCPANEL_TEXTURE_RIGHT   2
 
-// useful macros
-
-// Safely fill a screen area: if width or height == 0, do NOT render anything
-// Otherwise, oapiColourFill will render the entire area.
-#define SafeColorFill(surf, color, x, y, width, height)  \
-    if ((width > 0) && (height > 0))                     \
-       oapiColourFill(surf, color, x, y, width, height)
-
-
 class XR1Area : public Area
 {
 public:

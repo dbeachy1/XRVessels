@@ -63,7 +63,7 @@ void DockReleaseButtonArea::Activate()
 
 bool DockReleaseButtonArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
-    oapiBlt(surf, m_mainSurface, 0, 0, (m_buttonPressed ? 40 : 0), 0, 40, 53);
+    DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, (m_buttonPressed ? 40 : 0), 0, 40, 53);
     
     return true;
 }
@@ -335,15 +335,15 @@ bool ArtificialHorizonArea::Redraw2D(const int event, const SURFHANDLE surf)
         if (iphi)
         {
             int lb = abs(iphi)-1; if (lb >= 9) lb = 16-lb;
-            oapiBlt (surf, m_mainSurface, size-5+static_cast<int>(xlr), size-3+static_cast<int>(ylr), 9*lb, 96, 9, 7, SURF_PREDEF_CK);
-            oapiBlt (surf, m_mainSurface, size-5+static_cast<int>(xll), size-3+static_cast<int>(yll), 9*lb, 96, 9, 7, SURF_PREDEF_CK);
+            DeltaGliderXR1::SafeBlt (surf, m_mainSurface, size-5+static_cast<int>(xlr), size-3+static_cast<int>(ylr), 9*lb, 96, 9, 7, SURF_PREDEF_CK);
+            DeltaGliderXR1::SafeBlt (surf, m_mainSurface, size-5+static_cast<int>(xll), size-3+static_cast<int>(yll), 9*lb, 96, 9, 7, SURF_PREDEF_CK);
         }
         xlr -= dsinb, ylr += dcosb;
         xll -= dsinb, yll += dcosb;
     }
 
     // now overlay markings with transparent blt
-    oapiBlt (surf, m_mainSurface, 0, 0, 0, 0, 96, 96, SURF_PREDEF_CK);
+    DeltaGliderXR1::SafeBlt (surf, m_mainSurface, 0, 0, 0, 0, 96, 96, SURF_PREDEF_CK);
 
     return true;
 }
@@ -368,7 +368,7 @@ bool XFeedKnobArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
     const int mode = static_cast<int>(GetXR1().m_xfeedMode);
 
-    oapiBlt(surf, m_mainSurface, 0, 0, mode * 40, 0, 40, 44);
+    DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, mode * 40, 0, 40, 44);
 
     return true;
 }

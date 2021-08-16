@@ -66,7 +66,7 @@ bool HudModeButtonsArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
     int mode = oapiGetHUDMode();
     if (mode > HUD_NONE)
-        oapiBlt (surf, m_mainSurface, mode*29+6, 0, 7, 0, 7, 7);
+        DeltaGliderXR1::SafeBlt (surf, m_mainSurface, mode*29+6, 0, 7, 0, 7, 7);
 
     return true;
 }
@@ -285,7 +285,7 @@ bool AutopilotButtonsArea::Redraw2D(const int event, const SURFHANDLE surf)
         if (isLit)
         {
             // dest coordinate blocks are 39x39, but source blocks are 37x37 since we don't repaint the border
-            oapiBlt(surf, m_mainSurface, navx[i] * 39, navy[i] * 39, (i * 37), 0, 37, 37);
+            DeltaGliderXR1::SafeBlt(surf, m_mainSurface, navx[i] * 39, navy[i] * 39, (i * 37), 0, 37, 37);
         }
     }
 
@@ -464,7 +464,7 @@ bool MWSArea::Redraw2D(const int event, const SURFHANDLE surf)
     if (GetXR1().m_mwsTestActive)
         lightOn = true;
 
-    oapiBlt(surf, m_mainSurface, 0, 0, lightOn ? 29 : 0, 0, 29, 29);
+    DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, lightOn ? 29 : 0, 0, 29, 29);
 
     return true;
 }
@@ -544,7 +544,7 @@ bool RCSModeArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
     int mode = GetVessel().GetAttitudeMode();
 
-    oapiBlt(surf, m_mainSurface, 0, 0, mode * 40, 0, 40, 44);
+    DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, mode * 40, 0, 40, 44);
 
     return true;
 }
@@ -626,7 +626,7 @@ bool AFCtrlArea::Redraw2D(const int event, const SURFHANDLE surf)
     if ((GetXR1().apu_status != DoorStatus::DOOR_OPEN) && (GetVessel().GetADCtrlMode() != 0))
         return false;       // don't paint the "jumping" switch
 
-    oapiBlt(surf, m_mainSurface, 0, 0, min(GetVessel().GetADCtrlMode(), 2) * 40, 0, 40, 44);
+    DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, min(GetVessel().GetADCtrlMode(), 2) * 40, 0, 40, 44);
 
     return true;
 }
@@ -788,7 +788,7 @@ bool WarningLightsArea::Redraw2D(const int event, const SURFHANDLE surf)
                 int x = (i % 3) * 26;    // column
                 int y = (i/3) * 11;      // row 
 
-                oapiBlt(surf, m_mainSurface, x, y, x, y, 26, 11);
+                DeltaGliderXR1::SafeBlt(surf, m_mainSurface, x, y, x, y, 26, 11);
             }
         }
     }
@@ -833,7 +833,7 @@ bool DeployRadiatorButtonArea::Redraw2D(const int event, const SURFHANDLE surf)
 
     if ((event == PANEL_REDRAW_INIT) || (m_lastRenderedLightState != m_lightState))
     {
-        oapiBlt(surf, m_mainSurface, 0, 0, m_lightState ? 18 : 0, 0, 18, 15);
+        DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, m_lightState ? 18 : 0, 0, 18, 15);
         m_lastRenderedLightState = m_lightState;
         retVal = true;
     }

@@ -322,7 +322,7 @@ bool SupplyLineMediumLEDArea::Redraw2D(const int event, const SURFHANDLE surf)
     if ((event == PANEL_REDRAW_INIT) || (m_lastRenderedState != m_lightStatus))
     {
         int srcX = (m_lightStatus ? 29 : 0);
-        oapiBlt(surf, m_mainSurface, 0, 0, srcX, 0, 29, 21);    
+        DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, srcX, 0, 29, 21);    
         m_lastRenderedState = m_lightStatus;      // remember what we rendered
         retVal = true;
     }
@@ -357,7 +357,7 @@ bool LoxDumpButtonArea::Redraw2D(const int event, const SURFHANDLE surf)
 {
     // always re-render this since it is always performed on request
     int srcX = (m_isLit ? 12 : 0);    // texture X coord; 12 = lit, 0 = not lit
-    oapiBlt(surf, m_mainSurface, 0, 0, srcX, 0, 12, 12);
+    DeltaGliderXR1::SafeBlt(surf, m_mainSurface, 0, 0, srcX, 0, 12, 12);
 
     return true;
 }
