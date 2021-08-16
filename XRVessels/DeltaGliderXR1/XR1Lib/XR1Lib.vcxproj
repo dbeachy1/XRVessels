@@ -213,6 +213,17 @@
     <ClCompile Include="XR1VesselCtrl.cpp" />
     <ClCompile Include="XRCommon_IO.cpp" />
     <ClCompile Include="XRVessel.cpp" />
+    <ClCompile Include="XRVesselAutopilotUtils.cpp" />
+    <ClCompile Include="XRVesselBalance.cpp" />
+    <ClCompile Include="XRVesselCallbacks.cpp" />
+    <ClCompile Include="XRVesselDoors.cpp" />
+    <ClCompile Include="XRVesselHatches.cpp" />
+    <ClCompile Include="XRVesselMMU.cpp" />
+    <ClCompile Include="XRVesselPropellant.cpp" />
+    <ClCompile Include="XRVesselResupply.cpp" />
+    <ClCompile Include="XRVesselSound.cpp" />
+    <ClCompile Include="XRVesselStatic.cpp" />
+    <ClCompile Include="XRVesselUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AreaIDs.h" />

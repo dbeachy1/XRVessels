@@ -174,8 +174,6 @@ double RCS_FUEL_CAPACITY = 600.0;
 double APU_FUEL_CAPACITY = 200.0;
 // Max APU fuel capacity [kg]
 
-// DG3: thrust w/turbopump = 1.6e5
-// XR1: thrust increased 20% for LOX loadout @ 5 years @ 25% consumption
 double MAX_MAIN_THRUST[2] = {2.4e5, 1.92e5};
 // Main engine max vacuum thrust [N] per engine. (x2 for total)
 // NOTE: don't need to track main engine damage here since thrust is not set by gimbaling
@@ -184,17 +182,11 @@ double MAX_MAIN_THRUST[2] = {2.4e5, 1.92e5};
 double MAX_RETRO_THRUST = 4.08e4;
 // Retro engine max vacuum thrust [N] per engine. (x2 for total)
 
-// DG3: hover thrust = 1.35e5
-// ORG: const double MAX_HOVER_THRUST[2] = {1.4e5, 1.1e5};
-// XR1: thrust increased 20% for LOX loadout @ 5 years @ 25% consumption
-// XR1: ...PLUS an extra 8.1% of that for the hovers for the simple flight model to allow vertical takeoff on Earth @ full LOX load on AUTO setting
 double MAX_HOVER_THRUST[2] = {1.81608e5, 1.32e5};
 // Hover engine max vacuum thrust [N] (x2 for total)
 
-// DG3: 2.375
 double MAX_RCS_THRUST = 2.5e3;
 
-// DG3 level: 70000 : XR1 100000 : stock 200000
 double MAX_WHEELBRAKE_FORCE = 1.0e5;
 
 // {DEB} Hydrogen FHV = 1.42e8 J/kg.

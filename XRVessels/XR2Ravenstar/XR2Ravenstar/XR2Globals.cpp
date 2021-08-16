@@ -181,8 +181,6 @@ double RCS_FUEL_CAPACITY = 804.0;
 double APU_FUEL_CAPACITY = 268.0;
 // Max APU fuel capacity [kg]
 
-// DG3: thrust w/turbopump = 1.6e5
-// XR1: thrust increased 20% for LOX loadout @ 5 years @ 25% consumption
 double MAX_MAIN_THRUST[2] = {377.8e3, 302.3e3};
 // Main engine max vacuum thrust [N] per engine. (x2 for total)
 // NOTE: don't need to track main engine damage here since thrust is not set by gimbaling
@@ -190,23 +188,14 @@ double MAX_MAIN_THRUST[2] = {377.8e3, 302.3e3};
 double MAX_RETRO_THRUST = 64.24e3;
 // Retro engine max vacuum thrust [N] per engine. (x2 for total)
 
-// DG3: hover thrust = 1.35e5
-// ORG: const double MAX_HOVER_THRUST[2] = {1.4e5, 1.1e5};
-// XR1: thrust increased 20% for LOX loadout @ 5 years @ 25% consumption
-// XR1: ...PLUS an extra 8.1% of that for the hovers for the simple flight model to allow vertical takeoff on Earth @ full LOX load on AUTO setting
 double MAX_HOVER_THRUST[2] = {285.94e3, 207.83e3};
 // Hover engine max vacuum thrust [N] (x2 for total)
 
-// DG3: 2.375
-// BETA-1 ORG: double MAX_RCS_THRUST = 7.85e3;
 double MAX_RCS_THRUST = 3.93e3;
 
-// DG3 level: 70000 : XR1 100000 : stock 200000
 double MAX_WHEELBRAKE_FORCE = 134.0e3;
 
 // {DEB} Hydrogen FHV = 1.42e8 J/kg.
-// const double SCRAM_FHV[2] = { 2.13e8, 1.42e8 };  // 50% higher for simple model
-// XR1 ORG: 3.5e8, 2.0e8
 // This is the value to set if you want to change the SCRAM engines' ISP.
 // Note: if you update this, update the pref file docs, too.
 double SCRAM_FHV[2] = {4.2e8, 2.4e8};

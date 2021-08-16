@@ -264,7 +264,6 @@ void SetHullTempsPostStep::AddHeat(const double simdt)
         // The only way to fix that is to compute the true air density as it relates to OAT in kelvin and the specific gas constant of air, and I haven't figure out how to do that yet.
 
         // tweakedAtmPressure called leftWingHeatFrac in ASM code
-        // DG3: double tweakedAtmPressure = atmPressure;       // atmospheric pressure in pascals
         // Orbiter forumla: density / 2 * v^3
         // Note: messing with air density is a bitch, so we cheat and just use pressure here.
         double tweakedAtmPressure = atmPressure / 2;       // atmospheric pressure in pascals
@@ -273,7 +272,6 @@ void SetHullTempsPostStep::AddHeat(const double simdt)
         // altitudes (our boundary layer was artifically reducing hull temperatures at high velocities).
         // The boundary insulation layer been removed to keep the hull temp lower across the board and the workingHullHeatingFactor
         // was modified to keep the same target max hull temperature.  This tweak should not require any changes to the subclasses.
-        // DG3: const double tweakedAirspeed = pow(airspeed, 3) * 1.5;
         // ORG prior to the XR2: const double tweakedAirspeed = (airspeed*airspeed*airspeed);  // use explicit mult for efficiency
         const double workingHullHeatingFactor = HULL_HEATING_FACTOR * 0.642; // tweaked very carefully...
         const double tweakedAirspeed = (airspeed*airspeed*airspeed);  
@@ -282,7 +280,6 @@ void SetHullTempsPostStep::AddHeat(const double simdt)
 
         // NOTE: DO NOT SCALE THIS WITH simdt!  We are calculating an ABSOLUTE temperature, not DELTA temperature
         // this is the amount of heat to be added to the leading edges of the ship.
-        // DG3: double degreesK = speedTimesPressure * 1.694915180695206e-10;    
         // ORG: double degreesK = speedTimesPressure * 1.8e-10;
         // NEW value for boundary layer heating support
         double degreesK = speedTimesPressure * workingHullHeatingFactor;

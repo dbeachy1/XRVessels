@@ -63,6 +63,9 @@ public:
 	DeltaGliderXR1(OBJHANDLE hObj, int fmodel, XR1ConfigFileParser *pConfigFileParser);
 	virtual ~DeltaGliderXR1();
 
+    static void VLiftCoeff(VESSEL* v, double aoa, double M, double Re, void* context, double* cl, double* cm, double* cd);
+    static void HLiftCoeff(VESSEL* v, double beta, double M, double Re, void* context, double* cl, double* cm, double* cd);
+
     //
     // Global Orbiter API wrapper functions
     //
@@ -83,8 +86,8 @@ public:
     UMMUCREWMANAGMENT UMmu;  // Universal MMU
 #endif
 
-    // WARNING: EACH SUBCLASS *MUST* OVERRIDE THE FOLLOWING THREE METHODS 
-    // EVEN IF YOU JUST MAKE THEM EMPTY.
+    // NOTE: EACH SUBCLASS SHOULD OVERRIDE THE FOLLOWING THREE METHODS,
+    // EVEN IF YOU JUST MAKE THEM EMPTY, BECAUSE THE BASE CLASS RENDERS XR1-SPECIFIC VISUALS.
     virtual void SetDamageVisuals();     
     virtual void SetPassengerVisuals();  
     virtual DWORD MeshTextureIDToTextureIndex(const int meshTextureID, MESHHANDLE &hMesh);
@@ -110,9 +113,11 @@ public:
 	void ApplyDamage ();
 	void SaveOrbiterRenderWindowPosition();
 	void RestoreOrbiterRenderWindowPosition();
-    void clbkPostCreationCommonXRCode();              // not virtual since it should never be overridden
-    bool ParseXRCommonScenarioLine(char *line);       // not virtual since it should never be overridden
-    void WriteXRCommonScenarioLines(FILEHANDLE scn);  // not virtual since it should never be overridden
+
+    // subclasses should never override these methods
+    virtual void clbkPostCreationCommonXRCode() final;
+    virtual bool ParseXRCommonScenarioLine(char *line) final;
+    virtual void WriteXRCommonScenarioLines(FILEHANDLE scn) final;
 
 	// Overloaded callback functions
 	virtual void clbkSetClassCaps(FILEHANDLE cfg);
@@ -698,7 +703,7 @@ public:
     //=====================================================================
 
     //
-    // XRSound (formerly OrbiterSound)
+    // XRSound
     //
     const char *m_pXRSoundPath;
     XRSound *m_pXRSound;
@@ -895,7 +900,6 @@ public:
         return retVal;
     }
 
-
     static void FormatDouble(const double val, CString &out, const int decimalPlaces);
     void TriggerNavButtonRedraw();
     void FatalError(const char *pMsg);   // show error message box and terminate
@@ -958,8 +962,8 @@ public:
     bool m_backedOutOrbiterCoreAutoRefuelThisFrame;
 
     // Orbiter won't save or load spaces in params, so we work around it
-    void EncodeSpaces(char *pStr);
-    void DecodeSpaces(char *pStr);
+    static void EncodeSpaces(char *pStr);
+    static void DecodeSpaces(char *pStr);
 
     // Inline method to retrieve crew member count
     int GetCrewMembersCount() const

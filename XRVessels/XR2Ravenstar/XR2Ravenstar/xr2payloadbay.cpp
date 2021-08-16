@@ -30,7 +30,7 @@
 #include "XR2PayloadBay.h"
 #include "XRPayloadBaySlot.h"
 
-// Note: all the common payload bay code for XR vessels is in the XR1PayloadBay class
+// Note: all the common payload bay code is in the XR1PayloadBay class
 
 //-------------------------------------------------------------------------
 

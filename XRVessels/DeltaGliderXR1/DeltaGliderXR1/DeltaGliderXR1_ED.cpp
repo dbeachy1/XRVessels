@@ -258,4 +258,3 @@ DLLCLBK void secInit (HWND hEditor, OBJHANDLE vessel)
     EditorPageSpec eps3 = {"Damage", g_hDLL, IDD_EDITOR_PG3, EdPg3Proc};
     SendMessage (hEditor, WM_SCNEDITOR, SE_ADDPAGEBUTTON, reinterpret_cast<LPARAM>(&eps3));
 }
-

@@ -882,5 +882,5 @@ const VECTOR3 HULL_TOUCHDOWN_POINTS[] =
 	NULL
 };
 // TODO: const int HULL_TOUCHDOWN_POINTS_COUNT = sizeof(HULL_TOUCHDOWN_POINTS) / sizeof(VECTOR3);
-const int HULL_TOUCHDOWN_POINTS_COUNT = 0;
+const int HULL_TOUCHDOWN_POINTS_COUNT = 3; // TEMP until real touchdown points are defined
 

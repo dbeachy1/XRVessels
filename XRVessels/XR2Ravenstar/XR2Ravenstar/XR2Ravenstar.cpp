@@ -129,18 +129,10 @@ DLLCLBK void ovcExit(VESSEL2 *vessel)
 static void VLiftCoeff (VESSEL *v, double aoa, double M, double Re, void *context, double *cl, double *cm, double *cd)
 {
     const int nabsc = 9;
-    // ORG: static const double AOA[nabsc] = {-180*RAD,-60*RAD,-30*RAD, -2*RAD, 15*RAD,20*RAD,25*RAD,60*RAD,180*RAD};
-    // DG3 follows:
     static const double AOA[nabsc] =         {-180*RAD,-60*RAD,-30*RAD, -1*RAD, 15*RAD,20*RAD,25*RAD,50*RAD,180*RAD};
 
-    // ORG: static const double CL[nabsc]  = {       0,      0,   -0.4,      0,    0.7,     1,   0.8,     0,      0};
-    // DG3 follows:
-    // NEW: static const double CL[nabsc]  = {       0,      0,   -0.4,      0,    0.7,     1,   0.2,     0,      0};
-    // XR1 ORG: static const double CL[nabsc]  =         {       0,      0,   -0.4,      0,    0.7,     0.5, 0.2,     0,      0};
     static const double CL[nabsc]  =         {       0,      0,   -0.15,      0,    0.7,     0.5, 0.2,     0,      0};  // decrease negative lift to better hold negative pitch
 
-    // ORG: static const double CM[nabsc]  = {       0,      0,  0.014, 0.0039, -0.006,-0.008,-0.010,     0,      0};
-    // DG3 follows:
     static const double CM[nabsc]  =         {       0,  0.006,  0.014, 0.0034,-0.0054,-0.024,-0.00001,   0,      0};
 
     int i=0;    
@@ -150,19 +142,15 @@ static void VLiftCoeff (VESSEL *v, double aoa, double M, double Re, void *contex
     *cm = CM[i] + (CM[i+1]-CM[i]) * f;  // aoa-dependent moment coefficient
     double saoa = sin(aoa);
     double pd = PROFILE_DRAG + 0.4*saoa*saoa;  // profile drag
-    // DG3: these values are unchanged
-    *cd = pd + oapiGetInducedDrag (*cl, WING_ASPECT_RATIO, WING_EFFICIENCY_FACTOR) + oapiGetWaveDrag (M, 0.75, 1.0, 1.1, 0.04);
     // profile drag + (lift-)induced drag + transonic/supersonic wave (compressibility) drag
+    *cd = pd + oapiGetInducedDrag (*cl, WING_ASPECT_RATIO, WING_EFFICIENCY_FACTOR) + oapiGetWaveDrag (M, 0.75, 1.0, 1.1, 0.04);
 }
 
 // 2. horizontal lift component (vertical stabilisers and body)
-
 static void HLiftCoeff (VESSEL *v, double beta, double M, double Re, void *context, double *cl, double *cm, double *cd)
 {
     const int nabsc = 8;
-    // DG3 BETA unchanged
     static const double BETA[nabsc] = {-180*RAD,-135*RAD,-90*RAD,-45*RAD,45*RAD,90*RAD,135*RAD,180*RAD};
-    // DG3 CL unchanged
     static const double CL[nabsc]   = {       0,    +0.3,      0,   -0.3,  +0.3,     0,   -0.3,      0};
 
     int i=0;    
@@ -230,9 +218,9 @@ void XR2Ravenstar::clbkSetClassCaps (FILEHANDLE cfg)
     // *************** physical parameters **********************
     ramjet = new XR1Ramjet(this);
 
-    VESSEL2::SetEmptyMass(EMPTY_MASS);   // 12000 matches DG3
+    VESSEL2::SetEmptyMass(EMPTY_MASS);
 
-    // slightly too small for bow shock: SetSize (9.475);     // DG3 = 9.0 meters radius
+    // slightly too small for bow shock: SetSize (9.475);
     SetSize (11.955);     // length / 2
     SetVisibilityLimit (7.5e-4, 1.5e-3);
     SetAlbedoRGB (_V(0.77,0.77,0.77));  // gray

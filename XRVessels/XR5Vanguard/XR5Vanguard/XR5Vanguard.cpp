@@ -114,19 +114,10 @@ DLLCLBK void ovcExit(VESSEL2 *vessel)
 void VLiftCoeff (VESSEL *v, double aoa, double M, double Re, void *context, double *cl, double *cm, double *cd)
 {
     const int nabsc = 9;
-    // ORG: static const double AOA[nabsc] = {-180*RAD,-60*RAD,-30*RAD, -2*RAD, 15*RAD,20*RAD,25*RAD,60*RAD,180*RAD};
-    // DG3 follows:
     static const double AOA[nabsc] =         {-180*RAD,-60*RAD,-30*RAD, -1*RAD, 15*RAD,20*RAD,25*RAD,50*RAD,180*RAD};
 
-    // ORG: static const double CL[nabsc]  = {       0,      0,   -0.4,      0,    0.7,     1,   0.8,     0,      0};
-    // DG3 follows:
-    // NEW: static const double CL[nabsc]  = {       0,      0,   -0.4,      0,    0.7,     1,   0.2,     0,      0};
-    // XR5 ORG: static const double CL[nabsc]  =         {       0,      0,   -0.4,      0,    0.7,     0.5, 0.2,     0,      0};
     static const double CL[nabsc]  =         {       0,      0,   -0.15,      0,    0.7,     0.5, 0.2,     0,      0};  // decrease negative lift to fix nose-down attitude hold problems
 
-    // ORG: static const double CM[nabsc]  = {       0,      0,  0.014, 0.0039, -0.006,-0.008,-0.010,     0,      0};
-    // DG3 follows:
-    //static const double CM[nabsc]  =         {       0,  0.006,  0.014, 0.0034,-0.0054,-0.024,-0.00001,   0,      0};
     static const double CM[nabsc]  =         {       0,      0,  0.014, 0.0039, -0.006,-0.008,-0.010,     0,      0};
 
     int i=0;    
@@ -145,9 +136,7 @@ void VLiftCoeff (VESSEL *v, double aoa, double M, double Re, void *context, doub
 void HLiftCoeff (VESSEL *v, double beta, double M, double Re, void *context, double *cl, double *cm, double *cd)
 {
     const int nabsc = 8;
-    // DG3 BETA unchanged
     static const double BETA[nabsc] = {-180*RAD,-135*RAD,-90*RAD,-45*RAD,45*RAD,90*RAD,135*RAD,180*RAD};
-    // DG3 CL unchanged
     static const double CL[nabsc]   = {       0,    +0.3,      0,   -0.3,  +0.3,     0,   -0.3,      0};
 
     int i=0;    
@@ -571,7 +560,7 @@ void XR5Vanguard::clbkSetClassCaps (FILEHANDLE cfg)
     
     
     // ref vector is 1 meter behind the vertical stabilizers
-    hElevator = CreateControlSurface2(AIRCTRL_ELEVATOR,     40.32, 1.4, _V(   0,0,-21.2), AIRCTRL_AXIS_XPOS, anim_elevator);  // MATCH DG3 FOR REENTRY TESTING
+    hElevator = CreateControlSurface2(AIRCTRL_ELEVATOR,     40.32, 1.4, _V(   0,0,-21.2), AIRCTRL_AXIS_XPOS, anim_elevator);
 
     CreateControlSurface (AIRCTRL_RUDDER,      96.68, 1.5, _V(   0,0,-21.2), AIRCTRL_AXIS_YPOS, anim_rudder);
 
@@ -792,28 +781,21 @@ void XR5Vanguard::ReinitializeDamageableControlSurfaces()
 {
     if (hElevator == 0)
     {
-        // ORG:     CreateControlSurface (AIRCTRL_ELEVATOR,     1.4, 1.5, _V(   0,0,-7.2), AIRCTRL_AXIS_XPOS, anim_elevator);
-        // DG3:     CreateControlSurface (AIRCTRL_ELEVATOR,     1.2, 1.4, _V(   0,0,-7.2), AIRCTRL_AXIS_XPOS, anim_elevator);  // matches DG3
-        // BETA-1:  CreateControlSurface (AIRCTRL_ELEVATOR,     1.4, 1.4, _V(   0,0,-7.2), AIRCTRL_AXIS_XPOS, anim_elevator);  // COG point matches DG3, but keep stock area
         hElevator = CreateControlSurface2(AIRCTRL_ELEVATOR,     1.2 * XR1Multiplier * 3, 1.4, _V(   0,0, m_ctrlSurfacesDeltaZ), AIRCTRL_AXIS_XPOS, anim_elevator);
     }
 
     if (hLeftAileron == 0)
     {
-        // ORG: hLeftAileron = CreateControlSurface2 (AIRCTRL_AILERON, 0.3, 1.5, _V( 7.5,0,-7.2), AIRCTRL_AXIS_XPOS, anim_raileron);
         hLeftAileron = CreateControlSurface2 (AIRCTRL_AILERON, 0.2 * XR1Multiplier * 2, 1.5, _V( m_aileronDeltaX, 0, m_ctrlSurfacesDeltaZ), AIRCTRL_AXIS_XPOS, anim_raileron);
     }
 
     if (hRightAileron == 0)
     {
-        // ORG: hRightAileron = CreateControlSurface2 (AIRCTRL_AILERON, 0.3, 1.5, _V(-7.5,0,-7.2), AIRCTRL_AXIS_XNEG, anim_laileron);
         hRightAileron = CreateControlSurface2 (AIRCTRL_AILERON, 0.2 * XR1Multiplier * 2, 1.5, _V(-m_aileronDeltaX, 0, m_ctrlSurfacesDeltaZ), AIRCTRL_AXIS_XNEG, anim_laileron);
     }
     
     if (hElevatorTrim == 0)
     {
-        // XR5 ORG: CreateControlSurface(AIRCTRL_ELEVATORTRIM, 0.3 * XR1Multiplier * 7, 1.5, _V(   0,0, controlSurfacesDeltaZ), AIRCTRL_AXIS_XPOS, anim_elevatortrim);
-        // NOTE: increased this area to assist the autopilot in maintaining flight control in an atmosphere.
         hElevatorTrim = CreateControlSurface2 (AIRCTRL_ELEVATORTRIM, 0.3 * XR1Multiplier * 7, 1.5, _V(   0,0, m_ctrlSurfacesDeltaZ), AIRCTRL_AXIS_XPOS, anim_elevatortrim);
     }
 }
