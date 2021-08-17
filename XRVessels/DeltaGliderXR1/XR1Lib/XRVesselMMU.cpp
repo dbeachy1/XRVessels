@@ -24,6 +24,8 @@
 // ==============================================================
 
 #include "DeltaGliderXR1.h"
+#include "XR1PreSteps.h"
+#include "AreaIDs.h"
 
 // perform an EVA for the specified crew member
 // Returns: true on success, false on error (crew member not present or outer airlock door is closed)
@@ -520,5 +522,57 @@ int DeltaGliderXR1::KillCrew()
     return crewMembersKilled;
 #else
     return MAX_PASSENGERS;
+#endif
+}
+
+MmuPreStep::MmuPreStep(DeltaGliderXR1& vessel) :
+    XR1PrePostStep(vessel)
+{
+}
+
+// Prestep invoked every frame
+void MmuPreStep::clbkPrePostStep(const double simt, const double simdt, const double mjd)
+{
+#ifdef MMU
+    // set the airlock status so the MMU knows about it; NOTE: only check the OUTER door here because we are likely opening to vacuum!
+    // No need to check for a full ship here, since UMmu handles that for us.
+    bool airlockOpen = (*GetXR1().m_pActiveAirlockDoorStatus == DoorStatus::DOOR_OPEN);
+    GetXR1().UMmu.SetAirlockDoorState(airlockOpen);
+
+    // NOTE: MMU crew member will only reenter the ship if airlockOpen == true, so no need to check it here
+    int mmuReenteredShip = GetXR1().UMmu.ProcessUniversalMMu();	// return 0 if no Mmu else another number if one Mmu just reentered the ship
+    if ((mmuReenteredShip == UMMU_TRANSFERED_TO_OUR_SHIP) || (mmuReenteredShip == UMMU_RETURNED_TO_OUR_SHIP))
+    {
+        const char* pName = CONST_UMMU(&GetXR1()).GetLastEnteredCrewName();
+
+        // EVA reentry successful!  Show a message.
+        char msg[120];
+        sprintf(msg, "Crew member '%s'&ingressed successfully!", pName);
+        GetXR1().ShowInfo("Ingress Successful.wav", DeltaGliderXR1::ST_InformationCallout, msg);
+
+        // force the inner airlock door CLOSED if the O2 levels are 0.0 in case some dumb-dumb killed the crew by decompressing the ship earlier...
+        // NOTE: O2 levels will be fixed automatically below
+        if (GetXR1().m_cabinO2Level == 0.0)
+        {
+            // ignore APU checks for these; these need to happen instantly!
+            GetXR1().ForceActivateInnerAirlock(DOOR_CLOSED);
+            GetXR1().ForceActivateCabinHatch(DOOR_CLOSED);
+        }
+
+        // NOTE: if the crew is currently DEAD or INCAPACITATED, it means that we now have a crew on board again! 
+        // NOTE: if any crew member DIED we already removed him from the ship, so it's OK to revive any incapacitated crew members here
+        GetXR1().m_crewState = OK;  // fix INCAPACITATED, since we'll assume the new guy revived the incapacitated members
+        GetXR1().m_cabinO2Level = NORMAL_O2_LEVEL;  // he fixed the O2 levels
+
+        // remove any CREW DEAD message from the HUD; must clear both the PERSISTED msg (crashMessage) and CURRENT (non-persisted) message
+        *GetXR1().m_crashMessage = *GetXR1().m_hudWarningText = 0;
+
+        // update crew display to show the new member
+        GetXR1().m_crewDisplayIndex = GetXR1().GetUMmuSlotNumberForName(pName);
+        GetXR1().TriggerRedrawArea(AID_CREW_DISPLAY);
+
+        // update passenger visuals since we just gained a new crew member
+        GetXR1().SetPassengerVisuals();
+    }
 #endif
 }

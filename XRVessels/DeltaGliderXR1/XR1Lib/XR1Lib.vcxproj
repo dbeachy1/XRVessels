@@ -195,6 +195,12 @@
     <ClCompile Include="XR1AnimationPostStep.cpp" />
     <ClCompile Include="XR1Animations.cpp" />
     <ClCompile Include="XR1Areas.cpp" />
+    <ClCompile Include="XR1AreasBars.cpp" />
+    <ClCompile Include="XR1AreasButtons.cpp" />
+    <ClCompile Include="XR1AreasGauges.cpp" />
+    <ClCompile Include="XR1AreasLEDs.cpp" />
+    <ClCompile Include="XR1AreasNumbers.cpp" />
+    <ClCompile Include="XR1AreasSwitches.cpp" />
     <ClCompile Include="XR1ConfigFileParser.cpp" />
     <ClCompile Include="XR1EngineDisplayComponent.cpp" />
     <ClCompile Include="XR1FuelDisplayComponent.cpp" />
@@ -213,6 +219,10 @@
     <ClCompile Include="XR1PayloadScreenAreas.cpp" />
     <ClCompile Include="XR1PostSteps.cpp" />
     <ClCompile Include="XR1PreSteps.cpp" />
+    <ClCompile Include="XR1PrestepsAirspeedHold.cpp" />
+    <ClCompile Include="XR1PrestepsAttitudeHold.cpp" />
+    <ClCompile Include="XR1PrestepsCallouts.cpp" />
+    <ClCompile Include="XR1PrestepsDescentHold.cpp" />
     <ClCompile Include="XR1Ramjet.cpp" />
     <ClCompile Include="XR1ThrottleQuadrantComponents.cpp" />
     <ClCompile Include="XR1UpperPanelAreas.cpp" />

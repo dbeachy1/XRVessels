@@ -345,6 +345,7 @@
     <ClCompile Include="XR3Phoenix_DMG.cpp" />
     <ClCompile Include="XR3Phoenix_ED.cpp" />
     <ClCompile Include="XR3Phoenix_IO.cpp" />
+    <ClCompile Include="XR3VesselCallbacks.cpp" />
     <ClCompile Include="XR3VesselCtrl.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -346,6 +346,7 @@
     <ClCompile Include="XR2Ravenstar_IO.cpp" />
     <ClCompile Include="XR2Ravenstar_VC.cpp" />
     <ClCompile Include="XR2VCInstrumentPanels.cpp" />
+    <ClCompile Include="XR2VesselCallbacks.cpp" />
     <ClCompile Include="XR2VesselCtrl.cpp" />
   </ItemGroup>
   <ItemGroup>
