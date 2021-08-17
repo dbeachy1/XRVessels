@@ -158,7 +158,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>$(SolutionDir)\framework\framework;$(ORBITER_ROOT)\Orbitersdk\include;$(ORBITER_ROOT)\Orbitersdk\XRSound;$(SolutionDir)\DeltaGliderXR1\XR1Lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\framework\framework;$(ORBITER_ROOT_RELEASE)\Orbitersdk\include;$(ORBITER_ROOT_RELEASE)\Orbitersdk\XRSound;$(SolutionDir)\DeltaGliderXR1\XR1Lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;WIN32_LEAN_AND_MEAN;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -172,7 +172,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>XRSound.lib;orbiter.lib;dlgctrl.lib;orbitersdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ORBITER_ROOT)\Orbitersdk\lib;$(ORBITER_ROOT)\Orbitersdk\XRSound;$(SolutionDir)\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ORBITER_ROOT_RELEASE)\Orbitersdk\lib;$(ORBITER_ROOT_RELEASE)\Orbitersdk\XRSound;$(SolutionDir)\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -184,7 +184,7 @@
     </Link>
     <PostBuildEvent>
       <Message>Copying DLL to Orbiter\Modules directory...</Message>
-      <Command>copy $(OutDir)\XR2Ravenstar.dll $(ORBITER_ROOT)\Modules\* /y &amp;&amp; copy $(SolutionDir)\XR2Ravenstar\XR2RavenstarPrefs.cfg $(ORBITER_ROOT)\Config\* /y</Command>
+      <Command>copy $(OutDir)\XR2Ravenstar.dll $(ORBITER_ROOT_RELEASE)\Modules\* /y &amp;&amp; copy $(SolutionDir)\XR2Ravenstar\XR2RavenstarPrefs.cfg $(ORBITER_ROOT_RELEASE)\Config\* /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -196,7 +196,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>$(SolutionDir)\framework\framework;$(ORBITER_ROOT_X64)\Orbitersdk\include;$(ORBITER_ROOT_X64)\Orbitersdk\XRSound;$(SolutionDir)\DeltaGliderXR1\XR1Lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\framework\framework;$(ORBITER_ROOT_RELEASE_X64)\Orbitersdk\include;$(ORBITER_ROOT_RELEASE_X64)\Orbitersdk\XRSound;$(SolutionDir)\DeltaGliderXR1\XR1Lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;WIN32_LEAN_AND_MEAN;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -210,7 +210,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>XRSound.lib;orbiter.lib;dlgctrl.lib;orbitersdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ORBITER_ROOT_X64)\Orbitersdk\lib;$(ORBITER_ROOT_X64)\Orbitersdk\XRSound;$(SolutionDir)\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ORBITER_ROOT_RELEASE_X64)\Orbitersdk\lib;$(ORBITER_ROOT_RELEASE_X64)\Orbitersdk\XRSound;$(SolutionDir)\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -221,7 +221,7 @@
     </Link>
     <PostBuildEvent>
       <Message>Copying DLL to Orbiter\Modules directory...</Message>
-      <Command>copy $(OutDir)\XR2Ravenstar.dll $(ORBITER_ROOT_X64)\Modules\* /y &amp;&amp; copy $(SolutionDir)\XR2Ravenstar\XR2RavenstarPrefs.cfg $(ORBITER_ROOT_X64)\Config\* /y</Command>
+      <Command>copy $(OutDir)\XR2Ravenstar.dll $(ORBITER_ROOT_RELEASE_X64)\Modules\* /y &amp;&amp; copy $(SolutionDir)\XR2Ravenstar\XR2RavenstarPrefs.cfg $(ORBITER_ROOT_RELEASE_X64)\Config\* /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

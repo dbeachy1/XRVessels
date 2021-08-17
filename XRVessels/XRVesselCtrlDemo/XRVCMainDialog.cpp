@@ -141,7 +141,7 @@ close_window:
             // notify our parent that we are closing
             s_pSingleton->clbkHelpWindowClosed();
             oapiCloseDialog(hDlg);
-	        break;   // fall through to default windproc
+            return TRUE;
     }
     return oapiDefDialogProc(hDlg, uMsg, wParam, lParam);
 }

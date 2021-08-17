@@ -33,7 +33,11 @@
 #include "XRVCClient.h"
 #include "XRVCScriptThread.h"
 
-#define VERSION "XRVesselCtrlDemo 3.2"
+// {XXX} UPDATE THIS FOR THE CURRENT BUILD VERSION; DO NOT REMOVE THIS {XXX} COMMENT
+// NOTE: be sure to also update the version to match in the following files:
+//      XRVEsselCtrlDemo.rc (both CAPTION and MODULE_DESC)
+//      XRVesselCtrl.h
+#define VERSION "XRVesselCtrlDemo 4.0"
 
 class XRVCMainDialog
 {

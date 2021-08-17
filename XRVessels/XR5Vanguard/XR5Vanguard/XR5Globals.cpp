@@ -38,7 +38,7 @@ const char *VESSELNAME = "XR5Vanguard";
 
 // VERSION ID
 // {XXX} UPDATE THIS FOR THE CURRENT BUILD VERSION; DO NOT REMOVE THIS {XXX} COMMENT
-const char *VERSION = "Version 2.0 Beta-1 [" ARCH_TYPE  "], Build Date : " __DATE__;
+const char* VERSION = "Version 2.0 Beta-1 [" ARCH_TYPE  " " BUILD_TYPE "], Build Date : " __DATE__;
 
 // file is always written to the Orbiter directory
 const char *XR_LOG_FILE = "XR5Vanguard.log";

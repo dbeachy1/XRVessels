@@ -40,6 +40,12 @@ class DeltaGliderXR1;
 #define ARCH_TYPE "32-bit"
 #endif
 
+#ifdef _DEBUG
+#define BUILD_TYPE "Debug"
+#else
+#define BUILD_TYPE "Release"
+#endif
+
 // version globals
 extern const char *VESSELNAME;
 extern const char *VERSION;

@@ -82,10 +82,10 @@ call :copyfile %orbiterdir%\config\vessels\Altea_Default_Payload_Thumbnail.bmp  
 call :copyfile %orbiterdir%\meshes\XRPayloadBay.msh                       %workdir%\meshes\*
 
 @rem these two sets of files, although free, cannot be open-source due to copyright
-call :copyfile "%ORBITER_ROOT_X64%\meshes\XR2Ravenstar\*.msh"             %workdir%\meshes\XR2Ravenstar\*
-set src=%ORBITER_ROOT_X64%\textures\XR2Ravenstar\*.dds
+call :copyfile "%ORBITER_ROOT_RELEASE_X64%\meshes\XR2Ravenstar\*.msh"     %workdir%\meshes\XR2Ravenstar\*
+set src=%ORBITER_ROOT_RELEASE_X64%\textures\XR2Ravenstar\*.dds
 if not exist "%src%" goto :not_found
-xcopy "%ORBITER_ROOT_X64%\textures\XR2Ravenstar\*.dds"                    %workdir%\textures\XR2Ravenstar\* /s
+xcopy "%ORBITER_ROOT_RELEASE_X64%\textures\XR2Ravenstar\*.dds"            %workdir%\textures\XR2Ravenstar\* /s
 
 xcopy "%orbiterdir%\scenarios\XR2 Ravenstar\*.scn"                        "%workdir%\scenarios\XR2 Ravenstar\*" /s
 
