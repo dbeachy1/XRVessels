@@ -28,27 +28,27 @@ If you're looking for an excellent GUI that makes working with Git easier, I rec
 
 5. Create six environment variables, either in your Windows environment settings or by adding them to `XRVessels\GlobalShared.props`.
 
-* `ORBITER_ROOT` => your 32-bit Debug Orbiter root folder
-* `ORBITER_ROOT_X64` => your 64-bit Debug Orbiter root folder
+* `ORBITER_ROOT` => your 32-bit Debug* Orbiter root folder
+* `ORBITER_ROOT_X64` => your 64-bit Debug* Orbiter root folder
 * `ORBITER_ROOT_RELEASE` => your 32-bit Release Orbiter root folder
 * `ORBITER_ROOT_RELEASE_X64` => your 64-bit Release Orbiter root folder
 * `ORBITER_EXE` => `path\filename` relative to Orbiter root folder of your preferred 32-bit Orbiter executable; e.g., `orbiter.exe`
 * `ORBITER_EXE_X64` => `path\filename` relative to Orbiter root folder of your preferred 64-bit Orbiter executable; e.g., `Modules\Server\orbiter.exe`
 
-6. Install or build 32-bit Debug Orbiter to `%ORBITER_ROOT%`.
-7. Install or build 64-bit Debug Orbiter to `%ORBITER_ROOT_X64%`.
-6. Install or build 32-bit Release Orbiter to `%ORBITER_ROOT_RELEASE%`.
-7. Install or build 64-bit Release Orbiter to `%ORBITER_ROOT_RELEASE_X64%`.
+6. Install or build 32-bit Debug* Orbiter to `%ORBITER_ROOT%`.
+7. Install or build 64-bit Debug* Orbiter to `%ORBITER_ROOT_X64%`.
+8. Install or build 32-bit Release Orbiter to `%ORBITER_ROOT_RELEASE%`.
+9. Install or build 64-bit Release Orbiter to `%ORBITER_ROOT_RELEASE_X64%`.
 
-Note: you can always compile and test debug (as well as release) versions of the XR vessels against _release_ builds of Orbiter, so can always set `ORBITER_ROOT` to match `ORBITER_ROOT_RELEASE` and `ORBITER_ROOT_X64` to match `ORBITER_ROOT_RELEASE_X64` if you prefer.
+\* Note: you can always compile and test debug (as well as release) versions of the XR vessels against _release_ builds of Orbiter, so can always set `ORBITER_ROOT` to match `ORBITER_ROOT_RELEASE` and `ORBITER_ROOT_X64` to match `ORBITER_ROOT_RELEASE_X64` if you prefer.
 
-8. Download and install the latest XR vessels binary packages for all the vessels versions you want to build from https://www.alteaaerospace.com. This is necessary so that the associated meshes, etc. are installed to their correct locations under Orbiter so that you can run the XR vessel DLLs you will build.
+10. Download and install the latest XR vessels binary packages for all the vessels versions you want to build from https://www.alteaaerospace.com. This is necessary so that the associated meshes, etc. are installed to their correct locations under Orbiter so that you can run the XR vessel DLLs you will build.
 
 Now you are ready to compile and link the XR Vessels.
 
-14. Bring up Visual Studio 2019 and open the solution `XRVessels\XRVessels.sln`.
-15. Set the desired build target (e.g., `Debug x64`) and click `Build -> Rebuild Solution`; this will build all the XR vessel DLLs and copy both the DLLs and the `<vessel name>.cfg` file for each vessel to their proper locations under `%ORBITER_ROOT%`, `%ORBITER_ROOT_64`, `%ORBITER_ROOT_RELEASE%`, or `%ORBITER_ROOT_RELEASE_64` via Post-Build Events. If you get any build errors, double-check that the above environment variables are set correctly and that you restarted Visual Studio 2019 _after_ you defined those environment variables.
-16. After the build succeeds, click `Debug -> Start Debugging` to bring up Orbiter under the Visual Studio debugger, then load your desired XR vessel scenario. You can now debug the XR vessels you just built.
+11. Bring up Visual Studio 2019 and open the solution `XRVessels\XRVessels.sln`.
+12. Set the desired build target (e.g., `Debug x64`) and click `Build -> Rebuild Solution`; this will build all the XR vessel DLLs and copy both the DLLs and the `<vessel name>.cfg` file for each vessel to their proper locations under `%ORBITER_ROOT%`, `%ORBITER_ROOT_64`, `%ORBITER_ROOT_RELEASE%`, or `%ORBITER_ROOT_RELEASE_64` via Post-Build Events. If you get any build errors, double-check that the above environment variables are set correctly and that you restarted Visual Studio 2019 _after_ you defined those environment variables.
+13. After the build succeeds, click `Debug -> Start Debugging` to bring up Orbiter under the Visual Studio debugger, then load your desired XR vessel scenario. You can now debug the XR vessels you just built.
 
 For more information and support about Orbiter and the XR vessels, visit https://www.orbiter-forum.com/.
 
