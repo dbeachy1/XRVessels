@@ -37,7 +37,7 @@ PopupHUDArea::PopupHUDArea(InstrumentPanel& parentPanel, const COORD2 panelCoord
     m_pen0(0), m_state(OnOffState::Off), m_startScrollTime(-1), m_startScrollY(-1), m_movement(0), m_hBackgroundBrush(0),
     m_width(width), m_height(height), m_colorRef(0), m_bgColorRef(0), m_hlColorRef(0),
     m_topYCoordinate(height),  // HUD is OFF (one pixel off-area)
-    m_lastRenderedTopYCoordinate(-1)
+    m_lastRenderedTopYCoordinate(-1), m_pTextBox(nullptr)
 {
 }
 

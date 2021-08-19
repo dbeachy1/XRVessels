@@ -39,7 +39,7 @@ VESSEL3_EXT::VESSEL3_EXT(OBJHANDLE vessel, int fmodel) :
     XRVesselCtrl(vessel, fmodel),
     m_hModule(nullptr), m_hasFocus(false), exmesh_tpl(nullptr),
 	m_videoWindowWidth(0), m_videoWindowHeight(0), m_lastVideoWindowWidth(-1), m_last2DPanelWidth(0),
-    m_absoluteSimTime(0)
+    m_absoluteSimTime(0), m_pConfig(nullptr)
 {
 	m_regKeyManager.Initialize(HKEY_CURRENT_USER, XR_GLOBAL_SETTINGS_REG_KEY, nullptr);   // should always succeed
 }

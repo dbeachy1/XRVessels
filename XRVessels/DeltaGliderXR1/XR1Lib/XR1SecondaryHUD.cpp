@@ -218,6 +218,7 @@ void SecondaryHUDArea::PopulateCell(SecondaryHUDMode::Cell& cell)
     const Units units = cell.units;
     double value = 0;   // reused below
     char valueStr[128];     // be sure that we never overrun the value buffer
+    *valueStr = 0;
 
     switch (fieldID)
     {

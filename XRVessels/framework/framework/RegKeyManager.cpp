@@ -29,7 +29,7 @@
 
 // Constructor
 RegKeyManager::RegKeyManager() :
-    m_hKey(nullptr), m_bInitialized(false)
+    m_hKey(nullptr), m_bInitialized(false), m_hOwnerWindow(0), m_pSubkeyPath(nullptr)
 {
 }
 
