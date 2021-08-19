@@ -13,9 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="Source Files\MultiDisplayArea">
+      <UniqueIdentifier>{e2176f9e-f9a5-4d59-b304-e6f65a5850f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PostSteps">
+      <UniqueIdentifier>{eeb9da22-85ed-4ead-8090-1ed733fce2d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PreSteps">
+      <UniqueIdentifier>{c9d7d167-90b2-4044-bc1b-79e30749f61d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\XRVessel">
+      <UniqueIdentifier>{5ad87e94-f624-442a-8fe0-d0f9ccd16d31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HUD">
+      <UniqueIdentifier>{6de2de6a-d77e-4365-9668-4bfccfb6929c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DeltaGliderXR1_DMG.cpp">
+    <ClCompile Include="DeltaGliderXR1_DMGApply.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DeltaGliderXR1_IO.cpp">
@@ -27,16 +42,10 @@
     <ClCompile Include="SecondaryHUDData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SubclassPreSteps.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TextBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XR1AngularDataComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XR1AnimationPostStep.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XR1Animations.cpp">
@@ -52,12 +61,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XR1FuelDisplayComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XR1FuelPostSteps.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XR1HUD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XR1InstrumentPanels.cpp">
@@ -81,9 +84,6 @@
     <ClCompile Include="XR1MFDComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="XR1MultiDisplayArea.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="XR1PayloadBay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -91,12 +91,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XR1PayloadScreenAreas.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XR1PostSteps.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XR1PreSteps.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XR1Ramjet.cpp">
@@ -117,55 +111,10 @@
     <ClCompile Include="XR1VesselCtrl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="XRVessel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="XRCommon_IO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="XRVesselStatic.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XRVesselCallbacks.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XRVesselSound.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XRVesselMMU.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XRVesselUtils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XRVesselHatches.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XRVesselAutopilotUtils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XRVesselDoors.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XRVesselPropellant.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XRVesselBalance.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XRVesselResupply.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XR1PrestepsAttitudeHold.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XR1PrestepsDescentHold.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XR1PrestepsAirspeedHold.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XR1PrestepsCallouts.cpp">
+    <ClCompile Include="XR1VesselCallbacks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XR1AreasSwitches.cpp">
@@ -184,6 +133,117 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XR1AreasBars.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1StartupCallbacks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1MultiDisplayArea.cpp">
+      <Filter>Source Files\MultiDisplayArea</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1MDAAirspeedHoldMode.cpp">
+      <Filter>Source Files\MultiDisplayArea</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1MDADescentHoldMode.cpp">
+      <Filter>Source Files\MultiDisplayArea</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1MDAHullTempsMode.cpp">
+      <Filter>Source Files\MultiDisplayArea</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1MDAReentryCheckMode.cpp">
+      <Filter>Source Files\MultiDisplayArea</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1MDASystermStatusMode.cpp">
+      <Filter>Source Files\MultiDisplayArea</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1MDAAttitudeHoldMode.cpp">
+      <Filter>Source Files\MultiDisplayArea</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1PreSteps.cpp">
+      <Filter>Source Files\PreSteps</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1PreStepsAirspeedHold.cpp">
+      <Filter>Source Files\PreSteps</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1PreStepsAttitudeHold.cpp">
+      <Filter>Source Files\PreSteps</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1PreStepsCallouts.cpp">
+      <Filter>Source Files\PreSteps</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1PreStepsDescentHold.cpp">
+      <Filter>Source Files\PreSteps</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1PostStepsHullTemps.cpp">
+      <Filter>Source Files\PostSteps</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1PostStepsAPU.cpp">
+      <Filter>Source Files\PostSteps</Filter>
+    </ClCompile>
+    <ClCompile Include="SubclassPreSteps.cpp">
+      <Filter>Source Files\PreSteps</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1PostStepsAnimation.cpp">
+      <Filter>Source Files\PostSteps</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1PostStepsFuel.cpp">
+      <Filter>Source Files\PostSteps</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1PostStepsResupply.cpp">
+      <Filter>Source Files\PostSteps</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1PostSteps.cpp">
+      <Filter>Source Files\PostSteps</Filter>
+    </ClCompile>
+    <ClCompile Include="XRVesselUtils.cpp">
+      <Filter>Source Files\XRVessel</Filter>
+    </ClCompile>
+    <ClCompile Include="XRVessel.cpp">
+      <Filter>Source Files\XRVessel</Filter>
+    </ClCompile>
+    <ClCompile Include="XRVesselAutopilotUtils.cpp">
+      <Filter>Source Files\XRVessel</Filter>
+    </ClCompile>
+    <ClCompile Include="XRVesselBalance.cpp">
+      <Filter>Source Files\XRVessel</Filter>
+    </ClCompile>
+    <ClCompile Include="XRVesselDoors.cpp">
+      <Filter>Source Files\XRVessel</Filter>
+    </ClCompile>
+    <ClCompile Include="XRVesselHatches.cpp">
+      <Filter>Source Files\XRVessel</Filter>
+    </ClCompile>
+    <ClCompile Include="XRVesselMMU.cpp">
+      <Filter>Source Files\XRVessel</Filter>
+    </ClCompile>
+    <ClCompile Include="XRVesselPropellant.cpp">
+      <Filter>Source Files\XRVessel</Filter>
+    </ClCompile>
+    <ClCompile Include="XRVesselResupply.cpp">
+      <Filter>Source Files\XRVessel</Filter>
+    </ClCompile>
+    <ClCompile Include="XRVesselSound.cpp">
+      <Filter>Source Files\XRVessel</Filter>
+    </ClCompile>
+    <ClCompile Include="XRVesselStatic.cpp">
+      <Filter>Source Files\XRVessel</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1HUD.cpp">
+      <Filter>Source Files\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1SecondaryHUD.cpp">
+      <Filter>Source Files\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1TertiaryHUD.cpp">
+      <Filter>Source Files\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1PopupHudBase.cpp">
+      <Filter>Source Files\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="XR1VCInstrumentPanels.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DeltaGliderXR1_DMGCheck.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

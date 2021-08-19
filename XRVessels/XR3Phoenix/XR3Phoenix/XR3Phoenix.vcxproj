@@ -332,6 +332,7 @@
   <ItemGroup>
     <ClCompile Include="XR3Animations.cpp" />
     <ClCompile Include="XR3Areas.cpp" />
+    <ClCompile Include="XR3VesselCallbacks.cpp" />
     <ClCompile Include="XR3Components.cpp" />
     <ClCompile Include="XR3ConfigFileParser.cpp" />
     <ClCompile Include="XR3Globals.cpp" />
@@ -345,7 +346,7 @@
     <ClCompile Include="XR3Phoenix_DMG.cpp" />
     <ClCompile Include="XR3Phoenix_ED.cpp" />
     <ClCompile Include="XR3Phoenix_IO.cpp" />
-    <ClCompile Include="XR3VesselCallbacks.cpp" />
+    <ClCompile Include="XR3StartupCallbacks.cpp" />
     <ClCompile Include="XR3VesselCtrl.cpp" />
   </ItemGroup>
   <ItemGroup>

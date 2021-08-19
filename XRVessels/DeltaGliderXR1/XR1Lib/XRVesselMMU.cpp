@@ -20,7 +20,7 @@
 **/
 
 // ==============================================================
-// Handles XR vessel MMU logic
+// Handles XR vessel common MMU logic
 // ==============================================================
 
 #include "DeltaGliderXR1.h"

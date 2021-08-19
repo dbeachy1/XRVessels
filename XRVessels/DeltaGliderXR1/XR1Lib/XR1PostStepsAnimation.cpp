@@ -20,12 +20,6 @@
 **/
 
 // ==============================================================
-// XR1 Base Class Library
-// These classes extend and use the XR Framework classes
-//
-// XR1AnimationPostStep.cpp
-// Handles all animation PostStep tasks.
-// ==============================================================
 
 #include "XR1AnimationPostStep.h"
 #include "AreaIDs.h"

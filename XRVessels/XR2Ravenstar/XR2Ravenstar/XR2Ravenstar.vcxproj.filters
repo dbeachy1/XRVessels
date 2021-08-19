@@ -348,5 +348,8 @@
     <ClCompile Include="XR2VesselCallbacks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="XR2StartupCallbacks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

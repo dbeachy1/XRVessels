@@ -343,10 +343,12 @@
     <ClCompile Include="XR5PayloadScreenAreas.cpp" />
     <ClCompile Include="XR5PostSteps.cpp" />
     <ClCompile Include="XR5PreSteps.cpp" />
+    <ClCompile Include="XR5StartupCallbacks.cpp" />
     <ClCompile Include="XR5Vanguard.cpp" />
     <ClCompile Include="XR5Vanguard_DMG.cpp" />
     <ClCompile Include="XR5Vanguard_ED.cpp" />
     <ClCompile Include="XR5Vanguard_IO.cpp" />
+    <ClCompile Include="XR5VesselCallbacks.cpp" />
     <ClCompile Include="XR5VesselCtrl.cpp" />
   </ItemGroup>
   <ItemGroup>
