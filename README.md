@@ -42,7 +42,7 @@ If you're looking for an excellent GUI that makes working with Git easier, I rec
 
 \* Note: you can always compile and test debug (as well as release) versions of the XR vessels against _release_ builds of Orbiter, so can always set `ORBITER_ROOT` to match `ORBITER_ROOT_RELEASE` and `ORBITER_ROOT_X64` to match `ORBITER_ROOT_RELEASE_X64` if you prefer.
 
-10. Download and install the latest XR vessels binary packages for all the vessels versions you want to build from https://www.alteaaerospace.com. This is necessary so that the associated meshes, etc. are installed to their correct locations under Orbiter so that you can run the XR vessel DLLs you will build.
+10. Download and install the latest **version 2.0 or later** XR vessels binary packages for all the vessels versions you want to build from either https://www.alteaaerospace.com or here on GitHub. This is necessary so that the associated meshes, etc. are installed to their correct locations under Orbiter so that you can run the XR vessel DLLs you will build.
 
 Now you are ready to compile and link the XR Vessels.
 
@@ -50,6 +50,25 @@ Now you are ready to compile and link the XR Vessels.
 12. Set the desired build target (e.g., `Debug x64`) and click `Build -> Rebuild Solution`; this will build all the XR vessel DLLs and copy both the DLLs and the `<vessel name>.cfg` file for each vessel to their proper locations under `%ORBITER_ROOT%`, `%ORBITER_ROOT_64`, `%ORBITER_ROOT_RELEASE%`, or `%ORBITER_ROOT_RELEASE_64` via Post-Build Events. If you get any build errors, double-check that the above environment variables are set correctly and that you restarted Visual Studio 2019 _after_ you defined those environment variables.
 13. After the build succeeds, click `Debug -> Start Debugging` to bring up Orbiter under the Visual Studio debugger, then load your desired XR vessel scenario. You can now debug the XR vessels you just built.
 
-For more information and support about Orbiter and the XR vessels, visit https://www.orbiter-forum.com/.
+## Creating an Installable Zip File for an XR Vessel
+
+**Prerequesite:**
+
+Ensure that you have [WinRar](https://www.win-rar.com/) installed and added to your Windows path environment variable.
+
+**Creating the zip file:**
+1. Open the `XRVessels` project in Visual Studio 2019 and rebuild the release version of the XR vessel for which you want to create an installable zip file.
+2. In a Command Prompt, CD to `XRVessels\dist` and run the `makedist` command for the desired XR vessel, passing the package version as the first parameter. For example, to assemble a zip file for the XR1 version 2.1, run this:
+```
+makedistXR1 2.1
+```
+3. When the batch file completes, navigate to `XRVessels\dist\out\XR1\2.1`. You should see four zip files:
+* DeltaGliderXR1-2.1-dll-x64.zip => 64-bit DLL only
+* DeltaGliderXR1-2.1-dll-x86.zip => 32-bit DLL only
+* DeltaGliderXR1-2.1-x64.zip => 64-bit installable package
+* DeltaGliderXR1-2.1-x86.zip => 32-bit installable package
+4. Be sure to test your newly created installation package in a clean installation of Orbiter by extracting it to the root Orbiter folder and verifying that it runs normally.
+
+For more information and support regarding Orbiter and the XR vessels, visit https://www.orbiter-forum.com/.
 
 Happy Orbiting!
