@@ -69,6 +69,8 @@ makedistXR1 2.1
 * DeltaGliderXR1-2.1-x86.zip => 32-bit installable package
 4. Be sure to test your newly created installation package in a clean installation of Orbiter by extracting it to the root Orbiter folder and verifying that it runs normally.
 
+One note about the `Obj2Msh` C# project in the `Obj2Msh` folder: `Obj2Msh` is a relatively quick-and-dirty utility I originally wrote to convert the XR2 and XR5's meshes from .obj format to Orbiter's .msh format. It is not needed to build the XRVessels; it is a standalone, command-line utility.
+
 For more information and support regarding Orbiter and the XR vessels, visit https://www.orbiter-forum.com/.
 
 Happy Orbiting!
