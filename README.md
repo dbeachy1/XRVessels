@@ -42,7 +42,7 @@ If you're looking for an excellent GUI that makes working with Git easier, I rec
 
 \* Note: you can always compile and test debug (as well as release) versions of the XR vessels against _release_ builds of Orbiter, so can always set `ORBITER_ROOT` to match `ORBITER_ROOT_RELEASE` and `ORBITER_ROOT_X64` to match `ORBITER_ROOT_RELEASE_X64` if you prefer.
 
-10. Download and install the latest **version 2.0 or later** XR vessels binary packages for all the vessels versions you want to build from either https://www.alteaaerospace.com or here on GitHub. This is necessary so that the associated meshes, etc. are installed to their correct locations under Orbiter so that you can run the XR vessel DLLs you will build.
+10. Download the latest **version 2.0 or later** XR vessels binary packages for all the vessels versions you want to build from either https://www.alteaaerospace.com or here on GitHub. Install the XR vessel packages into each Orbiter instance you will use to test the XR vessels you will build. This is necessary so that the associated meshes, etc. are installed to their correct locations under Orbiter so that you can run the XR vessel DLLs you will build.
 
 Now you are ready to compile and link the XR Vessels.
 
