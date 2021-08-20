@@ -1,6 +1,5 @@
 *.VC.db
 **/.vs/
-**/*vcxproj.user
 **/*.bak
 **/Debug/
 **/Release/
