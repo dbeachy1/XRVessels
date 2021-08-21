@@ -664,4 +664,9 @@ necessary to build the XR vessel source, and the mesh remains freely
 downloadable as part of every XR vessel release. The XR2's mesh and texture
 files remain the copyright of their author, Steve Tyler (steve3d@gmail.com).
 
+3) The XR3's mesh and textures were created by and are copyright 2016-2021
+Grzegorz Lorens. However, he has granted explicit permission to release those
+files as part of the XRVessels repository under this same GNU General Public
+License Version 3.
+
 END
