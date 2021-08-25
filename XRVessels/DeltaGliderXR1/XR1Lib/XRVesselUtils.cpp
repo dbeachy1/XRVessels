@@ -339,6 +339,36 @@ void DeltaGliderXR1::TweakInternalValue(bool direction)
 
 	SetEngineState(XRE_ScramLeft, state);
 #endif
+#if 0
+	// adjust XRSound air conditioning pan sound (XRSound 3.0 test)
+	const double stepSize = (oapiGetSimStep() * 0.2);
+	const double step = stepSize * (direction ? 1.0 : -1.0);
+
+	const float pan = m_pXRSound->GetPan(XRSound::DefaultSoundID::AirConditioning) + static_cast<float>(step);
+	sprintf(oapiDebugString(), "Pan=%f", pan);
+
+	m_pXRSound->SetPan(XRSound::DefaultSoundID::AirConditioning, pan);
+#endif
+#if 0
+	// adjust XRSound air conditioning playback speed (XRSound 3.0 test)
+	const double stepSize = (oapiGetSimStep() * 0.2);
+	const double step = stepSize * (direction ? 1.0 : -1.0);
+
+	const float speed = m_pXRSound->GetPlaybackSpeed(XRSound::DefaultSoundID::AirConditioning) + static_cast<float>(step);
+	sprintf(oapiDebugString(), "PlaybackSpeed=%f", speed);
+
+	m_pXRSound->SetPlaybackSpeed(XRSound::DefaultSoundID::AirConditioning, speed);
+#endif
+#if 0
+	// adjust XRSound retro doors sound PlayPosition (XRSound 3.0 test)
+	const int stepSize = static_cast<int>(oapiGetSimStep() * 200);
+	const int step = stepSize * (direction ? 1 : -1);
+
+	const int position = m_pXRSound->GetPlayPosition(Sound::RetroDoorsAreClosed) + step;
+	sprintf(oapiDebugString(), "PlayPosition=%d", position);
+
+	m_pXRSound->SetPlayPosition(Sound::RetroDoorsAreClosed, position);
+#endif
 #endif  // ifdef DEBUG
 }
 
