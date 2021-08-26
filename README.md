@@ -3,7 +3,7 @@ XR Series vessel add-ons for Orbiter Space Flight Simulator
 
 ## License
 
-The XR vessels and associated utility projects are open source and licensed under the MIT license. Refer to the [LICENSE](./LICENSE) file for details.
+The XR vessels and associated utility projects are open source and licensed under the GNU General Public License v3.0. Refer to the [LICENSE](./LICENSE) file for details.
 
 ## Installing and Flying the XR Vessels
 
