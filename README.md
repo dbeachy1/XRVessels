@@ -40,7 +40,7 @@ If you're looking for an excellent GUI that makes working with Git easier, I rec
 8. Install or build 32-bit Release Orbiter to `%ORBITER_ROOT_RELEASE%`.
 9. Install or build 64-bit Release Orbiter to `%ORBITER_ROOT_RELEASE_X64%`.
 
-\* Note: you can always compile and test debug (as well as release) versions of the XR vessels against _release_ builds of Orbiter, so can always set `ORBITER_ROOT` to match `ORBITER_ROOT_RELEASE` and `ORBITER_ROOT_X64` to match `ORBITER_ROOT_RELEASE_X64` if you prefer.
+\* NOTE: you can always compile and test debug (as well as release) versions of the XR vessels against _release_ builds of Orbiter, so can always set `ORBITER_ROOT` to match `ORBITER_ROOT_RELEASE` and `ORBITER_ROOT_X64` to match `ORBITER_ROOT_RELEASE_X64` if you prefer.
 
 10. Download the latest **version 2.0 or later** XR vessels binary packages for all the vessels versions you want to build from either https://www.alteaaerospace.com or here on GitHub. Install the XR vessel packages into each Orbiter instance you will use to test the XR vessels you will build. This is necessary so that the associated meshes, etc. are installed to their correct locations under Orbiter so that you can run the XR vessel DLLs you will build.
 
@@ -69,8 +69,12 @@ makedistXR1 2.1
 * DeltaGliderXR1-2.1-x86.zip => 32-bit installable package
 4. Be sure to test your newly created installation package in a clean installation of Orbiter by extracting it to the root Orbiter folder and verifying that it runs normally.
 
-One note about the `Obj2Msh` C# project in the `Obj2Msh` folder: `Obj2Msh` is a relatively quick-and-dirty utility I originally wrote to convert the XR2's and XR5's meshes from `.obj` format into Orbiter's `.msh` format. It is not needed to build the XRVessels.
+## Obj2Msh
 
+Regarding the `Obj2Msh` C# project in the `Obj2Msh` folder: `Obj2Msh` is a relatively quick-and-dirty utility I originally wrote to convert the XR2's and XR5's meshes from `.obj` format into Orbiter's `.msh` format. It is not needed to build the XRVessels.
+
+
+## Support
 For more information and support regarding Orbiter and the XR vessels, visit https://www.orbiter-forum.com/.
 
 Happy Orbiting!
