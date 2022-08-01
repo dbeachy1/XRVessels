@@ -14,7 +14,7 @@ Refer to the [XR Flight Operations Manual](./XRVessels/XR%20Flight%20Operations%
 You do not need to build the XR vessels in order to use them with Orbiter. However, if you want to build the XR vessels from the source, follow the steps below. These instructions assume you are building both the 32-bit and 64-bit versions. However, you may build only one version if you prefer.
 
 1. Install Visual Studio 2019 from https://visualstudio.microsoft.com/downloads/.
-3. Download and install (or build) Orbiter 2016 or later from either https://github.com/mschweiger/orbiter or http://orbit.medphys.ucl.ac.uk/download.html.
+3. Download and install (or build) OpenOrbiter from either https://github.com/mschweiger/orbiter.
 4. Clone the XRVessels repository from GitHub to your local machine with:
 ```bash
 git clone git@github.com:dbeachy1/XRVessels.git
