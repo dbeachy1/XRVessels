@@ -42,7 +42,7 @@ If you're looking for an excellent GUI that makes working with Git easier, I rec
 
 \* NOTE: you can always compile and test debug (as well as release) versions of the XR vessels against _release_ builds of Orbiter, so can always set `ORBITER_ROOT` to match `ORBITER_ROOT_RELEASE` and `ORBITER_ROOT_X64` to match `ORBITER_ROOT_RELEASE_X64` if you prefer.
 
-10. Download the latest **version 2.0 or later** XR vessels binary packages for all the vessels versions you want to build from either https://www.alteaaerospace.com or here on GitHub. Install the XR vessel packages into each Orbiter instance you will use to test the XR vessels you will build. This is necessary so that the associated meshes, etc. are installed to their correct locations under Orbiter so that you can run the XR vessel DLLs you will build.
+10. Download the latest XR vessels binary packages for all the vessels versions you want to build from here on GitHub. Install the XR vessel packages into each Orbiter instance you will use to test the XR vessels you will build. This is necessary so that the associated meshes, etc. are installed to their correct locations under Orbiter so that you can run the XR vessel DLLs you will build. If there are no packages yet, you will need to assemble the file tree manually from the files here on GitHub.
 
 Now you are ready to compile and link the XR Vessels.
 
@@ -73,6 +73,13 @@ makedistXR1 2.1
 
 Regarding the `Obj2Msh` C# project in the `Obj2Msh` folder: `Obj2Msh` is a relatively quick-and-dirty utility I originally wrote to convert the XR2's and XR5's meshes from `.obj` format into Orbiter's `.msh` format. It is not needed to build the XRVessels.
 
+## Note regarding the XR2 Ravenstar's copyrighted mesh and textures
+
+Due to the fact that the XR2's mesh and textures are still under a proprietary license set by the original XR2 mesh and texture author, (Steve Tyler, aka "Coolhand"), that license only grants build and distribution rights to the original XR2 vessel author (Doug Beachy). As such, people forking this repository CANNOT build and release a version of the existing XR2 without violating this project's GPLV3 license terms (and those mesh and texture files are not present in this repository, nor may they be added). You could however create brand-new XR2 mesh and texture files and release them under GLPV3 in your fork. Refer to the GLPV3 license information in the GPL FAQ for more information about GPLV3 license restrictions regarding closed-source code: https://www.gnu.org/licenses/gpl-faq.en.html
+
+## GPLV3 license as it relates to the closed-source Orbiter 2016 version
+
+Per the GPLV3 license terms, you CANNOT build or link this project using any closed-source libraries, excluding "system libraries" as explicitly defined in the GLPV3 license. As Orbiter 2016 is closed-source, the GPLV3 license terms explicitly prohibit building or linking this code with Orbiter 2016. You may only legally build this repository using an Orbiter version whose license is compatible with GPLV3, such as the MIT license that OpenOrbiter here on GitHub is using.
 
 ## Support
 For more information and support regarding Orbiter and the XR vessels, visit https://www.orbiter-forum.com/.
